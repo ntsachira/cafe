@@ -8,8 +8,10 @@ import com.cafe.style.CustomStyle;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
 /**
@@ -23,8 +25,11 @@ public class Splash extends javax.swing.JFrame {
      */
     public Splash() {
         initComponents();
+        CustomStyle.setIcon(this);
         animateLoading();
     }
+    
+    
     
     public void setThemeSelection(){
         this.dispose();

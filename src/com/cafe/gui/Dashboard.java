@@ -4,6 +4,7 @@
  */
 package com.cafe.gui;
 
+import com.cafe.style.CustomStyle;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
@@ -18,8 +19,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.encoders.ImageEncoderFactory;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.Plot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -41,12 +42,14 @@ public class Dashboard extends javax.swing.JFrame {
      */
     public Dashboard() {
         initComponents();
+        CustomStyle.setIcon(this);
         setSidebar();
         setCharts();
         styleSideBarToggleButton();      
         loadLimitedStock();
     }
 
+    
      public SalesChannel getSalesChannel() {
         return salesChannel;
     }

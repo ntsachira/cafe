@@ -7,6 +7,8 @@ package com.cafe.style;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Frame;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -17,6 +19,14 @@ import javax.swing.UIManager;
  * @author Dell
  */
 public class CustomStyle {
+    
+    public static void setIcon(Frame frame){
+        try {
+            frame.setIconImage(new ImageIcon(frame.getClass().getResource("/com/cafe/img/juice.png")).getImage());
+        } catch (Exception e) {
+            System.out.println("Invalid file path");
+        }
+    }
 
     public static void setProgressbarRoundedMax() {
         UIManager.put("ProgressBar.arc", 200);
