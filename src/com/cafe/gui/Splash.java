@@ -9,8 +9,9 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.io.IOException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
@@ -20,15 +21,30 @@ import javax.swing.SwingUtilities;
  */
 public class Splash extends javax.swing.JFrame {
 
+    public static Logger logger = Logger.getLogger("cafe");
     /**
      * Creates new form Splash
      */
     public Splash() {
-        initComponents();
+        initComponents();       
+        initializeLogger();
         CustomStyle.setIcon(this);
         animateLoading();
     }
     
+    private void initializeLogger(){
+        try {
+            FileHandler fileHandler = new FileHandler("",true);
+            fileHandler.setFormatter(new SimpleFormatter());
+            logger.addHandler(fileHandler);
+        } catch (IOException ex) {
+            Logger.getLogger(Splash.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Logger initialization faild - IOException");
+        } catch (SecurityException ex) {
+            Logger.getLogger(Splash.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Logger Initialization faild - SecurityException");
+        }
+    }
     
     
     public void setThemeSelection(){
