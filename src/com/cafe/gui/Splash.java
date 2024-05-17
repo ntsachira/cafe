@@ -34,7 +34,7 @@ public class Splash extends javax.swing.JFrame {
     
     private void initializeLogger(){
         try {
-            FileHandler fileHandler = new FileHandler("",true);
+            FileHandler fileHandler = new FileHandler("cafe.log",true);
             fileHandler.setFormatter(new SimpleFormatter());
             logger.addHandler(fileHandler);
         } catch (IOException ex) {
@@ -43,6 +43,9 @@ public class Splash extends javax.swing.JFrame {
         } catch (SecurityException ex) {
             Logger.getLogger(Splash.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Logger Initialization faild - SecurityException");
+        } catch (IllegalArgumentException ex){
+            Logger.getLogger(Splash.class.getName()).log(Level.SEVERE,null, ex);
+            System.out.println("Logger initialization faild - IllegalArgumentException");
         }
     }
     

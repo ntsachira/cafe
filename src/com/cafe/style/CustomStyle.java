@@ -21,8 +21,10 @@ import javax.swing.UIManager;
 public class CustomStyle {
     
     public static void setIcon(Frame frame){
+        String icon1 = "/com/cafe/img/juice.png";
+        String icon2 = "/com/cafe/img/logoBear.png";
         try {
-            frame.setIconImage(new ImageIcon(frame.getClass().getResource("/com/cafe/img/juice.png")).getImage());
+            frame.setIconImage(new ImageIcon(frame.getClass().getResource(icon1)).getImage());
         } catch (Exception e) {
             System.out.println("Invalid file path");
         }
