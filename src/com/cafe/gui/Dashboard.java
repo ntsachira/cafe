@@ -5,8 +5,10 @@
 package com.cafe.gui;
 
 import com.cafe.style.CustomStyle;
+import com.cafe.style.Pallet;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -29,11 +31,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
  * @author Dell
  */
 public class Dashboard extends javax.swing.JFrame {
-
+    
     private Sidebar sidebar;
     private SalesChannel salesChannel;
-
-    private String theme = "Dark";
     
     private JFreeChart salesChart;
 
@@ -41,139 +41,111 @@ public class Dashboard extends javax.swing.JFrame {
      * Creates new form Dashboard
      */
     public Dashboard() {
-        initComponents();
+        initComponents();        
         CustomStyle.setIcon(this);
         setSidebar();
         setCharts();
-        styleSideBarToggleButton();      
+//        styleSideBarToggleButton();        
         loadLimitedStock();
+        
     }
-
     
-     public SalesChannel getSalesChannel() {
+    public SalesChannel getSalesChannel() {
         return salesChannel;
     }
-
+    
     public void setSalesChannel(SalesChannel salesChannel) {
-       this.salesChannel = salesChannel;
+        this.salesChannel = salesChannel;
     }
     
-    private void loadLimitedStock(){
+    private void loadLimitedStock() {
         for (int i = 0; i < 3; i++) {
             jPanel36.add(new LimitedStockCard());
         }
         SwingUtilities.updateComponentTreeUI(jPanel36);
     }
     
-    private void styleSideBarToggleButton(){
+    private void styleSideBarToggleButton() {
         menuButton.setBackground(new Color(0, 0, 0, 20));
         menuButton.putClientProperty(FlatClientProperties.STYLE, "hoverBackground: rgba(0,0,0,30)");
-    }
+    }   
     
-     public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-    
-    public void setDarkTheme(){
-        Color color = new Color(51,51,51);
-        
-        setBackgroundDark(
-                jPanel21,jPanel23,jPanel26,jPanel29,jPanel33,jPanel34,jPanel36
+    public void setComponentTheme() {
+        setComponentBackground(
+                jPanel21, jPanel23, jPanel26, jPanel29, jPanel33, jPanel34, jPanel36,jPanel31,jPanel3
         );
         
-        salesChart.setBackgroundPaint(color);
+        salesChart.setBackgroundPaint(Pallet.BG_CARD);
         CategoryPlot salesChartPlot = (CategoryPlot) salesChart.getPlot();
-        salesChartPlot.getDomainAxis().setTickLabelPaint(new Color(230,230,230));
-        salesChartPlot.getRangeAxis().setTickLabelPaint(new Color(230,230,230));
+        salesChartPlot.getDomainAxis().setTickLabelPaint(Pallet.FG_CHART);
+        salesChartPlot.getRangeAxis().setTickLabelPaint(Pallet.FG_CHART);
         
-        for(Component c : jPanel36.getComponents()){
-            c.setBackground(color);
+        for (Component c : jPanel36.getComponents()) {
+            c.setBackground(Pallet.BG_CARD);
         }
         
-    }
-    
-    public void setLightTheme(){
-        setBackgroundLight(
-                jPanel21,jPanel23,jPanel26,jPanel29,jPanel33,jPanel34,jPanel36
-        );
+        sidebar.addSidebarButtonStyle();
+        CustomStyle.setButtonsTransparent(menuButton);
         
-        salesChart.setBackgroundPaint(Color.WHITE);
-        CategoryPlot salesChartPlot = (CategoryPlot) salesChart.getPlot();
-        salesChartPlot.getDomainAxis().setTickLabelPaint(Color.BLACK);
-        salesChartPlot.getRangeAxis().setTickLabelPaint(Color.BLACK);
-        
-        for(Component c : jPanel36.getComponents()){
-            c.setBackground(Color.WHITE);
-        }
-        
-    }
-    
-    private void setBackgroundLight(Component...components){
-        for(Component component : components){
-            component.setBackground(Color.WHITE);
+    }   
+  
+    private void setComponentBackground(Component... components) {        
+        for (Component component : components) {
+            component.setBackground(Pallet.BG_CARD);
         }
     }
     
-    private void setBackgroundDark(Component...components){
-        Color color = new Color(51,51,51);
-        for(Component component : components){
-            component.setBackground(color);
-        }
-    }
-    
-    private void setCharts(){
+    private void setCharts() {
         setSalesChart();
     }
     
-    private void setSalesChart(){
+    private void setSalesChart() {
         String[] categories = {"Apple", "Banana", "Orange", "Mango"};
         double[] values = {100, 150, 80, 120};
         
         salesChart = createBarChart(categories, values);
         ChartPanel chartPanel = new ChartPanel(salesChart);      
-
-        chartPanel1.add(chartPanel);
+               
+        
+        chartPanel1.add(chartPanel);        
         SwingUtilities.updateComponentTreeUI(chartPanel1);
+        
     }
-
+    
     private JFreeChart createBarChart(String[] x_values, double[] y_values) {        
-
+        
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (int i = 0; i < x_values.length; i++) {
             dataset.addValue(y_values[i], "", x_values[i]);
         }
-
+        
         BarRenderer renderer = new BarRenderer();
         renderer.setSeriesPaint(0, new Color(0, 153, 153));
         renderer.setShadowVisible(false);
-
+        
         CategoryPlot plot = new CategoryPlot(dataset, new CategoryAxis(), new NumberAxis(), renderer);
         plot.setBackgroundAlpha(0f); //set plot background transparent
 
         Font font = new Font("Segoe UI Semibold", 0, 12);
-
+        
         ValueAxis rangeAxis = plot.getRangeAxis();        
         rangeAxis.setTickLabelFont(font);
-
+        
         CategoryAxis domainAxis = plot.getDomainAxis();        
         domainAxis.setTickLabelFont(font);
-
-        return new JFreeChart("", null, plot, false);     
-       
+        
+        return new JFreeChart("", null, plot, false);        
+        
     }
-
+    
     private void setSidebar() {
         sidebar = new Sidebar();
         sidebar.setDashboard(this);
         jPanel1.add(sidebar, BorderLayout.WEST);
         SwingUtilities.updateComponentTreeUI(jPanel1);
-        System.out.println(sidebar.getWidth());                
+        System.out.println(sidebar.getWidth());        
     }
-
+    
     private void closeSidebar() {
         new Thread(() -> {
             for (int i = sidebar.getWidth(); i >= 0; i -= 5) {
@@ -189,7 +161,7 @@ public class Dashboard extends javax.swing.JFrame {
             menuButton.revalidate();
         }).start();
     }
-
+    
     private void openSidebar() {
         new Thread(() -> {
             for (int i = 0; i <= 255; i += 5) {
@@ -293,9 +265,23 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jPanel31 = new javax.swing.JPanel();
+        jPanel35 = new javax.swing.JPanel();
+        jPanel37 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jPanel39 = new javax.swing.JPanel();
+        jPanel43 = new javax.swing.JPanel();
+        jPanel44 = new javax.swing.JPanel();
+        jPanel45 = new javax.swing.JPanel();
+        jPanel42 = new javax.swing.JPanel();
+        jPanel38 = new javax.swing.JPanel();
+        jPanel40 = new javax.swing.JPanel();
         jLabel28 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel41 = new javax.swing.JPanel();
+        jLabel31 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1260, 720));
@@ -306,17 +292,20 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel2.setPreferredSize(new java.awt.Dimension(1260, 60));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
+        jPanel3.setBackground(new java.awt.Color(43, 46, 56));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        jPanel5.setOpaque(false);
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         menuButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/arro-24.png"))); // NOI18N
         menuButton.setBorderPainted(false);
         menuButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         menuButton.setIconTextGap(0);
-        menuButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        menuButton.setMargin(new java.awt.Insets(5, 0, 5, 0));
         menuButton.setMaximumSize(new java.awt.Dimension(40, 40));
+        menuButton.setMinimumSize(new java.awt.Dimension(26, 40));
         menuButton.setPreferredSize(new java.awt.Dimension(40, 40));
         menuButton.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         menuButton.addActionListener(new java.awt.event.ActionListener() {
@@ -329,6 +318,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel3.add(jPanel5, java.awt.BorderLayout.LINE_START);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10));
+        jPanel7.setOpaque(false);
         jPanel7.setLayout(new java.awt.BorderLayout(10, 0));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
@@ -343,8 +333,10 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel3.add(jPanel7, java.awt.BorderLayout.LINE_END);
 
+        jPanel8.setOpaque(false);
         jPanel8.setLayout(new java.awt.BorderLayout());
 
+        jPanel9.setOpaque(false);
         jPanel9.setPreferredSize(new java.awt.Dimension(450, 57));
         jPanel9.setLayout(new java.awt.BorderLayout(20, 0));
 
@@ -358,6 +350,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel8.add(jPanel9, java.awt.BorderLayout.LINE_START);
 
+        jPanel10.setOpaque(false);
         jPanel10.setPreferredSize(new java.awt.Dimension(150, 57));
         jPanel10.setLayout(new java.awt.BorderLayout(10, 0));
 
@@ -371,6 +364,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel8.add(jPanel10, java.awt.BorderLayout.LINE_END);
 
+        jPanel11.setOpaque(false);
         jPanel11.setLayout(new java.awt.BorderLayout());
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -444,7 +438,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel16.setPreferredSize(new java.awt.Dimension(400, 300));
         jPanel16.setLayout(new java.awt.BorderLayout(0, 20));
 
-        jPanel33.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel33.setBackground(new java.awt.Color(43, 46, 56));
         jPanel33.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createEmptyBorder(1, 10, 10, 10)));
         jPanel33.setPreferredSize(new java.awt.Dimension(400, 250));
         jPanel33.setLayout(new java.awt.BorderLayout());
@@ -458,7 +452,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel32.setPreferredSize(new java.awt.Dimension(201, 30));
         jPanel32.setLayout(new java.awt.BorderLayout());
 
-        jLabel29.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel29.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jLabel29.setText("TOTAL SALES OVER TIME");
         jPanel32.add(jLabel29, java.awt.BorderLayout.CENTER);
 
@@ -466,11 +460,11 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel16.add(jPanel33, java.awt.BorderLayout.NORTH);
 
-        jPanel34.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel34.setBackground(new java.awt.Color(43, 46, 56));
         jPanel34.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 10, 10));
         jPanel34.setLayout(new java.awt.BorderLayout());
 
-        jLabel30.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel30.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jLabel30.setText("EXPIRING SOON | LIMITED TOCK");
         jLabel30.setPreferredSize(new java.awt.Dimension(217, 30));
         jPanel34.add(jLabel30, java.awt.BorderLayout.PAGE_START);
@@ -509,8 +503,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         card1.add(jPanel20, java.awt.BorderLayout.WEST);
 
-        jPanel21.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel21.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        jPanel21.setBackground(new java.awt.Color(43, 46, 56));
+        jPanel21.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jPanel21.setLayout(new java.awt.BorderLayout());
 
         jPanel19.setBackground(new java.awt.Color(204, 204, 204));
@@ -526,7 +520,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jLabel15.setBackground(new java.awt.Color(204, 204, 204));
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/285681_powerpoint_file_powerpoint_file.png"))); // NOI18N
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/299107_money_money.png"))); // NOI18N
         jPanel19.add(jLabel15);
 
         jPanel21.add(jPanel19, java.awt.BorderLayout.NORTH);
@@ -564,8 +558,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         card2.add(jPanel22, java.awt.BorderLayout.WEST);
 
-        jPanel23.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel23.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        jPanel23.setBackground(new java.awt.Color(43, 46, 56));
+        jPanel23.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jPanel23.setLayout(new java.awt.BorderLayout());
 
         jPanel24.setBackground(new java.awt.Color(255, 255, 255));
@@ -574,12 +568,12 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel24.setLayout(new java.awt.GridLayout(1, 2));
 
         jLabel16.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLabel16.setText("Total Sales");
+        jLabel16.setText("Monthly Sales");
         jLabel16.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel24.add(jLabel16);
 
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/report-24.png"))); // NOI18N
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/299107_money_money.png"))); // NOI18N
         jPanel24.add(jLabel17);
 
         jPanel23.add(jPanel24, java.awt.BorderLayout.NORTH);
@@ -617,29 +611,29 @@ public class Dashboard extends javax.swing.JFrame {
 
         card3.add(jPanel25, java.awt.BorderLayout.WEST);
 
-        jPanel26.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel26.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        jPanel26.setBackground(new java.awt.Color(43, 46, 56));
+        jPanel26.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jPanel26.setLayout(new java.awt.BorderLayout());
 
         jPanel27.setBackground(new java.awt.Color(255, 255, 255));
         jPanel27.setOpaque(false);
         jPanel27.setPreferredSize(new java.awt.Dimension(43, 30));
-        jPanel27.setLayout(new java.awt.GridLayout(1, 2));
+        jPanel27.setLayout(new java.awt.BorderLayout());
 
         jLabel20.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLabel20.setText("Total Sales");
+        jLabel20.setText("Registered Customers");
         jLabel20.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel27.add(jLabel20);
+        jPanel27.add(jLabel20, java.awt.BorderLayout.CENTER);
 
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/report-24.png"))); // NOI18N
-        jPanel27.add(jLabel21);
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59244_customers_customers.png"))); // NOI18N
+        jPanel27.add(jLabel21, java.awt.BorderLayout.EAST);
 
         jPanel26.add(jPanel27, java.awt.BorderLayout.NORTH);
 
         jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel22.setText("RS. 170,500.00");
+        jLabel22.setText("54");
         jPanel26.add(jLabel22, java.awt.BorderLayout.CENTER);
 
         jLabel23.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
@@ -670,29 +664,29 @@ public class Dashboard extends javax.swing.JFrame {
 
         card4.add(jPanel28, java.awt.BorderLayout.WEST);
 
-        jPanel29.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel29.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        jPanel29.setBackground(new java.awt.Color(43, 46, 56));
+        jPanel29.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jPanel29.setLayout(new java.awt.BorderLayout());
 
         jPanel30.setBackground(new java.awt.Color(255, 255, 255));
         jPanel30.setOpaque(false);
         jPanel30.setPreferredSize(new java.awt.Dimension(43, 30));
-        jPanel30.setLayout(new java.awt.GridLayout(1, 2));
+        jPanel30.setLayout(new java.awt.BorderLayout());
 
         jLabel24.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLabel24.setText("Total Sales");
+        jLabel24.setText("Total Menu Items");
         jLabel24.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel30.add(jLabel24);
+        jPanel30.add(jLabel24, java.awt.BorderLayout.CENTER);
 
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/report-24.png"))); // NOI18N
-        jPanel30.add(jLabel25);
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/menu-32.png"))); // NOI18N
+        jPanel30.add(jLabel25, java.awt.BorderLayout.EAST);
 
         jPanel29.add(jPanel30, java.awt.BorderLayout.NORTH);
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel26.setText("RS. 170,500.00");
+        jLabel26.setText("24");
         jPanel29.add(jLabel26, java.awt.BorderLayout.CENTER);
 
         jLabel27.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
@@ -706,7 +700,80 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel17.add(jPanel18, java.awt.BorderLayout.PAGE_START);
 
+        jPanel31.setBackground(new java.awt.Color(43, 46, 56));
         jPanel31.setLayout(new java.awt.BorderLayout(0, 10));
+
+        jPanel35.setOpaque(false);
+        jPanel35.setLayout(new java.awt.BorderLayout());
+
+        jPanel37.setPreferredSize(new java.awt.Dimension(250, 522));
+        jPanel37.setLayout(new java.awt.BorderLayout());
+
+        jPanel39.setLayout(new java.awt.BorderLayout());
+
+        jPanel43.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
+
+        jPanel44.setBackground(new java.awt.Color(0, 255, 204));
+        jPanel44.setPreferredSize(new java.awt.Dimension(248, 200));
+
+        javax.swing.GroupLayout jPanel44Layout = new javax.swing.GroupLayout(jPanel44);
+        jPanel44.setLayout(jPanel44Layout);
+        jPanel44Layout.setHorizontalGroup(
+            jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 248, Short.MAX_VALUE)
+        );
+        jPanel44Layout.setVerticalGroup(
+            jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 200, Short.MAX_VALUE)
+        );
+
+        jPanel43.add(jPanel44);
+
+        jPanel45.setBackground(new java.awt.Color(0, 255, 204));
+        jPanel45.setPreferredSize(new java.awt.Dimension(248, 200));
+
+        javax.swing.GroupLayout jPanel45Layout = new javax.swing.GroupLayout(jPanel45);
+        jPanel45.setLayout(jPanel45Layout);
+        jPanel45Layout.setHorizontalGroup(
+            jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 248, Short.MAX_VALUE)
+        );
+        jPanel45Layout.setVerticalGroup(
+            jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 200, Short.MAX_VALUE)
+        );
+
+        jPanel43.add(jPanel45);
+
+        jPanel39.add(jPanel43, java.awt.BorderLayout.PAGE_START);
+
+        jScrollPane1.setViewportView(jPanel39);
+
+        jPanel37.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jPanel42.setPreferredSize(new java.awt.Dimension(250, 250));
+
+        javax.swing.GroupLayout jPanel42Layout = new javax.swing.GroupLayout(jPanel42);
+        jPanel42.setLayout(jPanel42Layout);
+        jPanel42Layout.setHorizontalGroup(
+            jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 250, Short.MAX_VALUE)
+        );
+        jPanel42Layout.setVerticalGroup(
+            jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 250, Short.MAX_VALUE)
+        );
+
+        jPanel37.add(jPanel42, java.awt.BorderLayout.SOUTH);
+
+        jPanel35.add(jPanel37, java.awt.BorderLayout.LINE_START);
+
+        jPanel38.setLayout(new java.awt.GridLayout(2, 0));
+
+        jPanel40.setLayout(new java.awt.BorderLayout());
+
+        jLabel28.setText("jLabel28");
+        jPanel40.add(jLabel28, java.awt.BorderLayout.PAGE_START);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -719,13 +786,37 @@ public class Dashboard extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane3.setViewportView(jTable1);
 
-        jPanel31.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        jPanel40.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
-        jLabel28.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLabel28.setText("RECENT USER ACTIVITY");
-        jPanel31.add(jLabel28, java.awt.BorderLayout.PAGE_START);
+        jPanel38.add(jPanel40);
+
+        jPanel41.setLayout(new java.awt.BorderLayout());
+
+        jLabel31.setText("jLabel31");
+        jPanel41.add(jLabel31, java.awt.BorderLayout.PAGE_START);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable2);
+
+        jPanel41.add(jScrollPane4, java.awt.BorderLayout.CENTER);
+
+        jPanel38.add(jPanel41);
+
+        jPanel35.add(jPanel38, java.awt.BorderLayout.CENTER);
+
+        jPanel31.add(jPanel35, java.awt.BorderLayout.CENTER);
 
         jPanel17.add(jPanel31, java.awt.BorderLayout.CENTER);
 
@@ -746,10 +837,10 @@ public class Dashboard extends javax.swing.JFrame {
 
         if (menuButton.isSelected()) {
             closeSidebar();
-
+            
         } else {
             openSidebar();
-
+            
         }
     }//GEN-LAST:event_menuButtonActionPerformed
 
@@ -757,16 +848,17 @@ public class Dashboard extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        FlatLightLaf.setup();
+        FlatOneDarkIJTheme.setup();
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-
+                Pallet.setDarkMode();
                 Dashboard d = new Dashboard();
-                d.setTheme("Light");
-                d.setLightTheme();
-
+                Pallet.setDashboard(d);                
+                
+                d.setComponentTheme();
+                
                 d.setVisible(true);
             }
         });
@@ -803,6 +895,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -837,8 +930,18 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel38;
+    private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel40;
+    private javax.swing.JPanel jPanel41;
+    private javax.swing.JPanel jPanel42;
+    private javax.swing.JPanel jPanel43;
+    private javax.swing.JPanel jPanel44;
+    private javax.swing.JPanel jPanel45;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -846,12 +949,15 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JToggleButton menuButton;
     private javax.swing.JLabel status;
     // End of variables declaration//GEN-END:variables

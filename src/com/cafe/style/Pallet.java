@@ -1,0 +1,96 @@
+package com.cafe.style;
+
+import com.cafe.gui.Dashboard;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
+import java.awt.Color;
+import javax.swing.SwingUtilities;
+
+public class Pallet {
+
+    enum Mode {
+        DARK, LIGHT
+    }
+
+    private static Mode MODE;
+    public static Color BG_CARD;
+    public static Color BG_PRIMARY;
+    public static Color BG_SECONDARY;
+    public static Color BG_TABLE_HEAD;
+    public static Color FG_CHART;
+
+    public static Color ROW_ALTERNATE;
+    public static Color ROW_INACTIVE;
+    public static Color ROW_SELECTION;
+    public static Color GRID;
+    public static Color HEADER;
+
+    public static String SIDEBAR_BUTTON;
+
+    private static Dashboard dashboard;
+
+    public static void setDashboard(Dashboard dashboard) {
+        Pallet.dashboard = dashboard;
+    }
+
+    public static void toggleTheme() {
+        if (dashboard != null) {
+            switch (MODE) {
+                case LIGHT:
+                    FlatOneDarkIJTheme.setup();
+                    setDarkMode();
+                    MODE = Mode.DARK;
+                    break;
+                case DARK:
+                    FlatCyanLightIJTheme.setup();
+                    setLightMode();
+                    MODE = Mode.LIGHT;
+                    break;
+                default:
+                    setLightMode();
+                    MODE = Mode.LIGHT;
+            }
+        }
+
+    }
+
+    public static void setLightMode() {
+        MODE = Mode.LIGHT;
+        BG_CARD = Color.WHITE;
+        BG_PRIMARY = Color.WHITE;
+        FG_CHART = Color.BLACK;
+
+        ROW_ALTERNATE = new Color(0, 0, 0, 10);
+        ROW_INACTIVE = new Color(0, 0, 0, 20);
+        GRID = new Color(102, 102, 102);
+
+        SIDEBAR_BUTTON = "rgba(0,204,204,35)";
+
+        updateUI();
+    }
+
+    public static void setDarkMode() {
+        MODE = Mode.DARK;
+        BG_CARD = new Color(43, 46, 56);
+        BG_PRIMARY = new Color(221, 230, 237);
+        FG_CHART = new Color(230, 230, 230);
+
+        ROW_ALTERNATE = new Color(60,64,75);
+        ROW_INACTIVE = new Color(0, 0, 0, 20);
+        GRID = new Color(102, 102, 102);
+
+        SIDEBAR_BUTTON = "rgb(60,64,75)";
+
+        updateUI();
+    }
+
+    public static void updateUI() {
+        CustomStyle.addTableStyle();
+        if (dashboard != null) {
+            dashboard.setComponentTheme();
+            SwingUtilities.updateComponentTreeUI(dashboard);
+        }
+    }
+}

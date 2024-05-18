@@ -5,6 +5,7 @@
 package com.cafe.gui;
 
 import com.cafe.style.CustomStyle;
+import com.cafe.style.Pallet;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.JOptionPane;
@@ -17,19 +18,20 @@ import javax.swing.SwingUtilities;
 public class Sidebar extends javax.swing.JPanel {
 
     private Dashboard dashboard;
-    
 
-  
     /**
      * Creates new form Sidebar
      */
     public Sidebar() {
-        initComponents();        
-        
-        CustomStyle.setButtonsTransparent(jPanel3.getComponents());
+        initComponents();
+
+       
     }
     
-   
+    public void addSidebarButtonStyle(){
+        CustomStyle.setButtonsTransparent(jPanel1.getComponents());
+        CustomStyle.setButtonsTransparent(jPanel2.getComponents());
+    }
 
     public Dashboard getDashboard() {
         return dashboard;
@@ -49,39 +51,18 @@ public class Sidebar extends javax.swing.JPanel {
 
     }
     
-    private void toggleTheme(){
-         if(getDashboard().getTheme() == "Light"){
-            setDarkTheme();
-            getDashboard().setTheme("Dark");
-        }else if(getDashboard().getTheme() == "Dark"){
-            setLightTheme();
-            getDashboard().setTheme("Light");
-        }
-    }
-    
-    private void setDarkTheme(){
-        FlatDarkLaf.setup();
-        getDashboard().setDarkTheme();
-        SwingUtilities.updateComponentTreeUI(getDashboard());
-    }
-    
-    private void setLightTheme(){
-        FlatLightLaf.setup();
-        getDashboard().setLightTheme();
-        SwingUtilities.updateComponentTreeUI(getDashboard());
-    }
-
-    private void openSalesChannel(){
-        if(getDashboard().getSalesChannel() != null){
-            if(!getDashboard().getSalesChannel().isVisible()){
+    private void openSalesChannel() {
+        if (getDashboard().getSalesChannel() != null) {
+            if (!getDashboard().getSalesChannel().isVisible()) {
                 getDashboard().getSalesChannel().setVisible(true);
             }
-        }else{
+        } else {
             SalesChannel salesChannel = new SalesChannel();
             getDashboard().setSalesChannel(salesChannel);
             salesChannel.setVisible(true);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -93,6 +74,7 @@ public class Sidebar extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -108,6 +90,7 @@ public class Sidebar extends javax.swing.JPanel {
         jButton14 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         jButton17 = new javax.swing.JButton();
         jButton18 = new javax.swing.JButton();
         jButton19 = new javax.swing.JButton();
@@ -116,9 +99,13 @@ public class Sidebar extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(255, 100));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(260, 100));
 
-        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.Y_AXIS));
+        jPanel3.setMinimumSize(new java.awt.Dimension(260, 900));
+        jPanel3.setPreferredSize(new java.awt.Dimension(260, 900));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setLayout(new java.awt.GridLayout(0, 1));
 
         jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59267_home_home_house_house.png"))); // NOI18N
@@ -136,7 +123,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton2);
+        jPanel1.add(jButton2);
 
         jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59269_invoice_invoice.png"))); // NOI18N
@@ -152,7 +139,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton3);
+        jPanel1.add(jButton3);
 
         jButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/menu-32.png"))); // NOI18N
@@ -168,7 +155,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton4);
+        jPanel1.add(jButton4);
 
         jButton5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59297_product_product.png"))); // NOI18N
@@ -184,7 +171,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton5);
+        jPanel1.add(jButton5);
 
         jButton6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59240_cost_cost.png"))); // NOI18N
@@ -200,7 +187,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton6);
+        jPanel1.add(jButton6);
 
         jButton7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/table-2-32.png"))); // NOI18N
@@ -216,7 +203,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton7ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton7);
+        jPanel1.add(jButton7);
 
         jButton8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59312_suppliers_suppliers.png"))); // NOI18N
@@ -232,7 +219,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton8ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton8);
+        jPanel1.add(jButton8);
 
         jButton9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59244_customers_customers.png"))); // NOI18N
@@ -248,7 +235,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton9ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton9);
+        jPanel1.add(jButton9);
 
         jButton10.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59317_user_user.png"))); // NOI18N
@@ -264,7 +251,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton10ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton10);
+        jPanel1.add(jButton10);
 
         jButton11.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59279_account_account_my_my.png"))); // NOI18N
@@ -280,7 +267,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton11ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton11);
+        jPanel1.add(jButton11);
 
         jButton12.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59262_time_time_full_full.png"))); // NOI18N
@@ -296,7 +283,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton12ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton12);
+        jPanel1.add(jButton12);
 
         jButton13.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59283_order_order.png"))); // NOI18N
@@ -312,7 +299,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton13ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton13);
+        jPanel1.add(jButton13);
 
         jButton14.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59232_category_category.png"))); // NOI18N
@@ -328,7 +315,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton14ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton14);
+        jPanel1.add(jButton14);
 
         jButton15.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59224_basket_basket.png"))); // NOI18N
@@ -344,7 +331,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton15ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton15);
+        jPanel1.add(jButton15);
 
         jButton16.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59311_statistics_statistics.png"))); // NOI18N
@@ -360,7 +347,11 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton16ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton16);
+        jPanel1.add(jButton16);
+
+        jPanel3.add(jPanel1, java.awt.BorderLayout.NORTH);
+
+        jPanel2.setLayout(new java.awt.GridLayout(0, 1));
 
         jButton17.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59302_settings_settings.png"))); // NOI18N
@@ -376,7 +367,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton17ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton17);
+        jPanel2.add(jButton17);
 
         jButton18.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59277_logout_logout.png"))); // NOI18N
@@ -392,7 +383,7 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton18ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton18);
+        jPanel2.add(jButton18);
 
         jButton19.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/theme.png"))); // NOI18N
@@ -408,7 +399,9 @@ public class Sidebar extends javax.swing.JPanel {
                 jButton19ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton19);
+        jPanel2.add(jButton19);
+
+        jPanel3.add(jPanel2, java.awt.BorderLayout.SOUTH);
 
         jScrollPane1.setViewportView(jPanel3);
 
@@ -487,7 +480,7 @@ public class Sidebar extends javax.swing.JPanel {
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         // TODO add your handling code here:
-       toggleTheme();
+       Pallet.toggleTheme();
     }//GEN-LAST:event_jButton19ActionPerformed
 
 
@@ -510,6 +503,8 @@ public class Sidebar extends javax.swing.JPanel {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
