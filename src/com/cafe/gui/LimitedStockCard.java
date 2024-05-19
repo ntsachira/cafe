@@ -26,8 +26,6 @@ public class LimitedStockCard extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSeparator1 = new javax.swing.JSeparator();
-        jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -41,16 +39,12 @@ public class LimitedStockCard extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(51, 51, 51));
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 5));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setMaximumSize(new java.awt.Dimension(32767, 110));
         setMinimumSize(new java.awt.Dimension(360, 110));
-        setLayout(new java.awt.BorderLayout());
-        add(jSeparator1, java.awt.BorderLayout.PAGE_END);
+        setLayout(new java.awt.GridLayout(4, 0));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        jPanel1.setLayout(new java.awt.GridLayout(4, 0));
-
+        jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.BorderLayout(10, 0));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -64,8 +58,9 @@ public class LimitedStockCard extends javax.swing.JPanel {
         jLabel2.setText("P-001");
         jPanel2.add(jLabel2, java.awt.BorderLayout.CENTER);
 
-        jPanel1.add(jPanel2);
+        add(jPanel2);
 
+        jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.BorderLayout(10, 0));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -79,8 +74,9 @@ public class LimitedStockCard extends javax.swing.JPanel {
         jLabel4.setText("Coco-Cola 1L");
         jPanel3.add(jLabel4, java.awt.BorderLayout.CENTER);
 
-        jPanel1.add(jPanel3);
+        add(jPanel3);
 
+        jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.BorderLayout(10, 0));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -94,8 +90,9 @@ public class LimitedStockCard extends javax.swing.JPanel {
         jLabel6.setText("2024-5-29");
         jPanel4.add(jLabel6, java.awt.BorderLayout.CENTER);
 
-        jPanel1.add(jPanel4);
+        add(jPanel4);
 
+        jPanel5.setOpaque(false);
         jPanel5.setLayout(new java.awt.BorderLayout(10, 0));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -109,9 +106,7 @@ public class LimitedStockCard extends javax.swing.JPanel {
         jLabel8.setText("5");
         jPanel5.add(jLabel8, java.awt.BorderLayout.CENTER);
 
-        jPanel1.add(jPanel5);
-
-        add(jPanel1, java.awt.BorderLayout.CENTER);
+        add(jPanel5);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -124,11 +119,9 @@ public class LimitedStockCard extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }

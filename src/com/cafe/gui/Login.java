@@ -19,7 +19,10 @@ public class Login extends javax.swing.JPanel {
      */
     public Login() {
         initComponents();
-        
+        setLoginStyle();       
+    }
+    
+    private void setLoginStyle(){
         jPanel5.putClientProperty(FlatClientProperties.STYLE, "arc: 50");
         CustomStyle.setButtonsRoundedMax(jButton1);
         CustomStyle.setPasswordFieldsRoundedMax(jPasswordField1);
@@ -27,7 +30,6 @@ public class Login extends javax.swing.JPanel {
         CustomStyle.showClearButton(jTextField1);
         jTextField1.putClientProperty("JTextField.placeholderText", "Username"); 
         jPasswordField1.putClientProperty("JTextField.placeholderText", "Password"); 
-             
     }
 
     public Splash getSplash() {

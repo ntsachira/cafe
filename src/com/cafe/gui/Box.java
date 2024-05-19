@@ -4,6 +4,8 @@
  */
 package com.cafe.gui;
 
+import com.formdev.flatlaf.FlatClientProperties;
+
 /**
  *
  * @author Dell
@@ -15,6 +17,7 @@ public class Box extends javax.swing.JPanel {
      */
     public Box() {
         initComponents();
+         this.putClientProperty(FlatClientProperties.STYLE,"arc:50");
     }
 
     /**
@@ -29,6 +32,8 @@ public class Box extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(153, 153, 0));
+        setMinimumSize(new java.awt.Dimension(0, 150));
+        setPreferredSize(new java.awt.Dimension(250, 164));
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 36)); // NOI18N
@@ -42,14 +47,14 @@ public class Box extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

@@ -23,6 +23,10 @@ import javax.swing.UIManager;
 public class CustomStyle {
 
     public static final int ROW_HEIGHT = 30;
+    
+    public static Font getCustomFont(int size){
+        return new Font("Segoe UI Semibold", 0, size);
+    }
 
     public static void addTableStyle() {
         UIManager.put("TableHeader.font", new Font("Segoe UI Semibold", 0, 14));
@@ -35,9 +39,9 @@ public class CustomStyle {
 
         //colors
         UIManager.put("Table.alternateRowColor", Pallet.ROW_ALTERNATE);
-        UIManager.put("Table.selectionInactiveBackground", Pallet.ROW_SELECTION);
+        UIManager.put("Table.selectionInactiveBackground", Pallet.ROW_INACTIVE);
 //        UIManager.put("TableHeader.background", new Color(82,82,82));
-//        UIManager.put("Table.selectionBackground", new Color(0,204,204,20));
+        UIManager.put("Table.selectionBackground", Pallet.ROW_SELECTION);
 //        UIManager.put("Table.gridColor", Pallet.GRID);
     }
 
