@@ -45,7 +45,7 @@ public class Pallet {
                     MODE = Mode.DARK;
                     break;
                 case DARK:
-                    FlatCyanLightIJTheme.setup();
+                    FlatLightLaf.setup();
                     setLightMode();
                     MODE = Mode.LIGHT;
                     break;

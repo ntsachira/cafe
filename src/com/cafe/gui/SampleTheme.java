@@ -7,6 +7,8 @@ package com.cafe.gui;
 import com.cafe.style.CustomStyle;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -52,7 +54,7 @@ public class SampleTheme extends javax.swing.JFrame {
     
     public void setDarkTheme() {
         try {
-            UIManager.setLookAndFeel(new FlatDarkLaf());
+            UIManager.setLookAndFeel(new FlatOneDarkIJTheme());
             SwingUtilities.updateComponentTreeUI(parentPanel);
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
@@ -62,7 +64,7 @@ public class SampleTheme extends javax.swing.JFrame {
     
     public void setLightTheme() {
         try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
+            UIManager.setLookAndFeel(new FlatCyanLightIJTheme());
             SwingUtilities.updateComponentTreeUI(parentPanel);
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");

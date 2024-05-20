@@ -5,14 +5,11 @@
 package com.cafe.gui;
 
 import com.cafe.style.CustomStyle;
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.*;
-import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
 /**
@@ -237,9 +234,9 @@ public class Splash extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the FlatDarkLaf look and feel */
-        FlatLightLaf.setup();
-//        CustomStyle.setProgressbarRoundedMax();
+        /* Set the FlatDarkLaf look and feel */        
+        FlatCyanLightIJTheme.setup();
+
         CustomStyle.showRevealButton();
 
         /* Create and display the form */

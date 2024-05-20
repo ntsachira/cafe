@@ -66,6 +66,7 @@ public class CustomStyle {
     public static void setButtonsRoundedMax(JButton... buttons) {
         for (JButton button : buttons) {
             button.putClientProperty("JButton.buttonType", "roundRect");
+//            button.putClientProperty(FlatClientProperties.STYLE, "arc: 15")
         }
     }
 

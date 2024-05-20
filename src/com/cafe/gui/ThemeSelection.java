@@ -4,6 +4,7 @@
  */
 package com.cafe.gui;
 
+import com.cafe.style.Pallet;
 import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.JPanel;
 
@@ -45,8 +46,13 @@ public class ThemeSelection extends javax.swing.JFrame {
     }
     
     private void setDashboard(){
+        
         this.dispose();
-        new Dashboard().setVisible(true);
+        Pallet.setDarkMode();
+        Dashboard d = new Dashboard();
+        Pallet.setDashboard(d);
+        d.setComponentTheme();
+        d.setVisible(true);
     }
 
     /**
@@ -149,7 +155,6 @@ public class ThemeSelection extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Choose Your Theme");
-        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jLabel1.setPreferredSize(new java.awt.Dimension(337, 80));
         jPanel4.add(jLabel1, java.awt.BorderLayout.CENTER);
 
@@ -175,9 +180,11 @@ public class ThemeSelection extends javax.swing.JFrame {
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         jButton1.setBackground(new java.awt.Color(0, 153, 153));
-        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Continue");
+        jButton1.setMaximumSize(new java.awt.Dimension(96, 50));
+        jButton1.setMinimumSize(new java.awt.Dimension(96, 40));
         jButton1.setPreferredSize(new java.awt.Dimension(180, 40));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
