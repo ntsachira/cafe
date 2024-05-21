@@ -84,7 +84,6 @@ public class Sidebar extends javax.swing.JPanel {
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
@@ -252,22 +251,6 @@ public class Sidebar extends javax.swing.JPanel {
             }
         });
         jPanel1.add(jButton10);
-
-        jButton11.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59279_account_account_my_my.png"))); // NOI18N
-        jButton11.setText("User Roles & Permissions");
-        jButton11.setBorderPainted(false);
-        jButton11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton11.setIconTextGap(10);
-        jButton11.setMaximumSize(new java.awt.Dimension(255, 50));
-        jButton11.setMinimumSize(new java.awt.Dimension(240, 50));
-        jButton11.setPreferredSize(new java.awt.Dimension(255, 50));
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton11);
 
         jButton12.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59262_time_time_full_full.png"))); // NOI18N
@@ -445,10 +428,6 @@ public class Sidebar extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
-
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton12ActionPerformed
@@ -486,7 +465,6 @@ public class Sidebar extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;

@@ -499,6 +499,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel6.add(jSeparator2, java.awt.BorderLayout.LINE_START);
 
         jPanel12.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 20));
+        jPanel12.setPreferredSize(new java.awt.Dimension(1237, 700));
         jPanel12.setLayout(new java.awt.BorderLayout(20, 0));
 
         jPanel16.setPreferredSize(new java.awt.Dimension(400, 300));
@@ -798,7 +799,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel39.setMinimumSize(new java.awt.Dimension(0, 0));
         jPanel39.setLayout(new java.awt.BorderLayout());
 
-        jPanel43.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jPanel43.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
         jPanel43.setOpaque(false);
         jPanel43.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
         jPanel39.add(jPanel43, java.awt.BorderLayout.PAGE_START);
@@ -825,6 +826,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel28.setText("RECENT INVOICES");
         jPanel40.add(jLabel28, java.awt.BorderLayout.PAGE_START);
 
+        jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
