@@ -16,13 +16,34 @@ public class MenuMangement extends javax.swing.JPanel {
     /**
      * Creates new form MenuMangement
      */
+    
+    @Deprecated
     public MenuMangement() {
         initComponents();
         nextButtonDesign();
+        loadMenuItems();
+        loadMenuCategory();
     }
-    
-    private void nextButtonDesign(){
-    jButton1.putClientProperty(FlatClientProperties.STYLE, "arc: 99");
+
+    private void nextButtonDesign() {
+        jButton1.putClientProperty(FlatClientProperties.STYLE, "arc: 99");
+    }
+
+    private void loadMenuItems() {
+        for (int i = 0; i < 8; i++) {
+            MenuItemCard component = new MenuItemCard();
+            jPanel3.add(component);
+        }
+        SwingUtilities.updateComponentTreeUI(jPanel3);
+    }
+
+    private void loadMenuCategory() {
+        for (int i = 0; i < 4; i++) {
+            MenuCategoryCard component = new MenuCategoryCard();
+            jPanel2.add(component);
+        }
+
+        SwingUtilities.updateComponentTreeUI(jPanel3);
     }
 
     /**
@@ -41,6 +62,8 @@ public class MenuMangement extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+
+        setPreferredSize(new java.awt.Dimension(600, 450));
 
         jButton4.setText("Print");
 
@@ -117,19 +140,10 @@ public class MenuMangement extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-        for (int i = 0; i < 8; i++) {
-            MenuItemCard com = new MenuItemCard();
-            jPanel3.add(com);
-        }
 
-        SwingUtilities.updateComponentTreeUI(jPanel3);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        for (int i = 0; i < 4; i++) {
-            MenuCategoryCard com = new MenuCategoryCard();
-            jPanel2.add(com);
-        }
 
         SwingUtilities.updateComponentTreeUI(jPanel2);
     }//GEN-LAST:event_jButton1ActionPerformed

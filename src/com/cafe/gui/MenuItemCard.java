@@ -17,7 +17,8 @@ public class MenuItemCard extends javax.swing.JPanel {
      */
     public MenuItemCard() {
         initComponents();
-        jPanel1.putClientProperty(FlatClientProperties.STYLE, "arc: 24");
+//        jPanel1.putClientProperty(FlatClientProperties.STYLE, "arc: 24");
+//        jImagePanel1.putClientProperty(FlatClientProperties.STYLE, "arc: 24");
     }
 
     /**
@@ -34,7 +35,7 @@ public class MenuItemCard extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jImagePanel1 = new main.JImagePanel();
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 51));
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -43,10 +44,11 @@ public class MenuItemCard extends javax.swing.JPanel {
 
         jLabel2.setText("Product Price");
 
+        jImagePanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jImagePanel1.setCenterImage(true);
+        jImagePanel1.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
         jImagePanel1.setFitToPanel(true);
-        jImagePanel1.setImageIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/meal-32.png"))); // NOI18N
-        jImagePanel1.setOpaque(false);
+        jImagePanel1.setImageIcon(new javax.swing.ImageIcon(getClass().getResource("/gallery/default_menu_item.jpg"))); // NOI18N
         jImagePanel1.setSmoothRendering(true);
 
         javax.swing.GroupLayout jImagePanel1Layout = new javax.swing.GroupLayout(jImagePanel1);
@@ -57,7 +59,7 @@ public class MenuItemCard extends javax.swing.JPanel {
         );
         jImagePanel1Layout.setVerticalGroup(
             jImagePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 163, Short.MAX_VALUE)
+            .addGap(0, 151, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -67,7 +69,7 @@ public class MenuItemCard extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))

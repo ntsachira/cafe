@@ -5,6 +5,9 @@
 package com.cafe.gui;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import java.awt.Graphics2D;
+import javax.swing.JPanel;
+import main.JImagePanel;
 
 /**
  *
@@ -12,12 +15,31 @@ import com.formdev.flatlaf.FlatClientProperties;
  */
 public class MenuCategoryCard extends javax.swing.JPanel {
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
     /**
      * Creates new form MenuCategoryCard
      */
+
     public MenuCategoryCard() {
         initComponents();
-        jPanel1.putClientProperty(FlatClientProperties.STYLE, "arc: 99");
+//        jPanel1.putClientProperty(FlatClientProperties.STYLE, "arc: 99");
+//        jImagePanel1.putClientProperty(FlatClientProperties.STYLE, "arc: 99");
+
+    }
+
+    public JImagePanel getjImagePanel1() {
+        return jImagePanel1;
+    }
+
+    public JPanel getjPanel1() {
+        return jPanel1;
     }
 
     /**
@@ -33,23 +55,32 @@ public class MenuCategoryCard extends javax.swing.JPanel {
         jImagePanel1 = new main.JImagePanel();
         jLabel1 = new javax.swing.JLabel();
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 51));
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
 
+        jImagePanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jImagePanel1.setCenterImage(true);
         jImagePanel1.setFitToPanel(true);
-        jImagePanel1.setImageIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/menu-32.png"))); // NOI18N
+        jImagePanel1.setImageIcon(new javax.swing.ImageIcon(getClass().getResource("/gallery/burger.jpg"))); // NOI18N
+        jImagePanel1.setMaximumSize(new java.awt.Dimension(36, 36));
         jImagePanel1.setOpaque(false);
+        jImagePanel1.setPreferredSize(new java.awt.Dimension(36, 36));
         jImagePanel1.setSmoothRendering(true);
 
         javax.swing.GroupLayout jImagePanel1Layout = new javax.swing.GroupLayout(jImagePanel1);
         jImagePanel1.setLayout(jImagePanel1Layout);
         jImagePanel1Layout.setHorizontalGroup(
             jImagePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 36, Short.MAX_VALUE)
+            .addGap(0, 30, Short.MAX_VALUE)
         );
         jImagePanel1Layout.setVerticalGroup(
             jImagePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 30, Short.MAX_VALUE)
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -61,18 +92,18 @@ public class MenuCategoryCard extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jImagePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jImagePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jImagePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jImagePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -94,10 +125,30 @@ public class MenuCategoryCard extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+        if (isSelected()) {
+            jPanel1
+                    .setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+            jImagePanel1
+                    .setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+            setSelected(false);
+        } else {
+            jPanel1
+                    .setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+            jImagePanel1
+                    .setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+            
+            setSelected(true);
+        }
+
+    }//GEN-LAST:event_jPanel1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private main.JImagePanel jImagePanel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+    private boolean selected = false;
 }

@@ -5,6 +5,7 @@
 package com.cafe.gui;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.SwingUtilities;
 
 /**
@@ -18,7 +19,7 @@ public class TestingFrame extends javax.swing.JFrame {
      */
     public TestingFrame() {
         initComponents();
-        MenuMangement menu = new MenuMangement();
+        MenuMangementUpdated menu = new MenuMangementUpdated();
         jPanel1.add(menu);
         SwingUtilities.updateComponentTreeUI(jPanel1);
     }
@@ -35,7 +36,8 @@ public class TestingFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(600, 450));
+        setMaximumSize(new java.awt.Dimension(706, 450));
+        setMinimumSize(new java.awt.Dimension(706, 450));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(700, 450));
         jPanel1.setLayout(new java.awt.GridLayout(1, 1));
