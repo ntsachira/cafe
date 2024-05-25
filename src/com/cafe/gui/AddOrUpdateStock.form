@@ -124,7 +124,7 @@
         <Component class="javax.swing.JTextField" name="jTextField1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Stock ID"/>
-            <Property name="toolTipText" type="java.lang.String" value="Search by Stock ID to Search"/>
+            <Property name="toolTipText" type="java.lang.String" value="Search by Stock ID to Select"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">

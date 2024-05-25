@@ -60,7 +60,7 @@ public class AddOrUpdateStock extends javax.swing.JFrame {
         jLabel2.setText("Add/ Update Stock");
 
         jTextField1.setText("Stock ID");
-        jTextField1.setToolTipText("Search by Stock ID to Search");
+        jTextField1.setToolTipText("Search by Stock ID to Select");
 
         jButton1.setText("Search");
 
