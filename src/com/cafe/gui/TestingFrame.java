@@ -19,8 +19,8 @@ public class TestingFrame extends javax.swing.JFrame {
      */
     public TestingFrame() {
         initComponents();
-        CategoryManagement menu = new CategoryManagement();
-        jPanel1.add(menu);
+        StockManagement comp = new StockManagement();
+        jPanel1.add(comp);
         SwingUtilities.updateComponentTreeUI(jPanel1);
     }
 
