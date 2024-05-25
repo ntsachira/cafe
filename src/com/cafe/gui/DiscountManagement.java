@@ -39,7 +39,7 @@ public class DiscountManagement extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setText("Add Menu Item");
+        jLabel2.setText("Add Discount");
 
         jTextField1.setText("Discount Rate(do not add the '%')");
         jTextField1.setToolTipText("Discount Rate(do not add the '%' ");
