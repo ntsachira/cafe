@@ -4,6 +4,9 @@
  */
 package com.cafe.gui;
 
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author Prince
@@ -51,6 +54,11 @@ public class StockManagement extends javax.swing.JPanel {
         });
 
         jButton2.setText("Kitchen Items");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Item 2", "Item 3", "Item 4" }));
 
@@ -145,6 +153,13 @@ public class StockManagement extends javax.swing.JPanel {
 //        System.out.println(currentAct);
         component.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JPanel parentPanel = (JPanel) this.getParent();
+        parentPanel.removeAll();
+        parentPanel.add(new KitchenItems());
+        SwingUtilities.updateComponentTreeUI(parentPanel);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
