@@ -4,7 +4,17 @@
  */
 package com.cafe.gui;
 
+import com.cafe.model.MySql;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.UUID;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,6 +27,83 @@ public class UserManagement extends javax.swing.JPanel {
      */
     public UserManagement() {
         initComponents();
+        loadUserTable("");
+        loadUserRoles();
+        loadStatuses();
+    }
+
+    private void loadUserTable(String input) {
+        ResultSet resultSet = MySql.exucute("SELECT * FROM `user` \n"
+                + "INNER JOIN `user_role` ON `user_role_id` = `user_role`.`id` \n"
+                + "INNER JOIN `active_state` ON `user`.`active_state_state_id` = `active_state`.`state_id`"
+                + "WHERE `username` LIKE '%" + input + "%' OR `mobile` LIKE '%" + input + "%' OR `display_name` LIKE '%" + input + "%'");
+
+        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+        tableModel.setRowCount(0);
+
+        try {
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("display_name"));
+                vector.add(resultSet.getString("mobile"));
+                vector.add(resultSet.getString("username"));
+                vector.add(resultSet.getString("role_name"));
+                vector.add(resultSet.getString("status"));
+
+                tableModel.addRow(vector);
+                jTable1.setModel(tableModel);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DiscountManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void loadUserRoles() {
+        ResultSet resultSet = MySql.exucute("SELECT * FROM `user_role`");
+
+        Vector<String> vector = new Vector<>();
+        vector.add("User Role");
+
+        try {
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("role_name"));
+                userRoleMap.put(resultSet.getString("role_name"), resultSet.getString("id"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DiscountManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+        jComboBox1.setModel(model);
+    }
+
+    private void loadStatuses() {
+        ResultSet resultSet = MySql.exucute("SELECT * FROM `active_state`");
+
+        Vector<String> vector = new Vector<>();
+        vector.add("Active Status");
+
+        try {
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("status"));
+                statusMap.put(resultSet.getString("status"), resultSet.getString("state_id"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DiscountManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+        jComboBox2.setModel(model);
+    }
+
+    private void resetValues(String act) {
+        jComboBox1.setSelectedIndex(0);
+        jTextField1.setText("Name");
+        jTextField2.setText("Mobile");
+        jTextField3.setText("Username");
+        jPasswordField1.setText("");
+        jPasswordField1.setEnabled(false);
+        jTextField2.setEnabled(true);
+
+        JOptionPane.showMessageDialog(this, "User " + act + " Successfully", act, JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -38,7 +125,6 @@ public class UserManagement extends javax.swing.JPanel {
         jComboBox2 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jTextField4 = new javax.swing.JTextField();
@@ -58,7 +144,9 @@ public class UserManagement extends javax.swing.JPanel {
         jTextField3.setText("Username");
         jTextField3.setToolTipText("username name of the user");
 
-        jLabel1.setText("Password:");
+        jPasswordField1.setEnabled(false);
+
+        jLabel1.setText("Password: (auto-generated for new users)");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "User Role", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setToolTipText("user role");
@@ -66,19 +154,25 @@ public class UserManagement extends javax.swing.JPanel {
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active Status", "Item 2", "Item 3", "Item 4" }));
         jComboBox2.setToolTipText("active status name of the user");
 
-        jButton1.setText("Save User");
+        jButton1.setText("Save");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Update User");
-
-        jButton3.setText("Deactivate User");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setText("⌀");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton2MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton2MouseReleased(evt);
+            }
+        });
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -92,15 +186,14 @@ public class UserManagement extends javax.swing.JPanel {
                     .addComponent(jTextField1)
                     .addComponent(jTextField2)
                     .addComponent(jTextField3)
-                    .addComponent(jPasswordField1)
                     .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBox2, 0, 273, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -115,18 +208,16 @@ public class UserManagement extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.LINE_START);
@@ -134,6 +225,11 @@ public class UserManagement extends javax.swing.JPanel {
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jButton4.setText("Search");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -176,6 +272,11 @@ public class UserManagement extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jPanel4.add(jScrollPane1, "card2");
@@ -185,21 +286,124 @@ public class UserManagement extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String token = "name"+UUID.randomUUID().toString();
-        UserToken component = new UserToken(token);
-        component.setVisible(true);
+        String token = UUID.randomUUID().toString();
+
+        String name = jTextField1.getText();
+        String mobile = jTextField2.getText();
+        String username = jTextField3.getText();
+        String role = String.valueOf(jComboBox1.getSelectedItem());
+        String status = String.valueOf(jComboBox2.getSelectedItem());
+        String password = String.valueOf(jPasswordField1.getPassword());
+        boolean checkPassword = false;
+//        jPasswordField1.setText(token);
+        if (jPasswordField1.isEnabled()) {
+            checkPassword = password.isEmpty();
+        }
+
+        if (name.isEmpty() || name.equals("Name")) {
+            JOptionPane.showMessageDialog(this, "Please Enter User's Name", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (mobile.isEmpty() || mobile.equals("Mobile")) {
+            JOptionPane.showMessageDialog(this, "Please Enter User's Mobile", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (!mobile.matches("^(?:\\+94|0)(?:7\\d{8}|[1-9]\\d{8})$")) {
+            JOptionPane.showMessageDialog(this, "Please Enter a Valid Mobile", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (username.isEmpty() || username.equals("Username")) {
+            JOptionPane.showMessageDialog(this, "Please Enter User's Username", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (checkPassword) {
+            JOptionPane.showMessageDialog(this, "Please Enter a User Password", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (role.equals("User Role")) {
+            JOptionPane.showMessageDialog(this, "Please Select a User Role", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (status.equals("Active Status")) {
+            JOptionPane.showMessageDialog(this, "Please Select a User Status", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            ResultSet resultSet = MySql.exucute("SELECT * FROM `user` WHERE `mobile` = '" + mobile + "'");
+            System.out.println("else reached");
+            try {
+                if (resultSet.next()) {
+                    int updateConfirmation = JOptionPane.showConfirmDialog(this, "This User Already Exist, Do you wish to Update?", "Info", JOptionPane.OK_CANCEL_OPTION);
+                    if (updateConfirmation == JOptionPane.OK_OPTION) {
+                        String updatePassword = jPasswordField1.isEnabled() ? password : resultSet.getString("password");
+                        MySql.exucute("UPDATE `user` "
+                                + "SET `display_name`='" + name + "',`username`='" + username + "',"
+                                + "`password`='" + updatePassword + "',`user_role_id`='" + userRoleMap.get(role) + "',"
+                                + "`active_state_state_id`='" + statusMap.get(status) + "'"
+                                + "WHERE `mobile` = '" + mobile + "'");
+
+                        resetValues("Updated");
+                        loadUserTable("");
+                    }
+                } else {
+                    MySql.exucute("INSERT INTO `user` "
+                            + "(`mobile`,`display_name`,`username`,`password`,`user_role_id`,`active_state_state_id`)"
+                            + "VALUES ('" + mobile + "', '" + name + "', '" + username + "', '" + token + "',"
+                            + "'" + userRoleMap.get(role) + "', '" + statusMap.get(status) + "')");
+                    resetValues("Added");
+                    loadUserTable("");
+                    UserToken component = new UserToken(token);
+                    component.setVisible(true);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DiscountManagement.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        loadUserTable(jTextField4.getText());
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please Select A Row", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (evt.getClickCount() == 2) {
+                String name = String.valueOf(jTable1.getValueAt(selectedRow, 0));
+                String mobile = String.valueOf(jTable1.getValueAt(selectedRow, 1));
+                String username = String.valueOf(jTable1.getValueAt(selectedRow, 2));
+                String role = String.valueOf(jTable1.getValueAt(selectedRow, 3));
+                String status = String.valueOf(jTable1.getValueAt(selectedRow, 4));
+                String password = "";
+
+                ResultSet resultSet = MySql.exucute("SELECT * FROM `user` WHERE `mobile` = '" + mobile + "'");
+                try {
+                    if (resultSet.next()) {
+                        password = resultSet.getString("password");
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(UserManagement.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                jTextField1.setText(name);
+                jTextField2.setText(mobile);
+                jTextField2.setEnabled(false);
+                jTextField3.setText(username);
+                jPasswordField1.setText(password);
+                jPasswordField1.setEnabled(true);
+                jComboBox1.setSelectedItem(role);
+                jComboBox2.setSelectedItem(status);
+            }
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
+        jPasswordField1.setEchoChar((char) 0);
+    }//GEN-LAST:event_jButton2MousePressed
+
+    private void jButton2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseReleased
+        jPasswordField1.setEchoChar('\u25cf');
+    }//GEN-LAST:event_jButton2MouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
@@ -216,4 +420,7 @@ public class UserManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
+
+    private static HashMap<String, String> userRoleMap = new HashMap<>();
+    private static HashMap<String, String> statusMap = new HashMap<>();
 }
