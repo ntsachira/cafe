@@ -4,6 +4,7 @@
  */
 package com.cafe.gui;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -62,6 +63,11 @@ public class EditCategory extends javax.swing.JFrame {
         jLabel2.setText("Preview");
 
         jButton1.setText("Upload Images");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Save Changes");
 
@@ -140,6 +146,11 @@ public class EditCategory extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
        this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+               JOptionPane.showMessageDialog(this, "Can Not Add Image Now, It Will be Available Soon", "Feature", JOptionPane.INFORMATION_MESSAGE);
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
