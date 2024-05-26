@@ -208,7 +208,7 @@ public class DiscountManagement extends javax.swing.JPanel {
 
             try {
                 if (resultSet.next()) {
-                    int updateConfirmation = JOptionPane.showConfirmDialog(this, "This Item Discount Already Exist, Do you want to Update?", "Info", JOptionPane.OK_CANCEL_OPTION);
+                    int updateConfirmation = JOptionPane.showConfirmDialog(this, "This Item Discount Already Exist, Do you wish to Update?", "Info", JOptionPane.OK_CANCEL_OPTION);
                     if (updateConfirmation == JOptionPane.OK_OPTION) {
                         MySql.exucute("UPDATE `discount` "
                                 + "SET `rate`='" + discountRate + "',`expire_date`='" + endDate + "'"
