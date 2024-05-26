@@ -4,6 +4,19 @@
  */
 package com.cafe.gui;
 
+import com.cafe.model.MySql;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Prince
@@ -15,6 +28,50 @@ public class UserActivityManagement extends javax.swing.JPanel {
      */
     public UserActivityManagement() {
         initComponents();
+        loadUserActivityTable("", "");
+        loadUserRoles();
+    }
+    
+    private void loadUserActivityTable(String input, String query) {
+        ResultSet resultSet = MySql.exucute("SELECT * FROM `activity` \n"
+                + "INNER JOIN `user` ON `user_id` = `user`.`mobile` \n"
+                + "WHERE (`username` LIKE '%" + input + "%' OR `description` LIKE '%" + input + "%') " + query + "");
+        
+        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+        tableModel.setRowCount(0);
+        
+        try {
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("description"));
+                vector.add(resultSet.getString("date"));
+                vector.add(resultSet.getString("time"));
+                vector.add(resultSet.getString("username"));
+                
+                tableModel.addRow(vector);
+                jTable1.setModel(tableModel);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DiscountManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void loadUserRoles() {
+        ResultSet resultSet = MySql.exucute("SELECT * FROM `user_role`");
+        
+        Vector<String> vector = new Vector<>();
+        vector.add("User Role");
+        
+        try {
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("role_name"));
+                userRoleMap.put(resultSet.getString("role_name"), resultSet.getString("id"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DiscountManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+        jComboBox1.setModel(model);
     }
 
     /**
@@ -27,31 +84,38 @@ public class UserActivityManagement extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jTextField1 = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
-        jFormattedTextField1.setText("From Date");
-        jFormattedTextField1.setToolTipText("start date to be sorted");
-
-        jFormattedTextField2.setText("To Date");
-        jFormattedTextField2.setToolTipText("end date to be sorted");
-        jFormattedTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField2ActionPerformed(evt);
+        jTextField1.setText("Search by Description or Username...");
+        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField1MouseClicked(evt);
             }
         });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Role", "Item 2", "Item 3", "Item 4" }));
 
         jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("From:");
+
+        jLabel2.setText("To:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -61,25 +125,31 @@ public class UserActivityManagement extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField1)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 377, Short.MAX_VALUE)))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -97,11 +167,11 @@ public class UserActivityManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Name", "Mobile", "Username", "User Role", "Status"
+                "Description", "Date", "Time", "Username"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -115,20 +185,55 @@ public class UserActivityManagement extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jFormattedTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField2ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String input = "";
+        String role = String.valueOf(jComboBox1.getSelectedItem());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDateObj = jDateChooser1.getDate();
+        Date toDateObj = jDateChooser2.getDate();
+        String query = "";
+        
+        if (!jTextField1.getText().equals("Search by Description or Username...")) {
+            input = jTextField1.getText();
+        }
+        
+        if (fromDateObj != null || toDateObj != null) {
+            if (fromDateObj == null) {
+                JOptionPane.showMessageDialog(this, "Please Enter a From Date", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (toDateObj == null) {
+                JOptionPane.showMessageDialog(this, "Please Enter a To Date", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                String fromDate = dateFormat.format(fromDateObj);
+                String toDate = dateFormat.format(toDateObj);
+                query += " AND ( `date` BETWEEN '" + fromDate + "' AND '" + toDate + "')";
+            }
+        }
+        
+        if (!role.equals("User Role")) {
+            query += " AND `user_role_id` = '" + userRoleMap.get(role) + "'";
+        }
+        
+        loadUserActivityTable(input, query);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
+        jTextField1.setText("");
+    }//GEN-LAST:event_jTextField1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    private static HashMap<String, String> userRoleMap = new HashMap<>();
 }
