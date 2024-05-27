@@ -5,6 +5,7 @@
 package com.cafe.gui;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -15,10 +16,35 @@ public class MenuItemCard extends javax.swing.JPanel {
     /**
      * Creates new form MenuItemCard
      */
-    public MenuItemCard() {
+    public MenuItemCard(String name, String price, String cb, ImageIcon image, boolean status) {
         initComponents();
-//        jPanel1.putClientProperty(FlatClientProperties.STYLE, "arc: 24");
-//        jImagePanel1.putClientProperty(FlatClientProperties.STYLE, "arc: 24");
+        loadCardDetails(name, price, cb, image, status);
+    }
+
+    public MenuItemCard(boolean status) {
+        initComponents();
+        loadEmptyCard(true);
+    }
+
+    private void loadCardDetails(String name, String price, String cb, ImageIcon image, boolean status) {
+        String statusColour = status ? "green" : "red";
+        jLabel1.setText(name);
+        jLabel2.setText(price + " RS");
+        jLabel3.setText(cb);
+        jImagePanel1.setImageIcon(image);
+        ImageIcon statusImage = new ImageIcon(getClass().getResource("/gallery/" + statusColour + ".png"));
+        jLabel1.setIcon(statusImage);
+    }
+
+    private void loadEmptyCard(boolean status) {
+        if (status) {
+            jLabel1.setText("");
+            jLabel2.setText("");
+            jLabel3.setText("");
+            ImageIcon image = new ImageIcon(getClass().getResource("/gallery/empty.png"));
+            jImagePanel1.setImageIcon(image);
+            jLabel1.setIcon(null);
+        }
     }
 
     /**
@@ -34,6 +60,7 @@ public class MenuItemCard extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jImagePanel1 = new main.JImagePanel();
+        jLabel3 = new javax.swing.JLabel();
 
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -59,8 +86,11 @@ public class MenuItemCard extends javax.swing.JPanel {
         );
         jImagePanel1Layout.setVerticalGroup(
             jImagePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 151, Short.MAX_VALUE)
+            .addGap(0, 152, Short.MAX_VALUE)
         );
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Category | Brand");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -68,27 +98,33 @@ public class MenuItemCard extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(6, 6, 6))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jImagePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jImagePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
+                .addComponent(jImagePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addGap(17, 17, 17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -114,6 +150,7 @@ public class MenuItemCard extends javax.swing.JPanel {
     private main.JImagePanel jImagePanel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

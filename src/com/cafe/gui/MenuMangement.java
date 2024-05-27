@@ -4,8 +4,18 @@
  */
 package com.cafe.gui;
 
+import com.cafe.model.MySql;
 import com.formdev.flatlaf.FlatClientProperties;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,10 +26,77 @@ public class MenuMangement extends javax.swing.JPanel {
     /**
      * Creates new form MenuMangement
      */
-    @Deprecated
     public MenuMangement() {
         initComponents();
+        loadCategories();
+        loadMenuItems("");
 
+    }
+
+    private void loadCategories() {
+        ResultSet resultSet = MySql.exucute("SELECT * FROM `menu_item_category`");
+
+        Vector<String> vector = new Vector<>();
+        vector.add("Select Category");
+
+        try {
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("name"));
+                categoryMap.put(resultSet.getString("name"), resultSet.getString("id"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DiscountManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+        jComboBox1.setModel(model);
+    }
+
+    private void loadMenuItems(String query) {
+        int count = 0;
+        int offSet = (itemPanelNumber - 1) * 6;
+        ResultSet resultSet = MySql.exucute("SELECT `menu_item`.`name` AS 'name', price, `menu_item`.`image_path` AS 'img',\n"
+                + "`menu_item`.`active_state_state_id` AS 'state', `brand`.`name` AS 'brand',\n"
+                + "`menu_item_category`.`name` AS 'category' FROM `menu_item`\n"
+                + "INNER JOIN `menu_item_category` ON `menu_item_category_id` = `menu_item_category`.`id`\n"
+                + "INNER JOIN `brand` ON `brand_id` = `brand`.`id` " + query + " "
+                + "ORDER BY `menu_item`.`id` LIMIT 6 OFFSET " + offSet + "");
+
+        ResultSet resultSetC = MySql.exucute("SELECT COUNT(*) as 'count' FROM `menu_item` "
+                + "INNER JOIN `menu_item_category` ON `menu_item_category_id` = `menu_item_category`.`id`\n"
+                + "INNER JOIN `brand` ON `brand_id` = `brand`.`id` " + query + " ");
+
+        itemPlagarism();
+        try {
+            if (resultSetC.next()) {
+                int totalRecords = Integer.parseInt(resultSetC.getString("count"));
+                totalPanels = (int) Math.ceil(totalRecords / 6.0);
+            }
+            while (resultSet.next()) {
+                count++;
+                String activeStateID = resultSet.getString("state");
+                boolean status = activeStateID.equals("1") ? true : false;
+                String name = resultSet.getString("name");
+                String price = resultSet.getString("price");
+                String brand = resultSet.getString("brand");
+                String category = resultSet.getString("category");
+                String img = resultSet.getString("img");
+                ImageIcon image = new ImageIcon(getClass().getResource(img));
+                MenuItemCard component = new MenuItemCard(name, price, brand + " | " + category, image, status);
+                jPanel7.add(component);
+            }
+
+            if (count < 6) {
+                for (int i = 0; i < 6 - count; i++) {
+                    MenuItemCard component = new MenuItemCard(true);
+                    jPanel7.add(component);
+                }
+
+            }
+
+            SwingUtilities.updateComponentTreeUI(jPanel7);
+        } catch (SQLException ex) {
+            Logger.getLogger(DiscountManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void itemPlagarism() {
@@ -32,11 +109,17 @@ public class MenuMangement extends javax.swing.JPanel {
             jButton7.setEnabled(false);
         }
 
-        if (isLastItemPanel) {
+        if (itemPanelNumber >= totalPanels) {
             jButton6.setEnabled(false);
         } else {
             jButton6.setEnabled(true);
         }
+
+//        if (isLastItemPanel) {
+//            jButton6.setEnabled(false);
+//        } else {
+//            jButton6.setEnabled(true);
+//        }
     }
 
     /**
@@ -164,17 +247,27 @@ public class MenuMangement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String input = jTextField1.getText();
+        String query = "WHERE `menu_item`.`name` LIKE '%" + input + "%'";
+        String category = String.valueOf(jComboBox1.getSelectedItem());
 
+        if (!category.equals("Select Category")) {
+            query += " AND `menu_item_category_id` = '" + categoryMap.get(category) + "'";
+        }
+
+        loadMenuItems(query);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         itemPanelNumber--;
         itemPlagarism();
+        loadMenuItems("");
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         itemPanelNumber++;
         itemPlagarism();
+        loadMenuItems("");
     }//GEN-LAST:event_jButton6ActionPerformed
 
 
@@ -192,5 +285,7 @@ public class MenuMangement extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private int itemPanelNumber = 1;
+    private int totalPanels = 0;
     private boolean isLastItemPanel = false;
+    private HashMap<String, String> categoryMap = new HashMap<>();
 }
