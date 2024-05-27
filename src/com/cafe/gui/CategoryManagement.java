@@ -4,7 +4,14 @@
  */
 package com.cafe.gui;
 
+import com.cafe.model.MySql;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,16 +24,36 @@ public class CategoryManagement extends javax.swing.JPanel {
      */
     public CategoryManagement() {
         initComponents();
-        loadDetailedCategories();
+        loadDamagedStockTable("");
     }
 
-    private void loadDetailedCategories() {
-        for (int i = 0; i < 16; i++) {
-            DetailedCategoryCard component = new DetailedCategoryCard();
-            jPanel2.add(component);
-        }
+    private void loadDamagedStockTable(String input) {
+        int count = 0;
+        ResultSet resultSet = MySql.exucute("SELECT * FROM `menu_item_category`\n"
+                + "INNER JOIN `active_state` ON `active_state_state_id` = `active_state`.`state_id`\n"
+                + "WHERE `name` LIKE '%" + input + "%' OR `id` = '%" + input + "%'");
 
-        SwingUtilities.updateComponentTreeUI(jPanel2);
+//        ResultSet resultSetX = MySql.exucute("SELECT COUNT(`id`) AS 'count' FROM `menu_item_category`");
+        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+        tableModel.setRowCount(0);
+
+        try {
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("name"));
+                vector.add(resultSet.getString("status"));
+
+                tableModel.addRow(vector);
+                jTable1.setModel(tableModel);
+                count++;
+            }
+
+            jLabel1.setText(count + " Items found");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DiscountManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -44,6 +71,8 @@ public class CategoryManagement extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -55,6 +84,11 @@ public class CategoryManagement extends javax.swing.JPanel {
         });
 
         jButton2.setText("Search");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("999 Items found");
 
@@ -94,14 +128,42 @@ public class CategoryManagement extends javax.swing.JPanel {
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jPanel2.setLayout(new java.awt.GridLayout(4, 4));
+        jPanel2.setLayout(new java.awt.CardLayout(6, 6));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "#ID", "Name", "Active Status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel2.add(jScrollPane1, "card2");
+
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       AddNewCategory component = new AddNewCategory();
-       component.setVisible(true);
+        AddNewCategory component = new AddNewCategory();
+        component.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        loadDamagedStockTable(jTextField1.getText());
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -110,6 +172,8 @@ public class CategoryManagement extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

@@ -31,7 +31,7 @@ public class DamageStockManagement extends javax.swing.JPanel {
     public DamageStockManagement() {
         initComponents();
         loadDamagedStockTable("");
-        loadUserRoles();
+        loadStatuses();
     }
     
     private void loadDamagedStockTable(String query) {
@@ -60,7 +60,7 @@ public class DamageStockManagement extends javax.swing.JPanel {
         }
     }
     
-    private void loadUserRoles() {
+    private void loadStatuses() {
         ResultSet resultSet = MySql.exucute("SELECT * FROM `damage_stock_state`");
         
         Vector<String> vector = new Vector<>();

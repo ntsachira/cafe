@@ -16,6 +16,7 @@ public class KitchenItems extends javax.swing.JPanel {
     /**
      * Creates new form KitchenItems
      */
+    @Deprecated
     public KitchenItems() {
         initComponents();
         loadPreview();

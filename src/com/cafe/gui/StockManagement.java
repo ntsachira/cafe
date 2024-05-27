@@ -4,8 +4,17 @@
  */
 package com.cafe.gui;
 
+import com.cafe.model.MySql;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,8 +27,61 @@ public class StockManagement extends javax.swing.JPanel {
      */
     public StockManagement() {
         initComponents();
+        loadStockTable("");
+        loadCategories();
         act[0] = "Update";
         act[1] = "Add";
+
+    }
+
+    private void loadStockTable(String query) {
+        int totalQty = 0;
+        int totalPrice = 0;
+        ResultSet resultSet = MySql.exucute("SELECT `qty`, `selling_price`, `expiry_date`, `menu_item_category`.`name` AS 'category',\n"
+                + "`unit_of_measure`.`name` AS 'uom',`menu_item`.`name` AS 'name'\n"
+                + "FROM `direct_selling_stock` INNER JOIN `menu_item` ON `menu_item_id` = `menu_item`.`id` \n"
+                + "INNER JOIN `unit_of_measure` ON `unit_of_measure_id` = `unit_of_measure`.`id` \n"
+                + "INNER JOIN `menu_item_category` ON `menu_item_category_id` = `menu_item_category`.`id` " + query + "");
+
+        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+        tableModel.setRowCount(0);
+
+        try {
+            while (resultSet.next()) {
+                totalQty += resultSet.getInt("qty");
+                totalPrice += resultSet.getInt("qty") * resultSet.getInt("selling_price");
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("name"));
+                vector.add(resultSet.getString("expiry_date"));
+                vector.add(resultSet.getString("uom"));
+                vector.add(resultSet.getString("qty"));
+                vector.add(resultSet.getString("selling_price"));
+
+                tableModel.addRow(vector);
+                jTable1.setModel(tableModel);
+                jLabel1.setText("Total Stocks: " + totalQty + " | Total Stocks Value: " + totalPrice + " Rs");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DiscountManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void loadCategories() {
+        ResultSet resultSet = MySql.exucute("SELECT * FROM `menu_item_category`");
+
+        Vector<String> vector = new Vector<>();
+        vector.add("Select Category");
+
+        try {
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("name"));
+                categoryMap.put(resultSet.getString("name"), resultSet.getString("id"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DiscountManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+        jComboBox1.setModel(model);
     }
 
     /**
@@ -46,7 +108,7 @@ public class StockManagement extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        jButton1.setText("Add/Update Stock");
+        jButton1.setText("Add Stock");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -63,6 +125,11 @@ public class StockManagement extends javax.swing.JPanel {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Item 2", "Item 3", "Item 4" }));
 
         jButton3.setText("Search");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jCheckBox1.setText("Filter Expired Stocks");
 
@@ -79,7 +146,7 @@ public class StockManagement extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 253, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1))
@@ -157,9 +224,27 @@ public class StockManagement extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         JPanel parentPanel = (JPanel) this.getParent();
         parentPanel.removeAll();
-        parentPanel.add(new KitchenItems());
+        parentPanel.add(new StockManagementKitchen());
         SwingUtilities.updateComponentTreeUI(parentPanel);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String input = jTextField1.getText();
+        String query = " ";
+        String category = String.valueOf(jComboBox1.getSelectedItem());
+
+        if (!input.isBlank()) {
+            query += "WHERE `menu_item`.`name` LIKE '%" + input + "%'";
+        } else if (jCheckBox1.isSelected()) {
+            query += " AND `expiry_date`< CURDATE()";
+        } else if (jCheckBox2.isSelected()) {
+            query += " AND `qty` < 5";
+        } else if (!category.equals("Select Category")) {
+            query += " AND `menu_item_category`.`id` = '" + categoryMap.get(category) + "'";
+        }
+
+        loadStockTable(query);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -178,6 +263,7 @@ public class StockManagement extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private String[] act = new String[2];
-//    private String currentAct = act[0];
+    private String currentAct = act[0];
     private boolean isRowSelected = false;
+    private HashMap<String, String> categoryMap = new HashMap<>();
 }

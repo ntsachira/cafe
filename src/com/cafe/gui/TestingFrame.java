@@ -19,7 +19,7 @@ public class TestingFrame extends javax.swing.JFrame {
      */
     public TestingFrame() {
         initComponents();
-        UserManagement comp = new UserManagement();
+        StockManagement comp = new StockManagement();
         jPanel1.add(comp);
         SwingUtilities.updateComponentTreeUI(jPanel1);
     }
@@ -61,7 +61,7 @@ public class TestingFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-       FlatDarkLaf.setup();
+        FlatDarkLaf.setup();
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

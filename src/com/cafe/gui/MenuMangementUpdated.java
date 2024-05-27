@@ -30,8 +30,8 @@ public class MenuMangementUpdated extends javax.swing.JPanel {
 
     private void loadMenuItems() {
         for (int i = 0; i < 10; i++) {
-            MenuItemCard component = new MenuItemCard();
-            jPanel7.add(component);
+//            MenuItemCard component = new MenuItemCard("Productname", "Product Price", true);
+//            jPanel7.add(component);
         }
         SwingUtilities.updateComponentTreeUI(jPanel7);
     }

@@ -4,6 +4,13 @@
  */
 package com.cafe.gui;
 
+import com.cafe.model.MySql;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Prince
@@ -43,6 +50,11 @@ public class AddNewCategory extends javax.swing.JFrame {
         jLabel2.setText("Add Your Category Name:");
 
         jButton2.setText("Save");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Cancel");
         jButton1.setOpaque(true);
@@ -105,13 +117,36 @@ public class AddNewCategory extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       this.dispose();
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+//        this.dispose();
+        String name = jTextField1.getText();
+
+        if (name.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Enter a Category Name", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            ResultSet resultSet = MySql.exucute("SELECT * FROM `menu_item_category` WHERE `name` = '" + name + "'");
+
+            try {
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "Category Exists", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    MySql.exucute("INSERT INTO `menu_item_category` (`name`, `active_state_state_id`) VALUES ('" + name + "','1')");
+                    JOptionPane.showMessageDialog(this, "Category Added Successfully", "Added", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(AddNewCategory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
