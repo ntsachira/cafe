@@ -4,12 +4,18 @@
  */
 package com.cafe.gui;
 
+import com.cafe.model.User;
+import com.cafe.model.UserRole;
 import com.cafe.style.CustomStyle;
+import com.cafe.style.Pallet;
+import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme;
 import java.awt.Dimension;
+import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.*;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
@@ -19,19 +25,20 @@ import javax.swing.SwingUtilities;
 public class Splash extends javax.swing.JFrame {
 
     public static Logger logger = Logger.getLogger("cafe");
+
     /**
      * Creates new form Splash
      */
     public Splash() {
-        initComponents();       
+        initComponents();
         initializeLogger();
         CustomStyle.setIcon(this);
         animateLoading();
     }
-    
-    private void initializeLogger(){
+
+    private void initializeLogger() {
         try {
-            FileHandler fileHandler = new FileHandler("cafe.log",true);
+            FileHandler fileHandler = new FileHandler("cafe.log", true);
             fileHandler.setFormatter(new SimpleFormatter());
             logger.addHandler(fileHandler);
         } catch (IOException ex) {
@@ -40,88 +47,89 @@ public class Splash extends javax.swing.JFrame {
         } catch (SecurityException ex) {
             Logger.getLogger(Splash.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Logger Initialization faild - SecurityException");
-        } catch (IllegalArgumentException ex){
-            Logger.getLogger(Splash.class.getName()).log(Level.SEVERE,null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(Splash.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Logger initialization faild - IllegalArgumentException");
         }
     }
-    
-    
-    public void setThemeSelection(){
+
+    public void setThemeSelection(User user) {
         this.dispose();
-        new ThemeSelection().setVisible(true);
+        new ThemeSelection(user).setVisible(true);
+    }
+
+    public void setDashboard(User user) {
+        if (user != null) {
+            this.dispose();
+            Dashboard dashboard = new Dashboard(user);
+            Pallet.setDashboard(dashboard);
+            dashboard.setComponentTheme();
+            dashboard.setVisible(true);
+        }
     }
 
     private void animateLoading() {
         new Thread(() -> {
             int width = getWidth();
-            
             animateProgressbar();
-            
             animateFrameFadeOut();
-            
             setLogin();
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ex) {
-
+                logger.log(Level.WARNING, null, ex);
             }
-            
             animateFrameFadeIn(width);
         }).start();
     }
-    
-    private void animateProgressbar(){        
-            for (int i = 0; i <= 100; i++) {
-                jProgressBar1.setValue(i);
-                jLabel2.setText(i + "%");
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
+
+    private void animateProgressbar() {
+        for (int i = 0; i <= 100; i++) {
+            jProgressBar1.setValue(i);
+            jLabel2.setText(i + "%");
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+                logger.log(Level.WARNING, null, ex);
             }
+        }
     }
-    
-    private void animateFrameFadeOut(){
+
+    private void animateFrameFadeOut() {
         float opacity = getOpacity();
-            
-            for (int i = getWidth(); i >= 0; i -= 30) {
-                setSize(new Dimension(i, getHeight()));
-                
-                if (opacity >= 0.1) {
-                    setOpacity(opacity -= 0.1);
-                } else {
-                    setOpacity(0);
-                }
 
-                setLocationRelativeTo(null);
-                revalidate();
-                
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException ex) {
+        for (int i = getWidth(); i >= 0; i -= 30) {
+            setSize(new Dimension(i, getHeight()));
 
-                }
+            if (opacity >= 0.1) {
+                setOpacity(opacity -= 0.1);
+            } else {
+                setOpacity(0);
             }
-    }
-    
-    private void animateFrameFadeIn(int width){
-        setSize(new Dimension(width, getHeight()));
             setLocationRelativeTo(null);
             revalidate();
-            
-            for (float i = 0; i <= 1.0; i += 0.1) {
-
-                setOpacity(i);
-
-                try {
-                    Thread.sleep(19);
-                } catch (InterruptedException ex) {
-
-                }
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException ex) {
+                logger.log(Level.WARNING, null, ex);
             }
-            setOpacity(1);
+        }
+    }
+
+    private void animateFrameFadeIn(int width) {
+        setSize(new Dimension(width, getHeight()));
+        setLocationRelativeTo(null);
+        revalidate();
+
+        for (float i = 0; i <= 1.0; i += 0.1) {
+            setOpacity(i);
+            try {
+                Thread.sleep(19);
+            } catch (InterruptedException ex) {
+                logger.log(Level.WARNING, null, ex);
+            }
+        }
+        setOpacity(1);
     }
 
     private void setLogin() {
@@ -234,8 +242,8 @@ public class Splash extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the FlatDarkLaf look and feel */        
-        FlatCyanLightIJTheme.setup();
+        /* Set the FlatDarkLaf look and feel */
+        FlatLightLaf.setup();
 
         CustomStyle.showRevealButton();
 

@@ -1,13 +1,43 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.cafe.model;
 
-/**
- *
- * @author Dell
- */
+import com.cafe.gui.Splash;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class Mysql {
-    
+
+    private static Connection connection;
+    private static String user = "root";
+    private static String password = "#Love0923";
+
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe_db", user, password);
+        } catch (ClassNotFoundException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    public static ResultSet execute(String query) throws SQLException {
+        Statement statement = connection.createStatement();
+        if (query.startsWith("SELECT")) {
+            return statement.executeQuery(query);
+        } else {
+            statement.executeUpdate(query);
+            return null;
+        }
+    }
+
+    public static Connection getConnection() {
+        return connection;
+    }
 }

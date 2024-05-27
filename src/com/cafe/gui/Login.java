@@ -4,36 +4,44 @@
  */
 package com.cafe.gui;
 
+import com.cafe.model.Mysql;
+import com.cafe.model.User;
+import com.cafe.model.UserRole;
 import com.cafe.style.CustomStyle;
+import com.cafe.style.Pallet;
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Dell
  */
-public class Login extends javax.swing.JPanel {
+public class Login extends javax.swing.JPanel implements UserRole {
 
     private Splash splash;
+
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
-        setLoginStyle();       
+        setLoginStyle();
     }
-    
-    private void setLoginStyle(){
+
+    private void setLoginStyle() {
         jPanel5.putClientProperty(FlatClientProperties.STYLE, "arc: 50");
         CustomStyle.setButtonsRoundedMax(jButton1);
         CustomStyle.setPasswordFieldsRoundedMax(jPasswordField1);
         CustomStyle.setTextFieldsRoundedMax(jTextField1);
         CustomStyle.showClearButton(jTextField1);
-        jTextField1.putClientProperty("JTextField.placeholderText", "Username"); 
-        jPasswordField1.putClientProperty("JTextField.placeholderText", "Password"); 
-    }
-
-    public Splash getSplash() {
-        return splash;
+        jTextField1.putClientProperty("JTextField.placeholderText", "Username");
+        jPasswordField1.putClientProperty("JTextField.placeholderText", "Password");
     }
 
     public void setSplash(Splash splash) {
@@ -241,7 +249,7 @@ public class Login extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        getSplash().setThemeSelection();        
+        login();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
@@ -261,4 +269,69 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+    void login() {
+        User user = validateUser();
+        if (splash != null && user != null) {
+            try {
+                ResultSet result = Mysql.execute("SELECT * FROM `system`");
+                if (result.next()) {
+                    if (result.getString("theme") != null && !result.getString("theme").isBlank()) {
+                        if (result.getString("theme").equals(Pallet.Mode.DARK.name())) {
+                            Pallet.setDarkMode();
+                            FlatOneDarkIJTheme.setup();
+                            this.splash.setDashboard(user);
+                        } else if (result.getString("theme").equals(Pallet.Mode.LIGHT.name())) {
+                            Pallet.setLightMode();
+                            FlatLightLaf.setup();
+                            this.splash.setDashboard(user);
+                        }
+                        
+                    } else {
+                        //theme not set
+                        this.splash.setThemeSelection(user);
+                    }
+                }
+            } catch (SQLException ex) {
+                Splash.logger.log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+            }
+
+        }
+    }
+
+    private User validateUser() {
+        String username = jTextField1.getText();
+        String password = String.valueOf(jPasswordField1.getPassword());
+        if (username.isBlank()) {
+            JOptionPane.showMessageDialog(this.splash, "Please enter username");
+            jTextField1.grabFocus();
+        } else if (password.isBlank()) {
+            JOptionPane.showMessageDialog(this.splash, "Please enter password");
+            jPasswordField1.grabFocus();
+        } else {
+            try {
+                ResultSet resultSet = Mysql.execute("SELECT mobile,display_name,username,`password`,role_name"
+                        + " FROM `user` INNER JOIN user_role ON user.user_role_id = user_role.id"
+                        + " WHERE `username`='" + username + "' AND `password`='" + password + "'");
+                if (resultSet.next()) {
+                    User user = new User();
+                    user.setMobile(resultSet.getString("mobile"));
+                    user.setDisplay_name(resultSet.getString("display_name"));
+                    user.setUsername(resultSet.getString("username"));
+                    if (resultSet.getString("role_name").equals(Role.Admin.name())) {
+                        user.setRole(Role.Admin);
+                    } else {
+                        user.setRole(Role.Cashier);
+                    }
+                    return user;
+                } else {
+                    JOptionPane.showMessageDialog(this.splash, "Invalid username or password");
+                }
+            } catch (SQLException ex) {
+                Splash.logger.log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+            }
+        }
+        return null;
+    }
 }

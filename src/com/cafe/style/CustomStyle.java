@@ -12,8 +12,10 @@ import java.awt.Frame;
 import java.awt.Insets;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.UIManager;
 
 /**
@@ -23,8 +25,15 @@ import javax.swing.UIManager;
 public class CustomStyle {
 
     public static final int ROW_HEIGHT = 30;
+
     
-    public static Font getCustomFont(int size){
+     public static void setComponentBackground(Component... components) {
+        for (Component component : components) {
+            component.setBackground(Pallet.BG_CARD);
+        }
+    }
+
+    public static Font getCustomFont(int size) {
         return new Font("Segoe UI Semibold", 0, size);
     }
 
@@ -90,10 +99,21 @@ public class CustomStyle {
 
     public static void setButtonsTransparent(Component... buttons) {
         for (Component button : buttons) {
-            JButton b = (JButton) button;
-            b.setBackground(new Color(0, 0, 0, 0));
-            b.putClientProperty(FlatClientProperties.STYLE, "hoverBackground:"+Pallet.SIDEBAR_BUTTON);
+            button.setBackground(Pallet.BG_SIDEBAR_BUTTON);            
+            if (button.getClass().getName().equals(new JButton().getClass().getName())) {
+                JButton b = (JButton) button;               
+                b.putClientProperty(FlatClientProperties.STYLE, "hoverBackground:rgba(0,153,153, 30)");
+                b.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:"+Pallet.BG_SIDEBAR_BUTTON_SELECTION);
+            }else
+                
+            if(button.getClass().getName().equals(new JToggleButton().getClass().getName())){
+                JToggleButton tb = (JToggleButton)button;                                
+                tb.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:"+Pallet.BG_SIDEBAR_BUTTON_SELECTION);
+            }
+            
         }
 
     }
+
+  
 }
