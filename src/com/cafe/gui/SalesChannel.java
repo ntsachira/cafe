@@ -4,19 +4,60 @@
  */
 package com.cafe.gui;
 
-import com.cafe.model.SalesChannelInterface;
+import com.cafe.style.CustomStyle;
+import com.formdev.flatlaf.FlatClientProperties;
+import java.awt.Component;
+import javax.swing.SwingUtilities;
+import com.cafe.model.Theme;
+import java.awt.Dimension;
+import javax.swing.JPanel;
+import com.cafe.model.OrderType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Dell
  */
-public class SalesChannel extends javax.swing.JPanel implements SalesChannelInterface{
+public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme {
+
+    private Dashboard dashboard;
+
+    private Order orderType = Order.TAKE_AWAY;
+    private String activeCategory;
+    private int itemsPerRow = 6;
+    
+    private List<InvoiceItemCard> invoiceItems = new ArrayList<>();
+    
+    public Dashboard getDashboard() {
+        return dashboard;
+    }
+    public void setDashboard(Dashboard dashboard) {
+        this.dashboard = dashboard;
+    }
+    
+    public void setItemsPerRow(int itemsPerRow) {
+        this.itemsPerRow = itemsPerRow;
+        loadMenuItems();
+    }
+
+    public Order getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(Order orderType) {
+        this.orderType = orderType;
+    }
 
     /**
      * Creates new form SalesChannel
      */
     public SalesChannel() {
         initComponents();
+        loadCategories();
+        setCategory("All");
+        loadMenuItems();
+        setStyle();
     }
 
     /**
@@ -28,102 +69,453 @@ public class SalesChannel extends javax.swing.JPanel implements SalesChannelInte
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jToggleButton2 = new javax.swing.JToggleButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jToggleButton3 = new javax.swing.JToggleButton();
+        jToggleButton4 = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
+        categoryPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
 
-        setLayout(new java.awt.BorderLayout());
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 20));
+        setLayout(new java.awt.BorderLayout(10, 0));
 
         jPanel2.setPreferredSize(new java.awt.Dimension(500, 733));
-        jPanel2.setLayout(new java.awt.BorderLayout());
+        jPanel2.setLayout(new java.awt.BorderLayout(0, 10));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(500, 200));
+        jPanel1.setBackground(new java.awt.Color(43, 46, 56));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 10, 10));
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 148));
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
-        );
+        jPanel6.setOpaque(false);
+        jPanel6.setPreferredSize(new java.awt.Dimension(500, 80));
+        jPanel6.setLayout(new java.awt.GridLayout(3, 1));
+
+        jPanel7.setOpaque(false);
+        jPanel7.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel1.setText("TOTAL ITEMS");
+        jPanel7.add(jLabel1, java.awt.BorderLayout.LINE_START);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("0");
+        jPanel7.add(jLabel3, java.awt.BorderLayout.CENTER);
+
+        jPanel6.add(jPanel7);
+
+        jPanel8.setOpaque(false);
+        jPanel8.setLayout(new java.awt.BorderLayout());
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel2.setText("DISCOUNTS");
+        jPanel8.add(jLabel2, java.awt.BorderLayout.LINE_START);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("0");
+        jPanel8.add(jLabel4, java.awt.BorderLayout.CENTER);
+
+        jPanel6.add(jPanel8);
+
+        jPanel15.setOpaque(false);
+        jPanel15.setLayout(new java.awt.BorderLayout());
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel10.setText("BILL TOTAL");
+        jPanel15.add(jLabel10, java.awt.BorderLayout.LINE_START);
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("0");
+        jPanel15.add(jLabel11, java.awt.BorderLayout.CENTER);
+
+        jPanel6.add(jPanel15);
+
+        jPanel1.add(jPanel6, java.awt.BorderLayout.NORTH);
+
+        jPanel9.setOpaque(false);
+        jPanel9.setPreferredSize(new java.awt.Dimension(500, 40));
+        jPanel9.setLayout(new java.awt.BorderLayout());
+
+        jButton1.setBackground(new java.awt.Color(0, 153, 153));
+        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("PROCEED PAYMENT - Rs. 2500.00");
+        jButton1.setPreferredSize(new java.awt.Dimension(75, 48));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel9.add(jButton1, java.awt.BorderLayout.SOUTH);
+
+        jPanel1.add(jPanel9, java.awt.BorderLayout.CENTER);
 
         jPanel2.add(jPanel1, java.awt.BorderLayout.SOUTH);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jPanel3.setLayout(new java.awt.GridLayout(1, 4, 10, 0));
+
+        buttonGroup1.add(jToggleButton2);
+        jToggleButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jToggleButton2.setSelected(true);
+        jToggleButton2.setText("Take Away");
+        jToggleButton2.setBorderPainted(false);
+        jToggleButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jToggleButton2.setPreferredSize(new java.awt.Dimension(0, 60));
+        jToggleButton2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButton2ItemStateChanged(evt);
+            }
+        });
+        jPanel3.add(jToggleButton2);
+
+        buttonGroup1.add(jToggleButton1);
+        jToggleButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jToggleButton1.setText("Dine In");
+        jToggleButton1.setBorderPainted(false);
+        jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jToggleButton1.setPreferredSize(new java.awt.Dimension(0, 60));
+        jToggleButton1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButton1ItemStateChanged(evt);
+            }
+        });
+        jPanel3.add(jToggleButton1);
+
+        buttonGroup1.add(jToggleButton3);
+        jToggleButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jToggleButton3.setText("Pre Order");
+        jToggleButton3.setBorderPainted(false);
+        jToggleButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jToggleButton3.setPreferredSize(new java.awt.Dimension(0, 60));
+        jToggleButton3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButton3ItemStateChanged(evt);
+            }
+        });
+        jPanel3.add(jToggleButton3);
+
+        buttonGroup1.add(jToggleButton4);
+        jToggleButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jToggleButton4.setText("Reserve");
+        jToggleButton4.setBorderPainted(false);
+        jToggleButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jToggleButton4.setPreferredSize(new java.awt.Dimension(0, 60));
+        jToggleButton4.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButton4ItemStateChanged(evt);
+            }
+        });
+        jPanel3.add(jToggleButton4);
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.PAGE_START);
 
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 488, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 467, Short.MAX_VALUE)
-        );
-
+        jPanel4.setBackground(new java.awt.Color(43, 46, 56));
+        jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(jPanel4);
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         add(jPanel2, java.awt.BorderLayout.EAST);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 745, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 716, Short.MAX_VALUE)
-        );
+        jPanel5.setBackground(new java.awt.Color(43, 46, 56));
+        jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jPanel5.setLayout(new java.awt.BorderLayout(0, 10));
+
+        categoryPanel.setOpaque(false);
+        categoryPanel.setPreferredSize(new java.awt.Dimension(725, 140));
+        categoryPanel.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane2.setOpaque(false);
+
+        jPanel10.setBackground(new java.awt.Color(43, 46, 56));
+        jPanel10.setLayout(new java.awt.BorderLayout());
+
+        jPanel13.setBackground(new java.awt.Color(43, 46, 56));
+        jPanel13.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
+
+        jPanel12.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jPanel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel12.setPreferredSize(new java.awt.Dimension(120, 82));
+        jPanel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel12MouseClicked(evt);
+            }
+        });
+        jPanel12.setLayout(new java.awt.BorderLayout());
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("All");
+        jLabel5.setPreferredSize(new java.awt.Dimension(0, 30));
+        jPanel12.add(jLabel5, java.awt.BorderLayout.PAGE_START);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("20 items");
+        jLabel6.setPreferredSize(new java.awt.Dimension(0, 30));
+        jPanel12.add(jLabel6, java.awt.BorderLayout.PAGE_END);
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/meal-32.png"))); // NOI18N
+        jPanel12.add(jLabel7, java.awt.BorderLayout.CENTER);
+
+        jPanel13.add(jPanel12);
+
+        jPanel10.add(jPanel13, java.awt.BorderLayout.WEST);
+
+        jScrollPane2.setViewportView(jPanel10);
+
+        categoryPanel.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jLabel8.setText("Categories");
+        jLabel8.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel8.setPreferredSize(new java.awt.Dimension(37, 30));
+        categoryPanel.add(jLabel8, java.awt.BorderLayout.PAGE_START);
+
+        jPanel5.add(categoryPanel, java.awt.BorderLayout.NORTH);
+
+        jPanel11.setOpaque(false);
+        jPanel11.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jScrollPane3.setOpaque(false);
+
+        jPanel14.setLayout(new javax.swing.BoxLayout(jPanel14, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane3.setViewportView(jPanel14);
+
+        jPanel11.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jLabel9.setText("Menu Items (20)");
+        jLabel9.setPreferredSize(new java.awt.Dimension(45, 30));
+        jPanel11.add(jLabel9, java.awt.BorderLayout.NORTH);
+
+        jPanel5.add(jPanel11, java.awt.BorderLayout.CENTER);
 
         add(jPanel5, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
+        // TODO add your handling code here:
+        setCategory("All");
+    }//GEN-LAST:event_jPanel12MouseClicked
+
+    private void jToggleButton2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButton2ItemStateChanged
+        // TODO add your handling code here:
+        setOrderType(Order.TAKE_AWAY);
+    }//GEN-LAST:event_jToggleButton2ItemStateChanged
+
+    private void jToggleButton1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButton1ItemStateChanged
+        // TODO add your handling code here:
+        setOrderType(Order.DINE_IN);
+    }//GEN-LAST:event_jToggleButton1ItemStateChanged
+
+    private void jToggleButton3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButton3ItemStateChanged
+        // TODO add your handling code here:
+        setOrderType(Order.PRE_ORDER);
+    }//GEN-LAST:event_jToggleButton3ItemStateChanged
+
+    private void jToggleButton4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButton4ItemStateChanged
+        // TODO add your handling code here:
+        setOrderType(Order.RESERVE);
+    }//GEN-LAST:event_jToggleButton4ItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        openCheckout();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JPanel categoryPanel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JToggleButton jToggleButton4;
     // End of variables declaration//GEN-END:variables
 
+    private void openCheckout() {
+        switch (orderType) {
+            case TAKE_AWAY:
+                TakeAway takeAway = new TakeAway(this.dashboard, true);
+                takeAway.setTitle("Take Away Payment - Rs. 2500.00");
+                takeAway.setVisible(true);
+                break;
+            case DINE_IN:
+                DineIn dineIn = new DineIn(this.dashboard, true);
+                dineIn.setTitle("Dine In Payment - Rs. 2500.00");
+                dineIn.setVisible(true);
+                break;
+            case PRE_ORDER:
+                PreOrder preOrder = new PreOrder(this.dashboard, true);
+                preOrder.setTitle("Pre Order Payment - Rs. 2500.00");
+                preOrder.setVisible(true);
+                break;
+            case RESERVE:
+                Reservation reservation = new Reservation(dashboard, true);
+                reservation.setTitle("Table Reservation");
+                reservation.setVisible(true);
+                break;
+        }
+    }
+
+    public void loadMenuItems() {
+        jPanel14.removeAll();
+        int qty = 20;
+        int count = 0;
+        for (int i = 0; i < Math.ceil(qty / itemsPerRow) + 1; i++) {
+            ItemRow itemRow = new ItemRow();
+//            
+            for (int j = 0; j < itemsPerRow; j++) {
+                if (qty == count) {
+                    break;
+                }
+                ItemCard itemCard = new ItemCard();
+                if (itemsPerRow == 7) {
+                    itemCard.setMaximumSize(new Dimension(180, 200));
+                    itemCard.setPreferredSize(new Dimension(180, 200));
+                }
+                itemCard.setSalesChannel(this);
+                itemRow.add(itemCard);
+
+                count++;
+            }
+            jPanel14.add(itemRow);
+        }
+        jPanel14.updateUI();
+    }
+
     @Override
+    public void setStyle() {
+        setComponentTheme();
+    }
+
+    public void loadInvoiceItems(InvoiceItemCard invoiceItemCard) {        
+        invoiceItemCard.setSalesChannel(this);
+        invoiceItems.add(invoiceItemCard);
+        jPanel4.add(invoiceItemCard);
+        jPanel4.updateUI();
+    }
+
+    public void removeInvoiceItem(InvoiceItemCard invoiceItem) {
+        invoiceItems.remove(invoiceItem);
+        jPanel4.remove(invoiceItem);
+        jPanel4.updateUI();
+    }
+
+    public void setCategory(String category) {
+        this.activeCategory = category;
+        for (Component c : jPanel13.getComponents()) {
+            JPanel card = (JPanel) c;
+            card.putClientProperty(FlatClientProperties.STYLE, "border:5,5,5,5,#0000,0,50");
+        }
+        if (activeCategory.equals("All")) {
+            jPanel12.putClientProperty(FlatClientProperties.STYLE, "border:5,5,5,5,#00CCCC,1,50");
+        }
+    }
+
+    private void loadCategories() {
+        for (int i = 0; i < 5; i++) {
+            CategoryCard categoryCard = new CategoryCard();
+            categoryCard.setCategoryName("Rice");
+            categoryCard.setSalesChannel(this);
+            jPanel13.add(categoryCard);
+        }
+        SwingUtilities.updateComponentTreeUI(jPanel13);
+    }
+
+  
     public void saveInvoice() {
-        
+
     }
 
-    @Override
+    
     public void calculateBill() {
-        
+
+    }
+
+   
+    public void calculatePayment() {
+
     }
 
     @Override
-    public void calculatePayment() {
-       
+    public void setComponentTheme() {
+        CustomStyle.setComponentBackground(
+                jPanel4, jPanel5, jPanel1, jPanel13, jPanel10, jPanel14
+        );
+        CustomStyle.setButtonsTransparent(jPanel3.getComponents());
     }
 }

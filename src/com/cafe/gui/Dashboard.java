@@ -4,6 +4,8 @@
  */
 package com.cafe.gui;
 
+import com.cafe.model.Mysql;
+import com.cafe.model.Tabs;
 import com.cafe.style.CustomStyle;
 import com.cafe.style.Pallet;
 import com.formdev.flatlaf.FlatClientProperties;
@@ -13,6 +15,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -26,225 +29,77 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import com.cafe.model.Theme;
+import com.cafe.model.User;
+import com.cafe.model.UserRole;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Dell
  */
-public class Dashboard extends javax.swing.JFrame {
+public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
+    //components
+    private User user;
+    private String date = "";
+    
     private Sidebar sidebar;
     private SalesChannel salesChannel;
-
+    
     private JFreeChart salesChart;
     private JFreeChart categorySalesChart;
+    
+    private Tab activeTab;
+    
+    public User getUser() {
+        return user;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
+        loadSystemData();
+    }
+    
+    public void setActiveTab(Tab activeTab) {
+        this.activeTab = activeTab;
+        jLabel8.setText(arrangeTitle(this.activeTab.name()));
+    }
 
     /**
      * Creates new form Dashboard
      */
-    public Dashboard() {
+    public Dashboard(User user) {
+        if (user.getRole().equals(UserRole.Role.Cashier)) {
+            if (!this.isDisplayable()) {
+                this.setUndecorated(true);
+            }
+        } else {
+            
+        }
         initComponents();
-        setStyles();
+        setUser(user);
+        setStyle();
         setSidebar();
-        setCharts();
-
-        loadLimitedStock();    
-        loadTopSellingItems();
+        loadContentByUserRole();        
+        loadTodayInvoiceCount();
     }
     
-    private void setStyles(){
-        CustomStyle.setIcon(this);
-       
+    public String arrangeTitle(String tabName) {
+        String title = "";
+        for (String s : tabName.split("_")) {
+            title += s;
+            title += " ";
+        }
+        return title.toUpperCase().trim();
     }
     
-    private void loadTopSellingItems(){
-        for (int i = 0; i < 3; i++) {
-           Box box = new Box();
-            jPanel43.add(box); 
-        }
-        SwingUtilities.updateComponentTreeUI(jPanel43);
-    }
-
-    public SalesChannel getSalesChannel() {
-        return salesChannel;
-    }
-
-    public void setSalesChannel(SalesChannel salesChannel) {
-        this.salesChannel = salesChannel;
-    }
-
-    private void loadLimitedStock() {
-        for (int i = 0; i < 3; i++) {
-            jPanel45.add(new LimitedStockCard());
-        }
-        SwingUtilities.updateComponentTreeUI(jPanel45);
-    }
-
-    private void styleSideBarToggleButton() {
-        menuButton.setBackground(new Color(0, 0, 0, 20));
-        menuButton.putClientProperty(FlatClientProperties.STYLE, "hoverBackground: rgba(0,0,0,30)");
-    }
-
-    public void setComponentTheme() {
-        styleSideBarToggleButton();
-        setComponentBackground(
-                jPanel21, jPanel23, jPanel26, jPanel29, jPanel33, jPanel34, jPanel36, jPanel3,
-                jPanel40,jPanel46,jPanel42,jPanel41,jPanel39
-        );
-
-        //sales chart style
-        salesChart.setBackgroundPaint(Pallet.BG_CARD);        
-        CategoryPlot salesChartPlot = (CategoryPlot) salesChart.getPlot();
-        salesChartPlot.getDomainAxis().setTickLabelPaint(Pallet.FG_CHART);
-        salesChartPlot.getRangeAxis().setTickLabelPaint(Pallet.FG_CHART);
-        
-        //category sales chart style
-        categorySalesChart.setBackgroundPaint(Pallet.BG_CARD);
-        PiePlot categorySalesCartPlot = (PiePlot)categorySalesChart.getPlot();
-        categorySalesCartPlot.setLabelPaint(Pallet.FG_CHART);
-        categorySalesCartPlot.setLabelLinkPaint(Pallet.FG_CHART);
-        LegendTitle categorySalesCHartlegend = categorySalesChart.getLegend();
-        categorySalesCHartlegend.setItemPaint(Pallet.FG_CHART);
-
-        for (Component c : jPanel36.getComponents()) {
-            c.setBackground(Pallet.BG_CARD);
-        }
-
-        sidebar.addSidebarButtonStyle();
-        
-        //limited stock cards
-        for(Component panel : jPanel45.getComponents()){
-            panel.setBackground(Pallet.BG_CARD_PRODUCT);
-        }
-
-    }
-
-    private void setComponentBackground(Component... components) {
-        for (Component component : components) {
-            component.setBackground(Pallet.BG_CARD);
-        }
-    }
-
-    private void setCharts() {
-        setSalesChart();
-        setCategorySalesChart();
-    }
-
-    private void setCategorySalesChart() {
-        String[] categories = {"Apple", "Banana", "Orange", "Mango"};
-        double[] values = {50, 150, 110, 100};
-
-        categorySalesChart = createPieChart(categories, values);        
-        
-        ChartPanel chartPanel = new ChartPanel(categorySalesChart);
-        chartPanel.setBackground(Color.red);
-        
-        jPanel44.add(chartPanel);
-        SwingUtilities.updateComponentTreeUI(jPanel44);
-    }
-
-    private JFreeChart createPieChart(String[] categories, double[] values) {
-        DefaultPieDataset dataset = new DefaultPieDataset();
-        for (int i = 0; i < categories.length; i++) {
-            dataset.setValue(categories[i],values[i]);
-        }
-        JFreeChart pieChart = ChartFactory.createPieChart("",dataset,true,false,false);
-        PiePlot plot = (PiePlot) pieChart.getPlot();
-        plot.setBackgroundAlpha(0f);
-        plot.setShadowPaint(Pallet.TRANSPARENT);
-        plot.setLabelBackgroundPaint(Pallet.TRANSPARENT);
-        plot.setLabelShadowPaint(Pallet.TRANSPARENT);
-        plot.setLabelOutlinePaint(Pallet.TRANSPARENT);
-        plot.setLabelFont(CustomStyle.getCustomFont(14));        
-        
-        LegendTitle legend = pieChart.getLegend();
-        legend.setBackgroundPaint(Pallet.TRANSPARENT);
-        legend.setItemFont(CustomStyle.getCustomFont(14));        
-        
-        return pieChart;
-    }
-
-    private void setSalesChart() {
-        String[] categories = {"Apple", "Banana", "Orange", "Mango"};
-        double[] values = {100, 150, 80, 120};
-
-        salesChart = createBarChart(categories, values);
-        ChartPanel chartPanel = new ChartPanel(salesChart);
-
-        chartPanel1.add(chartPanel);
-        SwingUtilities.updateComponentTreeUI(chartPanel1);
-
-    }
-
-    private JFreeChart createBarChart(String[] x_values, double[] y_values) {
-
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for (int i = 0; i < x_values.length; i++) {
-            dataset.addValue(y_values[i], "", x_values[i]);
-        }
-
-        BarRenderer renderer = new BarRenderer();
-        renderer.setSeriesPaint(0, new Color(0, 153, 153));
-        renderer.setShadowVisible(false);
-
-        CategoryPlot plot = new CategoryPlot(dataset, new CategoryAxis(), new NumberAxis(), renderer);
-        plot.setBackgroundAlpha(0f); //set plot background transparent        
-
-        ValueAxis rangeAxis = plot.getRangeAxis();
-        rangeAxis.setTickLabelFont(CustomStyle.getCustomFont(13));
-
-        CategoryAxis domainAxis = plot.getDomainAxis();
-        domainAxis.setTickLabelFont(CustomStyle.getCustomFont(13));
-
-        return new JFreeChart("", null, plot, false);
-
-    }
-
-    private void setSidebar() {
-        sidebar = new Sidebar();
-        sidebar.setDashboard(this);
-        jPanel1.add(sidebar, BorderLayout.WEST);
-        SwingUtilities.updateComponentTreeUI(jPanel1);
-        System.out.println(sidebar.getWidth());
-    }
-
-    private void closeSidebar() {
-        new Thread(() -> {
-            for (int i = sidebar.getWidth(); i >= 0; i -= 5) {
-                sidebar.setPreferredSize(new Dimension(i, sidebar.getHeight()));
-                jPanel1.revalidate();
-                try {
-                    Thread.sleep(5);
-                } catch (InterruptedException ex) {
-                    status.setText("Sidebar closing is Interrupted");
-                }
-            }
-            menuButton.setIcon(new ImageIcon(getClass().getResource("/com/cafe/img/menu-32-green.png")));
-            menuButton.revalidate();
-        }).start();
-    }
-
-    private void openSidebar() {
-        new Thread(() -> {
-            for (int i = 0; i <= 255; i += 5) {
-                sidebar.setPreferredSize(new Dimension(i, sidebar.getHeight()));
-                jPanel1.revalidate();
-                try {
-                    Thread.sleep(5);
-                } catch (InterruptedException ex) {
-                    status.setText("Sidebar Opening is Interrupted");
-                }
-            }
-            menuButton.setIcon(new ImageIcon(getClass().getResource("/com/cafe/img/arro-24.png")));
-            menuButton.revalidate();
-        }).start();
-    }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -280,9 +135,9 @@ public class Dashboard extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
-        jPanel12 = new javax.swing.JPanel();
+        dashPanel = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
         chartPanel1 = new javax.swing.JPanel();
@@ -493,14 +348,14 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel1.add(jPanel4, java.awt.BorderLayout.PAGE_END);
 
-        jPanel6.setLayout(new java.awt.BorderLayout());
+        mainPanel.setLayout(new java.awt.BorderLayout());
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel6.add(jSeparator2, java.awt.BorderLayout.LINE_START);
+        mainPanel.add(jSeparator2, java.awt.BorderLayout.LINE_START);
 
-        jPanel12.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 20));
-        jPanel12.setPreferredSize(new java.awt.Dimension(1237, 700));
-        jPanel12.setLayout(new java.awt.BorderLayout(20, 0));
+        dashPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 20));
+        dashPanel.setPreferredSize(new java.awt.Dimension(1237, 700));
+        dashPanel.setLayout(new java.awt.BorderLayout(20, 0));
 
         jPanel16.setPreferredSize(new java.awt.Dimension(400, 300));
         jPanel16.setLayout(new java.awt.BorderLayout(0, 20));
@@ -549,7 +404,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel16.add(jPanel34, java.awt.BorderLayout.CENTER);
 
-        jPanel12.add(jPanel16, java.awt.BorderLayout.EAST);
+        dashPanel.add(jPanel16, java.awt.BorderLayout.EAST);
 
         jPanel17.setLayout(new java.awt.BorderLayout(0, 20));
 
@@ -796,6 +651,8 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel46.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 0, 0, 0));
         jPanel46.setLayout(new java.awt.BorderLayout(0, 5));
 
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
         jPanel39.setMinimumSize(new java.awt.Dimension(0, 0));
         jPanel39.setLayout(new java.awt.BorderLayout());
 
@@ -829,16 +686,28 @@ public class Dashboard extends javax.swing.JFrame {
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Date", "Discounts", "Total", "Cashier"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         jPanel40.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
@@ -854,16 +723,28 @@ public class Dashboard extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Date", "Total", "Payment Method", "Supplier"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane4.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+            jTable2.getColumnModel().getColumn(1).setResizable(false);
+            jTable2.getColumnModel().getColumn(2).setResizable(false);
+            jTable2.getColumnModel().getColumn(3).setResizable(false);
+            jTable2.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         jPanel41.add(jScrollPane4, java.awt.BorderLayout.CENTER);
 
@@ -875,11 +756,11 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel17.add(jPanel31, java.awt.BorderLayout.CENTER);
 
-        jPanel12.add(jPanel17, java.awt.BorderLayout.CENTER);
+        dashPanel.add(jPanel17, java.awt.BorderLayout.CENTER);
 
-        jPanel6.add(jPanel12, java.awt.BorderLayout.CENTER);
+        mainPanel.add(dashPanel, java.awt.BorderLayout.CENTER);
 
-        jPanel1.add(jPanel6, java.awt.BorderLayout.CENTER);
+        jPanel1.add(mainPanel, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -889,14 +770,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void menuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuButtonActionPerformed
         // TODO add your handling code here:
-
-        if (menuButton.isSelected()) {
-            closeSidebar();
-
-        } else {
-            openSidebar();
-
-        }
+        toggleSidebar();
     }//GEN-LAST:event_menuButtonActionPerformed
 
     /**
@@ -908,16 +782,17 @@ public class Dashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Pallet.setDarkMode();
-                Dashboard d = new Dashboard();
-                Pallet.setDashboard(d);
-
-                d.setComponentTheme();
-
-                d.setVisible(true);
+//                Pallet.setDarkMode();
+//                Dashboard d = new Dashboard(new User());
+//                Pallet.setDashboard(d);
+//
+//                d.setComponentTheme();
+//
+//                d.setVisible(true);
             }
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel card1;
@@ -925,6 +800,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel card3;
     private javax.swing.JPanel card4;
     private javax.swing.JPanel chartPanel1;
+    private javax.swing.JPanel dashPanel;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -962,7 +838,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
@@ -1001,7 +876,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel45;
     private javax.swing.JPanel jPanel46;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
@@ -1016,8 +890,379 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JPanel mainPanel;
     private javax.swing.JToggleButton menuButton;
     private javax.swing.JLabel status;
     // End of variables declaration//GEN-END:variables
 
+    @Override
+    public void setStyle() {
+        CustomStyle.setIcon(this);
+    }
+    
+    public void setDarkModeIcons() {
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/total_light.png")));
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/monthly_light.png")));
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/customer_light.png")));
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/menu_item_light.png")));
+    }
+    
+    public void setLightModeIcons() {
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/total_dark.png")));
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/monthly_dark.png")));
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/customer_dark.png")));
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/menu_item_dark.png")));
+    }
+    
+    private void toggleSidebar() {
+        if (menuButton.isSelected()) {
+            if (this.salesChannel != null) {
+                this.salesChannel.setItemsPerRow(7);
+            }
+            closeSidebar();
+        } else {
+            openSidebar();
+            if (this.salesChannel != null) {
+                this.salesChannel.setItemsPerRow(6);
+            }
+        }
+        
+    }
+    
+    private void loadTopSellingItems() {
+        try {
+            Mysql.execute("SELECT menu_invoice_item.menu_item_id,`name`,`image_path`,`price`,SUM(qty) AS `count` FROM invoice "
+                    + "INNER JOIN menu_invoice_item ON invoice.id = menu_invoice_item.invoice_id "
+                    + "INNER JOIN menu_item ON menu_invoice_item.menu_item_id = menu_item.id "
+                    + "INNER JOIN menu_spec ON menu_item.id = menu_spec.menu_item_id "
+                    + "GROUP BY menu_invoice_item.menu_item_id ORDER BY `count` DESC LIMIT 3");
+        } catch (SQLException ex) {
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (int i = 0; i < 3; i++) {
+            ItemCard box = new ItemCard();
+            box.setSoldQuantity(10);
+            box.setStyleforDashboard();
+            jPanel43.add(box);
+        }
+        SwingUtilities.updateComponentTreeUI(jPanel43);
+    }
+    
+    public SalesChannel getSalesChannel() {
+        return salesChannel;
+    }
+    
+    public void setSalesChannel(SalesChannel salesChannel) {
+        if (this.salesChannel == null) {
+            this.salesChannel = salesChannel;
+            this.salesChannel.setDashboard(this);
+        }
+        setMainPanel(this.salesChannel);
+        setActiveTab(Tab.Sales_Channel);
+    }
+    
+    public void setDashPanel() {
+        setMainPanel(dashPanel);
+        setActiveTab(Tab.Dashboard);
+    }
+    
+    private void setMainPanel(JPanel panel) {
+        mainPanel.remove(1);
+        mainPanel.add(panel);
+        SwingUtilities.updateComponentTreeUI(mainPanel);
+    }
+    
+    private void loadLimitedStock() {
+        for (int i = 0; i < 3; i++) {
+            jPanel45.add(new LimitedStockCard());
+        }
+        SwingUtilities.updateComponentTreeUI(jPanel45);
+    }
+    
+    private void styleSideBarToggleButton() {
+        menuButton.setBackground(new Color(0, 0, 0, 20));
+        menuButton.putClientProperty(FlatClientProperties.STYLE, "hoverBackground: rgba(0,0,0,30)");
+    }
+    
+    @Override
+    public void setComponentTheme() {
+        styleSideBarToggleButton();
+        sidebar.addSidebarButtonStyle();
+        
+        if (this.user != null && this.user.getRole().equals(UserRole.Role.Admin)) {
+            setDashPanelTheme();
+        }
+        
+        if (salesChannel != null) {
+            salesChannel.setComponentTheme();
+        }
+        
+    }
+    
+    private void setCharts() {
+        setSalesChart();
+        setCategorySalesChart();
+    }
+    
+    private void setCategorySalesChart() {
+        String[] categories = {"Apple", "Banana", "Orange", "Mango"};
+        double[] values = {50, 150, 110, 100};
+        
+        categorySalesChart = createPieChart(categories, values);
+        
+        ChartPanel chartPanel = new ChartPanel(categorySalesChart);
+        
+        jPanel44.add(chartPanel);
+        SwingUtilities.updateComponentTreeUI(jPanel44);
+    }
+    
+    private JFreeChart createPieChart(String[] categories, double[] values) {
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        for (int i = 0; i < categories.length; i++) {
+            dataset.setValue(categories[i], values[i]);
+        }
+        JFreeChart pieChart = ChartFactory.createPieChart("", dataset, true, false, false);
+        PiePlot plot = (PiePlot) pieChart.getPlot();
+        plot.setBackgroundAlpha(0f);
+        plot.setShadowPaint(Pallet.TRANSPARENT);
+        plot.setLabelBackgroundPaint(Pallet.TRANSPARENT);
+        plot.setLabelShadowPaint(Pallet.TRANSPARENT);
+        plot.setLabelOutlinePaint(Pallet.TRANSPARENT);
+        plot.setLabelFont(CustomStyle.getCustomFont(14));
+        
+        LegendTitle legend = pieChart.getLegend();
+        legend.setBackgroundPaint(Pallet.TRANSPARENT);
+        legend.setItemFont(CustomStyle.getCustomFont(14));
+        
+        return pieChart;
+    }
+    
+    private void setSalesChart() {
+        String[] categories = {"Apple", "Banana", "Orange", "Mango"};
+        double[] values = {100, 150, 80, 120};
+        
+        salesChart = createBarChart(categories, values);
+        ChartPanel chartPanel = new ChartPanel(salesChart);
+        
+        chartPanel1.add(chartPanel);
+        SwingUtilities.updateComponentTreeUI(chartPanel1);
+        
+    }
+    
+    private JFreeChart createBarChart(String[] x_values, double[] y_values) {
+        
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for (int i = 0; i < x_values.length; i++) {
+            dataset.addValue(y_values[i], "", x_values[i]);
+            
+        }
+        
+        BarRenderer renderer = new BarRenderer();
+        renderer.setSeriesPaint(0, new Color(0, 153, 153));
+        renderer.setShadowVisible(false);
+        
+        CategoryPlot plot = new CategoryPlot(dataset, new CategoryAxis(), new NumberAxis(), renderer);
+        plot.setBackgroundAlpha(0f); //set plot background transparent        
+
+        ValueAxis rangeAxis = plot.getRangeAxis();
+        rangeAxis.setTickLabelFont(CustomStyle.getCustomFont(13));
+        
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setTickLabelFont(CustomStyle.getCustomFont(13));
+        
+        return new JFreeChart("", null, plot, false);
+        
+    }
+    
+    private void setSidebar() {
+        sidebar = new Sidebar();
+        sidebar.setDashboard(this);
+        jPanel1.add(sidebar, BorderLayout.WEST);
+        SwingUtilities.updateComponentTreeUI(jPanel1);
+        System.out.println(sidebar.getWidth());
+    }
+    
+    private void closeSidebar() {
+        new Thread(() -> {
+            for (int i = sidebar.getWidth(); i >= 0; i -= 5) {
+                sidebar.setPreferredSize(new Dimension(i, sidebar.getHeight()));
+                jPanel1.revalidate();
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException ex) {
+                    status.setText("Sidebar closing is Interrupted");
+                }
+            }
+            menuButton.setIcon(new ImageIcon(getClass().getResource("/com/cafe/img/menu-32-green.png")));
+            menuButton.revalidate();
+        }).start();
+    }
+    
+    private void openSidebar() {
+        new Thread(() -> {
+            for (int i = 0; i <= 255; i += 5) {
+                sidebar.setPreferredSize(new Dimension(i, sidebar.getHeight()));
+                jPanel1.revalidate();
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException ex) {
+                    status.setText("Sidebar Opening is Interrupted");
+                }
+            }
+            menuButton.setIcon(new ImageIcon(getClass().getResource("/com/cafe/img/arro-24.png")));
+            menuButton.revalidate();
+        }).start();
+    }
+    
+    private void setDate() {
+        new Thread(() -> {
+            while (true) {
+                String newDate = new SimpleDateFormat("MMM d, y").format(new Date());
+                if (!date.equals(newDate)) {
+                    this.date = newDate;
+                    jLabel7.setText(this.date);
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Splash.logger.log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+    }
+    
+    private void loadSystemData() {
+        setDate();
+        try {
+            ResultSet result = Mysql.execute("SELECT * FROM `system`");
+            if (result.next()) {
+                jLabel5.setText(result.getString("name"));
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+        
+        jLabel2.setText(this.user.getRole().name() + ":");
+        jLabel1.setText(this.user.getDisplay_name());
+        
+    }
+    
+    public void loadContentByUserRole() {
+        if (user.getRole().equals(UserRole.Role.Cashier)) {
+            this.setExtendedState(MAXIMIZED_BOTH);
+            this.setResizable(false);
+            this.sidebar.setCashierContent();            
+            
+        } else {
+            setActiveTab(Tab.Dashboard);
+            loadDashboardContent();
+        }
+    }
+    
+    private void loadDashboardContent() {
+        setCharts();
+        loadLimitedStock();
+        loadTopSellingItems();        
+        setCardData();
+    }
+    
+    private void setDashPanelTheme() {
+        CustomStyle.setComponentBackground(
+                jPanel21, jPanel23, jPanel26, jPanel29, jPanel33, jPanel34, jPanel36, jPanel3,
+                jPanel40, jPanel46, jPanel42, jPanel41, jPanel39
+        );
+
+        //sales chart style
+        salesChart.setBackgroundPaint(Pallet.BG_CARD);
+        CategoryPlot salesChartPlot = (CategoryPlot) salesChart.getPlot();
+        if (Pallet.FG_CHART != null) {
+            salesChartPlot.getDomainAxis().setTickLabelPaint(Pallet.FG_CHART);
+            salesChartPlot.getRangeAxis().setTickLabelPaint(Pallet.FG_CHART);
+        }
+
+        //category sales chart style
+        categorySalesChart.setBackgroundPaint(Pallet.BG_CARD);
+        PiePlot categorySalesCartPlot = (PiePlot) categorySalesChart.getPlot();
+        if (Pallet.FG_CHART != null) {
+            categorySalesCartPlot.setLabelPaint(Pallet.FG_CHART);
+            categorySalesCartPlot.setLabelLinkPaint(Pallet.FG_CHART);
+        }
+        
+        LegendTitle categorySalesCHartlegend = categorySalesChart.getLegend();
+        if (Pallet.FG_CHART != null) {
+            categorySalesCHartlegend.setItemPaint(Pallet.FG_CHART);
+        }
+        
+        for (Component c : jPanel36.getComponents()) {
+            c.setBackground(Pallet.BG_CARD);
+        }
+
+        //limited stock cards
+        for (Component panel : jPanel45.getComponents()) {
+            panel.setBackground(Pallet.BG_CARD_PRODUCT);
+        }
+    }
+    
+    private void loadTodayInvoiceCount() {
+        try {
+            ResultSet resultset = Mysql.execute("SELECT COUNT(*) AS `invoice_count` FROM `invoice` "
+                    + "WHERE `date` = '" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "' AND "
+                    + "`user_mobile`='" + user.getMobile() + "'");
+            if (resultset.next()) {
+                jLabel4.setText(resultset.getString("invoice_count"));
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+    
+    private void setCardData() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
+        Date today = new Date();
+        try {
+            ResultSet resultset = Mysql.execute("SELECT SUM(total) AS `total_sales` FROM `invoice` ");
+            if (resultset.next()) {
+                jLabel10.setText("Rs. " + decimalFormat.format(resultset.getDouble("total_sales")));
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, "Card 1", ex);
+        }
+        
+        try {
+            ResultSet resultset = Mysql.execute("SELECT SUM(total) AS `total_sales` FROM `invoice` "
+                    + "WHERE `date` LIKE '" + new SimpleDateFormat("yyyy-MM").format(today) + "%'");
+            if (resultset.next()) {
+                jLabel18.setText("Rs. " + decimalFormat.format(resultset.getDouble("total_sales")));
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, "Card 2", ex);
+        }
+        
+        try {
+            ResultSet resultset = Mysql.execute("SELECT COUNT(*) AS `count` FROM `customer`");
+            if (resultset.next()) {
+                jLabel22.setText(resultset.getString("count"));
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, "Card 3", ex);
+        }
+        
+        try {
+            ResultSet resultset = Mysql.execute("SELECT COUNT(*) AS `count` FROM `menu_item`");
+            if (resultset.next()) {
+                jLabel26.setText(resultset.getString("count"));
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, "Card 4", ex);
+        }
+        
+        jLabel13.setText("Updated: " + date);
+        jLabel19.setText("Updated: " + date);
+        jLabel23.setText("Updated: " + date);
+        jLabel27.setText("Updated: " + date);
+    }
+    
 }

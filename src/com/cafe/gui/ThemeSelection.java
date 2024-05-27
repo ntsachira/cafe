@@ -4,9 +4,18 @@
  */
 package com.cafe.gui;
 
+import com.cafe.model.Mysql;
+import com.cafe.model.User;
 import com.cafe.style.Pallet;
+import com.cafe.style.Pallet.Mode;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.FlatDarkFlatIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -14,25 +23,26 @@ import javax.swing.JPanel;
  */
 public class ThemeSelection extends javax.swing.JFrame {
 
+    private User user;
     /**
      * Creates new form ThemeSelection
      */
-    public ThemeSelection() {
+    public ThemeSelection(User user) {
         initComponents();
         setSampleThemes();
-        
+        this.user = user;
     }
-    
-    private void setSampleThemes(){
+
+    private void setSampleThemes() {
         SampleTheme sample1 = new SampleTheme();
         sample1.setThemeSelection(this);
         sample1.setParentPanel(jPanel1);
         sample1.setDarkTheme();
-        
+
         SampleTheme sample2 = new SampleTheme();
         sample2.setParentPanel(jPanel2);
         sample2.setThemeSelection(this);
-        
+
         jPanel1.add(sample1.getRootPane());
         jPanel2.add(sample2.getRootPane());
     }
@@ -44,15 +54,32 @@ public class ThemeSelection extends javax.swing.JFrame {
     public JPanel getjPanel2() {
         return jPanel2;
     }
-    
-    private void setDashboard(){
-        
-        this.dispose();
-        Pallet.setDarkMode();
-        Dashboard d = new Dashboard();
-        Pallet.setDashboard(d);
+
+    private void setDashboard() {
+        this.dispose();   
+        updateTheme();
+        Dashboard d = new Dashboard(this.user);
+        Pallet.setDashboard(d);        
         d.setComponentTheme();
+        SwingUtilities.updateComponentTreeUI(d);
         d.setVisible(true);
+    }
+    
+    private void updateTheme(){
+        Mode mode = Mode.DARK;
+        if (lightButton.isSelected()) {
+            Pallet.setLightMode();
+            FlatLightLaf.setup();
+            mode = Mode.LIGHT;
+        } else {
+            FlatOneDarkIJTheme.setup();
+            Pallet.setDarkMode();
+        }
+        try {
+            Mysql.execute("UPDATE `system` SET `theme`= '"+mode.name()+"' ");
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -70,11 +97,11 @@ public class ThemeSelection extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        lightButton = new javax.swing.JRadioButton();
         jPanel7 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        darkButton = new javax.swing.JRadioButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
@@ -107,13 +134,13 @@ public class ThemeSelection extends javax.swing.JFrame {
         jPanel9.setPreferredSize(new java.awt.Dimension(612, 60));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("Default light");
-        jRadioButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jRadioButton1.setIconTextGap(50);
-        jPanel9.add(jRadioButton1, java.awt.BorderLayout.CENTER);
+        buttonGroup1.add(lightButton);
+        lightButton.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        lightButton.setSelected(true);
+        lightButton.setText("Default light");
+        lightButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lightButton.setIconTextGap(50);
+        jPanel9.add(lightButton, java.awt.BorderLayout.CENTER);
 
         jPanel6.add(jPanel9, java.awt.BorderLayout.PAGE_END);
 
@@ -131,18 +158,18 @@ public class ThemeSelection extends javax.swing.JFrame {
         jPanel8.setPreferredSize(new java.awt.Dimension(612, 60));
         jPanel8.setLayout(new java.awt.BorderLayout());
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jRadioButton2.setText("Dark Dimmed");
-        jRadioButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jRadioButton2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jRadioButton2.setIconTextGap(50);
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(darkButton);
+        darkButton.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        darkButton.setText("Dark Dimmed");
+        darkButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        darkButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        darkButton.setIconTextGap(50);
+        darkButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                darkButtonActionPerformed(evt);
             }
         });
-        jPanel8.add(jRadioButton2, java.awt.BorderLayout.CENTER);
+        jPanel8.add(darkButton, java.awt.BorderLayout.CENTER);
 
         jPanel7.add(jPanel8, java.awt.BorderLayout.PAGE_END);
 
@@ -206,9 +233,9 @@ public class ThemeSelection extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+    private void darkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_darkButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+    }//GEN-LAST:event_darkButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -224,13 +251,14 @@ public class ThemeSelection extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ThemeSelection().setVisible(true);
+                new ThemeSelection(new User()).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton darkButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -245,7 +273,6 @@ public class ThemeSelection extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton lightButton;
     // End of variables declaration//GEN-END:variables
 }
