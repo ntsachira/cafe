@@ -8,6 +8,7 @@ import com.cafe.style.CustomStyle;
 import com.cafe.style.Pallet;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -422,6 +423,7 @@ public class Sidebar extends javax.swing.JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
