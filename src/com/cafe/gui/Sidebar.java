@@ -8,7 +8,11 @@ import com.cafe.style.CustomStyle;
 import com.cafe.style.Pallet;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -16,6 +20,15 @@ import javax.swing.SwingUtilities;
  * @author Dell
  */
 public class Sidebar extends javax.swing.JPanel {
+
+    public void setWindowName(String windowName) {
+        this.windowName = windowName;
+    }
+
+    public String getWindowName(JLabel label) {
+        label.setText(windowName);
+        return windowName;
+    }
 
     private Dashboard dashboard;
 
@@ -25,10 +38,14 @@ public class Sidebar extends javax.swing.JPanel {
     public Sidebar() {
         initComponents();
 
-       
     }
     
-    public void addSidebarButtonStyle(){
+    public Sidebar(JPanel container) {
+        initComponents();
+//easy way to add components to dashboard but i still chose the hardest way 😌
+    }
+
+    public void addSidebarButtonStyle() {
         CustomStyle.setButtonsTransparent(jPanel1.getComponents());
         CustomStyle.setButtonsTransparent(jPanel2.getComponents());
     }
@@ -50,7 +67,27 @@ public class Sidebar extends javax.swing.JPanel {
         }
 
     }
-    
+
+    private void reset() {
+        jButton2.setEnabled(true);
+        jButton3.setEnabled(true);
+        jButton4.setEnabled(true);
+        jButton5.setEnabled(true);
+        jButton6.setEnabled(true);
+        jButton7.setEnabled(true);
+        jButton8.setEnabled(true);
+        jButton9.setEnabled(true);
+        jButton10.setEnabled(true);
+        jButton11.setEnabled(true);
+        jButton12.setEnabled(true);
+        jButton13.setEnabled(true);
+        jButton14.setEnabled(true);
+        jButton15.setEnabled(true);
+        jButton16.setEnabled(true);
+        jButton17.setEnabled(true);
+        jButton18.setEnabled(true);
+    }
+
     private void openSalesChannel() {
         if (getDashboard().getSalesChannel() != null) {
             if (!getDashboard().getSalesChannel().isVisible()) {
@@ -418,15 +455,51 @@ public class Sidebar extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        JPanel parentPanel = (JPanel) this.getParent();
+        BorderLayout parentLoyout = (BorderLayout) parentPanel.getLayout();
+        Component centerComponent = parentLoyout.getLayoutComponent(BorderLayout.CENTER);
+        if (centerComponent instanceof JPanel) {
+            JPanel centerChildPanel = (JPanel) centerComponent;
+            centerChildPanel.removeAll();
+            centerChildPanel.add(new MenuMangement(), BorderLayout.CENTER);
+            reset();
+            jButton4.setEnabled(false);
+            this.windowName = "Menu Management";
+            SwingUtilities.updateComponentTreeUI(parentPanel);
+        }
+//        parentPanel.removeAll();
+//        parentPanel.add(new MenuMangement(), BorderLayout.CENTER);
+//        SwingUtilities.updateComponentTreeUI(parentPanel);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        JPanel parentPanel = (JPanel) this.getParent();
+        BorderLayout parentLoyout = (BorderLayout) parentPanel.getLayout();
+        Component centerComponent = parentLoyout.getLayoutComponent(BorderLayout.CENTER);
+        if (centerComponent instanceof JPanel) {
+            JPanel centerChildPanel = (JPanel) centerComponent;
+            centerChildPanel.removeAll();
+            centerChildPanel.add(new StockManagement(), BorderLayout.CENTER);
+            reset();
+            jButton5.setEnabled(false);
+            this.windowName = "Stock Management";
+            SwingUtilities.updateComponentTreeUI(parentPanel);
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+       JPanel parentPanel = (JPanel) this.getParent();
+        BorderLayout parentLoyout = (BorderLayout) parentPanel.getLayout();
+        Component centerComponent = parentLoyout.getLayoutComponent(BorderLayout.CENTER);
+        if (centerComponent instanceof JPanel) {
+            JPanel centerChildPanel = (JPanel) centerComponent;
+            centerChildPanel.removeAll();
+            centerChildPanel.add(new DiscountManagement(), BorderLayout.CENTER);
+            reset();
+            jButton6.setEnabled(false);
+            this.windowName = "Discounts";
+            SwingUtilities.updateComponentTreeUI(parentPanel);
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -442,7 +515,18 @@ public class Sidebar extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+        JPanel parentPanel = (JPanel) this.getParent();
+        BorderLayout parentLoyout = (BorderLayout) parentPanel.getLayout();
+        Component centerComponent = parentLoyout.getLayoutComponent(BorderLayout.CENTER);
+        if (centerComponent instanceof JPanel) {
+            JPanel centerChildPanel = (JPanel) centerComponent;
+            centerChildPanel.removeAll();
+            centerChildPanel.add(new UserManagement(), BorderLayout.CENTER);
+            reset();
+            jButton10.setEnabled(false);
+            this.windowName = "User Management";
+            SwingUtilities.updateComponentTreeUI(parentPanel);
+        }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -450,7 +534,18 @@ public class Sidebar extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
+        JPanel parentPanel = (JPanel) this.getParent();
+        BorderLayout parentLoyout = (BorderLayout) parentPanel.getLayout();
+        Component centerComponent = parentLoyout.getLayoutComponent(BorderLayout.CENTER);
+        if (centerComponent instanceof JPanel) {
+            JPanel centerChildPanel = (JPanel) centerComponent;
+            centerChildPanel.removeAll();
+            centerChildPanel.add(new UserActivityManagement(), BorderLayout.CENTER);
+            reset();
+            jButton12.setEnabled(false);
+            this.windowName = "User Activity";
+            SwingUtilities.updateComponentTreeUI(parentPanel);
+        }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
@@ -458,11 +553,33 @@ public class Sidebar extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
+        JPanel parentPanel = (JPanel) this.getParent();
+        BorderLayout parentLoyout = (BorderLayout) parentPanel.getLayout();
+        Component centerComponent = parentLoyout.getLayoutComponent(BorderLayout.CENTER);
+        if (centerComponent instanceof JPanel) {
+            JPanel centerChildPanel = (JPanel) centerComponent;
+            centerChildPanel.removeAll();
+            centerChildPanel.add(new CategoryManagement(), BorderLayout.CENTER);
+            reset();
+            jButton14.setEnabled(false);
+            this.windowName = "Manage Categories";
+            SwingUtilities.updateComponentTreeUI(parentPanel);
+        }
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        // TODO add your handling code here:
+        JPanel parentPanel = (JPanel) this.getParent();
+        BorderLayout parentLoyout = (BorderLayout) parentPanel.getLayout();
+        Component centerComponent = parentLoyout.getLayoutComponent(BorderLayout.CENTER);
+        if (centerComponent instanceof JPanel) {
+            JPanel centerChildPanel = (JPanel) centerComponent;
+            centerChildPanel.removeAll();
+            centerChildPanel.add(new DamageStockManagement(), BorderLayout.CENTER);
+            reset();
+            jButton15.setEnabled(false);
+            this.windowName = "Damaged Stock";
+            SwingUtilities.updateComponentTreeUI(parentPanel);
+        }
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
@@ -480,7 +597,7 @@ public class Sidebar extends javax.swing.JPanel {
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         // TODO add your handling code here:
-       Pallet.toggleTheme();
+        Pallet.toggleTheme();
     }//GEN-LAST:event_jButton19ActionPerformed
 
 
@@ -508,4 +625,6 @@ public class Sidebar extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    private String windowName = "Dashboard";
 }

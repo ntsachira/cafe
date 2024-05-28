@@ -30,6 +30,8 @@ public class MenuMangement extends javax.swing.JPanel {
         initComponents();
         loadCategories();
         loadMenuItems("");
+//        System.out.println(itemPanelNumber);
+//        System.out.println(totalPanels);
 
     }
 
@@ -109,7 +111,7 @@ public class MenuMangement extends javax.swing.JPanel {
             jButton7.setEnabled(false);
         }
 
-        if (itemPanelNumber >= totalPanels) {
+        if (itemPanelNumber == totalPanels) {
             jButton6.setEnabled(false);
         } else {
             jButton6.setEnabled(true);
@@ -260,14 +262,18 @@ public class MenuMangement extends javax.swing.JPanel {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         itemPanelNumber--;
-        itemPlagarism();
+//        itemPlagarism();
         loadMenuItems("");
+//        System.out.println("ipn " + itemPanelNumber);
+//        System.out.println("tpn " + totalPanels);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         itemPanelNumber++;
-        itemPlagarism();
+//        itemPlagarism();
         loadMenuItems("");
+//        System.out.println("ipn " + itemPanelNumber);
+//        System.out.println("tpn " + totalPanels);
     }//GEN-LAST:event_jButton6ActionPerformed
 
 

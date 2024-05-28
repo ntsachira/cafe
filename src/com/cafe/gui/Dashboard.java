@@ -209,6 +209,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel1.add(sidebar, BorderLayout.WEST);
         SwingUtilities.updateComponentTreeUI(jPanel1);
         System.out.println(sidebar.getWidth());
+        sidebar.getWindowName(jLabel8);
     }
 
     private void closeSidebar() {
@@ -502,6 +503,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel6.add(jSeparator2, java.awt.BorderLayout.LINE_START);
 
         jPanel12.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 20));
+        jPanel12.setName(""); // NOI18N
         jPanel12.setLayout(new java.awt.BorderLayout(20, 0));
 
         jPanel16.setPreferredSize(new java.awt.Dimension(400, 300));
