@@ -78,10 +78,12 @@ public class Reservation extends javax.swing.JDialog {
         jPanel2.setPreferredSize(new java.awt.Dimension(702, 40));
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
 
+        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setPreferredSize(new java.awt.Dimension(150, 22));
         jPanel2.add(jComboBox1);
 
+        jComboBox2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(jComboBox2);
 
@@ -132,10 +134,14 @@ public class Reservation extends javax.swing.JDialog {
 
         jPanel8.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField1.setToolTipText("Enter customer mobile");
+        jTextField1.setPreferredSize(new java.awt.Dimension(64, 40));
         jPanel8.add(jTextField1);
 
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField2.setToolTipText("Enter party size");
+        jTextField2.setPreferredSize(new java.awt.Dimension(64, 40));
         jPanel8.add(jTextField2);
 
         jPanel7.add(jPanel8);
@@ -144,6 +150,7 @@ public class Reservation extends javax.swing.JDialog {
 
         jDateChooser1.setToolTipText("Select Date");
         jDateChooser1.setDateFormatString("yyyy-MM-dd");
+        jDateChooser1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jDateChooser1.setMinSelectableDate(new Date());
         jPanel9.add(jDateChooser1);
 

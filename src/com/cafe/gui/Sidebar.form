@@ -591,7 +591,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/com/cafe/img/59311_statistics_statistics.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Analytics &amp; Reports"/>
+                    <Property name="text" type="java.lang.String" value="Reports"/>
                     <Property name="borderPainted" type="boolean" value="false"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Hand Cursor"/>

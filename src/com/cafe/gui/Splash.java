@@ -5,17 +5,13 @@
 package com.cafe.gui;
 
 import com.cafe.model.User;
-import com.cafe.model.UserRole;
 import com.cafe.style.CustomStyle;
 import com.cafe.style.Pallet;
 import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme;
 import java.awt.Dimension;
-import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.*;
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**

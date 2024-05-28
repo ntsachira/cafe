@@ -16,6 +16,15 @@ public class CategoryCard extends javax.swing.JPanel {
 
     private SalesChannel salesChannel;
     private String categoryName;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getCategoryName() {
         return categoryName;

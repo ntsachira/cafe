@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
@@ -38,7 +35,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -49,24 +45,40 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     //components
     private User user;
     private String date = "";
-    
+
     private Sidebar sidebar;
     private SalesChannel salesChannel;
-    
+    private ReservationManagement reservationManagement;
+
     private JFreeChart salesChart;
     private JFreeChart categorySalesChart;
-    
+
     private Tab activeTab;
-    
+    private PreorderManagement preorderManagement;
+    private Reports report;
+    private RegisterSupplier registerSupplier;
+    private CustomerRegistration customerRegistration;
+    private GRN grn;
+    private PurchaseOrder purchaseOrder;
+    private Settings settings;
+    private TableManagement tableManagement;
+    private MenuMangement menuMangement;
+    private StockManagement stockManagement;
+    private DiscountManagement discountManagement;
+    private UserManagement userManagement;
+    private UserActivityManagement userActivityManagement;
+    private CategoryManagement categoryManagement;
+    private DamageStockManagement damageStockManagement;
+
     public User getUser() {
         return user;
     }
-    
+
     public void setUser(User user) {
         this.user = user;
         loadSystemData();
     }
-    
+
     public void setActiveTab(Tab activeTab) {
         this.activeTab = activeTab;
         jLabel8.setText(arrangeTitle(this.activeTab.name()));
@@ -81,16 +93,16 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
                 this.setUndecorated(true);
             }
         } else {
-            
+
         }
         initComponents();
         setUser(user);
         setStyle();
         setSidebar();
-        loadContentByUserRole();        
+        loadContentByUserRole();
         loadTodayInvoiceCount();
     }
-    
+
     public String arrangeTitle(String tabName) {
         String title = "";
         for (String s : tabName.split("_")) {
@@ -99,7 +111,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         }
         return title.toUpperCase().trim();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -899,21 +911,21 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     public void setStyle() {
         CustomStyle.setIcon(this);
     }
-    
+
     public void setDarkModeIcons() {
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/total_light.png")));
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/monthly_light.png")));
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/customer_light.png")));
         jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/menu_item_light.png")));
     }
-    
+
     public void setLightModeIcons() {
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/total_dark.png")));
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/monthly_dark.png")));
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/customer_dark.png")));
         jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/menu_item_dark.png")));
     }
-    
+
     private void toggleSidebar() {
         if (menuButton.isSelected()) {
             if (this.salesChannel != null) {
@@ -926,96 +938,255 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
                 this.salesChannel.setItemsPerRow(6);
             }
         }
-        
+
     }
-    
+
     private void loadTopSellingItems() {
         try {
-            Mysql.execute("SELECT menu_invoice_item.menu_item_id,`name`,`image_path`,`price`,SUM(qty) AS `count` FROM invoice "
+            ResultSet resultset = Mysql.execute("SELECT menu_invoice_item.menu_item_id,`name`,`image_path`,menu_invoice_item.selling_price AS `price`"
+                    + ",SUM(qty) AS `count` FROM invoice "
                     + "INNER JOIN menu_invoice_item ON invoice.id = menu_invoice_item.invoice_id "
                     + "INNER JOIN menu_item ON menu_invoice_item.menu_item_id = menu_item.id "
                     + "INNER JOIN menu_spec ON menu_item.id = menu_spec.menu_item_id "
                     + "GROUP BY menu_invoice_item.menu_item_id ORDER BY `count` DESC LIMIT 3");
+
+            while (resultset.next()) {
+                ItemCard item = new ItemCard();
+                item.setSoldQuantity(resultset.getInt("count"));
+                item.setPrice(resultset.getDouble("price"));
+                item.setItemName(resultset.getString("name"));
+                item.setStyleforDashboard();
+                jPanel43.add(item);
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+            Splash.logger.log(Level.SEVERE, null, ex);
         }
-        for (int i = 0; i < 3; i++) {
-            ItemCard box = new ItemCard();
-            box.setSoldQuantity(10);
-            box.setStyleforDashboard();
-            jPanel43.add(box);
-        }
-        SwingUtilities.updateComponentTreeUI(jPanel43);
+        jPanel43.updateUI();
     }
-    
+
     public SalesChannel getSalesChannel() {
         return salesChannel;
     }
+
+    public void setDamagedStock() {
+        if (this.damageStockManagement  == null) {
+            DamageStockManagement damageStockManagement = new DamageStockManagement();
+            this.damageStockManagement = damageStockManagement;
+            this.damageStockManagement.setDashboard(this);
+        }
+        setMainPanel(this.damageStockManagement);
+        setActiveTab(Tab.Damaged_Stock);
+    }
+    public void setCategoryManagement() {
+        if (this.categoryManagement  == null) {
+            CategoryManagement categoryManagement = new CategoryManagement();
+            this.categoryManagement = categoryManagement;
+            this.categoryManagement.setDashboard(this);
+        }
+        setMainPanel(this.categoryManagement);
+        setActiveTab(Tab.Manage_Categories);
+    }
+    public void setUserAvtivity() {
+        if (this.userActivityManagement  == null) {
+            UserActivityManagement userActivityManagement = new UserActivityManagement();
+            this.userActivityManagement = userActivityManagement;
+            this.userActivityManagement.setDashboard(this);
+        }
+        setMainPanel(this.userActivityManagement);
+        setActiveTab(Tab.User_Activity);
+    }
+    public void setDiscount() {
+        if (this.discountManagement  == null) {
+            DiscountManagement discountManagement = new DiscountManagement();
+            this.discountManagement = discountManagement;
+            this.discountManagement.setDashboard(this);
+        }
+        setMainPanel(this.discountManagement);
+        setActiveTab(Tab.Discounts);
+    }
+    public void setUserManagement() {
+        if (this.userManagement  == null) {
+            UserManagement userManagement = new UserManagement();
+            this.userManagement = userManagement;
+            this.userManagement.setDashboard(this);
+        }
+        setMainPanel(this.userManagement);
+        setActiveTab(Tab.User_Management);
+    }
+    public void setStockManagement() {
+        if (this.stockManagement  == null) {
+            StockManagement stockManagement = new StockManagement();
+            this.stockManagement = stockManagement;
+            this.stockManagement.setDashboard(this);
+        }
+        setMainPanel(this.stockManagement);
+        setActiveTab(Tab.Stock_Management);
+    }
     
-    public void setSalesChannel(SalesChannel salesChannel) {
+    public void setMenuManagement() {
+        if (this.menuMangement  == null) {
+            MenuMangement menuMangement = new MenuMangement();
+            this.menuMangement = menuMangement;
+            this.menuMangement.setDashboard(this);
+        }
+        setMainPanel(this.menuMangement);
+        setActiveTab(Tab.Menu_Management);
+    }
+    
+    public void setTableManagement() {
+        if (this.tableManagement  == null) {
+            TableManagement tableManagement = new TableManagement();
+            this.tableManagement = tableManagement;
+            this.tableManagement.setDashboard(this);
+        }
+        setMainPanel(this.tableManagement);
+        setActiveTab(Tab.Table_Management);
+    }
+    
+    public void setSettings() {
+        if (this.settings == null) {
+            Settings settings = new Settings();
+            this.settings = settings;
+            this.settings.setDashboard(this);
+        }
+        setMainPanel(this.settings);
+        setActiveTab(Tab.Settings);
+    }
+    
+    public void setPurchaseOrder() {
+        if (this.purchaseOrder == null) {
+            PurchaseOrder purchaseOrder = new PurchaseOrder();
+            this.purchaseOrder = purchaseOrder;
+            this.purchaseOrder.setDashboard(this);
+        }
+        setMainPanel(this.purchaseOrder);
+        setActiveTab(Tab.Purchase_Order);
+    }
+    
+    public void setGrn() {
+        if (this.grn == null) {
+            GRN grn = new GRN();
+            this.grn = grn;
+            this.grn.setDashboard(this);
+        }
+        setMainPanel(this.grn);
+        setActiveTab(Tab.GRN);
+    }
+    
+    public void setCustomerRegistration() {
+        if (this.customerRegistration == null) {
+            CustomerRegistration customerRegistration = new CustomerRegistration();
+            this.customerRegistration = customerRegistration;
+            this.customerRegistration.setDashboard(this);
+        }
+        setMainPanel(this.customerRegistration);
+        setActiveTab(Tab.Customer_Management);
+    }
+    
+    public void setSupplierRegistration() {
+        if (this.registerSupplier == null) {
+            RegisterSupplier registerSupplier = new RegisterSupplier();
+            this.registerSupplier = registerSupplier;
+            this.registerSupplier.setDashboard(this);
+        }
+        setMainPanel(this.registerSupplier);
+        setActiveTab(Tab.Supplier_Management);
+    }
+    public void setReport() {
+        if (this.report == null) {
+            Reports reports = new Reports();
+            this.report = reports;
+            this.report.setDashboard(this);
+        }
+        setMainPanel(this.report);
+        setActiveTab(Tab.Analytics_AndReports);
+    }
+
+    public void setPreorderManagement() {
+        if (this.preorderManagement == null) {
+            PreorderManagement preorderManagement = new PreorderManagement();
+            this.preorderManagement = preorderManagement;
+            this.preorderManagement.setDashboard(this);
+        }
+        setMainPanel(this.preorderManagement);
+        setActiveTab(Tab.Pre_Orders);
+    }
+
+    public void setReservationManagement() {
+        if (this.reservationManagement == null) {
+            ReservationManagement reservationManagement = new ReservationManagement();
+            this.reservationManagement = reservationManagement;
+            this.reservationManagement.setDashboard(this);
+        }
+        setMainPanel(this.reservationManagement);
+        setActiveTab(Tab.Reservations);
+    }
+
+    public void setSalesChannel() {
         if (this.salesChannel == null) {
+            SalesChannel salesChannel = new SalesChannel();
             this.salesChannel = salesChannel;
             this.salesChannel.setDashboard(this);
         }
         setMainPanel(this.salesChannel);
         setActiveTab(Tab.Sales_Channel);
     }
-    
+
     public void setDashPanel() {
         setMainPanel(dashPanel);
         setActiveTab(Tab.Dashboard);
     }
-    
+
     private void setMainPanel(JPanel panel) {
         mainPanel.remove(1);
         mainPanel.add(panel);
         SwingUtilities.updateComponentTreeUI(mainPanel);
     }
-    
+
     private void loadLimitedStock() {
         for (int i = 0; i < 3; i++) {
             jPanel45.add(new LimitedStockCard());
         }
         SwingUtilities.updateComponentTreeUI(jPanel45);
     }
-    
+
     private void styleSideBarToggleButton() {
         menuButton.setBackground(new Color(0, 0, 0, 20));
         menuButton.putClientProperty(FlatClientProperties.STYLE, "hoverBackground: rgba(0,0,0,30)");
     }
-    
+
     @Override
     public void setComponentTheme() {
         styleSideBarToggleButton();
         sidebar.addSidebarButtonStyle();
-        
+
         if (this.user != null && this.user.getRole().equals(UserRole.Role.Admin)) {
             setDashPanelTheme();
         }
-        
+
         if (salesChannel != null) {
             salesChannel.setComponentTheme();
         }
-        
+
     }
-    
+
     private void setCharts() {
         setSalesChart();
         setCategorySalesChart();
     }
-    
+
     private void setCategorySalesChart() {
         String[] categories = {"Apple", "Banana", "Orange", "Mango"};
         double[] values = {50, 150, 110, 100};
-        
+
         categorySalesChart = createPieChart(categories, values);
-        
+
         ChartPanel chartPanel = new ChartPanel(categorySalesChart);
-        
+
         jPanel44.add(chartPanel);
         SwingUtilities.updateComponentTreeUI(jPanel44);
     }
-    
+
     private JFreeChart createPieChart(String[] categories, double[] values) {
         DefaultPieDataset dataset = new DefaultPieDataset();
         for (int i = 0; i < categories.length; i++) {
@@ -1029,51 +1200,51 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         plot.setLabelShadowPaint(Pallet.TRANSPARENT);
         plot.setLabelOutlinePaint(Pallet.TRANSPARENT);
         plot.setLabelFont(CustomStyle.getCustomFont(14));
-        
+
         LegendTitle legend = pieChart.getLegend();
         legend.setBackgroundPaint(Pallet.TRANSPARENT);
         legend.setItemFont(CustomStyle.getCustomFont(14));
-        
+
         return pieChart;
     }
-    
+
     private void setSalesChart() {
         String[] categories = {"Apple", "Banana", "Orange", "Mango"};
         double[] values = {100, 150, 80, 120};
-        
+
         salesChart = createBarChart(categories, values);
         ChartPanel chartPanel = new ChartPanel(salesChart);
-        
+
         chartPanel1.add(chartPanel);
         SwingUtilities.updateComponentTreeUI(chartPanel1);
-        
+
     }
-    
+
     private JFreeChart createBarChart(String[] x_values, double[] y_values) {
-        
+
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (int i = 0; i < x_values.length; i++) {
             dataset.addValue(y_values[i], "", x_values[i]);
-            
+
         }
-        
+
         BarRenderer renderer = new BarRenderer();
         renderer.setSeriesPaint(0, new Color(0, 153, 153));
         renderer.setShadowVisible(false);
-        
+
         CategoryPlot plot = new CategoryPlot(dataset, new CategoryAxis(), new NumberAxis(), renderer);
         plot.setBackgroundAlpha(0f); //set plot background transparent        
 
         ValueAxis rangeAxis = plot.getRangeAxis();
         rangeAxis.setTickLabelFont(CustomStyle.getCustomFont(13));
-        
+
         CategoryAxis domainAxis = plot.getDomainAxis();
         domainAxis.setTickLabelFont(CustomStyle.getCustomFont(13));
-        
+
         return new JFreeChart("", null, plot, false);
-        
+
     }
-    
+
     private void setSidebar() {
         sidebar = new Sidebar();
         sidebar.setDashboard(this);
@@ -1081,7 +1252,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         SwingUtilities.updateComponentTreeUI(jPanel1);
         System.out.println(sidebar.getWidth());
     }
-    
+
     private void closeSidebar() {
         new Thread(() -> {
             for (int i = sidebar.getWidth(); i >= 0; i -= 5) {
@@ -1097,7 +1268,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             menuButton.revalidate();
         }).start();
     }
-    
+
     private void openSidebar() {
         new Thread(() -> {
             for (int i = 0; i <= 255; i += 5) {
@@ -1113,7 +1284,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             menuButton.revalidate();
         }).start();
     }
-    
+
     private void setDate() {
         new Thread(() -> {
             while (true) {
@@ -1131,7 +1302,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             }
         }).start();
     }
-    
+
     private void loadSystemData() {
         setDate();
         try {
@@ -1143,31 +1314,31 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             Splash.logger.log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
-        
+
         jLabel2.setText(this.user.getRole().name() + ":");
         jLabel1.setText(this.user.getDisplay_name());
-        
+
     }
-    
+
     public void loadContentByUserRole() {
         if (user.getRole().equals(UserRole.Role.Cashier)) {
             this.setExtendedState(MAXIMIZED_BOTH);
             this.setResizable(false);
-            this.sidebar.setCashierContent();            
-            
+            this.sidebar.setCashierContent();
+
         } else {
             setActiveTab(Tab.Dashboard);
             loadDashboardContent();
         }
     }
-    
+
     private void loadDashboardContent() {
         setCharts();
         loadLimitedStock();
-        loadTopSellingItems();        
+        loadTopSellingItems();
         setCardData();
     }
-    
+
     private void setDashPanelTheme() {
         CustomStyle.setComponentBackground(
                 jPanel21, jPanel23, jPanel26, jPanel29, jPanel33, jPanel34, jPanel36, jPanel3,
@@ -1189,12 +1360,12 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             categorySalesCartPlot.setLabelPaint(Pallet.FG_CHART);
             categorySalesCartPlot.setLabelLinkPaint(Pallet.FG_CHART);
         }
-        
+
         LegendTitle categorySalesCHartlegend = categorySalesChart.getLegend();
         if (Pallet.FG_CHART != null) {
             categorySalesCHartlegend.setItemPaint(Pallet.FG_CHART);
         }
-        
+
         for (Component c : jPanel36.getComponents()) {
             c.setBackground(Pallet.BG_CARD);
         }
@@ -1204,7 +1375,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             panel.setBackground(Pallet.BG_CARD_PRODUCT);
         }
     }
-    
+
     private void loadTodayInvoiceCount() {
         try {
             ResultSet resultset = Mysql.execute("SELECT COUNT(*) AS `invoice_count` FROM `invoice` "
@@ -1218,7 +1389,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             ex.printStackTrace();
         }
     }
-    
+
     private void setCardData() {
         DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
         Date today = new Date();
@@ -1230,7 +1401,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         } catch (SQLException ex) {
             Splash.logger.log(Level.SEVERE, "Card 1", ex);
         }
-        
+
         try {
             ResultSet resultset = Mysql.execute("SELECT SUM(total) AS `total_sales` FROM `invoice` "
                     + "WHERE `date` LIKE '" + new SimpleDateFormat("yyyy-MM").format(today) + "%'");
@@ -1240,7 +1411,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         } catch (SQLException ex) {
             Splash.logger.log(Level.SEVERE, "Card 2", ex);
         }
-        
+
         try {
             ResultSet resultset = Mysql.execute("SELECT COUNT(*) AS `count` FROM `customer`");
             if (resultset.next()) {
@@ -1249,7 +1420,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         } catch (SQLException ex) {
             Splash.logger.log(Level.SEVERE, "Card 3", ex);
         }
-        
+
         try {
             ResultSet resultset = Mysql.execute("SELECT COUNT(*) AS `count` FROM `menu_item`");
             if (resultset.next()) {
@@ -1258,11 +1429,11 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         } catch (SQLException ex) {
             Splash.logger.log(Level.SEVERE, "Card 4", ex);
         }
-        
+
         jLabel13.setText("Updated: " + date);
         jLabel19.setText("Updated: " + date);
         jLabel23.setText("Updated: " + date);
         jLabel27.setText("Updated: " + date);
     }
-    
+
 }

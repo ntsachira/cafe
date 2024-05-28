@@ -1,19 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package com.cafe.gui;
 
+import com.cafe.model.Mysql;
 import com.cafe.style.CustomStyle;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Component;
-import javax.swing.SwingUtilities;
 import com.cafe.model.Theme;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import com.cafe.model.OrderType;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  *
@@ -23,19 +24,44 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
 
     private Dashboard dashboard;
 
+    private int totalItems;
+    private double billTotal;
+    private double totalDiscount;
+
     private Order orderType = Order.TAKE_AWAY;
-    private String activeCategory;
+    private String activeCategory = "";
+
+    public String getActiveCategory() {
+        return activeCategory;
+    }
     private int itemsPerRow = 6;
-    
+
     private List<InvoiceItemCard> invoiceItems = new ArrayList<>();
-    
+
+    public int getTotalItems() {
+        return totalItems;
+    }
+
+    public void setTotalItems(int totalItems) {
+        this.totalItems = totalItems;
+    }
+
+    public double getTotalDiscount() {
+        return totalDiscount;
+    }
+
+    public void setTotalDiscount(double totalDiscount) {
+        this.totalDiscount = totalDiscount;
+    }
+
     public Dashboard getDashboard() {
         return dashboard;
     }
+
     public void setDashboard(Dashboard dashboard) {
         this.dashboard = dashboard;
     }
-    
+
     public void setItemsPerRow(int itemsPerRow) {
         this.itemsPerRow = itemsPerRow;
         loadMenuItems();
@@ -55,7 +81,7 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
     public SalesChannel() {
         initComponents();
         loadCategories();
-        setCategory("All");
+        setCategory("");
         loadMenuItems();
         setStyle();
     }
@@ -338,7 +364,7 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
 
     private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
         // TODO add your handling code here:
-        setCategory("All");
+        setCategory("");
     }//GEN-LAST:event_jPanel12MouseClicked
 
     private void jToggleButton2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButton2ItemStateChanged
@@ -433,28 +459,82 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
 
     public void loadMenuItems() {
         jPanel14.removeAll();
-        int qty = 20;
-        int count = 0;
-        for (int i = 0; i < Math.ceil(qty / itemsPerRow) + 1; i++) {
-            ItemRow itemRow = new ItemRow();
-//            
-            for (int j = 0; j < itemsPerRow; j++) {
-                if (qty == count) {
-                    break;
-                }
-                ItemCard itemCard = new ItemCard();
-                if (itemsPerRow == 7) {
-                    itemCard.setMaximumSize(new Dimension(180, 200));
-                    itemCard.setPreferredSize(new Dimension(180, 200));
-                }
-                itemCard.setSalesChannel(this);
-                itemRow.add(itemCard);
+        try {
 
-                count++;
+            ResultSet resultset = Mysql.execute("SELECT menu_item.id,menu_item.name,menu_item_category.name AS `category`,brand.name AS `brand`,menu_spec.price AS `price`"
+                    + "FROM menu_item INNER JOIN menu_spec ON menu_item.id = menu_spec.menu_item_id "
+                    + "INNER JOIN menu_item_category ON menu_item_category.id = menu_item.menu_item_category_id "
+                    + "INNER JOIN brand ON menu_item.brand_id = brand.id WHERE menu_item_category.name LIKE '" + this.activeCategory + "%'");
+
+            ResultSet resultsetDirect = Mysql.execute("SELECT menu_item.id,menu_item.name,menu_item_category.name AS `category`,brand.name AS `brand`,"
+                    + "direct_selling_stock.selling_price AS `price`"
+                    + "FROM menu_item INNER JOIN direct_selling_stock ON direct_selling_stock.menu_item_id = menu_item.id "
+                    + "INNER JOIN menu_item_category ON menu_item_category.id = menu_item.menu_item_category_id "
+                    + "INNER JOIN brand ON menu_item.brand_id = brand.id WHERE menu_item_category.name LIKE '" + this.activeCategory + "%'");
+
+            boolean hasNext = resultset.next();
+
+            if (hasNext) {
+                System.out.println("ok");
+                while (hasNext) {
+                    ItemRow itemRow = new ItemRow();
+
+                    for (int j = 0; j < itemsPerRow; j++) {
+                        if (!hasNext) {
+                            break;
+                        }
+
+                        ItemCard item = new ItemCard();
+                        item.setId(resultset.getInt("menu_item.id"));
+                        item.setItemName(resultset.getString("menu_item.name"));
+                        item.setPrice(resultset.getDouble("price"));
+                        if (itemsPerRow == 7) {
+                            item.setMaximumSize(new Dimension(180, 200));
+                            item.setPreferredSize(new Dimension(180, 200));
+                        }
+                        item.setSalesChannel(this);
+                        itemRow.add(item);
+
+                        hasNext = resultset.next();
+                    }
+                    jPanel14.add(itemRow);
+                }
             }
-            jPanel14.add(itemRow);
+
+            hasNext = resultsetDirect.next();
+
+            if (hasNext) {
+                System.out.println("ok");
+                while (hasNext) {
+                    ItemRow itemRow = new ItemRow();
+
+                    for (int j = 0; j < itemsPerRow; j++) {
+                        if (!hasNext) {
+                            break;
+                        }
+
+                        ItemCard item = new ItemCard();
+                        item.setId(resultsetDirect.getInt("menu_item.id"));
+                        item.setItemName(resultsetDirect.getString("menu_item.name"));
+                        item.setPrice(resultsetDirect.getDouble("price"));
+                        if (itemsPerRow == 7) {
+                            item.setMaximumSize(new Dimension(180, 200));
+                            item.setPreferredSize(new Dimension(180, 200));
+                        }
+                        item.setSalesChannel(this);
+                        itemRow.add(item);
+
+                        hasNext = resultsetDirect.next();
+                    }
+                    jPanel14.add(itemRow);
+                }
+            }
+            jPanel14.updateUI();
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
-        jPanel14.updateUI();
+
     }
 
     @Override
@@ -462,16 +542,18 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         setComponentTheme();
     }
 
-    public void loadInvoiceItems(InvoiceItemCard invoiceItemCard) {        
+    public void loadInvoiceItems(InvoiceItemCard invoiceItemCard) {
         invoiceItemCard.setSalesChannel(this);
         invoiceItems.add(invoiceItemCard);
         jPanel4.add(invoiceItemCard);
+        calculateBill();
         jPanel4.updateUI();
     }
 
     public void removeInvoiceItem(InvoiceItemCard invoiceItem) {
         invoiceItems.remove(invoiceItem);
         jPanel4.remove(invoiceItem);
+        calculateBill();
         jPanel4.updateUI();
     }
 
@@ -481,32 +563,56 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
             JPanel card = (JPanel) c;
             card.putClientProperty(FlatClientProperties.STYLE, "border:5,5,5,5,#0000,0,50");
         }
-        if (activeCategory.equals("All")) {
+        if (activeCategory.equals("")) {
             jPanel12.putClientProperty(FlatClientProperties.STYLE, "border:5,5,5,5,#00CCCC,1,50");
         }
+        loadMenuItems();
     }
 
     private void loadCategories() {
-        for (int i = 0; i < 5; i++) {
-            CategoryCard categoryCard = new CategoryCard();
-            categoryCard.setCategoryName("Rice");
-            categoryCard.setSalesChannel(this);
-            jPanel13.add(categoryCard);
+        try {
+            ResultSet resultset = Mysql.execute("SELECT * FROM `menu_item_category`");
+            while (resultset.next()) {
+                CategoryCard categoryCard = new CategoryCard();
+                categoryCard.setCategoryName(resultset.getString("name"));
+                categoryCard.setId(resultset.getInt("id"));
+                categoryCard.setSalesChannel(this);
+                jPanel13.add(categoryCard);
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
         }
-        SwingUtilities.updateComponentTreeUI(jPanel13);
+
+        jPanel13.updateUI();
     }
 
-  
     public void saveInvoice() {
 
     }
 
-    
     public void calculateBill() {
+        int itemCount = 0;
+        double totalBill = 0;
+        double totalDiscount = 0;
+        Iterator<InvoiceItemCard> iterator = invoiceItems.iterator();
 
+        while (iterator.hasNext()) {
+            InvoiceItemCard item = iterator.next();
+            itemCount+= item.getQuantity();
+            totalBill += item.getTotal();
+            totalDiscount += item.getDiscount();
+        }
+        
+        this.totalItems = itemCount;
+        this.totalDiscount = totalDiscount;
+        this.billTotal = totalBill;
+        
+        jLabel3.setText(String.valueOf(itemCount));
+        jLabel4.setText(String.valueOf(totalDiscount));
+        jLabel11.setText(String.valueOf(totalBill));
+        jButton1.setText("PROCEED PAYMENT - Rs. "+totalBill);
     }
 
-   
     public void calculatePayment() {
 
     }

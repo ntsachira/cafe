@@ -42,7 +42,7 @@ public class ItemCard extends javax.swing.JPanel {
 
     public void setPrice(double price) {
         this.price = price;
-        jLabel2.setText(String.valueOf(price));
+        jLabel2.setText("Rs. "+String.valueOf(price));
     }
     
 
@@ -157,7 +157,7 @@ public class ItemCard extends javax.swing.JPanel {
         if(this.salesChannel != null){
             QuantitySelector quantitySelector = new QuantitySelector(this.salesChannel.getDashboard(), true);
             quantitySelector.setSalesChannel(this.salesChannel);
-            quantitySelector.setMenuItem(this);
+            quantitySelector.setMenuItem(this);            
             quantitySelector.setVisible(true);
         }
     }//GEN-LAST:event_formMouseClicked

@@ -41,13 +41,21 @@ public class InvoiceItemCard extends javax.swing.JPanel {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
         jButton2.setText(String.valueOf(quantity));
     }
     
     public void setTotal(Double total){
         jLabel2.setText(String.valueOf(total));
+    }
+    
+    public double getTotal(){
+        return Double.parseDouble(jLabel2.getText());
+    }
+    
+    public double getDiscount(){
+        return 0;
     }
     
 
