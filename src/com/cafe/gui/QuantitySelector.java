@@ -1,17 +1,20 @@
-
 package com.cafe.gui;
+
+import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.util.logging.Level;
 
 public class QuantitySelector extends javax.swing.JDialog {
 
     private SalesChannel salesChannel;
-    private int quantity = 1;
+    private String quantity = "1";
 
     private ItemCard menuItem;
 
     public ItemCard getMenuItem() {
         return menuItem;
     }
- 
+
     public void setMenuItem(ItemCard menuItem) {
         this.menuItem = menuItem;
         jLabel1.setText(this.salesChannel.getActiveCategory());
@@ -31,7 +34,6 @@ public class QuantitySelector extends javax.swing.JDialog {
         initComponents();
     }
 
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -44,8 +46,9 @@ public class QuantitySelector extends javax.swing.JDialog {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -75,25 +78,34 @@ public class QuantitySelector extends javax.swing.JDialog {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Quantity");
 
-        jFormattedTextField1.setText("1");
-        jFormattedTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jFormattedTextField1.setPreferredSize(new java.awt.Dimension(143, 40));
-        jFormattedTextField1.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                jFormattedTextField1MouseWheelMoved(evt);
-            }
-        });
-
-        jButton1.setBackground(new java.awt.Color(0, 153, 153));
+        jButton1.setBackground(new java.awt.Color(77, 120, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("ADD ITEM");
+        jButton1.setBorderPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(90, 40));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton2.setText("1");
+        jButton2.setPreferredSize(new java.awt.Dimension(75, 40));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jButton2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton2KeyPressed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setText("...");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -103,13 +115,14 @@ public class QuantitySelector extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -119,8 +132,10 @@ public class QuantitySelector extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addGap(11, 11, 11)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -133,20 +148,21 @@ public class QuantitySelector extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        addItem();
+        if(addItem())
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jFormattedTextField1MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jFormattedTextField1MouseWheelMoved
-        // TODO add your handling code here:       
-        quantity += evt.getWheelRotation();
+    private void jButton2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton2KeyPressed
+        // TODO add your handling code here:
+        validateAndSetPayementInput(evt);
 
-        if (quantity < 1) {
-            quantity = 1;
-        }
+    }//GEN-LAST:event_jButton2KeyPressed
 
-        jFormattedTextField1.setText("" + quantity);
-    }//GEN-LAST:event_jFormattedTextField1MouseWheelMoved
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        jButton2.setText("");
+        quantity="";
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -192,23 +208,71 @@ public class QuantitySelector extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
 
-    private void addItem() {
-        InvoiceItemCard invoiceItem = new InvoiceItemCard();
-        invoiceItem.setQuantity(quantity);
-        invoiceItem.setItemName(menuItem.getItemName());
-        invoiceItem.setPrice(menuItem.getPrice());
-        invoiceItem.setTotal(quantity * menuItem.getPrice());
-        this.salesChannel.loadInvoiceItems(invoiceItem);
+    private boolean addItem() {
+        if (quantity.isBlank()) {
+            setWarningStatus("Please Enter a quantity to add");
+            return false;
+        } else {            
+            InvoiceItemCard invoiceItem = new InvoiceItemCard();
+            invoiceItem.setQuantity(Integer.parseInt(quantity));
+            invoiceItem.setItemName(menuItem.getItemName());
+            invoiceItem.setPrice(menuItem.getPrice());
+            invoiceItem.setTotal(Integer.parseInt(quantity) * menuItem.getPrice());
+            invoiceItem.setDiscount(menuItem.getDiscount());
+            invoiceItem.setId(menuItem.getId());
+            invoiceItem.setBrand(menuItem.getBrand());
+            this.salesChannel.loadInvoiceItems(invoiceItem);
+            return true;
+        }
+    }
+
+    private void validateAndSetPayementInput(KeyEvent evt) {
+        String key = String.valueOf(evt.getKeyChar());
+        if (key.matches("[0-9]")) {
+            quantity += key;
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+            if (quantity.length() > 1) {
+                quantity = quantity.substring(0, quantity.length() - 1);
+            } else {
+                quantity = "";
+            }
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+            quantity = "";
+        }
+
+        if (quantity.isBlank()) {
+            jButton2.setText("0");
+        } else {
+            jButton2.setText(quantity);
+        }
+    }
+    
+    public void setWarningStatus(String systemStatus) {
+        jLabel5.setText(systemStatus);
+        jLabel5.setForeground(Color.red);
+        new Thread(() -> {
+            try {
+                Thread.sleep(5000);
+                jLabel5.setText("");
+            } catch (InterruptedException ex) {
+                Splash.logger.log(Level.SEVERE, "Thread interupption", ex);
+            }
+        }).start();
     }
 }

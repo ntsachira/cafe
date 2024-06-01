@@ -1,13 +1,10 @@
 
 package com.cafe.gui;
 
-import com.cafe.style.Pallet;
 import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.ui.FlatBorder;
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javax.swing.ImageIcon;
 
 
 public class ItemCard extends javax.swing.JPanel {
@@ -17,14 +14,37 @@ public class ItemCard extends javax.swing.JPanel {
     private String itemName;
     private int id;
     private double price;
+    private double discount;
+    private String brand;
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setImage(String path){
+        if(!path.isBlank())
+        jImagePanel1.setImageIcon(new ImageIcon(getClass().getResource(path)));
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
 
     public String getItemName() {
-        return jLabel3.getText();
+        return itemName;
     }
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
-        jLabel3.setText(itemName);
+        jLabel3.setText("<html><center><p>"+itemName);
     }
 
     public int getId() {
@@ -35,8 +55,7 @@ public class ItemCard extends javax.swing.JPanel {
         this.id = id;
     }
 
-    public double getPrice() {
-        
+    public double getPrice() {        
         return Double.parseDouble(jLabel2.getText().split(" ")[1].trim());
     }
 
@@ -144,7 +163,7 @@ public class ItemCard extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        this.putClientProperty(FlatClientProperties.STYLE,"border:10,10,10,10,#00CCCC,1,50");
+        this.putClientProperty(FlatClientProperties.STYLE,"border:10,10,10,10,#4D78CC,1,50");
     }//GEN-LAST:event_formMouseEntered
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited

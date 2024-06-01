@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.*;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  *
@@ -162,10 +163,10 @@ public class Splash extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(992, 637));
 
-        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 204, 204), 1, true));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(77, 120, 204), 1, true));
         jPanel1.setLayout(new java.awt.BorderLayout(0, 10));
 
-        jPanel2.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel2.setBackground(new java.awt.Color(77, 120, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 30, 20, 30));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
@@ -186,19 +187,19 @@ public class Splash extends javax.swing.JFrame {
         jPanel3.setPreferredSize(new java.awt.Dimension(992, 100));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jProgressBar1.setForeground(new java.awt.Color(0, 153, 153));
+        jProgressBar1.setForeground(new java.awt.Color(77, 120, 204));
         jProgressBar1.setValue(20);
         jProgressBar1.setPreferredSize(new java.awt.Dimension(146, 30));
         jPanel3.add(jProgressBar1, java.awt.BorderLayout.SOUTH);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel2.setForeground(new java.awt.Color(77, 120, 204));
         jLabel2.setText("0%");
         jPanel3.add(jLabel2, java.awt.BorderLayout.EAST);
 
         jLabel3.setBackground(new java.awt.Color(0, 153, 153));
         jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel3.setForeground(new java.awt.Color(77, 120, 204));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Openning...");
         jPanel3.add(jLabel3, java.awt.BorderLayout.CENTER);
@@ -240,7 +241,7 @@ public class Splash extends javax.swing.JFrame {
     public static void main(String args[]) {
         /* Set the FlatDarkLaf look and feel */
         FlatLightLaf.setup();
-
+        UIManager.put( "ScrollBar.showButtons", true );
         CustomStyle.showRevealButton();
 
         /* Create and display the form */

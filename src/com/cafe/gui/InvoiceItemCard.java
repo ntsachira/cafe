@@ -1,31 +1,50 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package com.cafe.gui;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import javax.swing.SwingConstants;
 
-/**
- *
- * @author Dell
- */
 public class InvoiceItemCard extends javax.swing.JPanel {
 
     private SalesChannel salesChannel; 
     
-    private String ItemName;
+    private int id;
+    private String itemName;
     private double price;
-    private double quantity;    
+    private double quantity; 
+    private double discount;
+    private String brand;
 
-    public String getItemName() {
-        return ItemName;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setItemName(String ItemName) {
-        this.ItemName = ItemName;
-        jLabel1.setText(ItemName);        
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+        jLabel1.setText("<html><p>"+itemName);        
     }
 
     public double getPrice() {
@@ -41,7 +60,7 @@ public class InvoiceItemCard extends javax.swing.JPanel {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
         jButton2.setText(String.valueOf(quantity));
     }
@@ -52,13 +71,7 @@ public class InvoiceItemCard extends javax.swing.JPanel {
     
     public double getTotal(){
         return Double.parseDouble(jLabel2.getText());
-    }
-    
-    public double getDiscount(){
-        return 0;
-    }
-    
-
+    }       
     public void setSalesChannel(SalesChannel salesChannel) {
         this.salesChannel = salesChannel;
     }
@@ -110,16 +123,17 @@ public class InvoiceItemCard extends javax.swing.JPanel {
         jPanel1.add(jLabel1, java.awt.BorderLayout.LINE_START);
 
         jPanel2.setOpaque(false);
-        jPanel2.setLayout(new java.awt.GridLayout());
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 0, 5, 0));
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.BorderLayout(20, 0));
 
-        jButton2.setBackground(new java.awt.Color(0, 153, 153));
-        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jButton2.setBackground(new java.awt.Color(77, 120, 204));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("33");
+        jButton2.setBorderPainted(false);
         jButton2.setMargin(new java.awt.Insets(2, 3, 3, 3));
         jButton2.setPreferredSize(new java.awt.Dimension(40, 27));
         jPanel3.add(jButton2, java.awt.BorderLayout.LINE_END);
@@ -136,7 +150,7 @@ public class InvoiceItemCard extends javax.swing.JPanel {
         jPanel4.setLayout(new java.awt.BorderLayout(20, 0));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(204, 0, 51));
+        jButton1.setForeground(new java.awt.Color(77, 120, 204));
         jButton1.setText("X");
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);

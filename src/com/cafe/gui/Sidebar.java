@@ -6,6 +6,7 @@ package com.cafe.gui;
 
 import com.cafe.style.CustomStyle;
 import com.cafe.style.Pallet;
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Dimension;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
@@ -588,6 +589,7 @@ public class Sidebar extends javax.swing.JPanel {
 
         if (option == JOptionPane.YES_OPTION) {
             getDashboard().dispose();
+            FlatLightLaf.setup();
             new Splash().setVisible(true);
         }
     }
@@ -603,8 +605,9 @@ public class Sidebar extends javax.swing.JPanel {
 
         removeSidebarButtons(
                 jToggleButton1, jToggleButton17, jToggleButton6, jToggleButton7, jToggleButton9, jToggleButton10, jToggleButton11,
-                jToggleButton12, jToggleButton13, jToggleButton14, jToggleButton15
+                jToggleButton12, jToggleButton13, jToggleButton14
         );
+        jPanel2.remove(jToggleButton15);
         jPanel3.setPreferredSize(new Dimension((int) jPanel3.getPreferredSize().getWidth(), 800));
         jPanel1.setPreferredSize(new Dimension((int) jPanel1.getPreferredSize().getWidth(), 400));
         this.updateUI();

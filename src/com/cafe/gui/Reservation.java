@@ -4,15 +4,58 @@
  */
 package com.cafe.gui;
 
+import static com.cafe.gui.Dashboard.alignFrame;
+import com.cafe.model.Mysql;
+import com.cafe.style.CustomStyle;
 import com.cafe.style.Pallet;
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.Color;
+import java.awt.Component;
+import static java.awt.Component.LEFT_ALIGNMENT;
+import static java.awt.Component.RIGHT_ALIGNMENT;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import javax.swing.SwingUtilities;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author Dell
  */
 public class Reservation extends javax.swing.JDialog {
+
+    private SalesChannel.Payment paymentMethod = SalesChannel.Payment.Cash;
+    private HashMap<String, Integer> tableMap = new HashMap<>();
+    private SalesChannel salesChannel;
+
+    private String payment = "";
+    private String party = "";
+
+    public void setSalesChannel(SalesChannel salesChannel) {
+        this.salesChannel = salesChannel;
+    }
 
     /**
      * Creates new form Reservation
@@ -20,10 +63,9 @@ public class Reservation extends javax.swing.JDialog {
     public Reservation(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        FlatLightLaf.setup();
-        SwingUtilities.updateComponentTreeUI(this);
-        Pallet.ResetTheme();
-        setPlaceholders();
+        setStyle();
+        setupDateTimeComponents();
+        loadTableCategories();
     }
 
     /**
@@ -46,28 +88,39 @@ public class Reservation extends javax.swing.JDialog {
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
         jPanel7 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jTimeChooser1 = new lu.tudor.santec.jtimechooser.JTimeChooser();
-        jPanel10 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jPanel13 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
         jPanel3.setLayout(new java.awt.BorderLayout(0, 20));
@@ -76,19 +129,26 @@ public class Reservation extends javax.swing.JDialog {
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel2.setPreferredSize(new java.awt.Dimension(702, 40));
-        jPanel2.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select table type" }));
         jComboBox1.setPreferredSize(new java.awt.Dimension(150, 22));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
         jPanel2.add(jComboBox1);
 
         jComboBox2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select table" }));
+        jComboBox2.setToolTipText("Select table");
+        jComboBox2.setEnabled(false);
         jPanel2.add(jComboBox2);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Availability status");
+        jLabel2.setText("...");
         jPanel2.add(jLabel2);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.SOUTH);
@@ -101,67 +161,96 @@ public class Reservation extends javax.swing.JDialog {
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        jPanel5.setPreferredSize(new java.awt.Dimension(753, 140));
+        jPanel5.setPreferredSize(new java.awt.Dimension(753, 200));
         jPanel5.setLayout(new java.awt.BorderLayout(30, 0));
 
         jPanel6.setPreferredSize(new java.awt.Dimension(230, 180));
         jPanel6.setLayout(new java.awt.BorderLayout());
 
+        jPanel12.setPreferredSize(new java.awt.Dimension(230, 140));
+        jPanel12.setLayout(new java.awt.BorderLayout());
+
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Payment Method");
         jLabel3.setPreferredSize(new java.awt.Dimension(37, 30));
-        jPanel6.add(jLabel3, java.awt.BorderLayout.PAGE_START);
+        jPanel12.add(jLabel3, java.awt.BorderLayout.PAGE_START);
 
         jPanel11.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
         buttonGroup1.add(jToggleButton1);
         jToggleButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jToggleButton1.setSelected(true);
-        jToggleButton1.setText("Card");
+        jToggleButton1.setText("Cash");
+        jToggleButton1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButton1ItemStateChanged(evt);
+            }
+        });
         jPanel11.add(jToggleButton1);
 
         buttonGroup1.add(jToggleButton2);
         jToggleButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jToggleButton2.setText("Cash");
+        jToggleButton2.setText("Card");
+        jToggleButton2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButton2ItemStateChanged(evt);
+            }
+        });
         jPanel11.add(jToggleButton2);
 
-        jPanel6.add(jPanel11, java.awt.BorderLayout.CENTER);
+        jPanel12.add(jPanel11, java.awt.BorderLayout.CENTER);
+
+        jPanel6.add(jPanel12, java.awt.BorderLayout.NORTH);
 
         jPanel5.add(jPanel6, java.awt.BorderLayout.LINE_END);
 
         jPanel7.setPreferredSize(new java.awt.Dimension(553, 160));
-        jPanel7.setLayout(new java.awt.GridLayout(3, 1, 0, 10));
+        jPanel7.setLayout(new java.awt.BorderLayout(0, 10));
+
+        jPanel10.setLayout(new java.awt.GridLayout(2, 0, 0, 10));
 
         jPanel8.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField1.setToolTipText("Enter customer mobile");
         jTextField1.setPreferredSize(new java.awt.Dimension(64, 40));
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
         jPanel8.add(jTextField1);
 
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField2.setToolTipText("Enter party size");
-        jTextField2.setPreferredSize(new java.awt.Dimension(64, 40));
-        jPanel8.add(jTextField2);
+        jButton5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jButton5.setToolTipText("Enter Party size");
+        jButton5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton5KeyPressed(evt);
+            }
+        });
+        jPanel8.add(jButton5);
 
-        jPanel7.add(jPanel8);
+        jPanel10.add(jPanel8);
 
         jPanel9.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
         jDateChooser1.setToolTipText("Select Date");
         jDateChooser1.setDateFormatString("yyyy-MM-dd");
-        jDateChooser1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jDateChooser1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jDateChooser1.setMinSelectableDate(new Date());
         jPanel9.add(jDateChooser1);
 
+        jTimeChooser1.setBackground(new java.awt.Color(204, 204, 204));
+        jTimeChooser1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jTimeChooser1.setToolTipText("Select time");
+        jTimeChooser1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jTimeChooser1.setOpaque(true);
-        jTimeChooser1.setShowSeconds(false);
+        jTimeChooser1.setShowIcon(true);
         jPanel9.add(jTimeChooser1);
 
-        jPanel7.add(jPanel9);
+        jPanel10.add(jPanel9);
 
-        jPanel10.setLayout(new java.awt.BorderLayout());
+        jPanel7.add(jPanel10, java.awt.BorderLayout.NORTH);
 
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -170,62 +259,129 @@ public class Reservation extends javax.swing.JDialog {
         jTextArea1.setText("Enter any special request\n");
         jTextArea1.setToolTipText("Enter any special request");
         jTextArea1.setWrapStyleWord(true);
+        jTextArea1.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jTextArea1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextArea1FocusLost(evt);
+            }
+        });
+        jTextArea1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextArea1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTextArea1);
 
-        jPanel10.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        jPanel7.add(jPanel10);
+        jPanel7.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
 
         jPanel4.add(jPanel5, java.awt.BorderLayout.PAGE_START);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Advanced Payment");
+        jLabel4.setText("Payment");
 
-        jFormattedTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jFormattedTextField1.setPreferredSize(new java.awt.Dimension(143, 40));
-
+        jButton1.setBackground(new java.awt.Color(102, 102, 102));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Add Payment");
+        jButton1.setBorderPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(75, 40));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(0, 153, 153));
+        jButton2.setBackground(new java.awt.Color(77, 120, 204));
         jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Print bill");
         jButton2.setPreferredSize(new java.awt.Dimension(75, 40));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton3.setToolTipText("Enter payment");
+        jButton3.setPreferredSize(new java.awt.Dimension(75, 40));
+        jButton3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton3KeyPressed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel5.setText("...");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setText("Advanced Paid");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jLabel7.setText("0");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setText("Minimum Payable Amount");
+
+        jButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton4.setText("500.0");
+        jButton4.setPreferredSize(new java.awt.Dimension(75, 40));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addGap(45, 45, 45)
-                .addComponent(jLabel4)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -238,6 +394,78 @@ public class Reservation extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        if (this.salesChannel != null) {
+            this.salesChannel.setTakeAwayActive();
+        }
+    }//GEN-LAST:event_formWindowClosed
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+        loadTableList();
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jButton3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton3KeyPressed
+        // TODO add your handling code here:
+        validateAndSetPayementInput(evt);
+    }//GEN-LAST:event_jButton3KeyPressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        addPayment();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jToggleButton1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButton1ItemStateChanged
+        // TODO add your handling code here:
+        if (jToggleButton1.isSelected()) {
+            this.paymentMethod = SalesChannel.Payment.Cash;
+            setBillforCashPay();
+        }
+    }//GEN-LAST:event_jToggleButton1ItemStateChanged
+
+    private void jToggleButton2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButton2ItemStateChanged
+        // TODO add your handling code here:
+        if (jToggleButton2.isSelected()) {
+            this.paymentMethod = SalesChannel.Payment.Card;
+            setBillforCardPay();
+        }
+    }//GEN-LAST:event_jToggleButton2ItemStateChanged
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        setMinimumPayment();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        processPayment();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton5KeyPressed
+        // TODO add your handling code here:
+        validatePartySizeInput(evt);
+    }//GEN-LAST:event_jButton5KeyPressed
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
+        checkCustomerMobile();
+    }//GEN-LAST:event_jTextField1KeyReleased
+
+    private void jTextArea1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextArea1MouseClicked
+        // TODO add your handling code here:
+        if (jTextArea1.getText().trim().equals("Enter any special request")) {
+            jTextArea1.setText("");
+        }
+    }//GEN-LAST:event_jTextArea1MouseClicked
+
+    private void jTextArea1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextArea1FocusLost
+        // TODO add your handling code here:
+        if (jTextArea1.getText().isBlank()) {
+            jTextArea1.setText("Enter any special request");
+        }
+    }//GEN-LAST:event_jTextArea1FocusLost
 
     /**
      * @param args the command line arguments
@@ -285,17 +513,24 @@ public class Reservation extends javax.swing.JDialog {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private com.toedter.calendar.JDateChooser jDateChooser1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -308,15 +543,419 @@ public class Reservation extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private lu.tudor.santec.jtimechooser.JTimeChooser jTimeChooser1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     // End of variables declaration//GEN-END:variables
 
+    private void processPayment() {
+        if (Double.parseDouble(jLabel7.getText()) >= Double.parseDouble(jButton4.getText())) {
+            if (jComboBox1.getSelectedIndex() != 0) {
+                if (jComboBox2.getSelectedIndex() != 0) {
+                    if (!jTextField1.getText().isBlank()) {
+                        if (jTextField1.getText().length() == 10) {
+                            if (!jButton5.getText().isBlank() && !jButton5.getText().equals("0")) {
+                                if (jDateChooser1.getDate().after(new Date()) && jDateChooser1.getDate() != null) {
+                                    String[] split = jTimeChooser1.getTimeField().getText().split(":");
+                                    double time = Double.parseDouble(split[0]);
+                                    if (time > 9 && time < 20) {
+                                        if (checkTableWithTimeSlot()) {
+                                            if (saveBill()) {
+                                                this.salesChannel.getDashboard().setSuccessStatus("Bill saved successfully");
+                                            } else {
+                                                this.salesChannel.getDashboard().setWarningStatus("Error Saving the Bill! please contact admin");
+                                            }
+                                            this.salesChannel.resetInvoice();
+                                            this.dispose();
+                                        } else {
+                                            setWarningStatus("> Selected table is Reserved in that Time slot");
+                                        }
+                                    } else {
+                                        setWarningStatus("> Invalid order time, please Select between 9AM - 8PM");
+                                    }
+                                } else {
+                                    setWarningStatus("> Invalid order date, please change");
+                                }
+                            } else {
+                                setWarningStatus("Please enter Party size");
+                                setWarningBorder(jButton5);
+                            }
+                        } else {
+                            setWarningStatus("Please enter a valid mobile");
+                            setWarningBorder(jTextField1);
+                        }
+                    } else {
+                        setWarningStatus("Please enter Customer mobile");
+                        setWarningBorder(jTextField1);
+                    }
+                } else {
+                    setWarningStatus("Please select a table to continue");
+                }
+            } else {
+                setWarningStatus("Please select a table to continue");
+            }
+        } else {
+            setWarningStatus("> Low payment amount, add payment to continue");
+        }
+
+    }
+
+    private void setBillforCardPay() {
+        payment = jButton4.getText();
+        jLabel7.setText(payment);
+        jButton3.setText("");
+        jButton3.setEnabled(false);
+        jButton1.setEnabled(false);
+        addPayment();
+    }
+
+    private void setBillforCashPay() {
+        jButton3.setEnabled(true);
+        jButton1.setEnabled(true);
+    }
+
+    private void addPayment() {
+        if (payment.isBlank()) {
+            setWarningStatus("Warning: Enter payment amount to add");
+        } else {
+            jLabel7.setText(payment);
+            payment = "";
+            jButton3.setText("0");
+        }
+    }
+
+    public void setWarningStatus(String systemStatus) {
+         Toolkit.getDefaultToolkit().beep();
+        jLabel5.setText(systemStatus);
+        jLabel5.setForeground(Color.red);
+        new Thread(() -> {
+            try {
+                Thread.sleep(6000);
+                jLabel5.setText("");
+            } catch (InterruptedException ex) {
+                Splash.logger.log(Level.SEVERE, "Thread interupption", ex);
+                ex.printStackTrace();
+            }
+        }).start();
+    }
+
+    public void setSucessStatus(String systemStatus) {
+        jLabel5.setText(systemStatus);
+        jLabel5.setForeground(Color.GREEN);
+        new Thread(() -> {
+            try {
+                Thread.sleep(6000);
+                jLabel5.setText("");
+            } catch (InterruptedException ex) {
+                Splash.logger.log(Level.SEVERE, "Thread interupption", ex);
+                ex.printStackTrace();
+            }
+        }).start();
+    }
+
+    public void setWarningBorder(JComponent c) {
+        Border border = c.getBorder();
+        c.setBorder(new LineBorder(Color.RED));
+        new Thread(() -> {
+            try {
+                Thread.sleep(6000);
+                c.setBorder(border);
+            } catch (InterruptedException ex) {
+                Splash.logger.log(Level.SEVERE, "Thread interupption", ex);
+                ex.printStackTrace();
+            }
+        }).start();
+    }
+
+    private void validateAndSetPayementInput(KeyEvent evt) {
+        String key = String.valueOf(evt.getKeyChar());
+        if (key.matches("[0-9]")) {
+            payment += key;
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+            if (payment.length() > 1) {
+                payment = payment.substring(0, payment.length() - 1);
+            } else {
+                payment = "";
+            }
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+            payment = "";
+        }
+
+        if (payment.isBlank()) {
+            jButton3.setText("0");
+        } else {
+            jButton3.setText(payment);
+        }
+    }
+
+    private void validatePartySizeInput(KeyEvent evt) {
+        String key = String.valueOf(evt.getKeyChar());
+        if (key.matches("[0-9]")) {
+            party += key;
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+            if (party.length() > 1) {
+                party = party.substring(0, party.length() - 1);
+            } else {
+                party = "";
+            }
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+            party = "";
+        }
+
+        if (party.isBlank()) {
+            jButton5.setText("0");
+        } else {
+            jButton5.setText(party);
+        }
+    }
+
     private void setPlaceholders() {
         jTextArea1.putClientProperty("JTextField.placeholderText", "Enter Any Special requests...");
         jTextField1.putClientProperty("JTextField.placeholderText", "Enter customer mobile");
-        jTextField2.putClientProperty("JTextField.placeholderText", "Enter party size");              
     }
+
+    private void setupDateTimeComponents() {
+        Date date = new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24));
+        jDateChooser1.setMinSelectableDate(date);
+        jDateChooser1.setDate(date);
+        jTimeChooser1.getTimeField().setFont(CustomStyle.getCustomFont(16));
+        jTimeChooser1.getTimeField().setBackground(Color.WHITE);
+        jTimeChooser1.setTime(new Date(System.currentTimeMillis() + (1000 * 60 * 60))); // 1 hour from now
+    }
+
+    private void setStyle() {
+        jToggleButton1.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:rgba(77, 120, 204,40)");
+        jToggleButton2.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:rgba(77, 120, 204,40)");
+        FlatLightLaf.setup();
+        SwingUtilities.updateComponentTreeUI(this);
+        Pallet.ResetTheme();
+        setPlaceholders();
+    }
+
+    private void loadTableCategories() {
+        try {
+            ResultSet result = Mysql.execute("SELECT * FROM `table_category`");
+            Vector<Object> v = new Vector<>();
+            v.add("Select Table Type");
+            while (result.next()) {
+                v.add(result.getString("name"));
+                tableMap.put(result.getString("name"), result.getInt("id"));
+            }
+            jComboBox1.setModel(new DefaultComboBoxModel(v));
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, "Table category combo box loading", ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void loadTableList() {
+        jComboBox2.setEnabled(true);
+        if (jComboBox1.getSelectedIndex() > 0) {
+            try {
+                String selectedItem = String.valueOf(jComboBox1.getSelectedItem());
+                ResultSet result = Mysql.execute("SELECT * FROM `table` "
+                        + "WHERE `table_category_id`='" + tableMap.get(selectedItem) + "' "
+                        + "AND `active_state_state_id`='1' AND `table_status_id`='1' AND `id` "
+                        + "NOT IN(SELECT `table_id` FROM `reservation_has_table` WHERE `table_id` NOT IN(SELECT table.id FROM `table` "
+                        + "INNER JOIN reservation_has_table ON reservation_has_table.table_id = table.id "
+                        + "INNER JOIN reservation ON reservation.id = reservation_has_table.reservation_id "
+                        + "WHERE `date` = DATE_FORMAT(NOW(),'%Y-%m-%d') AND `time` > DATE_FORMAT(NOW() + INTERVAL 1 HOUR,'%H:%i:%s') "
+                        + "OR `time` < DATE_FORMAT(NOW(),'%H:%i:%s')))");
+
+                Vector v = new Vector();
+
+                v.add("Select table");
+                while (result.next()) {
+                    v.add(result.getString("id"));
+                }
+                if (v.size() <= 1) {
+                    v.add("No tables available");
+                    jComboBox2.setModel(new DefaultComboBoxModel(v));
+                    jComboBox2.setEnabled(false);
+                    jLabel2.setText("Table Availability: Unavailable");
+                } else {
+                    jComboBox2.setModel(new DefaultComboBoxModel(v));
+                    jLabel2.setText("Table Availability: Available");
+                }
+
+            } catch (SQLException ex) {
+                Splash.logger.log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+            }
+        } else {
+            jComboBox2.setModel(new DefaultComboBoxModel());
+            jComboBox2.setEnabled(false);
+            jLabel2.setText("...");
+        }
+    }
+
+    private void setMinimumPayment() {
+        payment = jButton4.getText();
+        jLabel7.setText(payment);
+        jButton3.setText("");
+        addPayment();
+    }
+
+    private void checkCustomerMobile() {
+        if (jTextField1.getText().length() == 10) {
+            if (jTextField1.getText().matches("[0-9]{10}")) {
+                try {
+                    ResultSet result = Mysql.execute("SELECT * FROM `customer` WHERE `mobile` = '" + jTextField1.getText() + "'");
+                    if (!result.next()) {
+                        String name = JOptionPane.showInputDialog("Enter Customer name to Register");
+                        if (name != null && !name.isBlank()) {
+                            Mysql.execute("INSERT INTO `customer` (`mobile`,`name`) VALUES('" + jTextField1.getText() + "','" + name + "')");
+                            setSucessStatus("Customer registered");
+                            jButton5.grabFocus();
+                        } else {
+                            jTextField1.setText(jTextField1.getText().substring(0, 7));
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Splash.logger.log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
+                }
+            } else {
+                jTextField1.setText("");
+                setWarningStatus("Invalid mobile, please change");
+                setWarningBorder(jTextField1);
+            }
+        }
+    }
+
+    private boolean saveBill() {
+        String id = this.salesChannel.getUser().getMobile().substring(7) + "_" + System.currentTimeMillis();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");      
+
+        if (printBill(id)) {
+            try {
+                int paymentMethodId = 1;
+                ResultSet result = Mysql.execute("SELECT `id` FROM `payment_method` WHERE `name` = '" + this.paymentMethod.name() + "'");
+                if (result.next()) {
+                    paymentMethodId = result.getInt("id");
+                }
+                //reservatiions
+                String request = jTextArea1.getText().trim().equals("Enter any special request") ? "No request" : jTextArea1.getText().trim();
+                Mysql.execute("INSERT INTO `reservation` (`id`,`date`,`time`,`party_size`,`advanced_payment_amount`,"
+                        + "`special_request`,`payment_method_id`,`customer_mobile`,`state_id`) "
+                        + "VALUES('" + id + "','" + formatter.format(jDateChooser1.getDate()) + "','" + jTimeChooser1.getTimeField().getText() + "',"
+                        + "'" + jButton5.getText() + "','" + jLabel7.getText() + "','" + request + "',"
+                        + "'" + paymentMethodId + "','" + jTextField1.getText() + "','1')");
+
+                //reservation has table               
+                Mysql.execute("INSERT INTO `reservation_has_table` (`table_id`,`reservation_id`) "
+                        + "VALUES('" + String.valueOf(jComboBox2.getSelectedItem()) + "','" + id + "')");
+            } catch (SQLException ex) {
+                Splash.logger.log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean printBill(String id) {
+        String datetime = new SimpleDateFormat("MMM d, y HH:mm:ss").format(new Date());
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        //parameters
+        HashMap<String, Object> parameters = new HashMap<>();
+
+        parameters.put("datetime", datetime);
+        parameters.put("reserveDate", formatter.format(jDateChooser1.getDate()) + " " + jTimeChooser1.getTimeField().getText());
+        parameters.put("reservation_id", id);
+        parameters.put("table", String.valueOf(jComboBox2.getSelectedItem()));
+        parameters.put("cashier", this.salesChannel.getUser().getDisplay_name());
+        parameters.put("customer", jTextField1.getText());
+        parameters.put("paymentMethod", this.paymentMethod.name());
+        parameters.put("payment", jLabel7.getText());
+
+        try {
+            JasperPrint billReport = JasperFillManager.fillReport("src/com/cafe/reports/cafe_reservation.jasper", parameters, new JREmptyDataSource());
+            JasperViewer bill = new JasperViewer(billReport, false);
+            bill.setAlwaysOnTop(true);
+            bill.setFitPageZoomRatio();
+            bill.setVisible(true);
+
+            return true;
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean checkTableWithTimeSlot() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = jDateChooser1.getDate();
+        String time = jTimeChooser1.getTimeField().getText();
+        
+        String[] split = time.split(":");
+        int hours = Integer.parseInt(split[0]);        
+        int mins = Integer.parseInt(split[1]);        
+        
+        if((mins+30) == 60){
+            hours++;
+            mins=0;
+        }else if((mins+30)>60){
+            hours++;
+            mins = (mins+30)-60;
+        }else{
+            mins+=30;
+        }
+        
+        String lowerLimit = "";
+        String upperLimit = "";
+        
+        if(String.valueOf(hours).length()==1){
+            lowerLimit+=("0"+hours);
+            upperLimit+=("0"+(hours-1));
+        }else{
+            lowerLimit+=hours;
+            upperLimit+=(hours-1);
+        }
+        
+        lowerLimit+=":";
+        upperLimit+=":";
+        
+        if(String.valueOf(mins).length()==1){
+            lowerLimit+=("0"+mins);
+            upperLimit+=("0"+mins);
+        }else{
+            lowerLimit+=mins;
+            upperLimit+=mins;
+        }
+        
+        lowerLimit+=":00";
+        upperLimit+=":00";       
+        
+        try {
+            ResultSet result = Mysql.execute("SELECT * FROM reservation INNER JOIN  `reservation_has_table` ON  reservation.id = reservation_has_table.reservation_id "
+                + "WHERE `date`='"+formatter.format(date)+"' AND "
+                        + "(`time` BETWEEN '"+upperLimit+"' AND '"+lowerLimit+"') "
+                                + "AND `table_id`='"+String.valueOf(jComboBox2.getSelectedItem())+"' ");
+            
+            if(result.next()){
+                return false;
+            }else{
+                return true;
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return false;
+        }        
+    }
+
 }

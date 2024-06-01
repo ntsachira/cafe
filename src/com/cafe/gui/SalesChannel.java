@@ -1,4 +1,3 @@
-
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
@@ -9,24 +8,53 @@ import com.cafe.model.Theme;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import com.cafe.model.OrderType;
+import com.cafe.model.User;
+import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Dell
  */
-public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme {
+public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme {   
+
+    enum Payment {
+        Cash, Card
+    }
+    enum TableStatus{
+        Available,Occupied,Reserved,Dirty
+    }
+    enum PreOrderStatus{
+        Pending,Processing,Completed
+    }
 
     private Dashboard dashboard;
+    private int itemsPerRow = 6;
 
+    private List<InvoiceItemCard> invoiceItems = new ArrayList<>();
     private int totalItems;
     private double billTotal;
     private double totalDiscount;
+
+    private User user;
+
+    public User getUser() {
+        return this.dashboard.getUser();
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<InvoiceItemCard> getInvoiceItems() {
+        return invoiceItems;
+    }
 
     private Order orderType = Order.TAKE_AWAY;
     private String activeCategory = "";
@@ -34,12 +62,17 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
     public String getActiveCategory() {
         return activeCategory;
     }
-    private int itemsPerRow = 6;
-
-    private List<InvoiceItemCard> invoiceItems = new ArrayList<>();
 
     public int getTotalItems() {
         return totalItems;
+    }
+
+    public double getBillTotal() {
+        return billTotal;
+    }
+
+    public void setBillTotal(double billTotal) {
+        this.billTotal = billTotal;
     }
 
     public void setTotalItems(int totalItems) {
@@ -140,17 +173,17 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
 
         jPanel1.setBackground(new java.awt.Color(43, 46, 56));
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 10, 10));
-        jPanel1.setPreferredSize(new java.awt.Dimension(500, 148));
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 158));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel6.setOpaque(false);
-        jPanel6.setPreferredSize(new java.awt.Dimension(500, 80));
+        jPanel6.setPreferredSize(new java.awt.Dimension(500, 90));
         jPanel6.setLayout(new java.awt.GridLayout(3, 1));
 
         jPanel7.setOpaque(false);
         jPanel7.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jLabel1.setText("TOTAL ITEMS");
         jPanel7.add(jLabel1, java.awt.BorderLayout.LINE_START);
 
@@ -164,7 +197,7 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         jPanel8.setOpaque(false);
         jPanel8.setLayout(new java.awt.BorderLayout());
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jLabel2.setText("DISCOUNTS");
         jPanel8.add(jLabel2, java.awt.BorderLayout.LINE_START);
 
@@ -178,7 +211,7 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         jPanel15.setOpaque(false);
         jPanel15.setLayout(new java.awt.BorderLayout());
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jLabel10.setText("BILL TOTAL");
         jPanel15.add(jLabel10, java.awt.BorderLayout.LINE_START);
 
@@ -195,10 +228,10 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         jPanel9.setPreferredSize(new java.awt.Dimension(500, 40));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
-        jButton1.setBackground(new java.awt.Color(0, 153, 153));
-        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton1.setBackground(new java.awt.Color(77, 120, 204));
+        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("PROCEED PAYMENT - Rs. 2500.00");
+        jButton1.setText("PROCEED PAYMENT - Rs. 0.00");
         jButton1.setPreferredSize(new java.awt.Dimension(75, 48));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -263,6 +296,16 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         jToggleButton4.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jToggleButton4ItemStateChanged(evt);
+            }
+        });
+        jToggleButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jToggleButton4MouseClicked(evt);
+            }
+        });
+        jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton4ActionPerformed(evt);
             }
         });
         jPanel3.add(jToggleButton4);
@@ -383,14 +426,28 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
     }//GEN-LAST:event_jToggleButton3ItemStateChanged
 
     private void jToggleButton4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButton4ItemStateChanged
-        // TODO add your handling code here:
-        setOrderType(Order.RESERVE);
+        // TODO add your handling code here:       
+
     }//GEN-LAST:event_jToggleButton4ItemStateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        openCheckout();
+        if (invoiceItems.size() > 0) {
+            openCheckout();
+        } else {           
+            this.dashboard.setWarningStatus("Add items to Continue Payment");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jToggleButton4ActionPerformed
+
+    private void jToggleButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton4MouseClicked
+        // TODO add your handling code here:
+        setOrderType(Order.RESERVE);
+        openReservationModel();
+    }//GEN-LAST:event_jToggleButton4MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -432,25 +489,43 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
     private javax.swing.JToggleButton jToggleButton4;
     // End of variables declaration//GEN-END:variables
 
+    public void setTakeAwayActive() {
+        setOrderType(Order.TAKE_AWAY);
+        jToggleButton2.setSelected(true);
+    }
+
     private void openCheckout() {
         switch (orderType) {
             case TAKE_AWAY:
                 TakeAway takeAway = new TakeAway(this.dashboard, true);
-                takeAway.setTitle("Take Away Payment - Rs. 2500.00");
+                takeAway.setSalesChannel(this);
+                takeAway.setBillTotal(billTotal);
+                takeAway.setTotalDiscount(totalDiscount);
+                takeAway.setBalance();
+                takeAway.setTitle("Take Away Payment - Rs. " + (this.billTotal - this.totalDiscount));
                 takeAway.setVisible(true);
                 break;
             case DINE_IN:
                 DineIn dineIn = new DineIn(this.dashboard, true);
-                dineIn.setTitle("Dine In Payment - Rs. 2500.00");
+                dineIn.setSalesChannel(this);
+                dineIn.setBillTotal(billTotal);
+                dineIn.setTotalDiscount(totalDiscount);
+                dineIn.setBalance();
+                dineIn.setTitle("Dine In Payment - Rs. " + (this.billTotal - this.totalDiscount));
                 dineIn.setVisible(true);
                 break;
             case PRE_ORDER:
                 PreOrder preOrder = new PreOrder(this.dashboard, true);
-                preOrder.setTitle("Pre Order Payment - Rs. 2500.00");
+                preOrder.setSalesChannel(this);
+                preOrder.setBillTotal(billTotal);
+                preOrder.setTotalDiscount(totalDiscount);
+                preOrder.setBalance();
+                preOrder.setTitle("Pre Order Payment - Rs. " + (this.billTotal - this.totalDiscount));
                 preOrder.setVisible(true);
                 break;
             case RESERVE:
                 Reservation reservation = new Reservation(dashboard, true);
+                reservation.setSalesChannel(this);
                 reservation.setTitle("Table Reservation");
                 reservation.setVisible(true);
                 break;
@@ -461,16 +536,19 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         jPanel14.removeAll();
         try {
 
-            ResultSet resultset = Mysql.execute("SELECT menu_item.id,menu_item.name,menu_item_category.name AS `category`,brand.name AS `brand`,menu_spec.price AS `price`"
+            ResultSet resultset = Mysql.execute("SELECT menu_item.id,menu_item.name,menu_item_category.name AS `category`,brand.name AS `brand`,"
+                    + "menu_spec.price AS `price`,`rate`,menu_item.image_path "
                     + "FROM menu_item INNER JOIN menu_spec ON menu_item.id = menu_spec.menu_item_id "
                     + "INNER JOIN menu_item_category ON menu_item_category.id = menu_item.menu_item_category_id "
-                    + "INNER JOIN brand ON menu_item.brand_id = brand.id WHERE menu_item_category.name LIKE '" + this.activeCategory + "%'");
+                    + "INNER JOIN brand ON menu_item.brand_id = brand.id LEFT JOIN discount ON discount.menu_item_id = menu_item.id "
+                    + "WHERE menu_item_category.name LIKE '" + this.activeCategory + "%'");
 
             ResultSet resultsetDirect = Mysql.execute("SELECT menu_item.id,menu_item.name,menu_item_category.name AS `category`,brand.name AS `brand`,"
-                    + "direct_selling_stock.selling_price AS `price`"
+                    + "direct_selling_stock.selling_price AS `price`,`rate`,menu_item.image_path "
                     + "FROM menu_item INNER JOIN direct_selling_stock ON direct_selling_stock.menu_item_id = menu_item.id "
                     + "INNER JOIN menu_item_category ON menu_item_category.id = menu_item.menu_item_category_id "
-                    + "INNER JOIN brand ON menu_item.brand_id = brand.id WHERE menu_item_category.name LIKE '" + this.activeCategory + "%'");
+                    + "INNER JOIN brand ON menu_item.brand_id = brand.id LEFT JOIN discount ON discount.menu_item_id = menu_item.id "
+                    + "WHERE menu_item_category.name LIKE '" + this.activeCategory + "%'");
 
             boolean hasNext = resultset.next();
 
@@ -478,16 +556,17 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
                 System.out.println("ok");
                 while (hasNext) {
                     ItemRow itemRow = new ItemRow();
-
                     for (int j = 0; j < itemsPerRow; j++) {
                         if (!hasNext) {
                             break;
                         }
-
                         ItemCard item = new ItemCard();
                         item.setId(resultset.getInt("menu_item.id"));
                         item.setItemName(resultset.getString("menu_item.name"));
                         item.setPrice(resultset.getDouble("price"));
+                        item.setDiscount(resultset.getDouble("price") * (resultset.getDouble("rate") / 100));
+                        item.setBrand(resultset.getString("brand"));
+                        item.setImage(resultset.getString("image_path"));
                         if (itemsPerRow == 7) {
                             item.setMaximumSize(new Dimension(180, 200));
                             item.setPreferredSize(new Dimension(180, 200));
@@ -507,16 +586,17 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
                 System.out.println("ok");
                 while (hasNext) {
                     ItemRow itemRow = new ItemRow();
-
                     for (int j = 0; j < itemsPerRow; j++) {
                         if (!hasNext) {
                             break;
                         }
-
                         ItemCard item = new ItemCard();
                         item.setId(resultsetDirect.getInt("menu_item.id"));
                         item.setItemName(resultsetDirect.getString("menu_item.name"));
                         item.setPrice(resultsetDirect.getDouble("price"));
+                        item.setDiscount(resultsetDirect.getDouble("price") * (resultsetDirect.getDouble("rate") / 100));
+                        item.setBrand(resultsetDirect.getString("brand"));
+                        item.setImage(resultsetDirect.getString("image_path"));
                         if (itemsPerRow == 7) {
                             item.setMaximumSize(new Dimension(180, 200));
                             item.setPreferredSize(new Dimension(180, 200));
@@ -542,10 +622,38 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         setComponentTheme();
     }
 
-    public void loadInvoiceItems(InvoiceItemCard invoiceItemCard) {
-        invoiceItemCard.setSalesChannel(this);
-        invoiceItems.add(invoiceItemCard);
-        jPanel4.add(invoiceItemCard);
+    public void loadInvoiceItems(InvoiceItemCard invoiceItem) {
+        boolean found = false;
+        boolean unavailable = false;
+        invoiceItem.setSalesChannel(this);
+        for (InvoiceItemCard item : invoiceItems) {
+            if (item.getId() == invoiceItem.getId()) {
+                found = true;
+                double currentQty = item.getQuantity();
+                item.setQuantity(item.getQuantity() + invoiceItem.getQuantity());
+                if (!checkStockAvailability(item)) {
+                    item.setQuantity(currentQty);
+                    unavailable = true;
+                    break;
+                }
+                item.setTotal(item.getPrice() * item.getQuantity());
+                break;
+            }
+        }
+        if (!found) {
+            if (checkStockAvailability(invoiceItem)) {
+                invoiceItems.add(invoiceItem);
+                jPanel4.add(invoiceItem);
+            } else {
+                unavailable = true;
+            }
+
+        }
+
+        if (unavailable) {
+            dashboard.setWarningStatus("Unavaibale quantity please check again");
+        }
+
         calculateBill();
         jPanel4.updateUI();
     }
@@ -564,7 +672,7 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
             card.putClientProperty(FlatClientProperties.STYLE, "border:5,5,5,5,#0000,0,50");
         }
         if (activeCategory.equals("")) {
-            jPanel12.putClientProperty(FlatClientProperties.STYLE, "border:5,5,5,5,#00CCCC,1,50");
+            jPanel12.putClientProperty(FlatClientProperties.STYLE, "border:5,5,5,5,#4D78CC,1,50");
         }
         loadMenuItems();
     }
@@ -585,11 +693,7 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
 
         jPanel13.updateUI();
     }
-
-    public void saveInvoice() {
-
-    }
-
+   
     public void calculateBill() {
         int itemCount = 0;
         double totalBill = 0;
@@ -598,25 +702,21 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
 
         while (iterator.hasNext()) {
             InvoiceItemCard item = iterator.next();
-            itemCount+= item.getQuantity();
+            itemCount += item.getQuantity();
             totalBill += item.getTotal();
-            totalDiscount += item.getDiscount();
+            totalDiscount += (item.getDiscount() * item.getQuantity());
         }
-        
+
         this.totalItems = itemCount;
         this.totalDiscount = totalDiscount;
         this.billTotal = totalBill;
-        
+
         jLabel3.setText(String.valueOf(itemCount));
         jLabel4.setText(String.valueOf(totalDiscount));
         jLabel11.setText(String.valueOf(totalBill));
-        jButton1.setText("PROCEED PAYMENT - Rs. "+totalBill);
+        jButton1.setText("PROCEED PAYMENT - Rs. " + (totalBill - totalDiscount));
     }
-
-    public void calculatePayment() {
-
-    }
-
+  
     @Override
     public void setComponentTheme() {
         CustomStyle.setComponentBackground(
@@ -624,4 +724,41 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         );
         CustomStyle.setButtonsTransparent(jPanel3.getComponents());
     }
+
+    private void openReservationModel() {
+        resetInvoice();
+        Reservation reservation = new Reservation(dashboard, true);
+        reservation.setSalesChannel(this);
+        reservation.setTitle("Table Reservation");
+        reservation.setVisible(true);
+    }
+
+    private boolean checkStockAvailability(InvoiceItemCard item) {
+        if (!item.getBrand().equals("Cafe")) {
+            try {
+                ResultSet result = Mysql.execute("SELECT `qty` FROM `direct_selling_stock` WHERE `menu_item_id`='" + item.getId() + "'");
+                if (result.next()) {
+                    if (result.getDouble("qty") >= item.getQuantity()) {
+                        return true;
+                    }
+                }
+                return false;
+            } catch (SQLException ex) {
+                Splash.logger.log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
+    
+    public void resetInvoice() {
+        jPanel4.removeAll();
+        invoiceItems.clear();
+        calculateBill();
+        dashboard.loadTodayInvoiceCount();
+        jPanel4.updateUI();        
+    }
+    
 }

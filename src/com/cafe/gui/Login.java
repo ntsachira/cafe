@@ -33,7 +33,7 @@ public class Login extends javax.swing.JPanel implements UserRole {
         jTextField1.putClientProperty("JTextField.placeholderText", "Username");
         jPasswordField1.putClientProperty("JTextField.placeholderText", "Password");
     }
-
+    
     public void setSplash(Splash splash) {
         this.splash = splash;
     }
@@ -72,13 +72,13 @@ public class Login extends javax.swing.JPanel implements UserRole {
         jLabel2.setText("CAFE-POS");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 28)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 204, 204));
+        jLabel4.setForeground(new java.awt.Color(77, 120, 204));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Restaurant Management System");
 
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 153, 153));
+        jButton2.setForeground(new java.awt.Color(77, 120, 204));
         jButton2.setText("X");
         jButton2.setBorderPainted(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -181,21 +181,23 @@ public class Login extends javax.swing.JPanel implements UserRole {
         jPanel6.setLayout(new java.awt.GridLayout(0, 1, 0, 20));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 204, 204));
+        jLabel1.setForeground(new java.awt.Color(77, 120, 204));
         jLabel1.setText("Login");
         jPanel6.add(jLabel1);
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTextField1.setText("admin");
         jTextField1.setMargin(new java.awt.Insets(2, 15, 2, 15));
         jTextField1.setPreferredSize(new java.awt.Dimension(0, 50));
         jPanel6.add(jTextField1);
 
         jPasswordField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jPasswordField1.setText("123");
         jPasswordField1.setMargin(new java.awt.Insets(2, 15, 2, 15));
         jPasswordField1.setPreferredSize(new java.awt.Dimension(0, 50));
         jPanel6.add(jPasswordField1);
 
-        jButton1.setBackground(new java.awt.Color(0, 153, 153));
+        jButton1.setBackground(new java.awt.Color(77, 120, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Log In");
@@ -263,12 +265,10 @@ public class Login extends javax.swing.JPanel implements UserRole {
                 if (result.next()) {
                     if (result.getString("theme") != null && !result.getString("theme").isBlank()) {
                         if (result.getString("theme").equals(Pallet.Mode.DARK.name())) {
-                            Pallet.setDarkMode();
-                            FlatOneDarkIJTheme.setup();
+                            Pallet.setDarkMode();                            
                             this.splash.setDashboard(user);
                         } else if (result.getString("theme").equals(Pallet.Mode.LIGHT.name())) {
-                            Pallet.setLightMode();
-                            FlatLightLaf.setup();
+                            Pallet.setLightMode();                            
                             this.splash.setDashboard(user);
                         }
                         

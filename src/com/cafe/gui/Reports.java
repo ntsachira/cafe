@@ -36,725 +36,655 @@ public class Reports extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jTabbedPane3 = new javax.swing.JTabbedPane();
+        jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jPanel12 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel10 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jPanel12 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
         jPanel14 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel15 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jPanel16 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jTabbedPane5 = new javax.swing.JTabbedPane();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jPanel18 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jPanel19 = new javax.swing.JPanel();
-        jPanel21 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
-        jPanel22 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
         jPanel20 = new javax.swing.JPanel();
-        jPanel23 = new javax.swing.JPanel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jPanel22 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jPanel17 = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jPanel21 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
         jPanel24 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel25 = new javax.swing.JPanel();
+        jPanel44 = new javax.swing.JPanel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jPanel39 = new javax.swing.JPanel();
+        jPanel40 = new javax.swing.JPanel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jPanel41 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jPanel42 = new javax.swing.JPanel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jPanel43 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jTable6 = new javax.swing.JTable();
-        jPanel26 = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel27 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        jPanel35 = new javax.swing.JPanel();
+        jPanel36 = new javax.swing.JPanel();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jRadioButton4 = new javax.swing.JRadioButton();
+        jRadioButton5 = new javax.swing.JRadioButton();
+        jRadioButton6 = new javax.swing.JRadioButton();
+        jRadioButton7 = new javax.swing.JRadioButton();
+        jPanel53 = new javax.swing.JPanel();
+        jPanel55 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jPanel56 = new javax.swing.JPanel();
+        jSeparator4 = new javax.swing.JSeparator();
+        jPanel57 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jTable7 = new javax.swing.JTable();
-        jPanel28 = new javax.swing.JPanel();
-        jButton7 = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
-        jPanel29 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel33 = new javax.swing.JPanel();
+        jPanel34 = new javax.swing.JPanel();
+        jPanel37 = new javax.swing.JPanel();
+        jPanel38 = new javax.swing.JPanel();
+        jRadioButton9 = new javax.swing.JRadioButton();
+        jRadioButton10 = new javax.swing.JRadioButton();
+        jPanel45 = new javax.swing.JPanel();
+        jPanel46 = new javax.swing.JPanel();
+        jPanel47 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jDateChooser3 = new com.toedter.calendar.JDateChooser();
+        jPanel48 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jDateChooser4 = new com.toedter.calendar.JDateChooser();
+        jPanel49 = new javax.swing.JPanel();
+        jPanel50 = new javax.swing.JPanel();
+        jComboBox4 = new javax.swing.JComboBox<>();
+        jPanel51 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        jPanel52 = new javax.swing.JPanel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jPanel58 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        jTable8 = new javax.swing.JTable();
-        jPanel30 = new javax.swing.JPanel();
-        jButton8 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
-        jPanel31 = new javax.swing.JPanel();
+        jPanel25 = new javax.swing.JPanel();
+        jPanel26 = new javax.swing.JPanel();
+        jPanel54 = new javax.swing.JPanel();
+        jPanel59 = new javax.swing.JPanel();
+        jRadioButton8 = new javax.swing.JRadioButton();
+        jRadioButton11 = new javax.swing.JRadioButton();
+        jPanel60 = new javax.swing.JPanel();
+        jPanel61 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
+        jPanel62 = new javax.swing.JPanel();
+        jSeparator5 = new javax.swing.JSeparator();
+        jPanel63 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        jTable9 = new javax.swing.JTable();
-        jPanel32 = new javax.swing.JPanel();
-        jButton9 = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
         setLayout(new java.awt.BorderLayout());
 
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
 
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        jPanel1.setLayout(new java.awt.BorderLayout(20, 0));
 
-        jTabbedPane3.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
-        jTabbedPane3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jPanel8.setPreferredSize(new java.awt.Dimension(400, 719));
+        jPanel8.setLayout(new java.awt.BorderLayout(0, 20));
 
-        jPanel9.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        jPanel9.setLayout(new java.awt.BorderLayout());
+        jPanel9.setLayout(new java.awt.GridLayout(0, 1, 0, 20));
 
-        jPanel11.setPreferredSize(new java.awt.Dimension(1252, 40));
-
-        jButton1.setBackground(new java.awt.Color(0, 153, 153));
-        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Print");
-        jButton1.setPreferredSize(new java.awt.Dimension(75, 40));
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                .addContainerGap(1147, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel9.add(jPanel11, java.awt.BorderLayout.PAGE_START);
-
-        jPanel12.setLayout(new java.awt.BorderLayout(0, 10));
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLabel1.setText("Invoice List");
-        jPanel12.add(jLabel1, java.awt.BorderLayout.PAGE_START);
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Date", "Discounts", "Total", "Cashier"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-        }
-
-        jPanel12.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        jPanel9.add(jPanel12, java.awt.BorderLayout.CENTER);
-
-        jTabbedPane3.addTab("Invoice Summary", jPanel9);
-
-        jPanel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        jPanel10.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Report Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
         jPanel10.setLayout(new java.awt.BorderLayout());
 
-        jPanel13.setPreferredSize(new java.awt.Dimension(1252, 40));
+        jPanel11.setLayout(new java.awt.GridLayout(2, 0, 0, 10));
 
-        jButton2.setBackground(new java.awt.Color(0, 153, 153));
-        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Print");
-        jButton2.setPreferredSize(new java.awt.Dimension(75, 40));
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton1.setSelected(true);
+        jRadioButton1.setText("Invoice Summary Report");
+        jRadioButton1.setIconTextGap(10);
+        jPanel11.add(jRadioButton1);
 
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
-                .addContainerGap(1147, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton2.setText("Invoice Full Report");
+        jRadioButton2.setIconTextGap(10);
+        jPanel11.add(jRadioButton2);
 
-        jPanel10.add(jPanel13, java.awt.BorderLayout.PAGE_START);
+        jPanel10.add(jPanel11, java.awt.BorderLayout.CENTER);
 
-        jPanel14.setLayout(new java.awt.BorderLayout(0, 10));
+        jPanel9.add(jPanel10);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLabel2.setText("Item List");
+        jPanel12.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Date Range", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        jPanel12.setLayout(new java.awt.BorderLayout());
+
+        jPanel13.setLayout(new java.awt.GridLayout(1, 2, 20, 10));
+
+        jPanel14.setPreferredSize(new java.awt.Dimension(185, 70));
+        jPanel14.setLayout(new java.awt.BorderLayout());
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("Start Date");
+        jLabel2.setPreferredSize(new java.awt.Dimension(37, 30));
         jPanel14.add(jLabel2, java.awt.BorderLayout.PAGE_START);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Name", "Price", "Quantity", "Amount"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
+        jDateChooser2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jDateChooser2.setPreferredSize(new java.awt.Dimension(88, 40));
+        jPanel14.add(jDateChooser2, java.awt.BorderLayout.CENTER);
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable2.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setResizable(false);
-            jTable2.getColumnModel().getColumn(1).setResizable(false);
-            jTable2.getColumnModel().getColumn(2).setResizable(false);
-            jTable2.getColumnModel().getColumn(3).setResizable(false);
-            jTable2.getColumnModel().getColumn(4).setResizable(false);
-        }
+        jPanel13.add(jPanel14);
 
-        jPanel14.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        jPanel18.setPreferredSize(new java.awt.Dimension(185, 70));
+        jPanel18.setLayout(new java.awt.BorderLayout());
 
-        jPanel10.add(jPanel14, java.awt.BorderLayout.CENTER);
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setText("End Date");
+        jLabel1.setPreferredSize(new java.awt.Dimension(37, 30));
+        jPanel18.add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
-        jTabbedPane3.addTab("Sales by Item", jPanel10);
+        jDateChooser1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jDateChooser1.setPreferredSize(new java.awt.Dimension(88, 40));
+        jPanel18.add(jDateChooser1, java.awt.BorderLayout.CENTER);
 
-        jPanel1.add(jTabbedPane3, java.awt.BorderLayout.CENTER);
+        jPanel13.add(jPanel18);
 
-        jTabbedPane1.addTab("Sales", jPanel1);
+        jPanel12.add(jPanel13, java.awt.BorderLayout.CENTER);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        jPanel2.setLayout(new java.awt.BorderLayout());
+        jPanel9.add(jPanel12);
 
-        jPanel15.setLayout(new java.awt.BorderLayout(0, 10));
+        jPanel8.add(jPanel9, java.awt.BorderLayout.PAGE_START);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLabel3.setText("Menu items");
-        jPanel15.add(jLabel3, java.awt.BorderLayout.PAGE_START);
-
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Name", "Category", "Brand", "Price"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable3.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(jTable3);
-        if (jTable3.getColumnModel().getColumnCount() > 0) {
-            jTable3.getColumnModel().getColumn(0).setResizable(false);
-            jTable3.getColumnModel().getColumn(1).setResizable(false);
-            jTable3.getColumnModel().getColumn(2).setResizable(false);
-            jTable3.getColumnModel().getColumn(3).setResizable(false);
-            jTable3.getColumnModel().getColumn(4).setResizable(false);
-        }
-
-        jPanel15.add(jScrollPane3, java.awt.BorderLayout.CENTER);
-
-        jPanel2.add(jPanel15, java.awt.BorderLayout.CENTER);
-
-        jPanel16.setPreferredSize(new java.awt.Dimension(1252, 40));
-
-        jButton3.setBackground(new java.awt.Color(0, 153, 153));
-        jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Print");
-        jButton3.setPreferredSize(new java.awt.Dimension(75, 40));
-
-        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
-        jPanel16.setLayout(jPanel16Layout);
-        jPanel16Layout.setHorizontalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
-                .addContainerGap(1127, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel16Layout.setVerticalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(jPanel16, java.awt.BorderLayout.PAGE_START);
-
-        jTabbedPane1.addTab("Menu", jPanel2);
-
-        jPanel3.setLayout(new java.awt.BorderLayout());
-
-        jTabbedPane5.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
-        jTabbedPane5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-
-        jPanel19.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 10, 0));
         jPanel19.setLayout(new java.awt.BorderLayout());
 
-        jPanel21.setLayout(new java.awt.BorderLayout(0, 10));
+        jPanel20.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cashier", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 10, 15, 10))); // NOI18N
+        jPanel20.setLayout(new java.awt.BorderLayout());
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLabel4.setText("Menu items");
-        jPanel21.add(jLabel4, java.awt.BorderLayout.PAGE_START);
+        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setPreferredSize(new java.awt.Dimension(72, 40));
+        jPanel20.add(jComboBox1, java.awt.BorderLayout.CENTER);
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Name", "Category", "Brand", "Price"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
+        jPanel19.add(jPanel20, java.awt.BorderLayout.PAGE_START);
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable4.getTableHeader().setReorderingAllowed(false);
-        jScrollPane4.setViewportView(jTable4);
-        if (jTable4.getColumnModel().getColumnCount() > 0) {
-            jTable4.getColumnModel().getColumn(0).setResizable(false);
-            jTable4.getColumnModel().getColumn(1).setResizable(false);
-            jTable4.getColumnModel().getColumn(2).setResizable(false);
-            jTable4.getColumnModel().getColumn(3).setResizable(false);
-            jTable4.getColumnModel().getColumn(4).setResizable(false);
-        }
-
-        jPanel21.add(jScrollPane4, java.awt.BorderLayout.CENTER);
-
-        jPanel19.add(jPanel21, java.awt.BorderLayout.CENTER);
-
-        jPanel22.setPreferredSize(new java.awt.Dimension(1252, 40));
-
-        jButton4.setBackground(new java.awt.Color(0, 153, 153));
-        jButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Print");
-        jButton4.setPreferredSize(new java.awt.Dimension(75, 40));
+        jButton1.setBackground(new java.awt.Color(77, 120, 204));
+        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("GENERATE REPORT");
+        jButton1.setPreferredSize(new java.awt.Dimension(75, 40));
 
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
         jPanel22Layout.setHorizontalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel22Layout.createSequentialGroup()
-                .addContainerGap(1147, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(181, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel22Layout.setVerticalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel22Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(262, Short.MAX_VALUE))
         );
 
-        jPanel19.add(jPanel22, java.awt.BorderLayout.PAGE_START);
+        jPanel19.add(jPanel22, java.awt.BorderLayout.CENTER);
 
-        jTabbedPane5.addTab("Dirrect Selling Stock", jPanel19);
+        jPanel8.add(jPanel19, java.awt.BorderLayout.CENTER);
 
-        jPanel20.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        jPanel20.setLayout(new java.awt.BorderLayout());
+        jPanel1.add(jPanel8, java.awt.BorderLayout.LINE_START);
 
-        jPanel23.setLayout(new java.awt.BorderLayout(0, 10));
+        jPanel17.setLayout(new java.awt.BorderLayout());
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLabel5.setText("Menu items");
-        jPanel23.add(jLabel5, java.awt.BorderLayout.PAGE_START);
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel17.add(jSeparator1, java.awt.BorderLayout.LINE_START);
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Name", "Category", "Brand", "Price"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
+        jPanel21.setLayout(new java.awt.BorderLayout());
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable5.getTableHeader().setReorderingAllowed(false);
-        jScrollPane5.setViewportView(jTable5);
-        if (jTable5.getColumnModel().getColumnCount() > 0) {
-            jTable5.getColumnModel().getColumn(0).setResizable(false);
-            jTable5.getColumnModel().getColumn(1).setResizable(false);
-            jTable5.getColumnModel().getColumn(2).setResizable(false);
-            jTable5.getColumnModel().getColumn(3).setResizable(false);
-            jTable5.getColumnModel().getColumn(4).setResizable(false);
-        }
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Your Report Will Diplay Here");
+        jPanel21.add(jLabel5, java.awt.BorderLayout.CENTER);
 
-        jPanel23.add(jScrollPane5, java.awt.BorderLayout.CENTER);
+        jPanel17.add(jPanel21, java.awt.BorderLayout.CENTER);
 
-        jPanel20.add(jPanel23, java.awt.BorderLayout.CENTER);
+        jPanel1.add(jPanel17, java.awt.BorderLayout.CENTER);
 
-        jPanel24.setPreferredSize(new java.awt.Dimension(1252, 40));
+        jTabbedPane1.addTab("SALES", jPanel1);
 
-        jButton5.setBackground(new java.awt.Color(0, 153, 153));
-        jButton5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Print");
-        jButton5.setPreferredSize(new java.awt.Dimension(75, 40));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        jPanel2.setLayout(new java.awt.BorderLayout(20, 0));
 
-        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
-        jPanel24.setLayout(jPanel24Layout);
-        jPanel24Layout.setHorizontalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
-                .addContainerGap(1147, Short.MAX_VALUE)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanel23.setPreferredSize(new java.awt.Dimension(400, 719));
+        jPanel23.setLayout(new java.awt.BorderLayout(0, 20));
+
+        jPanel24.setLayout(new java.awt.GridLayout(0, 1, 0, 20));
+
+        jPanel44.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Item Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 10, 15, 10))); // NOI18N
+        jPanel44.setLayout(new java.awt.BorderLayout());
+
+        jComboBox3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.setPreferredSize(new java.awt.Dimension(72, 40));
+        jPanel44.add(jComboBox3, java.awt.BorderLayout.CENTER);
+
+        jPanel24.add(jPanel44);
+
+        jPanel23.add(jPanel24, java.awt.BorderLayout.PAGE_START);
+
+        jPanel39.setLayout(new java.awt.BorderLayout());
+
+        jPanel40.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Brand", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 10, 15, 10))); // NOI18N
+        jPanel40.setLayout(new java.awt.BorderLayout());
+
+        jComboBox2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setPreferredSize(new java.awt.Dimension(72, 40));
+        jPanel40.add(jComboBox2, java.awt.BorderLayout.CENTER);
+
+        jPanel39.add(jPanel40, java.awt.BorderLayout.PAGE_START);
+
+        jButton2.setBackground(new java.awt.Color(77, 120, 204));
+        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("GENERATE REPORT");
+        jButton2.setPreferredSize(new java.awt.Dimension(75, 40));
+
+        javax.swing.GroupLayout jPanel41Layout = new javax.swing.GroupLayout(jPanel41);
+        jPanel41.setLayout(jPanel41Layout);
+        jPanel41Layout.setHorizontalGroup(
+            jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel41Layout.createSequentialGroup()
+                .addContainerGap(181, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel24Layout.setVerticalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        jPanel41Layout.setVerticalGroup(
+            jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel41Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(419, Short.MAX_VALUE))
         );
 
-        jPanel20.add(jPanel24, java.awt.BorderLayout.PAGE_START);
+        jPanel39.add(jPanel41, java.awt.BorderLayout.CENTER);
 
-        jTabbedPane5.addTab("Kitchen Stock", jPanel20);
+        jPanel23.add(jPanel39, java.awt.BorderLayout.CENTER);
 
-        jPanel3.add(jTabbedPane5, java.awt.BorderLayout.CENTER);
+        jPanel2.add(jPanel23, java.awt.BorderLayout.LINE_START);
 
-        jTabbedPane1.addTab("Stock", jPanel3);
+        jPanel42.setLayout(new java.awt.BorderLayout());
+
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel42.add(jSeparator2, java.awt.BorderLayout.LINE_START);
+
+        jPanel43.setLayout(new java.awt.BorderLayout());
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Your Report Will Diplay Here");
+        jPanel43.add(jLabel6, java.awt.BorderLayout.CENTER);
+
+        jPanel42.add(jPanel43, java.awt.BorderLayout.CENTER);
+
+        jPanel2.add(jPanel42, java.awt.BorderLayout.CENTER);
+
+        jTabbedPane1.addTab("MENU", jPanel2);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        jPanel3.setLayout(new java.awt.BorderLayout(20, 0));
+
+        jPanel15.setPreferredSize(new java.awt.Dimension(400, 719));
+        jPanel15.setLayout(new java.awt.BorderLayout(0, 20));
+
+        jPanel16.setLayout(new java.awt.GridLayout(0, 1, 0, 20));
+
+        jPanel35.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Report Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        jPanel35.setLayout(new java.awt.BorderLayout());
+
+        jPanel36.setLayout(new java.awt.GridLayout(5, 1, 0, 10));
+
+        buttonGroup2.add(jRadioButton3);
+        jRadioButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton3.setText("Dirrect Selling Stock ");
+        jRadioButton3.setIconTextGap(10);
+        jPanel36.add(jRadioButton3);
+
+        buttonGroup2.add(jRadioButton4);
+        jRadioButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton4.setText("Dirrect Selling Limited Stock");
+        jRadioButton4.setIconTextGap(10);
+        jPanel36.add(jRadioButton4);
+
+        buttonGroup2.add(jRadioButton5);
+        jRadioButton5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton5.setText("Kitchen Stock");
+        jRadioButton5.setIconTextGap(10);
+        jRadioButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton5ActionPerformed(evt);
+            }
+        });
+        jPanel36.add(jRadioButton5);
+
+        buttonGroup2.add(jRadioButton6);
+        jRadioButton6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton6.setText("Kitchen Stock Limited Stock");
+        jRadioButton6.setIconTextGap(10);
+        jPanel36.add(jRadioButton6);
+
+        buttonGroup2.add(jRadioButton7);
+        jRadioButton7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton7.setText("Damaged Stock");
+        jRadioButton7.setIconTextGap(10);
+        jPanel36.add(jRadioButton7);
+
+        jPanel35.add(jPanel36, java.awt.BorderLayout.CENTER);
+
+        jPanel16.add(jPanel35);
+
+        jPanel15.add(jPanel16, java.awt.BorderLayout.PAGE_START);
+
+        jPanel53.setLayout(new java.awt.BorderLayout());
+
+        jButton4.setBackground(new java.awt.Color(77, 120, 204));
+        jButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("GENERATE REPORT");
+        jButton4.setPreferredSize(new java.awt.Dimension(75, 40));
+
+        javax.swing.GroupLayout jPanel55Layout = new javax.swing.GroupLayout(jPanel55);
+        jPanel55.setLayout(jPanel55Layout);
+        jPanel55Layout.setHorizontalGroup(
+            jPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel55Layout.createSequentialGroup()
+                .addContainerGap(181, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel55Layout.setVerticalGroup(
+            jPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel55Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(421, Short.MAX_VALUE))
+        );
+
+        jPanel53.add(jPanel55, java.awt.BorderLayout.CENTER);
+
+        jPanel15.add(jPanel53, java.awt.BorderLayout.CENTER);
+
+        jPanel3.add(jPanel15, java.awt.BorderLayout.LINE_START);
+
+        jPanel56.setLayout(new java.awt.BorderLayout());
+
+        jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel56.add(jSeparator4, java.awt.BorderLayout.LINE_START);
+
+        jPanel57.setLayout(new java.awt.BorderLayout());
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Your Report Will Diplay Here");
+        jPanel57.add(jLabel7, java.awt.BorderLayout.CENTER);
+
+        jPanel56.add(jPanel57, java.awt.BorderLayout.CENTER);
+
+        jPanel3.add(jPanel56, java.awt.BorderLayout.CENTER);
+
+        jTabbedPane1.addTab("STOCK", jPanel3);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        jPanel4.setLayout(new java.awt.BorderLayout());
+        jPanel4.setLayout(new java.awt.BorderLayout(20, 0));
 
-        jPanel25.setLayout(new java.awt.BorderLayout(0, 10));
+        jPanel33.setPreferredSize(new java.awt.Dimension(400, 719));
+        jPanel33.setLayout(new java.awt.BorderLayout(0, 20));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLabel6.setText("Menu items");
-        jPanel25.add(jLabel6, java.awt.BorderLayout.PAGE_START);
+        jPanel34.setLayout(new java.awt.GridLayout(0, 1, 0, 20));
 
-        jTable6.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Name", "Category", "Brand", "Price"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
+        jPanel37.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Report Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        jPanel37.setLayout(new java.awt.BorderLayout());
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable6.getTableHeader().setReorderingAllowed(false);
-        jScrollPane6.setViewportView(jTable6);
-        if (jTable6.getColumnModel().getColumnCount() > 0) {
-            jTable6.getColumnModel().getColumn(0).setResizable(false);
-            jTable6.getColumnModel().getColumn(1).setResizable(false);
-            jTable6.getColumnModel().getColumn(2).setResizable(false);
-            jTable6.getColumnModel().getColumn(3).setResizable(false);
-            jTable6.getColumnModel().getColumn(4).setResizable(false);
-        }
+        jPanel38.setLayout(new java.awt.GridLayout(2, 0, 0, 10));
 
-        jPanel25.add(jScrollPane6, java.awt.BorderLayout.CENTER);
+        buttonGroup3.add(jRadioButton9);
+        jRadioButton9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton9.setSelected(true);
+        jRadioButton9.setText("GRN Summary Report");
+        jRadioButton9.setIconTextGap(10);
+        jPanel38.add(jRadioButton9);
 
-        jPanel4.add(jPanel25, java.awt.BorderLayout.CENTER);
+        buttonGroup3.add(jRadioButton10);
+        jRadioButton10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton10.setText("GRN Full Report");
+        jRadioButton10.setIconTextGap(10);
+        jPanel38.add(jRadioButton10);
 
-        jPanel26.setPreferredSize(new java.awt.Dimension(1252, 40));
+        jPanel37.add(jPanel38, java.awt.BorderLayout.CENTER);
 
-        jButton6.setBackground(new java.awt.Color(0, 153, 153));
-        jButton6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Print");
-        jButton6.setPreferredSize(new java.awt.Dimension(75, 40));
+        jPanel34.add(jPanel37);
 
-        javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
-        jPanel26.setLayout(jPanel26Layout);
-        jPanel26Layout.setHorizontalGroup(
-            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
-                .addContainerGap(1147, Short.MAX_VALUE)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanel45.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Date Range", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        jPanel45.setLayout(new java.awt.BorderLayout());
+
+        jPanel46.setLayout(new java.awt.GridLayout(1, 2, 20, 10));
+
+        jPanel47.setPreferredSize(new java.awt.Dimension(185, 70));
+        jPanel47.setLayout(new java.awt.BorderLayout());
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Start Date");
+        jLabel3.setPreferredSize(new java.awt.Dimension(37, 30));
+        jPanel47.add(jLabel3, java.awt.BorderLayout.PAGE_START);
+
+        jDateChooser3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jDateChooser3.setPreferredSize(new java.awt.Dimension(88, 40));
+        jPanel47.add(jDateChooser3, java.awt.BorderLayout.CENTER);
+
+        jPanel46.add(jPanel47);
+
+        jPanel48.setPreferredSize(new java.awt.Dimension(185, 70));
+        jPanel48.setLayout(new java.awt.BorderLayout());
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setText("End Date");
+        jLabel4.setPreferredSize(new java.awt.Dimension(37, 30));
+        jPanel48.add(jLabel4, java.awt.BorderLayout.PAGE_START);
+
+        jDateChooser4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jDateChooser4.setPreferredSize(new java.awt.Dimension(88, 40));
+        jPanel48.add(jDateChooser4, java.awt.BorderLayout.CENTER);
+
+        jPanel46.add(jPanel48);
+
+        jPanel45.add(jPanel46, java.awt.BorderLayout.CENTER);
+
+        jPanel34.add(jPanel45);
+
+        jPanel33.add(jPanel34, java.awt.BorderLayout.PAGE_START);
+
+        jPanel49.setLayout(new java.awt.BorderLayout());
+
+        jPanel50.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Supplier", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 10, 15, 10))); // NOI18N
+        jPanel50.setLayout(new java.awt.BorderLayout());
+
+        jComboBox4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.setPreferredSize(new java.awt.Dimension(72, 40));
+        jPanel50.add(jComboBox4, java.awt.BorderLayout.CENTER);
+
+        jPanel49.add(jPanel50, java.awt.BorderLayout.PAGE_START);
+
+        jButton3.setBackground(new java.awt.Color(77, 120, 204));
+        jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("GENERATE REPORT");
+        jButton3.setPreferredSize(new java.awt.Dimension(75, 40));
+
+        javax.swing.GroupLayout jPanel51Layout = new javax.swing.GroupLayout(jPanel51);
+        jPanel51.setLayout(jPanel51Layout);
+        jPanel51Layout.setHorizontalGroup(
+            jPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel51Layout.createSequentialGroup()
+                .addContainerGap(181, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel26Layout.setVerticalGroup(
-            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        jPanel51Layout.setVerticalGroup(
+            jPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel51Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(262, Short.MAX_VALUE))
         );
 
-        jPanel4.add(jPanel26, java.awt.BorderLayout.PAGE_START);
+        jPanel49.add(jPanel51, java.awt.BorderLayout.CENTER);
+
+        jPanel33.add(jPanel49, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel33, java.awt.BorderLayout.LINE_START);
+
+        jPanel52.setLayout(new java.awt.BorderLayout());
+
+        jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel52.add(jSeparator3, java.awt.BorderLayout.LINE_START);
+
+        jPanel58.setLayout(new java.awt.BorderLayout());
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("Your Report Will Diplay Here");
+        jPanel58.add(jLabel8, java.awt.BorderLayout.CENTER);
+
+        jPanel52.add(jPanel58, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel52, java.awt.BorderLayout.CENTER);
 
         jTabbedPane1.addTab("GRN", jPanel4);
 
-        jPanel5.setLayout(new java.awt.BorderLayout());
-
-        jPanel27.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        jPanel27.setLayout(new java.awt.BorderLayout(0, 10));
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLabel7.setText("Menu items");
-        jPanel27.add(jLabel7, java.awt.BorderLayout.PAGE_START);
-
-        jTable7.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Name", "Category", "Brand", "Price"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable7.getTableHeader().setReorderingAllowed(false);
-        jScrollPane7.setViewportView(jTable7);
-        if (jTable7.getColumnModel().getColumnCount() > 0) {
-            jTable7.getColumnModel().getColumn(0).setResizable(false);
-            jTable7.getColumnModel().getColumn(1).setResizable(false);
-            jTable7.getColumnModel().getColumn(2).setResizable(false);
-            jTable7.getColumnModel().getColumn(3).setResizable(false);
-            jTable7.getColumnModel().getColumn(4).setResizable(false);
-        }
-
-        jPanel27.add(jScrollPane7, java.awt.BorderLayout.CENTER);
-
-        jPanel5.add(jPanel27, java.awt.BorderLayout.CENTER);
-
-        jPanel28.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        jPanel28.setPreferredSize(new java.awt.Dimension(1252, 40));
-
-        jButton7.setBackground(new java.awt.Color(0, 153, 153));
-        jButton7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Print");
-        jButton7.setPreferredSize(new java.awt.Dimension(75, 40));
-
-        javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
-        jPanel28.setLayout(jPanel28Layout);
-        jPanel28Layout.setHorizontalGroup(
-            jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel28Layout.createSequentialGroup()
-                .addContainerGap(1147, Short.MAX_VALUE)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel28Layout.setVerticalGroup(
-            jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-        );
-
-        jPanel5.add(jPanel28, java.awt.BorderLayout.PAGE_START);
-
-        jTabbedPane1.addTab("User", jPanel5);
-
-        jPanel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        jPanel6.setLayout(new java.awt.BorderLayout());
-
-        jPanel29.setLayout(new java.awt.BorderLayout(0, 10));
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLabel8.setText("Menu items");
-        jPanel29.add(jLabel8, java.awt.BorderLayout.PAGE_START);
-
-        jTable8.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Name", "Category", "Brand", "Price"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable8.getTableHeader().setReorderingAllowed(false);
-        jScrollPane8.setViewportView(jTable8);
-        if (jTable8.getColumnModel().getColumnCount() > 0) {
-            jTable8.getColumnModel().getColumn(0).setResizable(false);
-            jTable8.getColumnModel().getColumn(1).setResizable(false);
-            jTable8.getColumnModel().getColumn(2).setResizable(false);
-            jTable8.getColumnModel().getColumn(3).setResizable(false);
-            jTable8.getColumnModel().getColumn(4).setResizable(false);
-        }
-
-        jPanel29.add(jScrollPane8, java.awt.BorderLayout.CENTER);
-
-        jPanel6.add(jPanel29, java.awt.BorderLayout.CENTER);
-
-        jPanel30.setPreferredSize(new java.awt.Dimension(1252, 40));
-
-        jButton8.setBackground(new java.awt.Color(0, 153, 153));
-        jButton8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("Print");
-        jButton8.setPreferredSize(new java.awt.Dimension(75, 40));
-
-        javax.swing.GroupLayout jPanel30Layout = new javax.swing.GroupLayout(jPanel30);
-        jPanel30.setLayout(jPanel30Layout);
-        jPanel30Layout.setHorizontalGroup(
-            jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel30Layout.createSequentialGroup()
-                .addContainerGap(1147, Short.MAX_VALUE)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel30Layout.setVerticalGroup(
-            jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel6.add(jPanel30, java.awt.BorderLayout.PAGE_START);
-
-        jTabbedPane1.addTab("Supplier", jPanel6);
-
         jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        jPanel7.setLayout(new java.awt.BorderLayout());
+        jPanel7.setLayout(new java.awt.BorderLayout(20, 0));
 
-        jPanel31.setLayout(new java.awt.BorderLayout(0, 10));
+        jPanel25.setPreferredSize(new java.awt.Dimension(400, 719));
+        jPanel25.setLayout(new java.awt.BorderLayout(0, 20));
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLabel9.setText("Menu items");
-        jPanel31.add(jLabel9, java.awt.BorderLayout.PAGE_START);
+        jPanel26.setLayout(new java.awt.GridLayout(0, 1, 0, 20));
 
-        jTable9.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Name", "Category", "Brand", "Price"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
+        jPanel54.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Report Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        jPanel54.setLayout(new java.awt.BorderLayout());
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable9.getTableHeader().setReorderingAllowed(false);
-        jScrollPane9.setViewportView(jTable9);
-        if (jTable9.getColumnModel().getColumnCount() > 0) {
-            jTable9.getColumnModel().getColumn(0).setResizable(false);
-            jTable9.getColumnModel().getColumn(1).setResizable(false);
-            jTable9.getColumnModel().getColumn(2).setResizable(false);
-            jTable9.getColumnModel().getColumn(3).setResizable(false);
-            jTable9.getColumnModel().getColumn(4).setResizable(false);
-        }
+        jPanel59.setLayout(new java.awt.GridLayout(2, 1, 0, 10));
 
-        jPanel31.add(jScrollPane9, java.awt.BorderLayout.CENTER);
+        buttonGroup4.add(jRadioButton8);
+        jRadioButton8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton8.setSelected(true);
+        jRadioButton8.setText("Dirrect Selling Items Order ");
+        jRadioButton8.setIconTextGap(10);
+        jPanel59.add(jRadioButton8);
 
-        jPanel7.add(jPanel31, java.awt.BorderLayout.CENTER);
+        buttonGroup4.add(jRadioButton11);
+        jRadioButton11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton11.setText("Kitchen Items Order");
+        jRadioButton11.setIconTextGap(10);
+        jPanel59.add(jRadioButton11);
 
-        jPanel32.setPreferredSize(new java.awt.Dimension(1252, 40));
+        jPanel54.add(jPanel59, java.awt.BorderLayout.CENTER);
 
-        jButton9.setBackground(new java.awt.Color(0, 153, 153));
-        jButton9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("Print");
-        jButton9.setPreferredSize(new java.awt.Dimension(75, 40));
+        jPanel26.add(jPanel54);
 
-        javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
-        jPanel32.setLayout(jPanel32Layout);
-        jPanel32Layout.setHorizontalGroup(
-            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel32Layout.createSequentialGroup()
-                .addContainerGap(1147, Short.MAX_VALUE)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanel25.add(jPanel26, java.awt.BorderLayout.PAGE_START);
+
+        jPanel60.setLayout(new java.awt.BorderLayout());
+
+        jButton5.setBackground(new java.awt.Color(77, 120, 204));
+        jButton5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("GENERATE REPORT");
+        jButton5.setPreferredSize(new java.awt.Dimension(75, 40));
+
+        javax.swing.GroupLayout jPanel61Layout = new javax.swing.GroupLayout(jPanel61);
+        jPanel61.setLayout(jPanel61Layout);
+        jPanel61Layout.setHorizontalGroup(
+            jPanel61Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel61Layout.createSequentialGroup()
+                .addContainerGap(181, Short.MAX_VALUE)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel32Layout.setVerticalGroup(
-            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        jPanel61Layout.setVerticalGroup(
+            jPanel61Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel61Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(526, Short.MAX_VALUE))
         );
 
-        jPanel7.add(jPanel32, java.awt.BorderLayout.PAGE_START);
+        jPanel60.add(jPanel61, java.awt.BorderLayout.CENTER);
 
-        jTabbedPane1.addTab("Purchase Order", jPanel7);
+        jPanel25.add(jPanel60, java.awt.BorderLayout.CENTER);
+
+        jPanel7.add(jPanel25, java.awt.BorderLayout.LINE_START);
+
+        jPanel62.setLayout(new java.awt.BorderLayout());
+
+        jSeparator5.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel62.add(jSeparator5, java.awt.BorderLayout.LINE_START);
+
+        jPanel63.setLayout(new java.awt.BorderLayout());
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Your Report Will Diplay Here");
+        jPanel63.add(jLabel9, java.awt.BorderLayout.CENTER);
+
+        jPanel62.add(jPanel63, java.awt.BorderLayout.CENTER);
+
+        jPanel7.add(jPanel62, java.awt.BorderLayout.CENTER);
+
+        jTabbedPane1.addTab("PURCHASE ORDER", jPanel7);
 
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jRadioButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> jComboBox4;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private com.toedter.calendar.JDateChooser jDateChooser3;
+    private com.toedter.calendar.JDateChooser jDateChooser4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -772,6 +702,8 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
@@ -781,38 +713,58 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
-    private javax.swing.JPanel jPanel27;
-    private javax.swing.JPanel jPanel28;
-    private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel30;
-    private javax.swing.JPanel jPanel31;
-    private javax.swing.JPanel jPanel32;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel38;
+    private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel40;
+    private javax.swing.JPanel jPanel41;
+    private javax.swing.JPanel jPanel42;
+    private javax.swing.JPanel jPanel43;
+    private javax.swing.JPanel jPanel44;
+    private javax.swing.JPanel jPanel45;
+    private javax.swing.JPanel jPanel46;
+    private javax.swing.JPanel jPanel47;
+    private javax.swing.JPanel jPanel48;
+    private javax.swing.JPanel jPanel49;
+    private javax.swing.JPanel jPanel50;
+    private javax.swing.JPanel jPanel51;
+    private javax.swing.JPanel jPanel52;
+    private javax.swing.JPanel jPanel53;
+    private javax.swing.JPanel jPanel54;
+    private javax.swing.JPanel jPanel55;
+    private javax.swing.JPanel jPanel56;
+    private javax.swing.JPanel jPanel57;
+    private javax.swing.JPanel jPanel58;
+    private javax.swing.JPanel jPanel59;
+    private javax.swing.JPanel jPanel60;
+    private javax.swing.JPanel jPanel61;
+    private javax.swing.JPanel jPanel62;
+    private javax.swing.JPanel jPanel63;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton10;
+    private javax.swing.JRadioButton jRadioButton11;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JRadioButton jRadioButton5;
+    private javax.swing.JRadioButton jRadioButton6;
+    private javax.swing.JRadioButton jRadioButton7;
+    private javax.swing.JRadioButton jRadioButton8;
+    private javax.swing.JRadioButton jRadioButton9;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane3;
-    private javax.swing.JTabbedPane jTabbedPane5;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
-    private javax.swing.JTable jTable6;
-    private javax.swing.JTable jTable7;
-    private javax.swing.JTable jTable8;
-    private javax.swing.JTable jTable9;
     // End of variables declaration//GEN-END:variables
 }

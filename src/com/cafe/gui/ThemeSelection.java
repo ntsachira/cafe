@@ -40,13 +40,7 @@ public class ThemeSelection extends javax.swing.JFrame {
         jPanel2.add(sample2.getRootPane());
     }
 
-    public JPanel getjPanel1() {
-        return jPanel1;
-    }
-
-    public JPanel getjPanel2() {
-        return jPanel2;
-    }
+  
 
     private void setDashboard() {
         this.dispose();   

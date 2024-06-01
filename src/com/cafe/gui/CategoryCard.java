@@ -99,7 +99,7 @@ public class CategoryCard extends javax.swing.JPanel {
 private void setCategory(){
     if(this.salesChannel != null && !this.categoryName.equals(null)){
         this.salesChannel.setCategory(this.categoryName);
-        this.putClientProperty(FlatClientProperties.STYLE,"border:5,5,5,5,#00CCCC,1,50");
+        this.putClientProperty(FlatClientProperties.STYLE,"border:5,5,5,5,#4D78CC,1,50");
     }
 }
 }
