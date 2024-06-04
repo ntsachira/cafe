@@ -92,6 +92,9 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
     public void setUser(User user) {
         this.user = user;
+        setSidebar();
+        loadContentByUserRole();
+        loadTodayInvoiceCount();
     }
 
     /**
@@ -107,9 +110,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         setUser(user);
         loadSystemData();
         setStyle();
-        setSidebar();
-        loadContentByUserRole();
-        loadTodayInvoiceCount();
+                
         setExtendedState(MAXIMIZED_BOTH);
     }
 

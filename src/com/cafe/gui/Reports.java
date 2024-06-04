@@ -4,13 +4,36 @@
  */
 package com.cafe.gui;
 
+import com.cafe.model.Mysql;
+import java.awt.Color;
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author Dell
  */
 public class Reports extends javax.swing.JPanel {
 
+    HashMap<String, String> menuCategoryMap = new HashMap<>();
+    HashMap<String, String> brandMap = new HashMap<>();
     private Dashboard dashboard;
+    private JComponent emptyLabel;
 
     public Dashboard getDashboard() {
         return dashboard;
@@ -25,6 +48,8 @@ public class Reports extends javax.swing.JPanel {
      */
     public Reports() {
         initComponents();
+        setupDateCHooserComponents();
+        loadData();
     }
 
     /**
@@ -46,8 +71,14 @@ public class Reports extends javax.swing.JPanel {
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        invoiceSummaryReport = new javax.swing.JRadioButton();
+        InvoiceFullReport = new javax.swing.JRadioButton();
+        salesByItem = new javax.swing.JRadioButton();
+        salesByCategory = new javax.swing.JRadioButton();
+        jPanel19 = new javax.swing.JPanel();
+        jPanel20 = new javax.swing.JPanel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jPanel22 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
@@ -56,11 +87,10 @@ public class Reports extends javax.swing.JPanel {
         jPanel18 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jPanel19 = new javax.swing.JPanel();
-        jPanel20 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jPanel22 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jButton6 = new javax.swing.JButton();
         jPanel17 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel21 = new javax.swing.JPanel();
@@ -71,10 +101,9 @@ public class Reports extends javax.swing.JPanel {
         jPanel44 = new javax.swing.JPanel();
         jComboBox3 = new javax.swing.JComboBox<>();
         jPanel39 = new javax.swing.JPanel();
-        jPanel40 = new javax.swing.JPanel();
-        jComboBox2 = new javax.swing.JComboBox<>();
         jPanel41 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jPanel42 = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         jPanel43 = new javax.swing.JPanel();
@@ -84,14 +113,16 @@ public class Reports extends javax.swing.JPanel {
         jPanel16 = new javax.swing.JPanel();
         jPanel35 = new javax.swing.JPanel();
         jPanel36 = new javax.swing.JPanel();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
-        jRadioButton5 = new javax.swing.JRadioButton();
-        jRadioButton6 = new javax.swing.JRadioButton();
-        jRadioButton7 = new javax.swing.JRadioButton();
+        directSellingStock = new javax.swing.JRadioButton();
+        directSellingLimitedStock = new javax.swing.JRadioButton();
+        kitchenStock = new javax.swing.JRadioButton();
+        kitchenStockLimitedStock = new javax.swing.JRadioButton();
+        damagedStock = new javax.swing.JRadioButton();
         jPanel53 = new javax.swing.JPanel();
         jPanel55 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jComboBox2 = new javax.swing.JComboBox<>();
         jPanel56 = new javax.swing.JPanel();
         jSeparator4 = new javax.swing.JSeparator();
         jPanel57 = new javax.swing.JPanel();
@@ -101,8 +132,8 @@ public class Reports extends javax.swing.JPanel {
         jPanel34 = new javax.swing.JPanel();
         jPanel37 = new javax.swing.JPanel();
         jPanel38 = new javax.swing.JPanel();
-        jRadioButton9 = new javax.swing.JRadioButton();
-        jRadioButton10 = new javax.swing.JRadioButton();
+        grnSummary = new javax.swing.JRadioButton();
+        grnFull = new javax.swing.JRadioButton();
         jPanel45 = new javax.swing.JPanel();
         jPanel46 = new javax.swing.JPanel();
         jPanel47 = new javax.swing.JPanel();
@@ -116,24 +147,12 @@ public class Reports extends javax.swing.JPanel {
         jComboBox4 = new javax.swing.JComboBox<>();
         jPanel51 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jCheckBox2 = new javax.swing.JCheckBox();
         jPanel52 = new javax.swing.JPanel();
         jSeparator3 = new javax.swing.JSeparator();
         jPanel58 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jPanel25 = new javax.swing.JPanel();
-        jPanel26 = new javax.swing.JPanel();
-        jPanel54 = new javax.swing.JPanel();
-        jPanel59 = new javax.swing.JPanel();
-        jRadioButton8 = new javax.swing.JRadioButton();
-        jRadioButton11 = new javax.swing.JRadioButton();
-        jPanel60 = new javax.swing.JPanel();
-        jPanel61 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jPanel62 = new javax.swing.JPanel();
-        jSeparator5 = new javax.swing.JSeparator();
-        jPanel63 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
         setLayout(new java.awt.BorderLayout());
@@ -151,26 +170,75 @@ public class Reports extends javax.swing.JPanel {
         jPanel10.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Report Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
         jPanel10.setLayout(new java.awt.BorderLayout());
 
-        jPanel11.setLayout(new java.awt.GridLayout(2, 0, 0, 10));
+        jPanel11.setLayout(new java.awt.GridLayout(4, 0, 10, 10));
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("Invoice Summary Report");
-        jRadioButton1.setIconTextGap(10);
-        jPanel11.add(jRadioButton1);
+        buttonGroup1.add(invoiceSummaryReport);
+        invoiceSummaryReport.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        invoiceSummaryReport.setSelected(true);
+        invoiceSummaryReport.setText("Invoice Summary Report");
+        invoiceSummaryReport.setIconTextGap(10);
+        invoiceSummaryReport.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                invoiceSummaryReportItemStateChanged(evt);
+            }
+        });
+        jPanel11.add(invoiceSummaryReport);
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton2.setText("Invoice Full Report");
-        jRadioButton2.setIconTextGap(10);
-        jPanel11.add(jRadioButton2);
+        buttonGroup1.add(InvoiceFullReport);
+        InvoiceFullReport.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        InvoiceFullReport.setText("Invoice Full Report");
+        InvoiceFullReport.setIconTextGap(10);
+        InvoiceFullReport.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                InvoiceFullReportItemStateChanged(evt);
+            }
+        });
+        jPanel11.add(InvoiceFullReport);
+
+        buttonGroup1.add(salesByItem);
+        salesByItem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        salesByItem.setText("Sales By Item");
+        salesByItem.setIconTextGap(10);
+        salesByItem.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                salesByItemItemStateChanged(evt);
+            }
+        });
+        jPanel11.add(salesByItem);
+
+        buttonGroup1.add(salesByCategory);
+        salesByCategory.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        salesByCategory.setText("Sales By Category");
+        salesByCategory.setIconTextGap(10);
+        salesByCategory.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                salesByCategoryItemStateChanged(evt);
+            }
+        });
+        jPanel11.add(salesByCategory);
 
         jPanel10.add(jPanel11, java.awt.BorderLayout.CENTER);
 
         jPanel9.add(jPanel10);
 
-        jPanel12.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Date Range", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        jPanel8.add(jPanel9, java.awt.BorderLayout.PAGE_START);
+
+        jPanel19.setLayout(new java.awt.BorderLayout(0, 20));
+
+        jPanel20.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cashier", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 10, 15, 10))); // NOI18N
+        jPanel20.setLayout(new java.awt.BorderLayout());
+
+        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setPreferredSize(new java.awt.Dimension(72, 40));
+        jPanel20.add(jComboBox1, java.awt.BorderLayout.CENTER);
+
+        jPanel19.add(jPanel20, java.awt.BorderLayout.PAGE_START);
+
+        jPanel22.setLayout(new java.awt.BorderLayout());
+
+        jPanel12.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Date Range", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 15, 10))); // NOI18N
+        jPanel12.setPreferredSize(new java.awt.Dimension(420, 127));
         jPanel12.setLayout(new java.awt.BorderLayout());
 
         jPanel13.setLayout(new java.awt.GridLayout(1, 2, 20, 10));
@@ -183,8 +251,15 @@ public class Reports extends javax.swing.JPanel {
         jLabel2.setPreferredSize(new java.awt.Dimension(37, 30));
         jPanel14.add(jLabel2, java.awt.BorderLayout.PAGE_START);
 
-        jDateChooser2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jDateChooser2.setDateFormatString("yyyy-MM-dd");
+        jDateChooser2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jDateChooser2.setOpaque(false);
         jDateChooser2.setPreferredSize(new java.awt.Dimension(88, 40));
+        jDateChooser2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jDateChooser2MouseExited(evt);
+            }
+        });
         jPanel14.add(jDateChooser2, java.awt.BorderLayout.CENTER);
 
         jPanel13.add(jPanel14);
@@ -197,52 +272,72 @@ public class Reports extends javax.swing.JPanel {
         jLabel1.setPreferredSize(new java.awt.Dimension(37, 30));
         jPanel18.add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
-        jDateChooser1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jDateChooser1.setDateFormatString("yyyy-MM-dd");
+        jDateChooser1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jDateChooser1.setPreferredSize(new java.awt.Dimension(88, 40));
+        jDateChooser1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jDateChooser1MouseExited(evt);
+            }
+        });
         jPanel18.add(jDateChooser1, java.awt.BorderLayout.CENTER);
 
         jPanel13.add(jPanel18);
 
         jPanel12.add(jPanel13, java.awt.BorderLayout.CENTER);
 
-        jPanel9.add(jPanel12);
-
-        jPanel8.add(jPanel9, java.awt.BorderLayout.PAGE_START);
-
-        jPanel19.setLayout(new java.awt.BorderLayout());
-
-        jPanel20.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cashier", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 10, 15, 10))); // NOI18N
-        jPanel20.setLayout(new java.awt.BorderLayout());
-
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(72, 40));
-        jPanel20.add(jComboBox1, java.awt.BorderLayout.CENTER);
-
-        jPanel19.add(jPanel20, java.awt.BorderLayout.PAGE_START);
+        jPanel22.add(jPanel12, java.awt.BorderLayout.NORTH);
 
         jButton1.setBackground(new java.awt.Color(77, 120, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("GENERATE REPORT");
-        jButton1.setPreferredSize(new java.awt.Dimension(75, 40));
+        jButton1.setPreferredSize(new java.awt.Dimension(75, 48));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
-        jPanel22.setLayout(jPanel22Layout);
-        jPanel22Layout.setHorizontalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel22Layout.createSequentialGroup()
-                .addContainerGap(181, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+        jCheckBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jCheckBox1.setText("All Records");
+        jCheckBox1.setIconTextGap(10);
+
+        jButton6.setBackground(new java.awt.Color(102, 102, 102));
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton6.setPreferredSize(new java.awt.Dimension(48, 48));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jCheckBox1)
+                .addContainerGap(304, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        jPanel22Layout.setVerticalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel22Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(262, Short.MAX_VALUE))
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jCheckBox1)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(158, Short.MAX_VALUE))
         );
+
+        jPanel22.add(jPanel5, java.awt.BorderLayout.CENTER);
 
         jPanel19.add(jPanel22, java.awt.BorderLayout.CENTER);
 
@@ -255,6 +350,7 @@ public class Reports extends javax.swing.JPanel {
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel17.add(jSeparator1, java.awt.BorderLayout.LINE_START);
 
+        jPanel21.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 20));
         jPanel21.setLayout(new java.awt.BorderLayout());
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -290,37 +386,45 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel39.setLayout(new java.awt.BorderLayout());
 
-        jPanel40.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Brand", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 10, 15, 10))); // NOI18N
-        jPanel40.setLayout(new java.awt.BorderLayout());
-
-        jComboBox2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.setPreferredSize(new java.awt.Dimension(72, 40));
-        jPanel40.add(jComboBox2, java.awt.BorderLayout.CENTER);
-
-        jPanel39.add(jPanel40, java.awt.BorderLayout.PAGE_START);
-
         jButton2.setBackground(new java.awt.Color(77, 120, 204));
         jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("GENERATE REPORT");
-        jButton2.setPreferredSize(new java.awt.Dimension(75, 40));
+        jButton2.setPreferredSize(new java.awt.Dimension(75, 48));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setBackground(new java.awt.Color(102, 102, 102));
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton7.setPreferredSize(new java.awt.Dimension(48, 48));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel41Layout = new javax.swing.GroupLayout(jPanel41);
         jPanel41.setLayout(jPanel41Layout);
         jPanel41Layout.setHorizontalGroup(
             jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel41Layout.createSequentialGroup()
-                .addContainerGap(181, Short.MAX_VALUE)
+                .addContainerGap(121, Short.MAX_VALUE)
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel41Layout.setVerticalGroup(
             jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel41Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(419, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(524, Short.MAX_VALUE))
         );
 
         jPanel39.add(jPanel41, java.awt.BorderLayout.CENTER);
@@ -360,40 +464,66 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel36.setLayout(new java.awt.GridLayout(5, 1, 0, 10));
 
-        buttonGroup2.add(jRadioButton3);
-        jRadioButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton3.setText("Dirrect Selling Stock ");
-        jRadioButton3.setIconTextGap(10);
-        jPanel36.add(jRadioButton3);
-
-        buttonGroup2.add(jRadioButton4);
-        jRadioButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton4.setText("Dirrect Selling Limited Stock");
-        jRadioButton4.setIconTextGap(10);
-        jPanel36.add(jRadioButton4);
-
-        buttonGroup2.add(jRadioButton5);
-        jRadioButton5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton5.setText("Kitchen Stock");
-        jRadioButton5.setIconTextGap(10);
-        jRadioButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton5ActionPerformed(evt);
+        buttonGroup2.add(directSellingStock);
+        directSellingStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        directSellingStock.setSelected(true);
+        directSellingStock.setText("Dirrect Selling Stock ");
+        directSellingStock.setIconTextGap(10);
+        directSellingStock.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                directSellingStockItemStateChanged(evt);
             }
         });
-        jPanel36.add(jRadioButton5);
+        jPanel36.add(directSellingStock);
 
-        buttonGroup2.add(jRadioButton6);
-        jRadioButton6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton6.setText("Kitchen Stock Limited Stock");
-        jRadioButton6.setIconTextGap(10);
-        jPanel36.add(jRadioButton6);
+        buttonGroup2.add(directSellingLimitedStock);
+        directSellingLimitedStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        directSellingLimitedStock.setText("Dirrect Selling Limited Stock");
+        directSellingLimitedStock.setIconTextGap(10);
+        directSellingLimitedStock.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                directSellingLimitedStockItemStateChanged(evt);
+            }
+        });
+        jPanel36.add(directSellingLimitedStock);
 
-        buttonGroup2.add(jRadioButton7);
-        jRadioButton7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton7.setText("Damaged Stock");
-        jRadioButton7.setIconTextGap(10);
-        jPanel36.add(jRadioButton7);
+        buttonGroup2.add(kitchenStock);
+        kitchenStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        kitchenStock.setText("Kitchen Stock");
+        kitchenStock.setIconTextGap(10);
+        kitchenStock.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                kitchenStockItemStateChanged(evt);
+            }
+        });
+        kitchenStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kitchenStockActionPerformed(evt);
+            }
+        });
+        jPanel36.add(kitchenStock);
+
+        buttonGroup2.add(kitchenStockLimitedStock);
+        kitchenStockLimitedStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        kitchenStockLimitedStock.setText("Kitchen Stock Limited Stock");
+        kitchenStockLimitedStock.setIconTextGap(10);
+        kitchenStockLimitedStock.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                kitchenStockLimitedStockItemStateChanged(evt);
+            }
+        });
+        jPanel36.add(kitchenStockLimitedStock);
+
+        buttonGroup2.add(damagedStock);
+        damagedStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        damagedStock.setText("Damaged Stock");
+        damagedStock.setIconTextGap(10);
+        damagedStock.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                damagedStockItemStateChanged(evt);
+            }
+        });
+        jPanel36.add(damagedStock);
 
         jPanel35.add(jPanel36, java.awt.BorderLayout.CENTER);
 
@@ -407,14 +537,37 @@ public class Reports extends javax.swing.JPanel {
         jButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("GENERATE REPORT");
-        jButton4.setPreferredSize(new java.awt.Dimension(75, 40));
+        jButton4.setPreferredSize(new java.awt.Dimension(75, 48));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setBackground(new java.awt.Color(102, 102, 102));
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton8.setPreferredSize(new java.awt.Dimension(48, 48));
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jComboBox2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "6", "10", "20" }));
+        jComboBox2.setSelectedIndex(1);
+        jComboBox2.setEnabled(false);
+        jComboBox2.setPreferredSize(new java.awt.Dimension(72, 48));
 
         javax.swing.GroupLayout jPanel55Layout = new javax.swing.GroupLayout(jPanel55);
         jPanel55.setLayout(jPanel55Layout);
         jPanel55Layout.setHorizontalGroup(
             jPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel55Layout.createSequentialGroup()
-                .addContainerGap(181, Short.MAX_VALUE)
+                .addComponent(jComboBox2, 0, 115, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -422,8 +575,11 @@ public class Reports extends javax.swing.JPanel {
             jPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel55Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(421, Short.MAX_VALUE))
+                .addGroup(jPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(409, Short.MAX_VALUE))
         );
 
         jPanel53.add(jPanel55, java.awt.BorderLayout.CENTER);
@@ -463,18 +619,28 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel38.setLayout(new java.awt.GridLayout(2, 0, 0, 10));
 
-        buttonGroup3.add(jRadioButton9);
-        jRadioButton9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton9.setSelected(true);
-        jRadioButton9.setText("GRN Summary Report");
-        jRadioButton9.setIconTextGap(10);
-        jPanel38.add(jRadioButton9);
+        buttonGroup3.add(grnSummary);
+        grnSummary.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        grnSummary.setSelected(true);
+        grnSummary.setText("GRN Summary Report");
+        grnSummary.setIconTextGap(10);
+        grnSummary.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                grnSummaryItemStateChanged(evt);
+            }
+        });
+        jPanel38.add(grnSummary);
 
-        buttonGroup3.add(jRadioButton10);
-        jRadioButton10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton10.setText("GRN Full Report");
-        jRadioButton10.setIconTextGap(10);
-        jPanel38.add(jRadioButton10);
+        buttonGroup3.add(grnFull);
+        grnFull.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        grnFull.setText("GRN Full Report");
+        grnFull.setIconTextGap(10);
+        grnFull.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                grnFullItemStateChanged(evt);
+            }
+        });
+        jPanel38.add(grnFull);
 
         jPanel37.add(jPanel38, java.awt.BorderLayout.CENTER);
 
@@ -493,7 +659,9 @@ public class Reports extends javax.swing.JPanel {
         jLabel3.setPreferredSize(new java.awt.Dimension(37, 30));
         jPanel47.add(jLabel3, java.awt.BorderLayout.PAGE_START);
 
-        jDateChooser3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jDateChooser3.setDateFormatString("yyyy-MM-dd");
+        jDateChooser3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jDateChooser3.setMinimumSize(new java.awt.Dimension(82, 40));
         jDateChooser3.setPreferredSize(new java.awt.Dimension(88, 40));
         jPanel47.add(jDateChooser3, java.awt.BorderLayout.CENTER);
 
@@ -507,7 +675,9 @@ public class Reports extends javax.swing.JPanel {
         jLabel4.setPreferredSize(new java.awt.Dimension(37, 30));
         jPanel48.add(jLabel4, java.awt.BorderLayout.PAGE_START);
 
-        jDateChooser4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jDateChooser4.setDateFormatString("yyyy-MM-dd");
+        jDateChooser4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jDateChooser4.setMinimumSize(new java.awt.Dimension(82, 40));
         jDateChooser4.setPreferredSize(new java.awt.Dimension(88, 40));
         jPanel48.add(jDateChooser4, java.awt.BorderLayout.CENTER);
 
@@ -535,23 +705,50 @@ public class Reports extends javax.swing.JPanel {
         jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("GENERATE REPORT");
-        jButton3.setPreferredSize(new java.awt.Dimension(75, 40));
+        jButton3.setPreferredSize(new java.awt.Dimension(75, 48));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setBackground(new java.awt.Color(102, 102, 102));
+        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton9.setPreferredSize(new java.awt.Dimension(48, 48));
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jCheckBox2.setText("All Records");
+        jCheckBox2.setIconTextGap(10);
 
         javax.swing.GroupLayout jPanel51Layout = new javax.swing.GroupLayout(jPanel51);
         jPanel51.setLayout(jPanel51Layout);
         jPanel51Layout.setHorizontalGroup(
             jPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel51Layout.createSequentialGroup()
-                .addContainerGap(181, Short.MAX_VALUE)
+                .addContainerGap(121, Short.MAX_VALUE)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(jPanel51Layout.createSequentialGroup()
+                .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel51Layout.setVerticalGroup(
             jPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel51Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(262, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jCheckBox2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(240, Short.MAX_VALUE))
         );
 
         jPanel49.add(jPanel51, java.awt.BorderLayout.CENTER);
@@ -578,105 +775,165 @@ public class Reports extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("GRN", jPanel4);
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        jPanel7.setLayout(new java.awt.BorderLayout(20, 0));
-
-        jPanel25.setPreferredSize(new java.awt.Dimension(400, 719));
-        jPanel25.setLayout(new java.awt.BorderLayout(0, 20));
-
-        jPanel26.setLayout(new java.awt.GridLayout(0, 1, 0, 20));
-
-        jPanel54.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Report Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
-        jPanel54.setLayout(new java.awt.BorderLayout());
-
-        jPanel59.setLayout(new java.awt.GridLayout(2, 1, 0, 10));
-
-        buttonGroup4.add(jRadioButton8);
-        jRadioButton8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton8.setSelected(true);
-        jRadioButton8.setText("Dirrect Selling Items Order ");
-        jRadioButton8.setIconTextGap(10);
-        jPanel59.add(jRadioButton8);
-
-        buttonGroup4.add(jRadioButton11);
-        jRadioButton11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton11.setText("Kitchen Items Order");
-        jRadioButton11.setIconTextGap(10);
-        jPanel59.add(jRadioButton11);
-
-        jPanel54.add(jPanel59, java.awt.BorderLayout.CENTER);
-
-        jPanel26.add(jPanel54);
-
-        jPanel25.add(jPanel26, java.awt.BorderLayout.PAGE_START);
-
-        jPanel60.setLayout(new java.awt.BorderLayout());
-
-        jButton5.setBackground(new java.awt.Color(77, 120, 204));
-        jButton5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("GENERATE REPORT");
-        jButton5.setPreferredSize(new java.awt.Dimension(75, 40));
-
-        javax.swing.GroupLayout jPanel61Layout = new javax.swing.GroupLayout(jPanel61);
-        jPanel61.setLayout(jPanel61Layout);
-        jPanel61Layout.setHorizontalGroup(
-            jPanel61Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel61Layout.createSequentialGroup()
-                .addContainerGap(181, Short.MAX_VALUE)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel61Layout.setVerticalGroup(
-            jPanel61Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel61Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(526, Short.MAX_VALUE))
-        );
-
-        jPanel60.add(jPanel61, java.awt.BorderLayout.CENTER);
-
-        jPanel25.add(jPanel60, java.awt.BorderLayout.CENTER);
-
-        jPanel7.add(jPanel25, java.awt.BorderLayout.LINE_START);
-
-        jPanel62.setLayout(new java.awt.BorderLayout());
-
-        jSeparator5.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel62.add(jSeparator5, java.awt.BorderLayout.LINE_START);
-
-        jPanel63.setLayout(new java.awt.BorderLayout());
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Your Report Will Diplay Here");
-        jPanel63.add(jLabel9, java.awt.BorderLayout.CENTER);
-
-        jPanel62.add(jPanel63, java.awt.BorderLayout.CENTER);
-
-        jPanel7.add(jPanel62, java.awt.BorderLayout.CENTER);
-
-        jTabbedPane1.addTab("PURCHASE ORDER", jPanel7);
-
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton5ActionPerformed
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton5ActionPerformed
+        resetGrnTab();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        generateGrnReport();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void grnFullItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_grnFullItemStateChanged
+        // TODO add your handling code here:
+        resetGrnTab();
+    }//GEN-LAST:event_grnFullItemStateChanged
+
+    private void grnSummaryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_grnSummaryItemStateChanged
+        // TODO add your handling code here:
+        resetGrnTab();
+    }//GEN-LAST:event_grnSummaryItemStateChanged
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        resetSTockTab();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        generateStockReport();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void damagedStockItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_damagedStockItemStateChanged
+        // TODO add your handling code here:
+        resetSTockTab();
+    }//GEN-LAST:event_damagedStockItemStateChanged
+
+    private void kitchenStockLimitedStockItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_kitchenStockLimitedStockItemStateChanged
+        // TODO add your handling code here:
+        resetSTockTab();
+        if (kitchenStockLimitedStock.isSelected()) {
+            jComboBox2.setEnabled(true);
+        }
+    }//GEN-LAST:event_kitchenStockLimitedStockItemStateChanged
+
+    private void kitchenStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kitchenStockActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_kitchenStockActionPerformed
+
+    private void kitchenStockItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_kitchenStockItemStateChanged
+        // TODO add your handling code here:
+        resetSTockTab();
+        if (kitchenStock.isSelected()) {
+            jComboBox2.setEnabled(false);
+        }
+    }//GEN-LAST:event_kitchenStockItemStateChanged
+
+    private void directSellingLimitedStockItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_directSellingLimitedStockItemStateChanged
+        // TODO add your handling code here:
+        resetSTockTab();
+        if (directSellingLimitedStock.isSelected()) {
+            jComboBox2.setEnabled(true);
+        }
+    }//GEN-LAST:event_directSellingLimitedStockItemStateChanged
+
+    private void directSellingStockItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_directSellingStockItemStateChanged
+        // TODO add your handling code here:
+        resetSTockTab();
+        if (directSellingStock.isSelected()) {
+            jComboBox2.setEnabled(false);
+        }
+    }//GEN-LAST:event_directSellingStockItemStateChanged
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        resetMenuTab();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        generateMenuReport();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        resetSalesTab();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        generateSalesReport();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jDateChooser1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDateChooser1MouseExited
+        // TODO add your handling code here:
+        setupSalesDateChoosers();
+    }//GEN-LAST:event_jDateChooser1MouseExited
+
+    private void jDateChooser2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDateChooser2MouseExited
+        // TODO add your handling code here:
+        setupSalesDateChoosers();
+    }//GEN-LAST:event_jDateChooser2MouseExited
+
+    private void salesByCategoryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_salesByCategoryItemStateChanged
+        // TODO add your handling code here:
+        resetSalesTab();
+        if (salesByCategory.isSelected()) {
+            jComboBox1.setEnabled(false);
+            jComboBox1.setSelectedIndex(0);
+        } else {
+            jComboBox1.setEnabled(true);
+        }
+    }//GEN-LAST:event_salesByCategoryItemStateChanged
+
+    private void salesByItemItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_salesByItemItemStateChanged
+        // TODO add your handling code here:
+        resetSalesTab();
+        if (salesByItem.isSelected()) {
+            jComboBox1.setEnabled(false);
+            jComboBox1.setSelectedIndex(0);
+        } else {
+            jComboBox1.setEnabled(true);
+        }
+    }//GEN-LAST:event_salesByItemItemStateChanged
+
+    private void InvoiceFullReportItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_InvoiceFullReportItemStateChanged
+        // TODO add your handling code here:
+        resetSalesTab();
+    }//GEN-LAST:event_InvoiceFullReportItemStateChanged
+
+    private void invoiceSummaryReportItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_invoiceSummaryReportItemStateChanged
+        // TODO add your handling code here:
+        resetSalesTab();
+    }//GEN-LAST:event_invoiceSummaryReportItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton InvoiceFullReport;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.JRadioButton damagedStock;
+    private javax.swing.JRadioButton directSellingLimitedStock;
+    private javax.swing.JRadioButton directSellingStock;
+    private javax.swing.JRadioButton grnFull;
+    private javax.swing.JRadioButton grnSummary;
+    private javax.swing.JRadioButton invoiceSummaryReport;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -693,7 +950,6 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -711,8 +967,6 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel25;
-    private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
@@ -722,7 +976,6 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel40;
     private javax.swing.JPanel jPanel41;
     private javax.swing.JPanel jPanel42;
     private javax.swing.JPanel jPanel43;
@@ -732,39 +985,653 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel47;
     private javax.swing.JPanel jPanel48;
     private javax.swing.JPanel jPanel49;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel50;
     private javax.swing.JPanel jPanel51;
     private javax.swing.JPanel jPanel52;
     private javax.swing.JPanel jPanel53;
-    private javax.swing.JPanel jPanel54;
     private javax.swing.JPanel jPanel55;
     private javax.swing.JPanel jPanel56;
     private javax.swing.JPanel jPanel57;
     private javax.swing.JPanel jPanel58;
-    private javax.swing.JPanel jPanel59;
-    private javax.swing.JPanel jPanel60;
-    private javax.swing.JPanel jPanel61;
-    private javax.swing.JPanel jPanel62;
-    private javax.swing.JPanel jPanel63;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton10;
-    private javax.swing.JRadioButton jRadioButton11;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JRadioButton jRadioButton5;
-    private javax.swing.JRadioButton jRadioButton6;
-    private javax.swing.JRadioButton jRadioButton7;
-    private javax.swing.JRadioButton jRadioButton8;
-    private javax.swing.JRadioButton jRadioButton9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JRadioButton kitchenStock;
+    private javax.swing.JRadioButton kitchenStockLimitedStock;
+    private javax.swing.JRadioButton salesByCategory;
+    private javax.swing.JRadioButton salesByItem;
     // End of variables declaration//GEN-END:variables
+
+    private void generateSalesReport() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String today = formatter.format(new Date());
+
+        String cashier = "";
+        String from = "";
+        String to = "";
+
+        if (jComboBox1.getSelectedIndex() != 0) {
+            cashier = String.valueOf(jComboBox1.getSelectedItem()).split(" - ")[0];
+        }
+
+        if (jCheckBox1.isSelected()) {
+            from = today;
+            to = "2024-04-01";
+        } else {
+            if (jDateChooser1.getDate() != null && jDateChooser2.getDate() != null) {
+                from = formatter.format(jDateChooser2.getDate());
+                to = formatter.format(jDateChooser1.getDate());
+            }
+        }
+
+        if ((jDateChooser1.getDate() == null || jDateChooser2.getDate() == null) && !jCheckBox1.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Please select valid Dates, Otherwise Tick the check box for All records", "Warning!", JOptionPane.WARNING_MESSAGE);
+        } else {
+            HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("cashier", cashier);
+            parameters.put("to", to);
+            parameters.put("from", from);
+            if (invoiceSummaryReport.isSelected()) {
+                printInvoiceSummaryReport(parameters, today);
+            } else if (InvoiceFullReport.isSelected()) {
+                printInvoiceFullReport(parameters, today);
+            } else if (salesByItem.isSelected()) {
+                printSalesByItemReport(parameters, today);
+            } else if (salesByCategory.isSelected()) {
+                printSalesByCategoryReport(parameters);
+            }
+        }
+
+    }
+
+    private void setupDateCHooserComponents() {
+        Date date = new Date();
+        jDateChooser2.setMaxSelectableDate(date);
+        jDateChooser2.setDate(date);
+        jDateChooser1.setDate(new Date(jDateChooser2.getDate().getTime() - 1000 * 60 * 60 * 24));
+        setupSalesDateChoosers();
+
+        jDateChooser3.setMaxSelectableDate(date);
+        jDateChooser3.setDate(date);
+        jDateChooser4.setDate(new Date(jDateChooser3.getDate().getTime() - 1000 * 60 * 60 * 24));
+        setupGrnDateChoosers();
+
+        jDateChooser1.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                try {
+                    jDateChooser1.getComponent(1).setForeground(new Color(77, 120, 204));
+                } catch (Exception e) {
+                }
+            }
+        });
+        jDateChooser2.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                try {
+                    setupSalesDateChoosers();
+                } catch (Exception e) {
+                }
+            }
+        });
+        jDateChooser4.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                try {
+                    jDateChooser4.getComponent(1).setForeground(new Color(77, 120, 204));
+                } catch (Exception e) {
+                }
+            }
+        });
+        jDateChooser3.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                try {
+                    setupGrnDateChoosers();
+                } catch (Exception e) {
+                }
+            }
+        });
+    }
+
+    private void setupSalesDateChoosers() {
+        if (jDateChooser1.getDate() != null && jDateChooser2.getDate() != null) {
+            jDateChooser1.setMaxSelectableDate(new Date(jDateChooser2.getDate().getTime() - 1000 * 60 * 60 * 24));
+            if (jDateChooser2.getDate().before(jDateChooser1.getDate())) {
+                jDateChooser1.setDate(new Date(jDateChooser2.getDate().getTime() - 1000 * 60 * 60 * 24));
+            }
+        } else if (jDateChooser1.getDate() == null && jDateChooser2.getDate() != null) {
+            jDateChooser1.setDate(new Date(jDateChooser2.getDate().getTime() - 1000 * 60 * 60 * 24));
+        }
+        jDateChooser2.getComponent(1).setForeground(new Color(77, 120, 204));
+        jDateChooser1.getComponent(1).setForeground(new Color(77, 120, 204));
+    }
+
+    private void setupGrnDateChoosers() {
+        if (jDateChooser4.getDate() != null && jDateChooser3.getDate() != null) {
+            jDateChooser4.setMaxSelectableDate(new Date(jDateChooser3.getDate().getTime() - 1000 * 60 * 60 * 24));
+            if (jDateChooser3.getDate().before(jDateChooser4.getDate())) {
+                jDateChooser4.setDate(new Date(jDateChooser3.getDate().getTime() - 1000 * 60 * 60 * 24));
+            }
+        } else if (jDateChooser4.getDate() == null && jDateChooser3.getDate() != null) {
+            jDateChooser4.setDate(new Date(jDateChooser3.getDate().getTime() - 1000 * 60 * 60 * 24));
+        }
+        jDateChooser3.getComponent(1).setForeground(new Color(77, 120, 204));
+        jDateChooser4.getComponent(1).setForeground(new Color(77, 120, 204));
+    }
+
+    private void loadCashierList() {
+        try {
+            ResultSet result = Mysql.execute("SELECT display_name,mobile,role_name FROM user INNER JOIN user_role ON user.user_role_id = user_role.id ");
+            Vector v = new Vector();
+            v.add("Select cashier");
+            while (result.next()) {
+                v.add(result.getString("mobile") + " - " + result.getString("display_name"));
+            }
+            jComboBox1.setModel(new DefaultComboBoxModel(v));
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void printInvoiceSummaryReport(HashMap<String, Object> parameters, String today) {
+        String cashier = "";
+        if (jComboBox1.getSelectedIndex() != 0) {
+            cashier = String.valueOf(jComboBox1.getSelectedItem()).split(" - ")[0];
+        }
+
+        try {
+            ResultSet result = Mysql.execute("SELECT COUNT(id) AS `count` ,SUM(invoice.total) AS total FROM  invoice "
+                    + "INNER JOIN `user` ON user.mobile = invoice.user_mobile "
+                    + "WHERE `date` >=  '" + parameters.get("to") + "' AND `date` <=  '" + parameters.get("from") + "'  AND `user_mobile` LIKE  '" + cashier + "%'");
+
+            if (result.next()) {
+                parameters.put("printDate", today);
+                parameters.put("netTotal", result.getString("total"));
+            }
+            URL mainReport = getClass().getResource("/com/cafe/reports/cafe_invoice_summary.jasper");
+
+            JasperPrint fillReport = JasperFillManager.fillReport(mainReport.getPath(), parameters, Mysql.getConnection());
+            JasperViewer viewer = new JasperViewer(fillReport, false);
+
+            jPanel21.removeAll();
+            jPanel21.add(viewer.getRootPane());
+            jPanel21.updateUI();
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void printInvoiceFullReport(HashMap<String, Object> parameters, String today) {
+        String cashier = "";
+        if (jComboBox1.getSelectedIndex() != 0) {
+            cashier = String.valueOf(jComboBox1.getSelectedItem()).split(" - ")[0];
+        }
+
+        try {
+            ResultSet resultset = Mysql.execute("SELECT id,date,invoice.total,invoice.discount,user_mobile,display_name FROM  invoice "
+                    + "INNER JOIN `user` ON user.mobile = invoice.user_mobile "
+                    + "WHERE `date` >=   '" + parameters.get("to") + "'  AND `date` <= '" + parameters.get("from") + "' AND "
+                    + "`user_mobile`  LIKE  '" + cashier + "%'");
+
+            ResultSet result = Mysql.execute("SELECT COUNT(id) AS `count` ,SUM(invoice.total) AS total FROM  invoice "
+                    + "INNER JOIN `user` ON user.mobile = invoice.user_mobile "
+                    + "WHERE `date` >=  '" + parameters.get("to") + "' AND `date` <=  '" + parameters.get("from") + "'  AND `user_mobile` LIKE  '" + cashier + "%'");
+
+            if (result.next()) {
+                parameters.put("date", today);
+                parameters.put("total", "Rs. " + new DecimalFormat("#,###.00").format(result.getDouble("total")));
+            }
+
+            URL resource = getClass().getResource("/com/cafe/reports/main_report.jasper");
+            URL resourceSub = getClass().getResource("/com/cafe/reports/sub_report.jasper");
+
+            JasperFillManager.fillReport(resourceSub.getPath(), parameters, Mysql.getConnection());
+
+            JasperPrint fillReport = JasperFillManager.fillReport(resource.getPath(), parameters, Mysql.getConnection());
+
+            JasperViewer viewer = new JasperViewer(fillReport, false);
+
+            jPanel21.removeAll();
+            jPanel21.add(viewer.getRootPane());
+            jPanel21.updateUI();
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void resetSalesTab() {
+        jPanel21.removeAll();
+        jPanel21.add(jLabel5);
+        jPanel21.updateUI();
+    }
+
+    private void printSalesByItemReport(HashMap<String, Object> parameters, String today) {
+        String cashier = "";
+        if (jComboBox1.getSelectedIndex() != 0) {
+            cashier = String.valueOf(jComboBox1.getSelectedItem()).split(" - ")[0];
+        }
+
+        try {
+            ResultSet result = Mysql.execute("SELECT menu_item.id,menu_item.name, COUNT(menu_item.id) AS `qty`, menu_invoice_item.selling_price,menu_invoice_item.discount, "
+                    + "SUM(menu_invoice_item.selling_price-menu_invoice_item.discount * menu_invoice_item.qty) AS income FROM  invoice "
+                    + "INNER JOIN `menu_invoice_item` ON menu_invoice_item.invoice_id = invoice.id "
+                    + "INNER JOIN menu_item ON menu_item.id = menu_invoice_item.menu_item_id "
+                    + "INNER JOIN `user` ON user.mobile = invoice.user_mobile "
+                    + "WHERE `date` >=  '" + parameters.get("to") + "' AND `date` <=  '" + parameters.get("from") + "'  AND `user_mobile` LIKE  '" + cashier + "%' ");
+
+            if (result.next()) {
+                parameters.put("date", today);
+                parameters.put("total", "Rs. " + new DecimalFormat("#,###.00").format(result.getDouble("income")));
+            }
+            JasperPrint fillReport = JasperFillManager.fillReport("src/com/cafe/reports/salesByItem.jasper", parameters, Mysql.getConnection());
+            JasperViewer viewer = new JasperViewer(fillReport, false);
+            emptyLabel = jLabel5;
+            jPanel21.removeAll();
+            jPanel21.add(viewer.getRootPane());
+            jPanel21.updateUI();
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void printSalesByCategoryReport(HashMap<String, Object> parameters) {
+        try {
+            parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            URL resource = getClass().getResource("/com/cafe/reports/salesByCategory.jasper");
+            URL resourceSub = getClass().getResource("/com/cafe/reports/categoryItems.jasper");
+
+            JasperFillManager.fillReport(resourceSub.getPath(), parameters, Mysql.getConnection());
+            JasperPrint fillReport = JasperFillManager.fillReport(resource.getPath(), parameters, Mysql.getConnection());
+            JasperViewer viewer = new JasperViewer(fillReport, false);
+            emptyLabel = jLabel5;
+            jPanel21.removeAll();
+            jPanel21.add(viewer.getRootPane());
+            jPanel21.updateUI();
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void loadData() {
+        loadCashierList();
+        loadMenuItemCategoryList();
+        loadBrandList();
+        loadSupplierList();
+    }
+
+    private void loadMenuItemCategoryList() {
+        try {
+            ResultSet result = Mysql.execute("SELECT * FROM `menu_item_category`");
+
+            Vector category = new Vector();
+            category.add("Select Category");
+            menuCategoryMap.put("Select Category", "");
+            while (result.next()) {
+                category.add(result.getString("name"));
+                menuCategoryMap.put(result.getString("name"), result.getString("id"));
+            }
+            jComboBox3.setModel(new DefaultComboBoxModel(category));
+
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void loadBrandList() {
+        try {
+            ResultSet result = Mysql.execute("SELECT * FROM `brand`");
+
+            Vector brand = new Vector();
+            brand.add("Select Brand");
+            brandMap.put("Select Brand", "");
+            while (result.next()) {
+                brand.add(result.getString("name"));
+                brandMap.put(result.getString("name"), result.getString("id"));
+            }
+//            jComboBox2.setModel(new DefaultComboBoxModel(brand));
+
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void resetMenuTab() {
+        jPanel43.removeAll();
+        jPanel43.add(jLabel6);
+        jPanel43.updateUI();
+    }
+
+    private void generateMenuReport() {
+        try {
+            HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            parameters.put("category", menuCategoryMap.get(String.valueOf(jComboBox3.getSelectedItem())));
+
+            URL mainReport = getClass().getResource("/com/cafe/reports/menuMain.jasper");
+            URL subReport1 = getClass().getResource("/com/cafe/reports/menuSub.jasper");
+            URL subReport2 = getClass().getResource("/com/cafe/reports/menuSub2.jasper");
+
+            JasperFillManager.fillReport(subReport1.getPath(), parameters, Mysql.getConnection());
+            JasperFillManager.fillReport(subReport2.getPath(), parameters, Mysql.getConnection());
+            JasperPrint report = JasperFillManager.fillReport(mainReport.getPath(), parameters, Mysql.getConnection());
+
+            JasperViewer viever = new JasperViewer(report, false);
+
+            jPanel43.removeAll();
+            jPanel43.add(viever.getRootPane());
+            jPanel43.updateUI();
+
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void resetSTockTab() {
+        jPanel57.removeAll();
+        jPanel57.add(jLabel7);
+        jPanel57.updateUI();
+    }
+
+    private void generateStockReport() {
+        if (directSellingStock.isSelected()) {
+            printDirrectSellingStock();
+        } else if (directSellingLimitedStock.isSelected()) {
+            printDirrectSellingLimitedStock();
+        } else if (kitchenStock.isSelected()) {
+            printKitchenStock();
+        } else if (kitchenStockLimitedStock.isSelected()) {
+            printKitchenStockLimitedStock();
+        } else if (damagedStock.isSelected()) {
+            printDamagedStock();
+        }
+    }
+
+    private void printDirrectSellingStock() {
+        try {
+            HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            String count = "0";
+            ResultSet result = Mysql.execute("SELECT COUNT(direct_selling_stock.id) AS `count` FROM direct_selling_stock");
+            if (result.next()) {
+                count = result.getString("count");
+            }
+
+            parameters.put("items", count);
+            URL mainReport = getClass().getResource("/com/cafe/reports/directStock.jasper");
+
+            JasperPrint report = JasperFillManager.fillReport(mainReport.getPath(), parameters, Mysql.getConnection());
+
+            JasperViewer viever = new JasperViewer(report, false);
+
+            jPanel57.removeAll();
+            jPanel57.add(viever.getRootPane());
+            jPanel57.updateUI();
+
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void printDirrectSellingLimitedStock() {
+        try {
+            HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            String count = "0";
+            ResultSet result = Mysql.execute("SELECT COUNT(direct_selling_stock.id) AS `count` FROM direct_selling_stock "
+                    + "WHERE `qty` < '10' ");
+            if (result.next()) {
+                count = result.getString("count");
+            }
+
+            parameters.put("items", count);
+            parameters.put("limit", String.valueOf(jComboBox2.getSelectedItem()));
+            URL mainReport = getClass().getResource("/com/cafe/reports/directStockLimited.jasper");
+
+            JasperPrint report = JasperFillManager.fillReport(mainReport.getPath(), parameters, Mysql.getConnection());
+
+            JasperViewer viever = new JasperViewer(report, false);
+
+            jPanel57.removeAll();
+            jPanel57.add(viever.getRootPane());
+            jPanel57.updateUI();
+
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void printKitchenStock() {
+        try {
+            HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            String count = "0";
+            ResultSet result = Mysql.execute("SELECT COUNT(id) AS `count` FROM kitchen_stock ");
+            if (result.next()) {
+                count = result.getString("count");
+            }
+
+            parameters.put("items", count);
+
+            URL mainReport = getClass().getResource("/com/cafe/reports/kitchenStock.jasper");
+
+            JasperPrint report = JasperFillManager.fillReport(mainReport.getPath(), parameters, Mysql.getConnection());
+
+            JasperViewer viever = new JasperViewer(report, false);
+
+            jPanel57.removeAll();
+            jPanel57.add(viever.getRootPane());
+            jPanel57.updateUI();
+
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void printKitchenStockLimitedStock() {
+        try {
+            HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            String count = "0";
+            ResultSet result = Mysql.execute("SELECT COUNT(id) AS `count` FROM kitchen_stock WHERE `qty` < '10'");
+            if (result.next()) {
+                count = result.getString("count");
+            }
+            parameters.put("limit", String.valueOf(jComboBox2.getSelectedItem()));
+            parameters.put("items", count);
+            URL mainReport = getClass().getResource("/com/cafe/reports/kitchenStockLimited.jasper");
+
+            JasperPrint report = JasperFillManager.fillReport(mainReport.getPath(), parameters, Mysql.getConnection());
+
+            JasperViewer viever = new JasperViewer(report, false);
+
+            jPanel57.removeAll();
+            jPanel57.add(viever.getRootPane());
+            jPanel57.updateUI();
+
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void printDamagedStock() {
+        try {
+            HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            String count = "0";
+            ResultSet result = Mysql.execute("SELECT COUNT(*)+(SELECT COUNT(*) AS COUNT  FROM kitchen_damage_stock) AS count from direct_selling_damage_stock ");
+            if (result.next()) {
+                count = result.getString("count");
+            }
+
+            parameters.put("items", count);
+
+            URL mainReport = getClass().getResource("/com/cafe/reports/damagedStock.jasper");
+            URL subReport1 = getClass().getResource("/com/cafe/reports/damagedDirect.jasper");
+            URL subReport2 = getClass().getResource("/com/cafe/reports/damagedKitchen.jasper");
+
+            JasperFillManager.fillReport(subReport1.getPath(), parameters, Mysql.getConnection());
+            JasperFillManager.fillReport(subReport2.getPath(), parameters, Mysql.getConnection());
+
+            JasperPrint report = JasperFillManager.fillReport(mainReport.getPath(), parameters, Mysql.getConnection());
+
+            JasperViewer viever = new JasperViewer(report, false);
+
+            jPanel57.removeAll();
+            jPanel57.add(viever.getRootPane());
+            jPanel57.updateUI();
+
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void resetGrnTab() {
+        jPanel58.removeAll();
+        jPanel58.add(jLabel8);
+        jPanel58.updateUI();
+    }
+
+    private void generateGrnReport() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String today = formatter.format(new Date());
+
+        String supplier = "";
+        String from = "";
+        String to = "";
+
+        if (jComboBox4.getSelectedIndex() != 0) {
+            supplier = String.valueOf(jComboBox4.getSelectedItem()).split(" - ")[0];
+        }
+
+        if (jCheckBox2.isSelected()) {
+            from = today;
+            to = "2024-04-01";
+        } else {
+            if (jDateChooser4.getDate() != null && jDateChooser3.getDate() != null) {
+                from = formatter.format(jDateChooser3.getDate());
+                to = formatter.format(jDateChooser4.getDate());
+            }
+        }
+
+        if ((jDateChooser4.getDate() == null || jDateChooser3.getDate() == null) && !jCheckBox2.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Please select valid Dates, Otherwise Tick the check box for All records", "Warning!", JOptionPane.WARNING_MESSAGE);
+        } else {
+            HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("supplier", supplier);
+            parameters.put("to", to);
+            parameters.put("from", from);
+            if (grnSummary.isSelected()) {
+                printGrnSummaryReport(parameters);
+            } else if (grnFull.isSelected()) {
+                printGrnFullReport(parameters);
+            }
+        }
+
+    }
+
+    private void printGrnSummaryReport(HashMap<String, Object> parameters) {       
+        try {
+
+            parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+
+            URL mainReport = getClass().getResource("/com/cafe/reports/grnMain.jasper");
+            URL subReport1 = getClass().getResource("/com/cafe/reports/grnKitchen.jasper");
+            URL subReport2 = getClass().getResource("/com/cafe/reports/grnDirect.jasper");
+
+            JasperFillManager.fillReport(subReport1.getPath(), parameters, Mysql.getConnection());
+            JasperFillManager.fillReport(subReport2.getPath(), parameters, Mysql.getConnection());
+
+            JasperPrint fillReport = JasperFillManager.fillReport(mainReport.getPath(), parameters, Mysql.getConnection());
+            JasperViewer viewer = new JasperViewer(fillReport, false);
+
+            jPanel58.removeAll();
+            jPanel58.add(viewer.getRootPane());
+            jPanel58.updateUI();
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void printGrnFullReport(HashMap<String, Object> parameters) {        
+        try {
+
+            parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+
+            URL mainReport = getClass().getResource("/com/cafe/reports/grnFullMain.jasper");
+            URL subReport1 = getClass().getResource("/com/cafe/reports/grnFullKitchen.jasper");
+            URL subReport2 = getClass().getResource("/com/cafe/reports/grnFullDirect.jasper");
+            URL subReport1sub = getClass().getResource("/com/cafe/reports/grnFullKitchenSub.jasper");
+            URL subReport2sub = getClass().getResource("/com/cafe/reports/grnFullDirectSub.jasper");
+
+            JasperFillManager.fillReport(subReport1sub.getPath(), parameters, Mysql.getConnection());
+            JasperFillManager.fillReport(subReport2sub.getPath(), parameters, Mysql.getConnection());
+            JasperFillManager.fillReport(subReport1.getPath(), parameters, Mysql.getConnection());
+            JasperFillManager.fillReport(subReport2.getPath(), parameters, Mysql.getConnection());
+
+            JasperPrint fillReport = JasperFillManager.fillReport(mainReport.getPath(), parameters, Mysql.getConnection());
+            JasperViewer viewer = new JasperViewer(fillReport, false);
+
+            jPanel58.removeAll();
+            jPanel58.add(viewer.getRootPane());
+            jPanel58.updateUI();
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void loadSupplierList() {
+        try {
+            ResultSet result = Mysql.execute("SELECT * FROM supplier ");
+            Vector v = new Vector();
+            v.add("Select Supplier");
+            while (result.next()) {
+                v.add(result.getString("mobile") + " - " + result.getString("name"));
+            }
+            jComboBox4.setModel(new DefaultComboBoxModel(v));
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
 }

@@ -146,6 +146,18 @@ public class PreorderManagement extends javax.swing.JPanel {
 
         jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField2.setPreferredSize(new java.awt.Dimension(71, 40));
+        jTextField2.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jTextField2InputMethodTextChanged(evt);
+            }
+        });
+        jTextField2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jTextField2PropertyChange(evt);
+            }
+        });
         jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField2KeyReleased(evt);
@@ -155,6 +167,11 @@ public class PreorderManagement extends javax.swing.JPanel {
 
         jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField3.setPreferredSize(new java.awt.Dimension(71, 40));
+        jTextField3.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jTextField3PropertyChange(evt);
+            }
+        });
         jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField3KeyReleased(evt);
@@ -236,6 +253,20 @@ public class PreorderManagement extends javax.swing.JPanel {
         loadData();
         resetUpdateInput();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField2InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextField2InputMethodTextChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2InputMethodTextChanged
+
+    private void jTextField2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTextField2PropertyChange
+        // TODO add your handling code here:
+        loadPreOrderList();
+    }//GEN-LAST:event_jTextField2PropertyChange
+
+    private void jTextField3PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTextField3PropertyChange
+        // TODO add your handling code here:
+        loadPreOrderList();
+    }//GEN-LAST:event_jTextField3PropertyChange
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
