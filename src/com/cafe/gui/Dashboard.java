@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComponent;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -117,6 +118,10 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     public void setActiveTab(Tab activeTab) {
         this.activeTab = activeTab;
         jLabel8.setText(arrangeTitle(this.activeTab.name()));
+    }
+
+    public Tab getActiveTab() {
+        return activeTab;
     }
 
     public void setWarningStatus(String systemStatus) {
@@ -985,11 +990,17 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             if (this.salesChannel != null) {
                 this.salesChannel.setItemsPerRow(7);
             }
+            if (this.purchaseOrder != null) {
+                this.purchaseOrder.setItemsPerRow(7);
+            }
             closeSidebar();
         } else {
             openSidebar();
             if (this.salesChannel != null) {
                 this.salesChannel.setItemsPerRow(6);
+            }
+            if (this.purchaseOrder != null) {
+                this.purchaseOrder.setItemsPerRow(6);
             }
         }
 
@@ -1249,7 +1260,11 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         if (salesChannel != null) {
             salesChannel.setComponentTheme();
         }
-
+        
+        if(purchaseOrder != null){
+            purchaseOrder.setComponentTheme();
+        }
+        
     }
 
     private void setCharts() {

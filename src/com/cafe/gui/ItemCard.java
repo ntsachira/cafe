@@ -1,33 +1,75 @@
-
 package com.cafe.gui;
 
+import com.cafe.model.Tabs;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.ImageIcon;
-
+import javax.swing.JLabel;
 
 public class ItemCard extends javax.swing.JPanel {
 
-    private SalesChannel salesChannel;   
-    
+    private SalesChannel salesChannel;
+    private PurchaseOrder purchaseOrder;
+
     private String itemName;
     private int id;
     private double price;
     private double discount;
     private String brand;
+    private String unitOfMeasureId;
+
+    private double quantity;
+    private PurchaseOrder.ItemType itemType;
+
+    public String getUnitOfMeasureId() {
+        return unitOfMeasureId;
+    }
+
+    public void setUnitOfMeasureId(String unitOfMeasureId) {
+        this.unitOfMeasureId = unitOfMeasureId;
+    }
+
+    public PurchaseOrder.ItemType getItemType() {
+        return itemType;
+    }
+
+    public JLabel getjLabel2() {
+        return jLabel2;
+    }
+
+    public void setjLabel2(JLabel jLabel2) {
+        this.jLabel2 = jLabel2;
+    }
+
+    public void setItemType(PurchaseOrder.ItemType itemType) {
+        this.itemType = itemType;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
 
     public String getBrand() {
         return brand;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
     }
 
     public void setBrand(String brand) {
         this.brand = brand;
     }
 
-    public void setImage(String path){
-        if(!path.isBlank())
-        jImagePanel1.setImageIcon(new ImageIcon(getClass().getResource(path)));
+    public void setImage(String path) {
+        if (!path.isBlank()) {
+            jImagePanel1.setImageIcon(new ImageIcon(getClass().getResource(path)));
+        }
     }
 
     public double getDiscount() {
@@ -44,7 +86,7 @@ public class ItemCard extends javax.swing.JPanel {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
-        jLabel3.setText("<html><center><p>"+itemName);
+        jLabel3.setText("<html><center><p>" + itemName);
     }
 
     public int getId() {
@@ -55,34 +97,31 @@ public class ItemCard extends javax.swing.JPanel {
         this.id = id;
     }
 
-    public double getPrice() {        
+    public double getPrice() {
         return Double.parseDouble(jLabel2.getText().split(" ")[1].trim());
     }
 
     public void setPrice(double price) {
         this.price = price;
-        jLabel2.setText("Rs. "+String.valueOf(price));
+        jLabel2.setText("Rs. " + String.valueOf(price));
     }
-    
 
     public void setSalesChannel(SalesChannel salesChannel) {
         this.salesChannel = salesChannel;
     }
-    
-    public void setSoldQuantity(int qty){
-        jLabel1.setText(" "+String.valueOf(qty)+" Sold");
+
+    public void setSoldQuantity(int qty) {
+        jLabel1.setText(" " + String.valueOf(qty) + " Sold");
     }
-    
+
     /**
      * Creates new form Box
      */
     public ItemCard() {
         initComponents();
-         this.putClientProperty(FlatClientProperties.STYLE,"arc:50");    
-         jImagePanel1.setBackground(new Color(0,0,0,0));
+        this.putClientProperty(FlatClientProperties.STYLE, "arc:50");
+        jImagePanel1.setBackground(new Color(0, 0, 0, 0));
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -163,21 +202,24 @@ public class ItemCard extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        this.putClientProperty(FlatClientProperties.STYLE,"border:10,10,10,10,#4D78CC,1,50");
+        this.putClientProperty(FlatClientProperties.STYLE, "border:10,10,10,10,#4D78CC,1,50");
     }//GEN-LAST:event_formMouseEntered
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
         // TODO add your handling code here:
-        this.putClientProperty(FlatClientProperties.STYLE,"border:10,10,10,10,#0000,1,50");
+        this.putClientProperty(FlatClientProperties.STYLE, "border:10,10,10,10,#0000,1,50");
     }//GEN-LAST:event_formMouseExited
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         // TODO add your handling code here:        
-        if(this.salesChannel != null){
+        if (this.salesChannel != null) {
             QuantitySelector quantitySelector = new QuantitySelector(this.salesChannel.getDashboard(), true);
             quantitySelector.setSalesChannel(this.salesChannel);
-            quantitySelector.setMenuItem(this);            
+            quantitySelector.setMenuItem(this);
             quantitySelector.setVisible(true);
+        }
+        if (this.purchaseOrder != null) {
+            purchaseOrder.setSelectedItem(this);
         }
     }//GEN-LAST:event_formMouseClicked
 
@@ -190,8 +232,8 @@ public class ItemCard extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
-public void setStyleforDashboard(){
-    jLabel3.setFont(new Font("Segoe UI Semibold", 0, 16));
-    jLabel2.setFont(new Font("Segoe UI Semibold", 0, 16));
-}
+public void setStyleforDashboard() {
+        jLabel3.setFont(new Font("Segoe UI Semibold", 0, 16));
+        jLabel2.setFont(new Font("Segoe UI Semibold", 0, 16));
+    }
 }
