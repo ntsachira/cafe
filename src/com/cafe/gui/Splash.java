@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.cafe.gui;
 
 import com.cafe.model.User;
@@ -15,10 +12,6 @@ import java.util.logging.*;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-/**
- *
- * @author Dell
- */
 public class Splash extends javax.swing.JFrame {
 
     public static Logger logger = Logger.getLogger("cafe");

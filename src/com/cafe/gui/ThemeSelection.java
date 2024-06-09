@@ -3,6 +3,7 @@ package com.cafe.gui;
 
 import com.cafe.model.Mysql;
 import com.cafe.model.User;
+import com.cafe.style.CustomStyle;
 import com.cafe.style.Pallet;
 import com.cafe.style.Pallet.Mode;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -22,6 +23,7 @@ public class ThemeSelection extends javax.swing.JFrame {
      */
     public ThemeSelection(User user) {
         initComponents();
+        CustomStyle.setIcon(this);
         setSampleThemes();
         this.user = user;
     }
@@ -96,7 +98,7 @@ public class ThemeSelection extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(1284, 704));
 
-        jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
+        jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(77, 120, 204)));
         jPanel11.setLayout(new java.awt.BorderLayout());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -187,13 +189,13 @@ public class ThemeSelection extends javax.swing.JFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(30, 20, 30, 20));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jButton1.setBackground(new java.awt.Color(0, 153, 153));
+        jButton1.setBackground(new java.awt.Color(77, 120, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Continue");
         jButton1.setMaximumSize(new java.awt.Dimension(96, 50));
         jButton1.setMinimumSize(new java.awt.Dimension(96, 40));
-        jButton1.setPreferredSize(new java.awt.Dimension(180, 40));
+        jButton1.setPreferredSize(new java.awt.Dimension(180, 48));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
