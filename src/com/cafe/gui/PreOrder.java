@@ -1,21 +1,61 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package com.cafe.gui;
 
+import static com.cafe.gui.Dashboard.alignFrame;
+import com.cafe.model.Mysql;
 import com.cafe.model.Theme;
+import com.cafe.style.CustomStyle;
 import com.cafe.style.Pallet;
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
+import static java.awt.Component.LEFT_ALIGNMENT;
+import static java.awt.Component.RIGHT_ALIGNMENT;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.logging.Level;
 import javax.swing.SwingUtilities;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author Dell
  */
-public class PreOrder extends javax.swing.JDialog implements Theme{
+public class PreOrder extends javax.swing.JDialog implements Theme {
+
+    private SalesChannel salesChannel;
+    private SalesChannel.Payment paymentMethod = SalesChannel.Payment.Cash;
+
+    private double billTotal;
+    private double totalDiscount;
+    private String payment = "";
+
+    public void setBillTotal(double billTotal) {
+        this.billTotal = billTotal;
+    }
+
+    public void setTotalDiscount(double totalDiscount) {
+        this.totalDiscount = totalDiscount;
+        jLabel5.setText(String.valueOf(totalDiscount));
+    }
+
+    public void setBalance() {
+        jLabel7.setText(String.valueOf(-(billTotal - totalDiscount)));
+    }
+
+    public void setSalesChannel(SalesChannel salesChannel) {
+        this.salesChannel = salesChannel;
+    }
 
     /**
      * Creates new form PreOrder
@@ -23,12 +63,8 @@ public class PreOrder extends javax.swing.JDialog implements Theme{
     public PreOrder(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        FlatLightLaf.setup();
-        SwingUtilities.updateComponentTreeUI(this);
-        Pallet.ResetTheme();
         setStyle();
-        jDateChooser1.setMinSelectableDate(new Date());
-        jTimeChooser2.setForeground(Color.red);
+        setupDateTimeComponents();
     }
 
     /**
@@ -70,10 +106,11 @@ public class PreOrder extends javax.swing.JDialog implements Theme{
         jLabel7 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel14 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -81,6 +118,11 @@ public class PreOrder extends javax.swing.JDialog implements Theme{
         setModal(true);
         setPreferredSize(new java.awt.Dimension(613, 483));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jPanel1.setLayout(new java.awt.BorderLayout(0, 20));
@@ -110,8 +152,8 @@ public class PreOrder extends javax.swing.JDialog implements Theme{
         jLabel8.setPreferredSize(new java.awt.Dimension(37, 30));
         jPanel16.add(jLabel8, java.awt.BorderLayout.PAGE_START);
 
-        jDateChooser1.setBackground(new java.awt.Color(204, 204, 204));
-        jDateChooser1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jDateChooser1.setDateFormatString("yyyy-MM-dd");
+        jDateChooser1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jDateChooser1.setMinSelectableDate(new java.util.Date(-62135785724000L));
         jPanel16.add(jDateChooser1, java.awt.BorderLayout.CENTER);
 
@@ -126,10 +168,10 @@ public class PreOrder extends javax.swing.JDialog implements Theme{
         jPanel17.add(jLabel9, java.awt.BorderLayout.PAGE_START);
 
         jTimeChooser2.setBackground(new java.awt.Color(204, 204, 204));
-        jTimeChooser2.setForeground(new java.awt.Color(255, 255, 255));
+        jTimeChooser2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jTimeChooser2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTimeChooser2.setOpaque(true);
-        jTimeChooser2.setShowSeconds(false);
+        jTimeChooser2.setShowIcon(true);
         jPanel17.add(jTimeChooser2, java.awt.BorderLayout.CENTER);
 
         jPanel7.add(jPanel17);
@@ -158,12 +200,22 @@ public class PreOrder extends javax.swing.JDialog implements Theme{
         jToggleButton1.setSelected(true);
         jToggleButton1.setText("Cash");
         jToggleButton1.setPreferredSize(new java.awt.Dimension(0, 90));
+        jToggleButton1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButton1ItemStateChanged(evt);
+            }
+        });
         jPanel8.add(jToggleButton1);
 
         buttonGroup1.add(jToggleButton2);
         jToggleButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jToggleButton2.setText("Card");
         jToggleButton2.setPreferredSize(new java.awt.Dimension(0, 90));
+        jToggleButton2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButton2ItemStateChanged(evt);
+            }
+        });
         jPanel8.add(jToggleButton2);
 
         jPanel4.add(jPanel8, java.awt.BorderLayout.WEST);
@@ -223,30 +275,52 @@ public class PreOrder extends javax.swing.JDialog implements Theme{
         jPanel13.setPreferredSize(new java.awt.Dimension(716, 40));
         jPanel13.setLayout(new java.awt.BorderLayout(10, 0));
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        jFormattedTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jFormattedTextField1.setPreferredSize(new java.awt.Dimension(200, 40));
-        jPanel13.add(jFormattedTextField1, java.awt.BorderLayout.CENTER);
-
+        jButton2.setBackground(new java.awt.Color(102, 102, 102));
         jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Add Payment");
+        jButton2.setBorderPainted(false);
         jButton2.setPreferredSize(new java.awt.Dimension(150, 40));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel13.add(jButton2, java.awt.BorderLayout.EAST);
+
+        jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jButton3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jButton3.setPreferredSize(new java.awt.Dimension(75, 40));
+        jButton3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton3KeyPressed(evt);
+            }
+        });
+        jPanel13.add(jButton3, java.awt.BorderLayout.CENTER);
 
         jPanel3.add(jPanel13, java.awt.BorderLayout.PAGE_START);
 
         jPanel14.setPreferredSize(new java.awt.Dimension(716, 48));
         jPanel14.setLayout(new java.awt.BorderLayout());
 
-        jButton1.setBackground(new java.awt.Color(0, 153, 153));
+        jButton1.setBackground(new java.awt.Color(77, 120, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Print Invoice");
+        jButton1.setBorderPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(150, 48));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel14.add(jButton1, java.awt.BorderLayout.EAST);
 
         jPanel3.add(jPanel14, java.awt.BorderLayout.PAGE_END);
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel11.setText("...");
+        jPanel3.add(jLabel11, java.awt.BorderLayout.CENTER);
 
         jPanel15.add(jPanel3, java.awt.BorderLayout.SOUTH);
 
@@ -262,6 +336,42 @@ public class PreOrder extends javax.swing.JDialog implements Theme{
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton3KeyPressed
+        // TODO add your handling code here:
+        validateAndSetPayementInput(evt);
+    }//GEN-LAST:event_jButton3KeyPressed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        addPayment();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jToggleButton1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButton1ItemStateChanged
+        // TODO add your handling code here:
+        if (jToggleButton1.isSelected()) {
+            this.paymentMethod = SalesChannel.Payment.Cash;
+            setBillforCashPay();
+        }
+    }//GEN-LAST:event_jToggleButton1ItemStateChanged
+
+    private void jToggleButton2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButton2ItemStateChanged
+        // TODO add your handling code here:
+        if (jToggleButton2.isSelected()) {
+            this.paymentMethod = SalesChannel.Payment.Card;
+            setBillforCardPay();
+        }
+    }//GEN-LAST:event_jToggleButton2ItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        processPayment();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -288,10 +398,11 @@ public class PreOrder extends javax.swing.JDialog implements Theme{
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private com.toedter.calendar.JDateChooser jDateChooser1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -322,13 +433,235 @@ public class PreOrder extends javax.swing.JDialog implements Theme{
     private javax.swing.JToggleButton jToggleButton2;
     // End of variables declaration//GEN-END:variables
 
+    private void setBillforCardPay() {
+        payment = String.valueOf(this.billTotal - this.totalDiscount);
+        jLabel3.setText(payment);
+        jButton3.setText("");
+        jButton3.setEnabled(false);
+        jButton2.setEnabled(false);
+        addPayment();
+    }
+
+    private void setBillforCashPay() {
+        jButton3.setEnabled(true);
+        jButton2.setEnabled(true);
+    }
+
     @Override
     public void setStyle() {
+        jToggleButton1.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:rgba(77, 120, 204,40)");
+        jToggleButton2.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:rgba(77, 120, 204,40)");
+        FlatLightLaf.setup();
+        SwingUtilities.updateComponentTreeUI(this);
+        Pallet.ResetTheme();
         setComponentTheme();
     }
 
     @Override
     public void setComponentTheme() {
-        
+
+    }
+
+    private void addPayment() {
+        if (payment.isBlank()) {
+            setWarningStatus("Warning: Enter payment amount to add");
+        } else {
+            jLabel3.setText(payment);
+            jLabel7.setText(String.valueOf((Double.parseDouble(payment) + this.totalDiscount) - this.billTotal));
+            payment = "";
+            jButton3.setText("0");
+        }
+    }
+
+    public void setWarningStatus(String systemStatus) {
+        Toolkit.getDefaultToolkit().beep();
+        jLabel11.setText(systemStatus);
+        jLabel11.setForeground(Color.red);
+        new Thread(() -> {
+            try {
+                Thread.sleep(5000);
+                jLabel11.setText("");
+            } catch (InterruptedException ex) {
+                Splash.logger.log(Level.SEVERE, "Thread interupption", ex);
+                ex.printStackTrace();
+            }
+        }).start();
+    }
+
+    private void validateAndSetPayementInput(KeyEvent evt) {
+        String key = String.valueOf(evt.getKeyChar());
+        if (key.matches("[0-9]")) {
+            payment += key;
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+            if (payment.length() > 1) {
+                payment = payment.substring(0, payment.length() - 1);
+            } else {
+                payment = "";
+            }
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+            payment = "";
+        }
+
+        if (payment.isBlank()) {
+            jButton3.setText("0");
+        } else {
+            jButton3.setText(payment);
+        }
+    }
+
+    private void processPayment() {
+        if (Double.parseDouble(jLabel7.getText()) >= 0) {
+            if (jDateChooser1.getDate().after(new Date()) && jDateChooser1.getDate() != null) {
+                String[] split = jTimeChooser2.getTimeField().getText().split(":");
+                double time = Double.parseDouble(split[0]);
+                if (time > 9 && time < 20) {
+                    if (saveBill()) {
+                        this.salesChannel.getDashboard().setSuccessStatus("Bill saved successfully");
+                    } else {
+                        this.salesChannel.getDashboard().setWarningStatus("Error Saving the Bill! please contact admin");
+                    }
+                    this.salesChannel.resetInvoice();
+                    this.dispose();
+                } else {
+                    setWarningStatus("> Invalid order time, please Select between 9AM - 8PM");
+                }
+            } else {
+                setWarningStatus("> Invalid order date, please change");
+            }
+
+        } else {
+            setWarningStatus("> Low payment amount, add payment to continue");
+        }
+
+    }
+
+    private boolean saveBill() {
+        //invoice - id,date,discount,total,payment method,user mobile, customer mobile        
+        String invoiceID = this.salesChannel.getUser().getMobile().substring(7) + "_" + System.currentTimeMillis();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String date = formatter.format(new Date());
+
+        if (printBill(invoiceID, date)) {
+            int paymentMethodId = 1;
+            ResultSet result = Mysql.execute("SELECT `id` FROM `payment_method` WHERE `name` = '" + this.paymentMethod.name() + "'");
+            try {
+                if (result.next()) {
+                    paymentMethodId = result.getInt("id");
+                }
+
+                Mysql.execute("INSERT INTO `invoice` (`id`,`date`,`discount`,`total`,`payment_method_id`,`user_mobile`,`customer_mobile`) "
+                        + "VALUES('" + invoiceID + "','" + date + "','" + this.totalDiscount + "','" + this.billTotal + "','" + paymentMethodId + "',"
+                        + "'" + this.salesChannel.getUser().getMobile() + "','unknown')");
+
+                for (InvoiceItemCard item : this.salesChannel.getInvoiceItems()) {
+                    if (item.getBrand().equals("Cafe")) {
+                        //menu invoice item - invoice id,menu item id,quantity,discount,price | insert    
+                        Mysql.execute("INSERT INTO `menu_invoice_item` (`invoice_id`,`menu_item_id`,`qty`,`discount`,`selling_price`) "
+                                + "VALUES('" + invoiceID + "','" + item.getId() + "','" + item.getQuantity() + "','" + item.getDiscount() + "','" + item.getPrice() + "')");
+                    } else {
+                        try {
+                            //search for stock id
+                            ResultSet resultset = Mysql.execute("SELECT `id` FROM `direct_selling_stock` WHERE `menu_item_id` = '" + item.getId() + "'");
+                            if (resultset.next()) {
+                                //dirrect invoie item - invoice id, dirrect selling stock,quantity,price, discount | Insert   
+                                Mysql.execute("INSERT INTO `direct_invoice_item` (`invoice_id`,`direct_selling_stock_id`,`qty`,`discount`,`selling_price`) "
+                                        + "VALUES('" + invoiceID + "','" + resultset.getString("id") + "','" + item.getQuantity() + "','" + item.getDiscount() + "','" + item.getPrice() + "')");
+
+                                //update stock
+                                Mysql.execute("UPDATE `direct_selling_stock` SET `qty`=`qty`-'" + item.getQuantity() + "' WHERE `menu_item_id`='" + item.getId() + "'");
+                            } else {
+                                return false;
+                            }
+                        } catch (SQLException ex) {
+                            Splash.logger.log(Level.SEVERE, null, ex);
+                            ex.printStackTrace();
+                            return false;
+                        }
+                    }
+                }
+
+                //Pre order - time,date,pre order status id, invoice id
+                ResultSet poresult = Mysql.execute("SELECT `id` FROM `pre_order_status` WHERE `name`='" + SalesChannel.PreOrderStatus.Pending.name() + "'");
+                if (poresult.next()) {
+                    Mysql.execute("INSERT INTO `pre_orders` (`time`,`date`,`pre_order_status_id`,`invoice_id`) "
+                            + "VALUES('" + jTimeChooser2.getTimeField().getText() + "','" + formatter.format(jDateChooser1.getDate()) + "','" + poresult.getString("id") + "','" + invoiceID + "')");
+                } else {
+                    return false;
+                }
+
+            } catch (SQLException ex) {
+                Splash.logger.log(Level.SEVERE, "Save invoice", ex);
+                ex.printStackTrace();
+                return false;
+            }
+
+        } else {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean printBill(String invoiceID, String date) {
+        String datetime = new SimpleDateFormat("MMM d, y HH:mm:ss").format(new Date());
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.0");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        //parameters
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("date", date);
+        parameters.put("datetime", datetime);
+        parameters.put("invoice_id", invoiceID);
+        parameters.put("pickupDate", formatter.format(jDateChooser1.getDate()) + " " + jTimeChooser2.getTimeField().getText());
+        parameters.put("cashier", this.salesChannel.getUser().getDisplay_name());
+        parameters.put("customer", "Unknown");
+        parameters.put("itemCount", this.salesChannel.getTotalItems());
+        parameters.put("netTotal", this.billTotal);
+        parameters.put("discount", this.totalDiscount);
+        parameters.put("payable", (this.billTotal - this.totalDiscount));
+        parameters.put("paymentMethod", this.paymentMethod.name());
+        parameters.put("payment", decimalFormat.format(Double.parseDouble(jLabel3.getText())));
+        parameters.put("balance", (Double.parseDouble(jLabel3.getText()) - (this.billTotal - this.totalDiscount)));
+
+        Vector<Object> datasource = new Vector<>();
+        for (InvoiceItemCard item : this.salesChannel.getInvoiceItems()) {
+            datasource.add(item);
+        }
+
+        try {
+            JasperPrint billReport = JasperFillManager.fillReport("src/com/cafe/reports/cafe_Preorder_bill.jasper", parameters, new JRBeanCollectionDataSource(datasource));
+            JasperViewer bill = new JasperViewer(billReport, false);
+            bill.setAlwaysOnTop(true);
+            bill.setFitPageZoomRatio();
+            alignFrame(bill, LEFT_ALIGNMENT);
+            bill.setVisible(true);
+
+            JasperPrint kotReport = JasperFillManager.fillReport("src/com/cafe/reports/cafe_preOrder_kot.jasper", parameters, new JRBeanCollectionDataSource(datasource));
+            JasperViewer kot = new JasperViewer(kotReport, false);
+            kot.setAlwaysOnTop(true);
+            kot.setFitPageZoomRatio();
+            alignFrame(kot, RIGHT_ALIGNMENT);
+            kot.setVisible(true);
+
+            //KOT print
+            return true;
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    private void setupDateTimeComponents() {
+        Date date = new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24));
+        jDateChooser1.setMinSelectableDate(date);
+        jDateChooser1.setDate(date);
+        jTimeChooser2.getTimeField().setFont(CustomStyle.getCustomFont(16));
+        jTimeChooser2.getTimeField().setBackground(Color.WHITE);
+        jTimeChooser2.setTime(new Date(System.currentTimeMillis() + (1000 * 60 * 60))); // 1 hour from now
     }
 }

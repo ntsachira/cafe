@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.cafe.style;
 
 import com.formdev.flatlaf.FlatClientProperties;
@@ -24,7 +21,7 @@ import javax.swing.UIManager;
  */
 public class CustomStyle {
 
-    public static final int ROW_HEIGHT = 30;
+    public static final int ROW_HEIGHT = 34;
 
     
      public static void setComponentBackground(Component... components) {
@@ -38,20 +35,16 @@ public class CustomStyle {
     }
 
     public static void addTableStyle() {
-        UIManager.put("TableHeader.font", new Font("Segoe UI Semibold", 0, 14));
+        UIManager.put("TableHeader.font", new Font("Segoe UI Semibold", 0, 16));
         UIManager.put("Table.font", new Font("Segoe UI", 0, 14));
-        UIManager.put("Table.cellMargins", new Insets(0, 5, 0, 5));
+        UIManager.put("Table.cellMargins", new Insets(0, 10, 0, 5));
         UIManager.put("Table.rowHeight", ROW_HEIGHT);
         UIManager.put("TableHeader.height", ROW_HEIGHT);
-//        UIManager.put("Table.showHorizontalLines", true);
-//        UIManager.put("Table.showVerticalLines", true);
-
         //colors
         UIManager.put("Table.alternateRowColor", Pallet.ROW_ALTERNATE);
         UIManager.put("Table.selectionInactiveBackground", Pallet.ROW_INACTIVE);
-//        UIManager.put("TableHeader.background", new Color(82,82,82));
         UIManager.put("Table.selectionBackground", Pallet.ROW_SELECTION);
-//        UIManager.put("Table.gridColor", Pallet.GRID);
+        UIManager.put("Table.selectionForeground", Pallet.FG_CHART);
     }
 
     public static void setIcon(Frame frame) {

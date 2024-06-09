@@ -53,13 +53,11 @@ public class Pallet {
     public static void toggleTheme() {
         if (dashboard != null) {
             switch (MODE) {
-                case LIGHT:
-                    FlatOneDarkIJTheme.setup();
+                case LIGHT:                    
                     setDarkMode();
                     MODE = Mode.DARK;
                     break;
-                case DARK:
-                    FlatLightLaf.setup();
+                case DARK:                    
                     setLightMode();
                     MODE = Mode.LIGHT;
                     break;
@@ -72,16 +70,17 @@ public class Pallet {
     }
 
     public static void setLightMode() {
+        FlatLightLaf.setup();
         MODE = Mode.LIGHT;
         BG_CARD = Color.WHITE;
         BG_CARD_PRODUCT = new Color(238, 240, 244);
         BG_PRIMARY = Color.WHITE;
         FG_CHART = Color.BLACK;
         BG_SIDEBAR_BUTTON = new Color(242, 242, 242);
-        BG_SIDEBAR_BUTTON_SELECTION = "rgba(0,153,153,30)";
-        ROW_ALTERNATE = new Color(255,255,255, 80);
+        BG_SIDEBAR_BUTTON_SELECTION = "rgba(77, 120, 204,40)";
+        ROW_ALTERNATE = new Color(245,245,245);
         ROW_INACTIVE = new Color(0, 0, 0, 20);
-        ROW_SELECTION = Color.WHITE;
+        ROW_SELECTION = Color.BLACK;
         GRID = new Color(102, 102, 102);
 
         TOGGLE_BUTTON = "rgba(0,204,204,35)";
@@ -90,6 +89,7 @@ public class Pallet {
     }
 
     public static void setDarkMode() {
+        FlatOneDarkIJTheme.setup();
         MODE = Mode.DARK;
         BG_CARD = new Color(43, 46, 56);
         BG_CARD_PRODUCT = new Color(40, 44, 52); 

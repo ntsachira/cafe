@@ -4,12 +4,10 @@
  */
 package com.cafe.gui;
 
-import com.cafe.model.SideBarButtons;
-import com.cafe.model.Tabs;
 import com.cafe.style.CustomStyle;
 import com.cafe.style.Pallet;
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Dimension;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 
@@ -17,7 +15,7 @@ import javax.swing.JToggleButton;
  *
  * @author Dell
  */
-public class Sidebar extends javax.swing.JPanel implements SideBarButtons {
+public class Sidebar extends javax.swing.JPanel {
 
     private Dashboard dashboard;
 
@@ -377,7 +375,7 @@ public class Sidebar extends javax.swing.JPanel implements SideBarButtons {
         buttonGroup1.add(jToggleButton14);
         jToggleButton14.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jToggleButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59311_statistics_statistics.png"))); // NOI18N
-        jToggleButton14.setText("Analytics & Reports");
+        jToggleButton14.setText("Reports");
         jToggleButton14.setBorderPainted(false);
         jToggleButton14.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButton14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -463,59 +461,72 @@ public class Sidebar extends javax.swing.JPanel implements SideBarButtons {
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
-        loadSalesChannel();
+        this.dashboard.setSalesChannel();
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setMenuManagement();
     }//GEN-LAST:event_jToggleButton3ActionPerformed
 
     private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setStockManagement();
     }//GEN-LAST:event_jToggleButton4ActionPerformed
 
     private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton5ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setDiscount();
     }//GEN-LAST:event_jToggleButton5ActionPerformed
 
     private void jToggleButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton6ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setTableManagement();
     }//GEN-LAST:event_jToggleButton6ActionPerformed
 
     private void jToggleButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton7ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setSupplierRegistration();
     }//GEN-LAST:event_jToggleButton7ActionPerformed
 
     private void jToggleButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton8ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setCustomerRegistration();
     }//GEN-LAST:event_jToggleButton8ActionPerformed
 
     private void jToggleButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton9ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setUserManagement();
     }//GEN-LAST:event_jToggleButton9ActionPerformed
 
     private void jToggleButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton10ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setUserAvtivity();
     }//GEN-LAST:event_jToggleButton10ActionPerformed
 
     private void jToggleButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton11ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setPurchaseOrder();
     }//GEN-LAST:event_jToggleButton11ActionPerformed
 
     private void jToggleButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton12ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setCategoryManagement();
     }//GEN-LAST:event_jToggleButton12ActionPerformed
 
     private void jToggleButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton13ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setDamagedStock();
     }//GEN-LAST:event_jToggleButton13ActionPerformed
 
     private void jToggleButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton14ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setReport();
     }//GEN-LAST:event_jToggleButton14ActionPerformed
 
     private void jToggleButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton15ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setSettings();
     }//GEN-LAST:event_jToggleButton15ActionPerformed
 
     private void jToggleButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton16ActionPerformed
@@ -525,19 +536,22 @@ public class Sidebar extends javax.swing.JPanel implements SideBarButtons {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
-        loadDashboard();
+        this.dashboard.setDashPanel();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jToggleButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton17ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setGrn();
     }//GEN-LAST:event_jToggleButton17ActionPerformed
 
     private void jToggleButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton18ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setPreorderManagement();
     }//GEN-LAST:event_jToggleButton18ActionPerformed
 
     private void jToggleButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton19ActionPerformed
         // TODO add your handling code here:
+        this.dashboard.setReservationManagement();
     }//GEN-LAST:event_jToggleButton19ActionPerformed
 
 
@@ -569,113 +583,38 @@ public class Sidebar extends javax.swing.JPanel implements SideBarButtons {
     private javax.swing.JToggleButton jToggleButton9;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void loadDashboard() {
-        getDashboard().setDashPanel();
-    }
-
-    @Override
-    public void loadSalesChannel() {
-        SalesChannel salesChannel = new SalesChannel();
-        getDashboard().setSalesChannel(salesChannel);
-        getDashboard().setActiveTab(Tabs.Tab.Sales_Channel);
-    }
-
-    @Override
-    public void loadMenuManagement() {
-
-    }
-
-    @Override
-    public void loadStockManagement() {
-
-    }
-
-    @Override
-    public void loadDiscounts() {
-
-    }
-
-    @Override
-    public void loadTableManagement() {
-
-    }
-
-    @Override
-    public void SupplierManagement() {
-
-    }
-
-    @Override
-    public void loadCustomerManagement() {
-
-    }
-
-    @Override
-    public void loadUserManagement() {
-
-    }
-
-    @Override
-    public void loadUserActivity() {
-
-    }
-
-    @Override
-    public void loadPurchaseOrder() {
-
-    }
-
-    @Override
-    public void loadManageCategories() {
-
-    }
-
-    @Override
-    public void loadDamagedStock() {
-
-    }
-
-    @Override
-    public void loadAnalyticsAndReport() {
-
-    }
-
-    @Override
-    public void loadSettings() {
-
-    }
-
-    @Override
+   
     public void logOut() {
         int option = JOptionPane.showConfirmDialog(getDashboard(), "Confirm Log out", "Confirmation Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
         if (option == JOptionPane.YES_OPTION) {
             getDashboard().dispose();
+            FlatLightLaf.setup();
             new Splash().setVisible(true);
         }
     }
 
-    @Override
+    
     public void toggleTheme() {
         Pallet.toggleTheme();
     }
-    
-    public void setCashierContent(){        
+
+    public void setCashierContent() {
         jToggleButton2.setSelected(true);
-        loadSalesChannel();
-        
+        this.dashboard.setSalesChannel();
+
         removeSidebarButtons(
-                jToggleButton1,jToggleButton17,jToggleButton6,jToggleButton7,jToggleButton9,jToggleButton10,jToggleButton11,
-                jToggleButton12,jToggleButton13,jToggleButton14,jToggleButton15
+                jToggleButton1, jToggleButton17, jToggleButton6, jToggleButton7, jToggleButton9, jToggleButton10, jToggleButton11,
+                jToggleButton12, jToggleButton13, jToggleButton14
         );
-        jPanel3.setPreferredSize(new Dimension((int) jPanel3.getPreferredSize().getWidth(),800));
-        jPanel1.setPreferredSize(new Dimension((int) jPanel1.getPreferredSize().getWidth(),400));
+        jPanel2.remove(jToggleButton15);
+        jPanel3.setPreferredSize(new Dimension((int) jPanel3.getPreferredSize().getWidth(), 800));
+        jPanel1.setPreferredSize(new Dimension((int) jPanel1.getPreferredSize().getWidth(), 400));
         this.updateUI();
     }
-    
-    private void removeSidebarButtons(JToggleButton... buttons){
-        for(JToggleButton tb : buttons){
+
+    private void removeSidebarButtons(JToggleButton... buttons) {
+        for (JToggleButton tb : buttons) {
             jPanel1.remove(tb);
         }
     }
