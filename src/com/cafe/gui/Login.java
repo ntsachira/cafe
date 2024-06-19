@@ -2,10 +2,11 @@
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
+import com.cafe.model.Theme;
 import com.cafe.model.User;
 import com.cafe.model.UserRole;
 import com.cafe.style.CustomStyle;
-import com.cafe.style.Pallet;
+import com.cafe.style.NewTheme;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
@@ -260,28 +261,7 @@ public class Login extends javax.swing.JPanel implements UserRole {
     private void login() {
         User user = validateUser();
         if (splash != null && user != null) {
-            try {
-                ResultSet result = Mysql.execute("SELECT * FROM `system`");
-                if (result.next()) {
-                    if (result.getString("theme") != null && !result.getString("theme").isBlank()) {
-                        if (result.getString("theme").equals(Pallet.Mode.DARK.name())) {
-                            Pallet.setDarkMode();                            
-                            this.splash.setDashboard(user);
-                        } else if (result.getString("theme").equals(Pallet.Mode.LIGHT.name())) {
-                            Pallet.setLightMode();                            
-                            this.splash.setDashboard(user);
-                        }
-                        
-                    } else {
-                        //theme not set
-                        this.splash.setThemeSelection(user);
-                    }
-                }
-            } catch (SQLException ex) {
-                Splash.logger.log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-            }
-
+            this.splash.setDashboard(user);    
         }
     }
 

@@ -3,7 +3,7 @@ package com.cafe.gui;
 import com.cafe.model.Mysql;
 import com.cafe.model.Tabs;
 import com.cafe.style.CustomStyle;
-import com.cafe.style.Pallet;
+import com.cafe.style.NewTheme;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import java.awt.BorderLayout;
@@ -26,26 +26,28 @@ import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import com.cafe.model.Theme;
+import static com.cafe.model.Theme.Mode.DARK;
+import static com.cafe.model.Theme.Mode.LIGHT;
 import com.cafe.model.User;
 import com.cafe.model.UserRole;
-import com.lowagie.text.pdf.PdfObject;
+import static com.cafe.style.NewTheme.setDarkMode;
+import static com.cafe.style.NewTheme.setLightMode;
+import com.formdev.flatlaf.FlatIconColors;
 import static java.awt.Component.LEFT_ALIGNMENT;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JComponent;
+import javax.swing.Action;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -55,25 +57,59 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
-    //system status
+    /**
+     * Holds the active mode of the system out of the ENUM values
+     * <code>Mode.DARK</code> and <code>Mode.LIGHT</code> which is defined in
+     * the interface <code>Theme(I)</code> values for this can be set by
+     * invoking the method <code>setMode(Mode mode)</code> And parsing a ENUM
+     * value with type <code>Mode</code> as the argument
+     */
+    private Mode MODE;
+
+    /**
+     * Value of the field indicating the default status message of the system
+     */
     final String DEFAULT_STATUS = "System functions properly";
 
-    //system user
+    /**
+     * The current logged in <code>User</code> of the system
+     */
     private User user;
+
+    /**
+     * THe last updated date of the system
+     */
     private String date = "";
 
+    /**
+     * The current displaying section name of the system Set by
+     * <code>setActiveTab(Tab activeTab)</code> method Parsing a ENUM value of
+     * type <code>Tab</code> Which is defined in <code>Tabs(I)</code>
+     */
     private Tab activeTab;
 
+    /**
+     * References to the <code>JFreeChart</code> instances displayed on the
+     * dashPanel
+     */
     private JFreeChart salesChart;
     private JFreeChart categorySalesChart;
 
-    //components
+    /**
+     * Reference to the instance of <code>Sidebar</code> set by calling
+     * <code>setSidebar()</code> from the <code>Dashboard</code> constructor
+     */
     private Sidebar sidebar;
+
+    /**
+     * References to the instances of the Primary user interfaces of the system
+     * set by invoking the corresponding setter method of each variable
+     */
     private SalesChannel salesChannel;
     private ReservationManagement reservationManagement;
     private PreorderManagement preorderManagement;
     private Reports report;
-    private RegisterSupplier registerSupplier;
+    private SupplierManagement supplierManagement;
     private CustomerRegistration customerRegistration;
     private GRN grn;
     private PurchaseOrder purchaseOrder;
@@ -87,32 +123,80 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private CategoryManagement categoryManagement;
     private DamageStockManagement damageStockManagement;
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-        setSidebar();
-        loadContentByUserRole();
-        loadTodayInvoiceCount();
-    }
-
     /**
      * Creates new form Dashboard
      */
     public Dashboard(User user) {
+        /**
+         * "setUndecorated()" must be invoked before the UI components are
+         * created. So call it before initComponents() method. Unless it trows
+         * an IllegalComponentStateException
+         */
         if (user.getRole().equals(UserRole.Role.Cashier)) {
             if (!this.isDisplayable()) {
                 this.setUndecorated(true);
             }
         }
         initComponents();
+        /**
+         * setUser() must be invoked immediately after the initComponents()
+         * Every other methods must be invoked after the setUser() setUser()
+         * decides the user type so other content should be loaded according to
+         * the relevant user type
+         */
         setUser(user);
+
+        setSidebar();
         loadSystemData();
+        loadContentByUserRole();
         setStyle();
-                
+
         setExtendedState(MAXIMIZED_BOTH);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Mode getMODE() {
+        return MODE;
+    }
+
+    public void setMode(Mode mode) {
+        MODE = mode;
+        switch (MODE) {
+            case DARK:
+                setDarkMode();
+                MODE = Mode.DARK;
+                setDarkModeIcons();
+                break;
+            case LIGHT:
+                setLightMode();
+                MODE = Mode.LIGHT;
+                setLightModeIcons();
+                break;
+            default:
+                setLightMode();
+                MODE = Mode.LIGHT;
+        }
+        setComponentTheme();
+        CustomStyle.addTableStyle();
+        SwingUtilities.updateComponentTreeUI(this);
+    }
+
+    public void toggleTheme() {
+        switch (MODE) {
+            case LIGHT:
+                setMode(DARK);
+                break;
+            case DARK:
+                setMode(LIGHT);
+                break;
+        }
     }
 
     public void setActiveTab(Tab activeTab) {
@@ -189,12 +273,13 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jSeparator3 = new javax.swing.JSeparator();
         jPanel13 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
+        jSeparator4 = new javax.swing.JSeparator();
         jLabel9 = new javax.swing.JLabel();
         status = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
-        jSeparator4 = new javax.swing.JSeparator();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         dashPanel = new javax.swing.JPanel();
@@ -282,6 +367,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
         menuButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/arro-24.png"))); // NOI18N
         menuButton.setBorderPainted(false);
+        menuButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         menuButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         menuButton.setIconTextGap(0);
         menuButton.setMargin(new java.awt.Insets(5, 0, 5, 0));
@@ -378,21 +464,22 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jPanel14.setPreferredSize(new java.awt.Dimension(500, 37));
         jPanel14.setLayout(new java.awt.BorderLayout(10, 0));
 
+        jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel14.add(jSeparator4, java.awt.BorderLayout.WEST);
+
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel9.setText("Status:");
-        jPanel14.add(jLabel9, java.awt.BorderLayout.LINE_START);
+        jPanel14.add(jLabel9, java.awt.BorderLayout.CENTER);
 
         status.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         status.setText("System functions properly");
-        jPanel14.add(status, java.awt.BorderLayout.CENTER);
+        status.setPreferredSize(new java.awt.Dimension(430, 22));
+        jPanel14.add(status, java.awt.BorderLayout.EAST);
 
         jPanel13.add(jPanel14, java.awt.BorderLayout.EAST);
 
         jPanel15.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
         jPanel15.setLayout(new java.awt.BorderLayout(10, 0));
-
-        jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel15.add(jSeparator4, java.awt.BorderLayout.LINE_END);
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("System time:");
@@ -401,6 +488,17 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jLabel12.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jLabel12.setText("4:20 PM");
         jPanel15.add(jLabel12, java.awt.BorderLayout.CENTER);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/sun.png"))); // NOI18N
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel15.add(jButton1, java.awt.BorderLayout.LINE_END);
 
         jPanel13.add(jPanel15, java.awt.BorderLayout.CENTER);
 
@@ -745,18 +843,25 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jPanel40.add(jLabel28, java.awt.BorderLayout.PAGE_START);
 
         jTable1.setAutoCreateRowSorter(true);
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "DATE", "DISCOUNTS", "TOTAL", "CASHIER"
+                "ID", "DATE", "DISCOUNT (RS)", "TOTAL (RS)", "CASHIER"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -767,9 +872,13 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
             jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(0);
             jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(0);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(0);
             jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(0);
         }
 
         jPanel40.add(jScrollPane3, java.awt.BorderLayout.CENTER);
@@ -784,18 +893,25 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jLabel31.setText("RECENT GOOD RECEIVE NOTES");
         jPanel41.add(jLabel31, java.awt.BorderLayout.PAGE_START);
 
-        jTable2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "DATE", "TOTAL", "SUPPLIER", "PAYMENT METHOD"
+                "ID", "DATE", "TOTAL (RS)", "SUPPLIER", "PAYMENT METHOD"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -805,10 +921,12 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jScrollPane4.setViewportView(jTable2);
         if (jTable2.getColumnModel().getColumnCount() > 0) {
             jTable2.getColumnModel().getColumn(0).setResizable(false);
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(0);
             jTable2.getColumnModel().getColumn(1).setResizable(false);
+            jTable2.getColumnModel().getColumn(1).setPreferredWidth(0);
             jTable2.getColumnModel().getColumn(2).setResizable(false);
+            jTable2.getColumnModel().getColumn(2).setPreferredWidth(0);
             jTable2.getColumnModel().getColumn(3).setResizable(false);
+            jTable2.getColumnModel().getColumn(3).setPreferredWidth(0);
             jTable2.getColumnModel().getColumn(4).setResizable(false);
         }
 
@@ -839,6 +957,11 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         toggleSidebar();
     }//GEN-LAST:event_menuButtonActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        toggleTheme();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -848,13 +971,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//                Pallet.setDarkMode();
-//                Dashboard d = new Dashboard(new User());
-//                Pallet.setDashboard(d);
-//
-//                d.setComponentTheme();
-//
-//                d.setVisible(true);
+//               
             }
         });
     }
@@ -868,6 +985,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private javax.swing.JPanel chartPanel1;
     private javax.swing.JPanel dashPanel;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -964,6 +1082,15 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     @Override
     public void setStyle() {
         CustomStyle.setIcon(this);
+        
+        DefaultTableCellRenderer renderCenter = new DefaultTableCellRenderer();
+        renderCenter.setHorizontalAlignment(SwingConstants.CENTER);        
+        DefaultTableCellRenderer renderRight = new DefaultTableCellRenderer();
+        renderRight.setHorizontalAlignment(SwingConstants.RIGHT);        
+        jTable1.setDefaultRenderer(String.class, renderCenter);
+        jTable1.setDefaultRenderer(Double.class, renderRight);        
+        jTable2.setDefaultRenderer(String.class, renderCenter);  
+        jTable2.setDefaultRenderer(Double.class, renderRight);
     }
 
     public void setDefaultSystemStatus() {
@@ -976,6 +1103,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/monthly_light.png")));
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/customer_light.png")));
         jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/menu_item_light.png")));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/moon.png"))); 
     }
 
     public void setLightModeIcons() {
@@ -983,6 +1111,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/monthly_dark.png")));
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/customer_dark.png")));
         jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/menu_item_dark.png")));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/sun.png"))); 
     }
 
     private void toggleSidebar() {
@@ -993,6 +1122,9 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             if (this.purchaseOrder != null) {
                 this.purchaseOrder.setItemsPerRow(7);
             }
+            if (this.tableManagement != null) {
+                this.tableManagement.setItemsPerRow(6);
+            }
             closeSidebar();
         } else {
             openSidebar();
@@ -1001,6 +1133,9 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             }
             if (this.purchaseOrder != null) {
                 this.purchaseOrder.setItemsPerRow(6);
+            }
+            if (this.tableManagement != null) {
+                this.tableManagement.setItemsPerRow(5);
             }
         }
 
@@ -1148,21 +1283,20 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
     public void setCustomerRegistration() {
         if (this.customerRegistration == null) {
-            CustomerRegistration customerRegistration = new CustomerRegistration();
+            CustomerRegistration customerRegistration = new CustomerRegistration(this);
             this.customerRegistration = customerRegistration;
-            this.customerRegistration.setDashboard(this);
         }
         setMainPanel(this.customerRegistration);
         setActiveTab(Tab.Customer_Management);
     }
 
     public void setSupplierRegistration() {
-        if (this.registerSupplier == null) {
-            RegisterSupplier registerSupplier = new RegisterSupplier();
-            this.registerSupplier = registerSupplier;
-            this.registerSupplier.setDashboard(this);
+        if (this.supplierManagement == null) {
+            SupplierManagement supplierManagement = new SupplierManagement();
+            this.supplierManagement = supplierManagement;
+            this.supplierManagement.setDashboard(this);
         }
-        setMainPanel(this.registerSupplier);
+        setMainPanel(this.supplierManagement);
         setActiveTab(Tab.Supplier_Management);
     }
 
@@ -1173,7 +1307,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             this.report.setDashboard(this);
         }
         setMainPanel(this.report);
-        setActiveTab(Tab.Analytics_AndReports);
+        setActiveTab(Tab.Analytics_And_Reports);
     }
 
     public void setPreorderManagement() {
@@ -1188,9 +1322,8 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
     public void setReservationManagement() {
         if (this.reservationManagement == null) {
-            ReservationManagement reservationManagement = new ReservationManagement();
+            ReservationManagement reservationManagement = new ReservationManagement(this);
             this.reservationManagement = reservationManagement;
-            this.reservationManagement.setDashboard(this);
         }
         setMainPanel(this.reservationManagement);
         setActiveTab(Tab.Reservations);
@@ -1207,9 +1340,12 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     }
 
     public void setDashPanel() {
-        setMainPanel(dashPanel);
-        setActiveTab(Tab.Dashboard);
-        loadDashboardContent();
+        if (!activeTab.equals(Tab.Dashboard)) {
+            setMainPanel(dashPanel);
+            setActiveTab(Tab.Dashboard);
+            loadDashboardContent();
+        }
+
     }
 
     private void setMainPanel(JPanel panel) {
@@ -1223,7 +1359,8 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             jPanel45.removeAll();
             ResultSet result1 = Mysql.execute("SELECT direct_selling_stock.id,`name`,expiry_date,qty,menu_item.image_path "
                     + "from direct_selling_stock INNER JOIN menu_item ON menu_item_id= menu_item.id "
-                    + "WHERE qty < 10 OR `expiry_date` < NOW() ");
+                    + "WHERE (qty < 10 OR `expiry_date` < NOW()+(1000*60*60*24*14) ) "
+                    + "AND direct_selling_stock.active_state_state_id = (SELECT state_id FROM active_state WHERE active_state.`status` = 'Active') ");
             while (result1.next()) {
                 LimitedStockCard limitedStockCard = new LimitedStockCard();
                 limitedStockCard.putClientProperty(FlatClientProperties.STYLE, "border:3,10,3,10,#4D78CC,1,40");
@@ -1250,7 +1387,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     @Override
     public void setComponentTheme() {
         styleSideBarToggleButton();
-        sidebar.addSidebarButtonStyle();
+        this.sidebar.addSidebarButtonStyle();
         CustomStyle.setComponentBackground(jPanel3);
 
         if (this.user != null && this.user.getRole().equals(UserRole.Role.Admin)) {
@@ -1260,11 +1397,15 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         if (salesChannel != null) {
             salesChannel.setComponentTheme();
         }
-        
-        if(purchaseOrder != null){
+
+        if (purchaseOrder != null) {
             purchaseOrder.setComponentTheme();
         }
-        
+
+        if (tableManagement != null) {
+            tableManagement.setComponentTheme();
+        }
+
     }
 
     private void setCharts() {
@@ -1316,14 +1457,14 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         PiePlot plot = (PiePlot) pieChart.getPlot();
 //        plot.setT
         plot.setBackgroundAlpha(0f);
-        plot.setShadowPaint(Pallet.TRANSPARENT);
-        plot.setLabelBackgroundPaint(Pallet.TRANSPARENT);
-        plot.setLabelShadowPaint(Pallet.TRANSPARENT);
-        plot.setLabelOutlinePaint(Pallet.TRANSPARENT);
+        plot.setShadowPaint(NewTheme.TRANSPARENT);
+        plot.setLabelBackgroundPaint(NewTheme.TRANSPARENT);
+        plot.setLabelShadowPaint(NewTheme.TRANSPARENT);
+        plot.setLabelOutlinePaint(NewTheme.TRANSPARENT);
         plot.setLabelFont(CustomStyle.getCustomFont(13));
 
         LegendTitle legend = pieChart.getLegend();
-        legend.setBackgroundPaint(Pallet.TRANSPARENT);
+        legend.setBackgroundPaint(NewTheme.TRANSPARENT);
         legend.setItemFont(CustomStyle.getCustomFont(13));
 
         return pieChart;
@@ -1385,6 +1526,9 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
     }
 
+    /**
+     *
+     */
     private void setSidebar() {
         sidebar = new Sidebar();
         sidebar.setDashboard(this);
@@ -1466,11 +1610,11 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             this.setExtendedState(MAXIMIZED_BOTH);
             this.setResizable(false);
             this.sidebar.setCashierContent();
-
         } else {
             setActiveTab(Tab.Dashboard);
             loadDashboardContent();
         }
+        loadTodayInvoiceCount();
     }
 
     private void loadDashboardContent() {
@@ -1480,6 +1624,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         setCardData();
         loadInvoices();
         loadGrn();
+        System.out.println("loadDashboardContent");
     }
 
     private void setDashPanelTheme() {
@@ -1489,33 +1634,33 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         );
 
         //sales chart style
-        salesChart.setBackgroundPaint(Pallet.BG_CARD);
+        salesChart.setBackgroundPaint(NewTheme.BG_CARD);
         CategoryPlot salesChartPlot = (CategoryPlot) salesChart.getPlot();
-        if (Pallet.FG_CHART != null) {
-            salesChartPlot.getDomainAxis().setTickLabelPaint(Pallet.FG_CHART);
-            salesChartPlot.getRangeAxis().setTickLabelPaint(Pallet.FG_CHART);
+        if (NewTheme.FG_CHART != null) {
+            salesChartPlot.getDomainAxis().setTickLabelPaint(NewTheme.FG_CHART);
+            salesChartPlot.getRangeAxis().setTickLabelPaint(NewTheme.FG_CHART);
         }
 
         //category sales chart style
-        categorySalesChart.setBackgroundPaint(Pallet.BG_CARD);
+        categorySalesChart.setBackgroundPaint(NewTheme.BG_CARD);
         PiePlot categorySalesCartPlot = (PiePlot) categorySalesChart.getPlot();
-        if (Pallet.FG_CHART != null) {
-            categorySalesCartPlot.setLabelPaint(Pallet.FG_CHART);
-            categorySalesCartPlot.setLabelLinkPaint(Pallet.FG_CHART);
+        if (NewTheme.FG_CHART != null) {
+            categorySalesCartPlot.setLabelPaint(NewTheme.FG_CHART);
+            categorySalesCartPlot.setLabelLinkPaint(NewTheme.FG_CHART);
         }
 
         LegendTitle categorySalesCHartlegend = categorySalesChart.getLegend();
-        if (Pallet.FG_CHART != null) {
-            categorySalesCHartlegend.setItemPaint(Pallet.FG_CHART);
+        if (NewTheme.FG_CHART != null) {
+            categorySalesCHartlegend.setItemPaint(NewTheme.FG_CHART);
         }
 
         for (Component c : jPanel36.getComponents()) {
-            c.setBackground(Pallet.BG_CARD);
+            c.setBackground(NewTheme.BG_CARD);
         }
 
         //limited stock cards
         for (Component panel : jPanel45.getComponents()) {
-            panel.setBackground(Pallet.BG_CARD_PRODUCT);
+            panel.setBackground(NewTheme.BG_CARD_PRODUCT);
         }
     }
 
@@ -1534,6 +1679,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     }
 
     private void setCardData() {
+
         DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
         Date today = new Date();
         try {
@@ -1577,6 +1723,8 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jLabel19.setText("Updated: " + date);
         jLabel23.setText("Updated: " + date);
         jLabel27.setText("Updated: " + date);
+
+        System.out.println("setCardData");
     }
 
     public static void alignFrame(JasperViewer jasperViewer, float side) {
@@ -1594,6 +1742,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     }
 
     private void loadInvoices() {
+        
         try {
             ResultSet result = Mysql.execute("SELECT id,date,invoice.total,invoice.discount,user_mobile FROM  invoice ORDER BY `date` DESC LIMIT 9");
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -1602,8 +1751,8 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
                 Vector v = new Vector<>();
                 v.add(result.getString("id"));
                 v.add(result.getString("date"));
-                v.add(result.getString("discount"));
-                v.add(result.getString("total"));
+                v.add(new DecimalFormat("#,##0.00").format(result.getDouble("discount")));
+                v.add(new DecimalFormat("#,##0.00").format(result.getDouble("total")));
                 v.add(result.getString("user_mobile"));
                 model.addRow(v);
             }
@@ -1614,7 +1763,8 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         }
     }
 
-    private void loadGrn() {
+    private void loadGrn() {        
+        
         try {
             ResultSet result = Mysql.execute("SELECT direct_selling_grn.id,`date`,total,direct_selling_grn.supplier_mobile,payment_method.name "
                     + "FROM direct_selling_grn INNER JOIN payment_method ON payment_method.id = direct_selling_grn.payment_method_id");
@@ -1625,7 +1775,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
                 Vector v = new Vector<>();
                 v.add(result.getString("direct_selling_grn.id"));
                 v.add(result.getString("date"));
-                v.add(result.getString("total"));
+                v.add(new DecimalFormat("#,##0.00").format(result.getDouble("total")));
                 v.add(result.getString("direct_selling_grn.supplier_mobile"));
                 v.add(result.getString("payment_method.name"));
                 model.addRow(v);

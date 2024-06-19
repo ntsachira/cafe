@@ -8,12 +8,12 @@ package com.cafe.gui;
  *
  * @author User
  */
-public class AllSupplier extends javax.swing.JLabel  {
+public class TableRowCard extends javax.swing.JPanel {
 
     /**
-     * Creates new form AllSupplier
+     * Creates new form TableRowCard
      */
-    public AllSupplier() {
+    public TableRowCard() {
         initComponents();
     }
 
@@ -26,7 +26,11 @@ public class AllSupplier extends javax.swing.JLabel  {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setMaximumSize(new java.awt.Dimension(32767, 310));
+        setMinimumSize(new java.awt.Dimension(900, 310));
+        setOpaque(false);
+        setPreferredSize(new java.awt.Dimension(900, 310));
+        setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
     }// </editor-fold>//GEN-END:initComponents
 
 

@@ -1,20 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package com.cafe.gui;
 
 import com.cafe.style.CustomStyle;
-import com.cafe.style.Pallet;
+import com.cafe.style.NewTheme;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Dimension;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 
-/**
- *
- * @author Dell
- */
+
 public class Sidebar extends javax.swing.JPanel {
 
     private Dashboard dashboard;
@@ -67,7 +61,6 @@ public class Sidebar extends javax.swing.JPanel {
         jToggleButton14 = new javax.swing.JToggleButton();
         jPanel2 = new javax.swing.JPanel();
         jToggleButton15 = new javax.swing.JToggleButton();
-        jToggleButton16 = new javax.swing.JToggleButton();
         jButton18 = new javax.swing.JButton();
 
         setOpaque(false);
@@ -77,7 +70,7 @@ public class Sidebar extends javax.swing.JPanel {
         jScrollPane1.setPreferredSize(new java.awt.Dimension(260, 100));
 
         jPanel3.setMinimumSize(new java.awt.Dimension(260, 900));
-        jPanel3.setPreferredSize(new java.awt.Dimension(260, 1000));
+        jPanel3.setPreferredSize(new java.awt.Dimension(260, 950));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setPreferredSize(new java.awt.Dimension(255, 850));
@@ -412,24 +405,6 @@ public class Sidebar extends javax.swing.JPanel {
         });
         jPanel2.add(jToggleButton15);
 
-        jToggleButton16.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jToggleButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/moon.png"))); // NOI18N
-        jToggleButton16.setText("Toggle Theme");
-        jToggleButton16.setBorderPainted(false);
-        jToggleButton16.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jToggleButton16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jToggleButton16.setIconTextGap(10);
-        jToggleButton16.setMaximumSize(new java.awt.Dimension(255, 50));
-        jToggleButton16.setMinimumSize(new java.awt.Dimension(240, 50));
-        jToggleButton16.setPreferredSize(new java.awt.Dimension(255, 50));
-        jToggleButton16.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/sun.png"))); // NOI18N
-        jToggleButton16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton16ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jToggleButton16);
-
         jButton18.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59277_logout_logout.png"))); // NOI18N
         jButton18.setText("Log Out");
@@ -529,11 +504,6 @@ public class Sidebar extends javax.swing.JPanel {
         this.dashboard.setSettings();
     }//GEN-LAST:event_jToggleButton15ActionPerformed
 
-    private void jToggleButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton16ActionPerformed
-        // TODO add your handling code here:
-        toggleTheme();
-    }//GEN-LAST:event_jToggleButton16ActionPerformed
-
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
         this.dashboard.setDashPanel();
@@ -569,7 +539,6 @@ public class Sidebar extends javax.swing.JPanel {
     private javax.swing.JToggleButton jToggleButton13;
     private javax.swing.JToggleButton jToggleButton14;
     private javax.swing.JToggleButton jToggleButton15;
-    private javax.swing.JToggleButton jToggleButton16;
     private javax.swing.JToggleButton jToggleButton17;
     private javax.swing.JToggleButton jToggleButton18;
     private javax.swing.JToggleButton jToggleButton19;
@@ -595,10 +564,7 @@ public class Sidebar extends javax.swing.JPanel {
     }
 
     
-    public void toggleTheme() {
-        Pallet.toggleTheme();
-    }
-
+    
     public void setCashierContent() {
         jToggleButton2.setSelected(true);
         this.dashboard.setSalesChannel();

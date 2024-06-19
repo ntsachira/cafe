@@ -3,10 +3,11 @@ package com.cafe.gui;
 
 import com.cafe.model.Mysql;
 import com.cafe.style.CustomStyle;
-import com.cafe.style.Pallet;
+import com.cafe.style.NewTheme;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
@@ -42,16 +43,17 @@ public class Reservation extends javax.swing.JDialog {
     private String payment = "";
     private String party = "";
 
-    public void setSalesChannel(SalesChannel salesChannel) {
+    private void setSalesChannel(SalesChannel salesChannel) {
         this.salesChannel = salesChannel;
     }
 
     /**
      * Creates new form Reservation
      */
-    public Reservation(java.awt.Frame parent, boolean modal) {
+    public Reservation(Frame parent, boolean modal, SalesChannel salesChannel) {
         super(parent, modal);
         initComponents();
+        setSalesChannel(salesChannel);
         setStyle();
         setupDateTimeComponents();
         loadTableCategories();
@@ -456,47 +458,6 @@ public class Reservation extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jTextArea1FocusLost
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Reservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Reservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Reservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Reservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Reservation dialog = new Reservation(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -725,7 +686,7 @@ public class Reservation extends javax.swing.JDialog {
         jToggleButton2.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:rgba(77, 120, 204,40)");
         FlatLightLaf.setup();
         SwingUtilities.updateComponentTreeUI(this);
-        Pallet.ResetTheme();
+        salesChannel.getDashboard().setMode(salesChannel.getDashboard().getMODE());
         setPlaceholders();
     }
 
@@ -752,7 +713,7 @@ public class Reservation extends javax.swing.JDialog {
                 String selectedItem = String.valueOf(jComboBox1.getSelectedItem());
                 ResultSet result = Mysql.execute("SELECT * FROM `table` "
                         + "WHERE `table_category_id`='" + tableMap.get(selectedItem) + "' "
-                        + "AND `active_state_state_id`='1' AND `table_status_id`='1' AND `id` "
+                        + "AND `active_state_state_id`='1' AND `id` "
                         + "NOT IN(SELECT `table_id` FROM `reservation_has_table` WHERE `table_id` NOT IN(SELECT table.id FROM `table` "
                         + "INNER JOIN reservation_has_table ON reservation_has_table.table_id = table.id "
                         + "INNER JOIN reservation ON reservation.id = reservation_has_table.reservation_id "

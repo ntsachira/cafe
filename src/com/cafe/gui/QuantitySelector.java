@@ -6,9 +6,7 @@ import java.util.logging.Level;
 
 public class QuantitySelector extends javax.swing.JDialog {
 
-    private SalesChannel salesChannel;
-    private String quantity = "1";
-
+    private SalesChannel salesChannel; 
     private ItemCard menuItem;
 
     public ItemCard getMenuItem() {
@@ -47,8 +45,8 @@ public class QuantitySelector extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -90,22 +88,19 @@ public class QuantitySelector extends javax.swing.JDialog {
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jButton2.setText("1");
-        jButton2.setPreferredSize(new java.awt.Dimension(75, 40));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jButton2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jButton2KeyPressed(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jLabel5.setText("...");
+        jLabel5.setPreferredSize(new java.awt.Dimension(9, 30));
+
+        jTextField1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField1.setText("1");
+        jTextField1.setPreferredSize(new java.awt.Dimension(92, 40));
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -118,11 +113,11 @@ public class QuantitySelector extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -132,9 +127,9 @@ public class QuantitySelector extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -152,17 +147,11 @@ public class QuantitySelector extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton2KeyPressed
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
         // TODO add your handling code here:
-        validateAndSetPayementInput(evt);
-
-    }//GEN-LAST:event_jButton2KeyPressed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        jButton2.setText("");
-        quantity="";
-    }//GEN-LAST:event_jButton2ActionPerformed
+        if(!String.valueOf(evt.getKeyChar()).matches("[0-9]"))
+        evt.consume();
+    }//GEN-LAST:event_jTextField1KeyTyped
 
     /**
      * @param args the command line arguments
@@ -208,7 +197,6 @@ public class QuantitySelector extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -218,18 +206,19 @@ public class QuantitySelector extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
     private boolean addItem() {
-        if (quantity.isBlank()) {
+        if (jTextField1.getText().isBlank() || Integer.parseInt(jTextField1.getText())==0) {
             setWarningStatus("Please Enter a quantity to add");
             return false;
-        } else {            
+        }else {            
             InvoiceItemCard invoiceItem = new InvoiceItemCard();
-            invoiceItem.setQuantity(Integer.parseInt(quantity));
+            invoiceItem.setQuantity(Integer.parseInt(jTextField1.getText()));
             invoiceItem.setItemName(menuItem.getItemName());
             invoiceItem.setPrice(menuItem.getPrice());
-            invoiceItem.setTotal(Integer.parseInt(quantity) * menuItem.getPrice());
+            invoiceItem.setTotal(Integer.parseInt(jTextField1.getText()) * menuItem.getPrice());
             invoiceItem.setDiscount(menuItem.getDiscount());
             invoiceItem.setId(menuItem.getId());
             invoiceItem.setBrand(menuItem.getBrand());
@@ -238,30 +227,7 @@ public class QuantitySelector extends javax.swing.JDialog {
         }
     }
 
-    private void validateAndSetPayementInput(KeyEvent evt) {
-        String key = String.valueOf(evt.getKeyChar());
-        if (key.matches("[0-9]")) {
-            quantity += key;
-        }
-
-        if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-            if (quantity.length() > 1) {
-                quantity = quantity.substring(0, quantity.length() - 1);
-            } else {
-                quantity = "";
-            }
-        }
-
-        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
-            quantity = "";
-        }
-
-        if (quantity.isBlank()) {
-            jButton2.setText("0");
-        } else {
-            jButton2.setText(quantity);
-        }
-    }
+    
     
     public void setWarningStatus(String systemStatus) {
         jLabel5.setText(systemStatus);

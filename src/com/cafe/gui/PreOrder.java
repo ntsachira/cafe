@@ -4,12 +4,13 @@ import static com.cafe.gui.Dashboard.alignFrame;
 import com.cafe.model.Mysql;
 import com.cafe.model.Theme;
 import com.cafe.style.CustomStyle;
-import com.cafe.style.Pallet;
+import com.cafe.style.NewTheme;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import static java.awt.Component.LEFT_ALIGNMENT;
 import static java.awt.Component.RIGHT_ALIGNMENT;
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
@@ -53,16 +54,17 @@ public class PreOrder extends javax.swing.JDialog implements Theme {
         jLabel7.setText(String.valueOf(-(billTotal - totalDiscount)));
     }
 
-    public void setSalesChannel(SalesChannel salesChannel) {
+    private void setSalesChannel(SalesChannel salesChannel) {
         this.salesChannel = salesChannel;
     }
 
     /**
      * Creates new form PreOrder
      */
-    public PreOrder(java.awt.Frame parent, boolean modal) {
+    public PreOrder(Frame parent, boolean modal, SalesChannel salesChannel) {
         super(parent, modal);
         initComponents();
+        setSalesChannel(salesChannel);
         setStyle();
         setupDateTimeComponents();
     }
@@ -373,26 +375,7 @@ public class PreOrder extends javax.swing.JDialog implements Theme {
 
     }//GEN-LAST:event_formWindowClosing
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        FlatLightLaf.setup();
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                PreOrder dialog = new PreOrder(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -453,7 +436,7 @@ public class PreOrder extends javax.swing.JDialog implements Theme {
         jToggleButton2.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:rgba(77, 120, 204,40)");
         FlatLightLaf.setup();
         SwingUtilities.updateComponentTreeUI(this);
-        Pallet.ResetTheme();
+        salesChannel.getDashboard().setMode(salesChannel.getDashboard().getMODE());
         setComponentTheme();
     }
 

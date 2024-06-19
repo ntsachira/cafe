@@ -1,17 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
 import com.cafe.style.CustomStyle;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,6 +26,16 @@ public class ReservationManagement extends javax.swing.JPanel {
     public Dashboard getDashboard() {
         return dashboard;
     }
+    
+    public boolean setCustomer(String mobile){
+        jTextField2.setText(mobile);
+        jTextField2.setEnabled(false);
+        loadData();
+         if (jTable1.getModel().getRowCount() > 0) {
+            return true;
+        }
+        return false;
+    }
 
     public void setDashboard(Dashboard dashboard) {
         this.dashboard = dashboard;
@@ -34,8 +44,9 @@ public class ReservationManagement extends javax.swing.JPanel {
     /**
      * Creates new form ReservationManagement
      */
-    public ReservationManagement() {
+    public ReservationManagement(Dashboard dashboard) {
         initComponents();
+        setDashboard(dashboard);
         setStyle();
         loadData();
     }
@@ -140,24 +151,34 @@ public class ReservationManagement extends javax.swing.JPanel {
 
         jPanel2.setLayout(new java.awt.BorderLayout(0, 10));
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable1.setAutoCreateRowSorter(true);
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "RESERVATION ID", "CUSTOMER NAME", "CUSTOMER MOBILE", "DATE", "TIME", "ADVANCED PAY", "PARTY SIZE", "TABLE", "SPECIAL REQUEST", "STATUS"
+                "RESERVATION ID", "CUSTOMER NAME", "CUSTOMER MOBILE", "DATE", "TIME", "ADVANCED PAY (RS)", "PARTY SIZE", "TABLE", "SPECIAL REQUEST", "STATUS"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jTable1.setFocusable(false);
+        jTable1.setSelectionBackground(new java.awt.Color(77, 120, 204));
+        jTable1.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -169,12 +190,17 @@ public class ReservationManagement extends javax.swing.JPanel {
             jTable1.getColumnModel().getColumn(1).setResizable(false);
             jTable1.getColumnModel().getColumn(2).setResizable(false);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(0);
             jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(0);
             jTable1.getColumnModel().getColumn(5).setResizable(false);
             jTable1.getColumnModel().getColumn(6).setResizable(false);
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(0);
             jTable1.getColumnModel().getColumn(7).setResizable(false);
+            jTable1.getColumnModel().getColumn(7).setPreferredWidth(0);
             jTable1.getColumnModel().getColumn(8).setResizable(false);
             jTable1.getColumnModel().getColumn(9).setResizable(false);
+            jTable1.getColumnModel().getColumn(9).setPreferredWidth(0);
         }
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -267,6 +293,13 @@ public class ReservationManagement extends javax.swing.JPanel {
         jTextField1.putClientProperty("JTextField.placeholderText", "Reservation ID");
         jTextField2.putClientProperty("JTextField.placeholderText", "Search by Customer Name or Mobile");
         jTextField3.putClientProperty("JTextField.placeholderText", "Search by Reservation date");
+        
+        DefaultTableCellRenderer renderCenter = new DefaultTableCellRenderer();
+        renderCenter.setHorizontalAlignment(SwingConstants.CENTER);
+        jTable1.setDefaultRenderer(String.class, renderCenter);
+        DefaultTableCellRenderer renderRight = new DefaultTableCellRenderer();
+        renderRight.setHorizontalAlignment(SwingConstants.RIGHT);
+        jTable1.setDefaultRenderer(Double.class, renderRight);
     }
 
     private void loadData() {
@@ -282,7 +315,7 @@ public class ReservationManagement extends javax.swing.JPanel {
                 + "INNER JOIN customer ON reservation.customer_mobile=customer.mobile "
                 + "WHERE (customer.mobile LIKE '"+jTextField2.getText().trim()+"%' OR customer.name LIKE '"+jTextField2.getText().trim()+"%') "
                 + "AND reservation.`date` LIKE '"+jTextField3.getText().trim()+"%' "
-                + "AND reservation.state_id LIKE '"+statusMap.get(String.valueOf(jComboBox2.getSelectedItem()))+"%'");
+                + "AND reservation.state_id LIKE '"+statusMap.get(String.valueOf(jComboBox2.getSelectedItem()))+"%' ORDER BY reservation.date DESC");
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         try {
@@ -293,7 +326,7 @@ public class ReservationManagement extends javax.swing.JPanel {
                 v.add(result.getString("customer_mobile"));
                 v.add(result.getString("reservation.date"));
                 v.add(result.getString("reservation.time"));
-                v.add(result.getString("advanced_payment_amount"));
+                v.add(new DecimalFormat("#,##0.00").format(result.getDouble("advanced_payment_amount")));
                 v.add(result.getString("party_size"));
                 v.add(result.getString("reservation_has_table.table_id"));
                 v.add(result.getString("special_request"));

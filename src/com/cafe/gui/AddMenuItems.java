@@ -48,8 +48,8 @@ public class AddMenuItems extends javax.swing.JFrame {
             imageString = "/gallery/empty.png";
             image = new ImageIcon(getClass().getResource("/gallery/empty.png"));
         } else if (isDefaultImage) {
-            imageString = "/gallery/default_menu_item.jpg";
-            image = new ImageIcon(getClass().getResource("/gallery/default_menu_item.jpg"));
+            imageString = "/gallery/default_menu_item.png";
+            image = new ImageIcon(getClass().getResource("/gallery/default_menu_item.png"));
         } else if (isCustomImage) {
             imageString = "/gallery/" + productName + ".png";
             image = new ImageIcon(getClass().getResource("/gallery/" + productName + ".png"));

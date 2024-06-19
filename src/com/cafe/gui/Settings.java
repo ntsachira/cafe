@@ -41,35 +41,6 @@ public class Settings extends javax.swing.JPanel {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel3 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jPanel24 = new javax.swing.JPanel();
-        jPanel26 = new javax.swing.JPanel();
-        jPanel27 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        jPanel13 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPanel14 = new javax.swing.JPanel();
-        jPanel15 = new javax.swing.JPanel();
-        jPanel16 = new javax.swing.JPanel();
-        jPanel17 = new javax.swing.JPanel();
-        jPanel18 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jPanel19 = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
-        jPanel54 = new javax.swing.JPanel();
-        jPanel56 = new javax.swing.JPanel();
-        jPanel58 = new javax.swing.JPanel();
         jPanel60 = new javax.swing.JPanel();
         jPanel61 = new javax.swing.JPanel();
         jPanel64 = new javax.swing.JPanel();
@@ -90,163 +61,40 @@ public class Settings extends javax.swing.JPanel {
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel30 = new javax.swing.JPanel();
-        jPanel32 = new javax.swing.JPanel();
-        jPanel34 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jPanel14 = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
+        jPanel18 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jPanel19 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jPanel36 = new javax.swing.JPanel();
         jPanel37 = new javax.swing.JPanel();
-        jPanel38 = new javax.swing.JPanel();
-        jPanel39 = new javax.swing.JPanel();
         jPanel40 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel41 = new javax.swing.JPanel();
         jPanel42 = new javax.swing.JPanel();
-        jPanel43 = new javax.swing.JPanel();
-        jPanel44 = new javax.swing.JPanel();
-        jPanel45 = new javax.swing.JPanel();
-        jPanel46 = new javax.swing.JPanel();
         jPanel47 = new javax.swing.JPanel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jPanel48 = new javax.swing.JPanel();
-        jPanel49 = new javax.swing.JPanel();
-        jPanel50 = new javax.swing.JPanel();
         jPanel51 = new javax.swing.JPanel();
         jPanel22 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 20));
-        setLayout(new java.awt.BorderLayout());
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        setLayout(new java.awt.GridLayout(1, 3, 20, 0));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 562, Short.MAX_VALUE)
-        );
-
-        add(jPanel3, java.awt.BorderLayout.EAST);
-
-        jPanel2.setPreferredSize(new java.awt.Dimension(100, 100));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 562, Short.MAX_VALUE)
-        );
-
-        add(jPanel2, java.awt.BorderLayout.WEST);
-
-        jPanel1.setLayout(new java.awt.BorderLayout());
-
-        jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-
-        jPanel4.setLayout(new java.awt.BorderLayout());
-
-        jPanel7.setPreferredSize(new java.awt.Dimension(100, 20));
-        jPanel7.setLayout(new java.awt.BorderLayout(5, 5));
-
-        jPanel24.setLayout(new java.awt.BorderLayout());
-
-        jPanel26.setPreferredSize(new java.awt.Dimension(100, 50));
-        jPanel24.add(jPanel26, java.awt.BorderLayout.PAGE_START);
-
-        jPanel27.setPreferredSize(new java.awt.Dimension(100, 50));
-        jPanel24.add(jPanel27, java.awt.BorderLayout.PAGE_END);
-
-        jPanel9.setPreferredSize(new java.awt.Dimension(100, 50));
-        jPanel9.setLayout(new java.awt.BorderLayout(10, 10));
-
-        jPanel10.setPreferredSize(new java.awt.Dimension(100, 80));
-        jPanel10.setLayout(new java.awt.BorderLayout());
-        jPanel10.add(jPanel11, java.awt.BorderLayout.LINE_END);
-        jPanel10.add(jPanel12, java.awt.BorderLayout.LINE_START);
-
-        jPanel13.setLayout(new java.awt.BorderLayout());
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel1.setText("First Name");
-        jLabel1.setPreferredSize(new java.awt.Dimension(37, 40));
-        jPanel13.add(jLabel1, java.awt.BorderLayout.CENTER);
-
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jTextField1.setText("Sahan");
-        jTextField1.setPreferredSize(new java.awt.Dimension(37, 40));
-        jPanel13.add(jTextField1, java.awt.BorderLayout.PAGE_END);
-
-        jPanel10.add(jPanel13, java.awt.BorderLayout.CENTER);
-
-        jPanel9.add(jPanel10, java.awt.BorderLayout.PAGE_START);
-
-        jPanel14.setPreferredSize(new java.awt.Dimension(100, 50));
-        jPanel14.setLayout(new java.awt.BorderLayout());
-
-        jPanel15.setPreferredSize(new java.awt.Dimension(100, 80));
-        jPanel15.setLayout(new java.awt.BorderLayout());
-        jPanel15.add(jPanel16, java.awt.BorderLayout.LINE_END);
-        jPanel15.add(jPanel17, java.awt.BorderLayout.LINE_START);
-
-        jPanel18.setLayout(new java.awt.BorderLayout());
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel2.setText("Last Name");
-        jLabel2.setPreferredSize(new java.awt.Dimension(37, 40));
-        jPanel18.add(jLabel2, java.awt.BorderLayout.CENTER);
-
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jTextField2.setText("Perera");
-        jTextField2.setPreferredSize(new java.awt.Dimension(37, 40));
-        jPanel18.add(jTextField2, java.awt.BorderLayout.PAGE_END);
-
-        jPanel15.add(jPanel18, java.awt.BorderLayout.CENTER);
-
-        jPanel14.add(jPanel15, java.awt.BorderLayout.PAGE_START);
-
-        jPanel19.setLayout(new java.awt.BorderLayout());
-
-        jPanel8.setLayout(new java.awt.BorderLayout());
-
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jButton1.setText("Save");
-        jButton1.setPreferredSize(new java.awt.Dimension(75, 40));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel8.add(jButton1, java.awt.BorderLayout.SOUTH);
-
-        jPanel19.add(jPanel8, java.awt.BorderLayout.CENTER);
-
-        jPanel14.add(jPanel19, java.awt.BorderLayout.CENTER);
-
-        jPanel9.add(jPanel14, java.awt.BorderLayout.CENTER);
-
-        jPanel24.add(jPanel9, java.awt.BorderLayout.CENTER);
-
-        jPanel7.add(jPanel24, java.awt.BorderLayout.CENTER);
-
-        jPanel4.add(jPanel7, java.awt.BorderLayout.CENTER);
-
-        jTabbedPane1.addTab("ProfileSettings", jPanel4);
-
-        jPanel54.setPreferredSize(new java.awt.Dimension(100, 20));
-        jPanel54.setLayout(new java.awt.BorderLayout(15, 15));
-
-        jPanel56.setLayout(new java.awt.BorderLayout());
-
-        jPanel58.setPreferredSize(new java.awt.Dimension(100, 50));
-        jPanel56.add(jPanel58, java.awt.BorderLayout.PAGE_END);
+        jPanel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "BUSSINESS DETAILS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15))); // NOI18N
+        jPanel3.setLayout(new java.awt.BorderLayout());
 
         jPanel60.setLayout(new java.awt.BorderLayout(15, 15));
 
@@ -324,8 +172,11 @@ public class Settings extends javax.swing.JPanel {
         jPanel21.setPreferredSize(new java.awt.Dimension(70, 40));
         jPanel21.setLayout(new java.awt.BorderLayout());
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jButton3.setText("Save");
+        jButton3.setBackground(new java.awt.Color(77, 120, 204));
+        jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("SAVE");
+        jButton3.setBorderPainted(false);
         jButton3.setPreferredSize(new java.awt.Dimension(72, 40));
         jPanel21.add(jButton3, java.awt.BorderLayout.SOUTH);
 
@@ -341,41 +192,92 @@ public class Settings extends javax.swing.JPanel {
 
         jPanel60.add(jPanel65, java.awt.BorderLayout.CENTER);
 
-        jPanel56.add(jPanel60, java.awt.BorderLayout.CENTER);
+        jPanel3.add(jPanel60, java.awt.BorderLayout.CENTER);
 
-        jPanel54.add(jPanel56, java.awt.BorderLayout.CENTER);
+        add(jPanel3);
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 584, Short.MAX_VALUE)
-            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel54, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 439, Short.MAX_VALUE)
-            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel54, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE))
-        );
+        jPanel2.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "ADMIN DETAILS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15))); // NOI18N
+        jPanel2.setPreferredSize(new java.awt.Dimension(100, 100));
+        jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jTabbedPane1.addTab("CompanySettings", jPanel6);
+        jPanel9.setPreferredSize(new java.awt.Dimension(100, 50));
+        jPanel9.setLayout(new java.awt.BorderLayout(10, 10));
 
-        jPanel30.setPreferredSize(new java.awt.Dimension(100, 20));
-        jPanel30.setLayout(new java.awt.BorderLayout(5, 5));
+        jPanel10.setPreferredSize(new java.awt.Dimension(100, 80));
+        jPanel10.setLayout(new java.awt.BorderLayout());
 
-        jPanel32.setLayout(new java.awt.BorderLayout());
+        jPanel13.setLayout(new java.awt.BorderLayout());
 
-        jPanel34.setPreferredSize(new java.awt.Dimension(100, 50));
-        jPanel32.add(jPanel34, java.awt.BorderLayout.PAGE_END);
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel1.setText("First Name");
+        jLabel1.setPreferredSize(new java.awt.Dimension(37, 40));
+        jPanel13.add(jLabel1, java.awt.BorderLayout.CENTER);
+
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField1.setText("Sahan");
+        jTextField1.setPreferredSize(new java.awt.Dimension(37, 40));
+        jPanel13.add(jTextField1, java.awt.BorderLayout.PAGE_END);
+
+        jPanel10.add(jPanel13, java.awt.BorderLayout.CENTER);
+
+        jPanel9.add(jPanel10, java.awt.BorderLayout.PAGE_START);
+
+        jPanel14.setPreferredSize(new java.awt.Dimension(100, 50));
+        jPanel14.setLayout(new java.awt.BorderLayout());
+
+        jPanel15.setPreferredSize(new java.awt.Dimension(100, 80));
+        jPanel15.setLayout(new java.awt.BorderLayout());
+
+        jPanel18.setLayout(new java.awt.BorderLayout());
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel2.setText("Last Name");
+        jLabel2.setPreferredSize(new java.awt.Dimension(37, 40));
+        jPanel18.add(jLabel2, java.awt.BorderLayout.CENTER);
+
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField2.setText("Perera");
+        jTextField2.setPreferredSize(new java.awt.Dimension(37, 40));
+        jPanel18.add(jTextField2, java.awt.BorderLayout.PAGE_END);
+
+        jPanel15.add(jPanel18, java.awt.BorderLayout.CENTER);
+
+        jPanel14.add(jPanel15, java.awt.BorderLayout.PAGE_START);
+
+        jPanel19.setLayout(new java.awt.BorderLayout());
+
+        jPanel8.setLayout(new java.awt.BorderLayout());
+
+        jButton1.setBackground(new java.awt.Color(77, 120, 204));
+        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("SAVE");
+        jButton1.setBorderPainted(false);
+        jButton1.setPreferredSize(new java.awt.Dimension(75, 40));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel8.add(jButton1, java.awt.BorderLayout.SOUTH);
+
+        jPanel19.add(jPanel8, java.awt.BorderLayout.CENTER);
+
+        jPanel14.add(jPanel19, java.awt.BorderLayout.CENTER);
+
+        jPanel9.add(jPanel14, java.awt.BorderLayout.CENTER);
+
+        jPanel2.add(jPanel9, java.awt.BorderLayout.CENTER);
+
+        add(jPanel2);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "SYSTEM SETTINGS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15))); // NOI18N
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel36.setLayout(new java.awt.BorderLayout(10, 10));
 
         jPanel37.setPreferredSize(new java.awt.Dimension(100, 80));
         jPanel37.setLayout(new java.awt.BorderLayout());
-        jPanel37.add(jPanel38, java.awt.BorderLayout.LINE_END);
-        jPanel37.add(jPanel39, java.awt.BorderLayout.LINE_START);
 
         jPanel40.setLayout(new java.awt.BorderLayout());
 
@@ -392,42 +294,6 @@ public class Settings extends javax.swing.JPanel {
 
         jPanel42.setPreferredSize(new java.awt.Dimension(100, 80));
         jPanel42.setLayout(new java.awt.BorderLayout());
-
-        jPanel43.setPreferredSize(new java.awt.Dimension(30, 10));
-        jPanel43.setLayout(new java.awt.BorderLayout());
-
-        javax.swing.GroupLayout jPanel44Layout = new javax.swing.GroupLayout(jPanel44);
-        jPanel44.setLayout(jPanel44Layout);
-        jPanel44Layout.setHorizontalGroup(
-            jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
-        );
-        jPanel44Layout.setVerticalGroup(
-            jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 80, Short.MAX_VALUE)
-        );
-
-        jPanel43.add(jPanel44, java.awt.BorderLayout.CENTER);
-
-        jPanel42.add(jPanel43, java.awt.BorderLayout.LINE_END);
-
-        jPanel45.setPreferredSize(new java.awt.Dimension(30, 10));
-        jPanel45.setLayout(new java.awt.BorderLayout());
-
-        javax.swing.GroupLayout jPanel46Layout = new javax.swing.GroupLayout(jPanel46);
-        jPanel46.setLayout(jPanel46Layout);
-        jPanel46Layout.setHorizontalGroup(
-            jPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
-        );
-        jPanel46Layout.setVerticalGroup(
-            jPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 80, Short.MAX_VALUE)
-        );
-
-        jPanel45.add(jPanel46, java.awt.BorderLayout.CENTER);
-
-        jPanel42.add(jPanel45, java.awt.BorderLayout.LINE_START);
 
         jPanel47.setLayout(new java.awt.GridLayout(1, 0));
 
@@ -449,16 +315,17 @@ public class Settings extends javax.swing.JPanel {
 
         jPanel48.setPreferredSize(new java.awt.Dimension(100, 80));
         jPanel48.setLayout(new java.awt.BorderLayout());
-        jPanel48.add(jPanel49, java.awt.BorderLayout.LINE_END);
-        jPanel48.add(jPanel50, java.awt.BorderLayout.LINE_START);
 
         jPanel51.setPreferredSize(new java.awt.Dimension(50, 50));
         jPanel51.setLayout(new java.awt.BorderLayout());
 
         jPanel22.setLayout(new java.awt.BorderLayout());
 
-        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jButton4.setText("Save");
+        jButton4.setBackground(new java.awt.Color(77, 120, 204));
+        jButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("SAVE");
+        jButton4.setBorderPainted(false);
         jButton4.setPreferredSize(new java.awt.Dimension(75, 40));
         jPanel22.add(jButton4, java.awt.BorderLayout.SOUTH);
 
@@ -470,33 +337,9 @@ public class Settings extends javax.swing.JPanel {
 
         jPanel36.add(jPanel41, java.awt.BorderLayout.CENTER);
 
-        jPanel32.add(jPanel36, java.awt.BorderLayout.CENTER);
+        jPanel1.add(jPanel36, java.awt.BorderLayout.CENTER);
 
-        jPanel30.add(jPanel32, java.awt.BorderLayout.CENTER);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 584, Short.MAX_VALUE)
-            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel30, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 439, Short.MAX_VALUE)
-            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                    .addContainerGap(53, Short.MAX_VALUE)
-                    .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(53, Short.MAX_VALUE)))
-        );
-
-        jTabbedPane1.addTab("TheamSettings", jPanel5);
-
-        jPanel1.add(jTabbedPane1, java.awt.BorderLayout.PAGE_START);
-
-        add(jPanel1, java.awt.BorderLayout.CENTER);
+        add(jPanel1);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -546,54 +389,29 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel26;
-    private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel30;
-    private javax.swing.JPanel jPanel32;
-    private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel37;
-    private javax.swing.JPanel jPanel38;
-    private javax.swing.JPanel jPanel39;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel40;
     private javax.swing.JPanel jPanel41;
     private javax.swing.JPanel jPanel42;
-    private javax.swing.JPanel jPanel43;
-    private javax.swing.JPanel jPanel44;
-    private javax.swing.JPanel jPanel45;
-    private javax.swing.JPanel jPanel46;
     private javax.swing.JPanel jPanel47;
     private javax.swing.JPanel jPanel48;
-    private javax.swing.JPanel jPanel49;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel50;
     private javax.swing.JPanel jPanel51;
-    private javax.swing.JPanel jPanel54;
-    private javax.swing.JPanel jPanel56;
-    private javax.swing.JPanel jPanel58;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel60;
     private javax.swing.JPanel jPanel61;
     private javax.swing.JPanel jPanel64;
     private javax.swing.JPanel jPanel65;
     private javax.swing.JPanel jPanel66;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel71;
     private javax.swing.JPanel jPanel72;
     private javax.swing.JPanel jPanel73;
@@ -604,7 +422,6 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;

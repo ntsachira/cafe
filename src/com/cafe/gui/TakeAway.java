@@ -2,13 +2,9 @@ package com.cafe.gui;
 
 import static com.cafe.gui.Dashboard.alignFrame;
 import com.cafe.model.Mysql;
-import com.cafe.style.CustomStyle;
-import com.cafe.style.Pallet;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
@@ -19,12 +15,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -34,8 +28,7 @@ public class TakeAway extends javax.swing.JDialog {
     private SalesChannel.Payment paymentMethod = SalesChannel.Payment.Cash;
 
     private double billTotal;
-    private double totalDiscount;
-    private String payment = "";
+    private double totalDiscount;    
 
     public void setBillTotal(double billTotal) {
         this.billTotal = billTotal;
@@ -46,13 +39,14 @@ public class TakeAway extends javax.swing.JDialog {
         jLabel4.setText(String.valueOf(totalDiscount));
     }
 
-    public void setSalesChannel(SalesChannel salesChannel) {
+    private void setSalesChannel(SalesChannel salesChannel) {
         this.salesChannel = salesChannel;
     }
 
-    public TakeAway(java.awt.Frame parent, boolean modal) {
+    public TakeAway(java.awt.Frame parent, boolean modal, SalesChannel salesChannel) {
         super(parent, modal);
         initComponents();
+        setSalesChannel(salesChannel);
         setStyle();
     }
 
@@ -80,7 +74,7 @@ public class TakeAway extends javax.swing.JDialog {
         jPanel9 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
         jPanel10 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
@@ -202,15 +196,15 @@ public class TakeAway extends javax.swing.JDialog {
         jLabel7.setPreferredSize(new java.awt.Dimension(37, 30));
         jPanel9.add(jLabel7, java.awt.BorderLayout.PAGE_START);
 
-        jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jButton3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jButton3.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jButton3KeyPressed(evt);
+        jTextField1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField1.setPreferredSize(new java.awt.Dimension(71, 40));
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
             }
         });
-        jPanel9.add(jButton3, java.awt.BorderLayout.CENTER);
+        jPanel9.add(jTextField1, java.awt.BorderLayout.CENTER);
 
         jPanel8.add(jPanel9, java.awt.BorderLayout.NORTH);
 
@@ -260,11 +254,6 @@ public class TakeAway extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jToggleButton2ItemStateChanged
 
-    private void jButton3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton3KeyPressed
-        // TODO add your handling code here:
-        validateAndSetPayementInput(evt);
-    }//GEN-LAST:event_jButton3KeyPressed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         addPayment();
@@ -275,32 +264,17 @@ public class TakeAway extends javax.swing.JDialog {
         processPayment();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+        // TODO add your handling code here:
+        if(!String.valueOf(evt.getKeyChar()).matches("[0-9]"))
+        evt.consume();
+    }//GEN-LAST:event_jTextField1KeyTyped
 
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                TakeAway dialog = new TakeAway(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -319,6 +293,7 @@ public class TakeAway extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     // End of variables declaration//GEN-END:variables
@@ -327,53 +302,27 @@ public class TakeAway extends javax.swing.JDialog {
         jLabel6.setText(String.valueOf(-(billTotal - totalDiscount)));
     }
 
-    private void setBillforCardPay() {
-        payment = String.valueOf(this.billTotal - this.totalDiscount);
-        jLabel2.setText(payment);
-        jButton3.setText("");
-        jButton3.setEnabled(false);
+    private void setBillforCardPay() {       
+        jLabel2.setText(String.valueOf(this.billTotal - this.totalDiscount));
+        jTextField1.setText(String.valueOf(this.billTotal - this.totalDiscount));
+        jTextField1.setEnabled(false);
         jButton2.setEnabled(false);
         addPayment();
     }
 
     private void setBillforCashPay() {
-        jButton3.setEnabled(true);
+        jTextField1.setEnabled(true);
         jButton2.setEnabled(true);
     }
 
-    private void validateAndSetPayementInput(KeyEvent evt) {
-        String key = String.valueOf(evt.getKeyChar());
-        if (key.matches("[0-9]")) {
-            payment += key;
-        }
-
-        if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-            if (payment.length() > 1) {
-                payment = payment.substring(0, payment.length() - 1);
-            } else {
-                payment = "";
-            }
-        }
-
-        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
-            payment = "";
-        }
-
-        if (payment.isBlank()) {
-            jButton3.setText("0");
-        } else {
-            jButton3.setText(payment);
-        }
-    }
 
     private void addPayment() {
-        if (payment.isBlank()) {
+        if (jTextField1.getText().isBlank() || Double.parseDouble(jTextField1.getText())==0) {
             setWarningStatus("Warning: Enter payment amount to add");
         } else {
-            jLabel2.setText(payment);
-            jLabel6.setText(String.valueOf((Double.parseDouble(payment) + this.totalDiscount) - this.billTotal));
-            payment = "";
-            jButton3.setText("0");
+            jLabel2.setText(String.valueOf(Double.parseDouble(jTextField1.getText())));
+            jLabel6.setText(String.valueOf((Double.parseDouble(jTextField1.getText()) + this.totalDiscount) - this.billTotal));            
+            jTextField1.setText("");
         }
     }
 
@@ -497,15 +446,14 @@ public class TakeAway extends javax.swing.JDialog {
         } else {
             setWarningStatus("Low payment amount, add payment to continue");
         }
-
     }
-
+    
     private void setStyle() {
         jToggleButton1.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:rgba(77, 120, 204,40)");
         jToggleButton2.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:rgba(77, 120, 204,40)");
         FlatLightLaf.setup();
         SwingUtilities.updateComponentTreeUI(this);
-        Pallet.ResetTheme();
+        salesChannel.getDashboard().setMode(salesChannel.getDashboard().getMODE());
     }
 
 }

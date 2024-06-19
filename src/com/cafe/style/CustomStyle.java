@@ -13,7 +13,9 @@ import javax.swing.JComponent;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -22,11 +24,19 @@ import javax.swing.UIManager;
 public class CustomStyle {
 
     public static final int ROW_HEIGHT = 34;
+    public static DefaultTableCellRenderer renderCenter ;
+    public static DefaultTableCellRenderer renderRight ;
+    static{
+        renderCenter = new DefaultTableCellRenderer();
+        renderCenter.setHorizontalAlignment(SwingConstants.CENTER);
+        renderRight = new DefaultTableCellRenderer();
+        renderRight.setHorizontalAlignment(SwingConstants.RIGHT);
+    }
 
     
      public static void setComponentBackground(Component... components) {
         for (Component component : components) {
-            component.setBackground(Pallet.BG_CARD);
+            component.setBackground(NewTheme.BG_CARD);
         }
     }
 
@@ -41,10 +51,10 @@ public class CustomStyle {
         UIManager.put("Table.rowHeight", ROW_HEIGHT);
         UIManager.put("TableHeader.height", ROW_HEIGHT);
         //colors
-        UIManager.put("Table.alternateRowColor", Pallet.ROW_ALTERNATE);
-        UIManager.put("Table.selectionInactiveBackground", Pallet.ROW_INACTIVE);
-        UIManager.put("Table.selectionBackground", Pallet.ROW_SELECTION);
-        UIManager.put("Table.selectionForeground", Pallet.FG_CHART);
+        UIManager.put("Table.alternateRowColor", NewTheme.ROW_ALTERNATE);
+        UIManager.put("Table.selectionInactiveBackground", NewTheme.ROW_INACTIVE);
+        UIManager.put("Table.selectionBackground", NewTheme.ROW_SELECTION);
+        UIManager.put("Table.selectionForeground", NewTheme.FG_CHART);
     }
 
     public static void setIcon(Frame frame) {
@@ -92,16 +102,16 @@ public class CustomStyle {
 
     public static void setButtonsTransparent(Component... buttons) {
         for (Component button : buttons) {
-            button.setBackground(Pallet.BG_SIDEBAR_BUTTON);            
+            button.setBackground(NewTheme.BG_SIDEBAR_BUTTON);            
             if (button.getClass().getName().equals(new JButton().getClass().getName())) {
                 JButton b = (JButton) button;               
                 b.putClientProperty(FlatClientProperties.STYLE, "hoverBackground:rgba(0,153,153, 30)");
-                b.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:"+Pallet.BG_SIDEBAR_BUTTON_SELECTION);
+                b.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:"+NewTheme.BG_SIDEBAR_BUTTON_SELECTION);
             }else
                 
             if(button.getClass().getName().equals(new JToggleButton().getClass().getName())){
                 JToggleButton tb = (JToggleButton)button;                                
-                tb.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:"+Pallet.BG_SIDEBAR_BUTTON_SELECTION);
+                tb.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:"+NewTheme.BG_SIDEBAR_BUTTON_SELECTION);
             }
             
         }

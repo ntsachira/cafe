@@ -2,10 +2,11 @@
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
+import com.cafe.model.Theme;
+import com.cafe.model.Theme.Mode;
 import com.cafe.model.User;
 import com.cafe.style.CustomStyle;
-import com.cafe.style.Pallet;
-import com.cafe.style.Pallet.Mode;
+import com.cafe.style.NewTheme;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import javax.swing.JPanel;
@@ -48,7 +49,7 @@ public class ThemeSelection extends javax.swing.JFrame {
         this.dispose();   
         updateTheme();
         Dashboard d = new Dashboard(this.user);
-        Pallet.setDashboard(d);        
+        NewTheme.setDashboard(d);   
         d.setComponentTheme();
         SwingUtilities.updateComponentTreeUI(d);
         d.setVisible(true);
@@ -57,16 +58,14 @@ public class ThemeSelection extends javax.swing.JFrame {
     private void updateTheme(){
         Mode mode = Mode.DARK;
         if (lightButton.isSelected()) {
-            Pallet.setLightMode();
+            NewTheme.setLightMode();
             FlatLightLaf.setup();
             mode = Mode.LIGHT;
         } else {
             FlatOneDarkIJTheme.setup();
-            Pallet.setDarkMode();
-        }
-        
-            Mysql.execute("UPDATE `system` SET `theme`= '"+mode.name()+"' ");
-        
+            NewTheme.setDarkMode();
+        }        
+        Mysql.execute("UPDATE `system` SET `theme`= '"+mode.name()+"' ");        
     }
 
     

@@ -6,10 +6,11 @@ package com.cafe.gui;
 
 import static com.cafe.gui.Dashboard.alignFrame;
 import com.cafe.model.Mysql;
-import com.cafe.style.Pallet;
+import com.cafe.style.NewTheme;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
@@ -59,16 +60,17 @@ public class DineIn extends javax.swing.JDialog {
         jLabel7.setText(String.valueOf(-(billTotal - totalDiscount)));
     }
 
-    public void setSalesChannel(SalesChannel salesChannel) {
+    private void setSalesChannel(SalesChannel salesChannel) {
         this.salesChannel = salesChannel;
     }
 
     /**
      * Creates new form DineIn
      */
-    public DineIn(java.awt.Frame parent, boolean modal) {
+    public DineIn(Frame parent, boolean modal, SalesChannel salesChannel) {
         super(parent, modal);
         initComponents();
+        setSalesChannel(salesChannel);
         setStyle();        
     }
 
@@ -364,26 +366,7 @@ public class DineIn extends javax.swing.JDialog {
         processPayment();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        FlatLightLaf.setup();
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DineIn dialog = new DineIn(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -677,7 +660,7 @@ public class DineIn extends javax.swing.JDialog {
         jToggleButton2.putClientProperty(FlatClientProperties.STYLE, "selectedBackground:rgba(77, 120, 204,40)");
         FlatLightLaf.setup();
         SwingUtilities.updateComponentTreeUI(this);
-        Pallet.ResetTheme();
+        salesChannel.getDashboard().setMode(salesChannel.getDashboard().getMODE());
         loadTableCategories();
     }
 }

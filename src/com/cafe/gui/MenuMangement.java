@@ -92,7 +92,7 @@ public class MenuMangement extends javax.swing.JPanel {
                 String img = resultSet.getString("img");
                 
                
-                    ImageIcon image = new ImageIcon(getClass().getResource("/com/cafe/itemImg/emptyItem.png"));
+                ImageIcon image = new ImageIcon(getClass().getResource("/com/cafe/itemImg/emptyItem.png"));
                
                 
                 MenuItemCard component = new MenuItemCard(name, price, brand + " | " + category, image, status);
