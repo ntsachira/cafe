@@ -1,12 +1,17 @@
-
 package com.cafe.gui;
 
+import com.cafe.model.Mysql;
+import com.cafe.model.Theme;
+import static com.cafe.model.Theme.Mode.DARK;
+import static com.cafe.model.Theme.Mode.LIGHT;
 import com.cafe.model.User;
 import com.cafe.style.CustomStyle;
-import com.cafe.style.Pallet;
+import com.cafe.style.NewTheme;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Dimension;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.*;
 import javax.swing.SwingUtilities;
@@ -52,9 +57,12 @@ public class Splash extends javax.swing.JFrame {
         if (user != null) {
             this.dispose();
             Dashboard dashboard = new Dashboard(user);
-            Pallet.setDashboard(dashboard);
-            dashboard.setComponentTheme();
-            dashboard.setVisible(true);
+            if (getSavedTheme() != null) {
+                dashboard.setMode(getSavedTheme());                             
+                dashboard.setVisible(true);
+            } else {
+                setThemeSelection(user);
+            }
         }
     }
 
@@ -234,7 +242,7 @@ public class Splash extends javax.swing.JFrame {
     public static void main(String args[]) {
         /* Set the FlatDarkLaf look and feel */
         FlatLightLaf.setup();
-        UIManager.put( "ScrollBar.showButtons", true );
+        UIManager.put("ScrollBar.showButtons", true);
         CustomStyle.showRevealButton();
 
         /* Create and display the form */
@@ -257,4 +265,24 @@ public class Splash extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JProgressBar jProgressBar1;
     // End of variables declaration//GEN-END:variables
+
+    private Theme.Mode getSavedTheme() {
+        try {
+            ResultSet result = Mysql.execute("SELECT * FROM `system`");
+            if (result.next()) {
+                if (result.getString("theme") != null && !result.getString("theme").isBlank()) {
+                    //theme is set
+                    if (result.getString("theme").equals(DARK.name())) {
+                        return DARK;
+                    } else if (result.getString("theme").equals(LIGHT.name())) {
+                        return LIGHT;
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+        return null;
+    }
 }

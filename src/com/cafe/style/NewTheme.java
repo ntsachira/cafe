@@ -1,18 +1,13 @@
 package com.cafe.style;
 
 import com.cafe.gui.Dashboard;
-import com.formdev.flatlaf.FlatDarkLaf;
+import com.cafe.model.Theme;
 import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import java.awt.Color;
-import javax.swing.SwingUtilities;
 
-public class Pallet {
-
-    public enum Mode {
-        DARK, LIGHT
-    }
+public class NewTheme implements Theme{
+   
     public static Color TRANSPARENT = new Color(0,0,0,0);
     private static Mode MODE;
     public static Color BG_CARD;
@@ -35,7 +30,7 @@ public class Pallet {
     private static Dashboard dashboard;
 
     public static void setDashboard(Dashboard dashboard) {
-        Pallet.dashboard = dashboard;
+        NewTheme.dashboard = dashboard;
     }
 
     public static void ResetTheme(){
@@ -49,24 +44,6 @@ public class Pallet {
                     break;  
             }
         }
-    }
-    public static void toggleTheme() {
-        if (dashboard != null) {
-            switch (MODE) {
-                case LIGHT:                    
-                    setDarkMode();
-                    MODE = Mode.DARK;
-                    break;
-                case DARK:                    
-                    setLightMode();
-                    MODE = Mode.LIGHT;
-                    break;
-                default:
-                    setLightMode();
-                    MODE = Mode.LIGHT;
-            }
-        }
-
     }
 
     public static void setLightMode() {
@@ -84,8 +61,6 @@ public class Pallet {
         GRID = new Color(102, 102, 102);
 
         TOGGLE_BUTTON = "rgba(0,204,204,35)";
-        
-        updateUI();
     }
 
     public static void setDarkMode() {
@@ -103,23 +78,15 @@ public class Pallet {
         GRID = new Color(102, 102, 102);
 
         TOGGLE_BUTTON = "rgb(60,64,75)";
+    }  
 
-        updateUI();
+    @Override
+    public void setStyle() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public static void updateUI() {
-        CustomStyle.addTableStyle();
-        if (dashboard != null) {
-            dashboard.setComponentTheme();
-            switch(MODE){
-                case DARK:
-                    dashboard.setDarkModeIcons();
-                    break;
-                case LIGHT:
-                    dashboard.setLightModeIcons();
-                    break;
-            }
-            SwingUtilities.updateComponentTreeUI(dashboard);
-        }
+    @Override
+    public void setComponentTheme() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

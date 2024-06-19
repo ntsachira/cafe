@@ -5,7 +5,9 @@
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,7 +50,7 @@ public class Reports extends javax.swing.JPanel {
      */
     public Reports() {
         initComponents();
-        setupDateCHooserComponents();
+        setupComponents();
         loadData();
     }
 
@@ -79,6 +81,13 @@ public class Reports extends javax.swing.JPanel {
         jPanel20 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jPanel22 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel25 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jComboBox5 = new javax.swing.JComboBox<>();
+        jComboBox6 = new javax.swing.JComboBox<>();
+        jPanel26 = new javax.swing.JPanel();
+        jComboBox7 = new javax.swing.JComboBox<>();
         jPanel12 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
@@ -167,7 +176,7 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel9.setLayout(new java.awt.GridLayout(0, 1, 0, 20));
 
-        jPanel10.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Report Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        jPanel10.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "REPORT TYPE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
         jPanel10.setLayout(new java.awt.BorderLayout());
 
         jPanel11.setLayout(new java.awt.GridLayout(4, 0, 10, 10));
@@ -223,9 +232,9 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel8.add(jPanel9, java.awt.BorderLayout.PAGE_START);
 
-        jPanel19.setLayout(new java.awt.BorderLayout(0, 20));
+        jPanel19.setLayout(new java.awt.BorderLayout());
 
-        jPanel20.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cashier", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 10, 15, 10))); // NOI18N
+        jPanel20.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "CASHIER", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 10, 15, 10))); // NOI18N
         jPanel20.setLayout(new java.awt.BorderLayout());
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -233,16 +242,61 @@ public class Reports extends javax.swing.JPanel {
         jComboBox1.setPreferredSize(new java.awt.Dimension(72, 40));
         jPanel20.add(jComboBox1, java.awt.BorderLayout.CENTER);
 
-        jPanel19.add(jPanel20, java.awt.BorderLayout.PAGE_START);
+        jPanel19.add(jPanel20, java.awt.BorderLayout.NORTH);
 
         jPanel22.setLayout(new java.awt.BorderLayout());
 
-        jPanel12.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Date Range", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 15, 10))); // NOI18N
-        jPanel12.setPreferredSize(new java.awt.Dimension(420, 127));
+        jPanel6.setMaximumSize(new java.awt.Dimension(32767, 97));
+        jPanel6.setPreferredSize(new java.awt.Dimension(400, 97));
+        jPanel6.setLayout(new java.awt.BorderLayout(0, 20));
+
+        jPanel25.setMaximumSize(new java.awt.Dimension(32767, 97));
+        jPanel25.setPreferredSize(new java.awt.Dimension(0, 200));
+        jPanel25.setLayout(new java.awt.BorderLayout(0, 20));
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "ORDER BY", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        jPanel7.setMaximumSize(new java.awt.Dimension(2147483647, 87));
+        jPanel7.setMinimumSize(new java.awt.Dimension(210, 0));
+        jPanel7.setPreferredSize(new java.awt.Dimension(400, 90));
+        jPanel7.setLayout(new java.awt.BorderLayout(20, 0));
+
+        jComboBox5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Ordering Criteria", "Sold Amount", "Income" }));
+        jComboBox5.setPreferredSize(new java.awt.Dimension(180, 40));
+        jPanel7.add(jComboBox5, java.awt.BorderLayout.CENTER);
+
+        jComboBox6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Order", "Ascending", "Descending" }));
+        jComboBox6.setPreferredSize(new java.awt.Dimension(120, 40));
+        jPanel7.add(jComboBox6, java.awt.BorderLayout.EAST);
+
+        jPanel25.add(jPanel7, java.awt.BorderLayout.NORTH);
+
+        jPanel26.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "LIMIT", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        jPanel26.setMaximumSize(new java.awt.Dimension(2147483647, 100));
+        jPanel26.setMinimumSize(new java.awt.Dimension(210, 0));
+        jPanel26.setPreferredSize(new java.awt.Dimension(400, 90));
+        jPanel26.setLayout(new java.awt.BorderLayout());
+
+        jComboBox7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Results Limit", "Top 3", "Top 5", "Top 10" }));
+        jComboBox7.setPreferredSize(new java.awt.Dimension(180, 40));
+        jPanel26.add(jComboBox7, java.awt.BorderLayout.CENTER);
+
+        jPanel25.add(jPanel26, java.awt.BorderLayout.CENTER);
+
+        jPanel6.add(jPanel25, java.awt.BorderLayout.NORTH);
+
+        jPanel12.setMaximumSize(new java.awt.Dimension(2147483647, 90));
+        jPanel12.setMinimumSize(new java.awt.Dimension(214, 90));
+        jPanel12.setPreferredSize(new java.awt.Dimension(420, 90));
         jPanel12.setLayout(new java.awt.BorderLayout());
 
+        jPanel13.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "DATE RANGE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(0, 10, 10, 10))); // NOI18N
+        jPanel13.setMaximumSize(new java.awt.Dimension(32767, 70));
         jPanel13.setLayout(new java.awt.GridLayout(1, 2, 20, 10));
 
+        jPanel14.setMinimumSize(new java.awt.Dimension(82, 70));
         jPanel14.setPreferredSize(new java.awt.Dimension(185, 70));
         jPanel14.setLayout(new java.awt.BorderLayout());
 
@@ -264,6 +318,7 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel13.add(jPanel14);
 
+        jPanel18.setMinimumSize(new java.awt.Dimension(82, 70));
         jPanel18.setPreferredSize(new java.awt.Dimension(185, 70));
         jPanel18.setLayout(new java.awt.BorderLayout());
 
@@ -284,9 +339,9 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel13.add(jPanel18);
 
-        jPanel12.add(jPanel13, java.awt.BorderLayout.CENTER);
+        jPanel12.add(jPanel13, java.awt.BorderLayout.NORTH);
 
-        jPanel22.add(jPanel12, java.awt.BorderLayout.NORTH);
+        jPanel5.setPreferredSize(new java.awt.Dimension(304, 110));
 
         jButton1.setBackground(new java.awt.Color(77, 120, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
@@ -318,8 +373,8 @@ public class Reports extends javax.swing.JPanel {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jCheckBox1)
-                .addContainerGap(304, Short.MAX_VALUE))
-            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -334,10 +389,14 @@ public class Reports extends javax.swing.JPanel {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
-        jPanel22.add(jPanel5, java.awt.BorderLayout.CENTER);
+        jPanel12.add(jPanel5, java.awt.BorderLayout.CENTER);
+
+        jPanel6.add(jPanel12, java.awt.BorderLayout.CENTER);
+
+        jPanel22.add(jPanel6, java.awt.BorderLayout.CENTER);
 
         jPanel19.add(jPanel22, java.awt.BorderLayout.CENTER);
 
@@ -372,7 +431,7 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel24.setLayout(new java.awt.GridLayout(0, 1, 0, 20));
 
-        jPanel44.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Item Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 10, 15, 10))); // NOI18N
+        jPanel44.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "ITEM CATEGORY", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 10, 15, 10))); // NOI18N
         jPanel44.setLayout(new java.awt.BorderLayout());
 
         jComboBox3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -424,7 +483,7 @@ public class Reports extends javax.swing.JPanel {
                 .addGroup(jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(524, Short.MAX_VALUE))
+                .addContainerGap(590, Short.MAX_VALUE))
         );
 
         jPanel39.add(jPanel41, java.awt.BorderLayout.CENTER);
@@ -459,7 +518,7 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel16.setLayout(new java.awt.GridLayout(0, 1, 0, 20));
 
-        jPanel35.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Report Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        jPanel35.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "REPORT TYPE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
         jPanel35.setLayout(new java.awt.BorderLayout());
 
         jPanel36.setLayout(new java.awt.GridLayout(5, 1, 0, 10));
@@ -556,6 +615,7 @@ public class Reports extends javax.swing.JPanel {
         jComboBox2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "6", "10", "20" }));
         jComboBox2.setSelectedIndex(1);
+        jComboBox2.setToolTipText("Select limit");
         jComboBox2.setEnabled(false);
         jComboBox2.setPreferredSize(new java.awt.Dimension(72, 48));
 
@@ -579,7 +639,7 @@ public class Reports extends javax.swing.JPanel {
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(409, Short.MAX_VALUE))
+                .addContainerGap(475, Short.MAX_VALUE))
         );
 
         jPanel53.add(jPanel55, java.awt.BorderLayout.CENTER);
@@ -614,7 +674,7 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel34.setLayout(new java.awt.GridLayout(0, 1, 0, 20));
 
-        jPanel37.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Report Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        jPanel37.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "REPORT TYPE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
         jPanel37.setLayout(new java.awt.BorderLayout());
 
         jPanel38.setLayout(new java.awt.GridLayout(2, 0, 0, 10));
@@ -646,7 +706,7 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel34.add(jPanel37);
 
-        jPanel45.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Date Range", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        jPanel45.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "DATE RANGE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
         jPanel45.setLayout(new java.awt.BorderLayout());
 
         jPanel46.setLayout(new java.awt.GridLayout(1, 2, 20, 10));
@@ -691,7 +751,7 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel49.setLayout(new java.awt.BorderLayout());
 
-        jPanel50.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Supplier", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 10, 15, 10))); // NOI18N
+        jPanel50.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "SUPPLIER", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 10, 15, 10))); // NOI18N
         jPanel50.setLayout(new java.awt.BorderLayout());
 
         jComboBox4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -748,7 +808,7 @@ public class Reports extends javax.swing.JPanel {
                 .addGroup(jPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(240, Short.MAX_VALUE))
+                .addContainerGap(306, Short.MAX_VALUE))
         );
 
         jPanel49.add(jPanel51, java.awt.BorderLayout.CENTER);
@@ -865,7 +925,7 @@ public class Reports extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:        
         generateSalesReport();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -885,6 +945,8 @@ public class Reports extends javax.swing.JPanel {
         if (salesByCategory.isSelected()) {
             jComboBox1.setEnabled(false);
             jComboBox1.setSelectedIndex(0);
+            hideCashierSelector();
+            showSort();
         } else {
             jComboBox1.setEnabled(true);
         }
@@ -896,6 +958,9 @@ public class Reports extends javax.swing.JPanel {
         if (salesByItem.isSelected()) {
             jComboBox1.setEnabled(false);
             jComboBox1.setSelectedIndex(0);
+            hideCashierSelector();
+            showSort();
+            showLimitSelect();
         } else {
             jComboBox1.setEnabled(true);
         }
@@ -904,11 +969,19 @@ public class Reports extends javax.swing.JPanel {
     private void InvoiceFullReportItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_InvoiceFullReportItemStateChanged
         // TODO add your handling code here:
         resetSalesTab();
+        if (InvoiceFullReport.isSelected()) {
+            showCashierSelector();
+            hideSort();
+        }
     }//GEN-LAST:event_InvoiceFullReportItemStateChanged
 
     private void invoiceSummaryReportItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_invoiceSummaryReportItemStateChanged
         // TODO add your handling code here:
         resetSalesTab();
+        if (invoiceSummaryReport.isSelected()) {
+            showCashierSelector();
+            hideSort();
+        }
     }//GEN-LAST:event_invoiceSummaryReportItemStateChanged
 
 
@@ -938,6 +1011,9 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JComboBox<String> jComboBox5;
+    private javax.swing.JComboBox<String> jComboBox6;
+    private javax.swing.JComboBox<String> jComboBox7;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private com.toedter.calendar.JDateChooser jDateChooser3;
@@ -967,6 +1043,8 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
@@ -994,6 +1072,8 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel56;
     private javax.swing.JPanel jPanel57;
     private javax.swing.JPanel jPanel58;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
@@ -1049,50 +1129,9 @@ public class Reports extends javax.swing.JPanel {
 
     }
 
-    private void setupDateCHooserComponents() {
-        Date date = new Date();
-        jDateChooser2.setMaxSelectableDate(date);
-        jDateChooser2.setDate(date);
-        jDateChooser1.setDate(new Date(jDateChooser2.getDate().getTime() - 1000 * 60 * 60 * 24));
-        setupSalesDateChoosers();
-
-        jDateChooser3.setMaxSelectableDate(date);
-        jDateChooser3.setDate(date);
-        jDateChooser4.setDate(new Date(jDateChooser3.getDate().getTime() - 1000 * 60 * 60 * 24));
-        setupGrnDateChoosers();
-
-        jDateChooser1.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                try {
-                    jDateChooser1.getComponent(1).setForeground(new Color(77, 120, 204));
-                } catch (Exception e) {
-                }
-            }
-        });
-        jDateChooser2.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                try {
-                    setupSalesDateChoosers();
-                } catch (Exception e) {
-                }
-            }
-        });
-        jDateChooser4.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                try {
-                    jDateChooser4.getComponent(1).setForeground(new Color(77, 120, 204));
-                } catch (Exception e) {
-                }
-            }
-        });
-        jDateChooser3.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                try {
-                    setupGrnDateChoosers();
-                } catch (Exception e) {
-                }
-            }
-        });
+    private void setupComponents() {
+        setupDatechooserComponents();
+        setupDefaultComponentVisibility();
     }
 
     private void setupSalesDateChoosers() {
@@ -1149,7 +1188,7 @@ public class Reports extends javax.swing.JPanel {
 
             if (result.next()) {
                 parameters.put("printDate", today);
-                parameters.put("netTotal", result.getString("total"));
+                parameters.put("netTotal", "Rs. "+new DecimalFormat("#,##0.00").format(Double.parseDouble(result.getString("total"))));
             }
             URL mainReport = getClass().getResource("/com/cafe/reports/cafe_invoice_summary.jasper");
 
@@ -1186,16 +1225,14 @@ public class Reports extends javax.swing.JPanel {
 
             if (result.next()) {
                 parameters.put("date", today);
-                parameters.put("total", "Rs. " + new DecimalFormat("#,###.00").format(result.getDouble("total")));
+                parameters.put("total",new DecimalFormat("#,###.00").format(result.getDouble("total")));
             }
 
             URL resource = getClass().getResource("/com/cafe/reports/main_report.jasper");
             URL resourceSub = getClass().getResource("/com/cafe/reports/sub_report.jasper");
 
             JasperFillManager.fillReport(resourceSub.getPath(), parameters, Mysql.getConnection());
-
             JasperPrint fillReport = JasperFillManager.fillReport(resource.getPath(), parameters, Mysql.getConnection());
-
             JasperViewer viewer = new JasperViewer(fillReport, false);
 
             jPanel21.removeAll();
@@ -1217,9 +1254,36 @@ public class Reports extends javax.swing.JPanel {
     }
 
     private void printSalesByItemReport(HashMap<String, Object> parameters, String today) {
-        String cashier = "";
-        if (jComboBox1.getSelectedIndex() != 0) {
-            cashier = String.valueOf(jComboBox1.getSelectedItem()).split(" - ")[0];
+        String sortField = "name";
+        String field = "Item Name";
+        String sortOrder = "";
+        String order = "Ascending";
+        String sortLimit = "";
+        String limit = "All Records";
+
+        if (jComboBox5.getSelectedIndex() != 0) {
+            if (String.valueOf(jComboBox5.getSelectedItem()).equals("Income")) {
+                sortField = "income";
+                field = "Total Income";
+            } else {
+                sortField = "qty";
+                field = "Sold Quantity";
+            }
+        }
+
+        if (jComboBox6.getSelectedIndex() != 0) {
+            if (String.valueOf(jComboBox6.getSelectedItem()).equals("Ascending")) {
+                sortOrder = "ASC";
+                order = "Ascending";
+            } else {
+                sortOrder = "DESC";
+                order = "Descending";
+            }
+        }
+
+        if (jComboBox7.getSelectedIndex() != 0) {
+            sortLimit = "LIMIT " + String.valueOf(jComboBox7.getSelectedItem()).split(" ")[1];
+            limit = String.valueOf(jComboBox7.getSelectedItem()).split(" ")[1];
         }
 
         try {
@@ -1228,13 +1292,18 @@ public class Reports extends javax.swing.JPanel {
                     + "INNER JOIN `menu_invoice_item` ON menu_invoice_item.invoice_id = invoice.id "
                     + "INNER JOIN menu_item ON menu_item.id = menu_invoice_item.menu_item_id "
                     + "INNER JOIN `user` ON user.mobile = invoice.user_mobile "
-                    + "WHERE `date` >=  '" + parameters.get("to") + "' AND `date` <=  '" + parameters.get("from") + "'  AND `user_mobile` LIKE  '" + cashier + "%' ");
+                    + "WHERE `date` >=  '" + parameters.get("to") + "' AND `date` <=  '" + parameters.get("from") + "' ");
 
             if (result.next()) {
-                parameters.put("date", today);
                 parameters.put("total", "Rs. " + new DecimalFormat("#,###.00").format(result.getDouble("income")));
             }
-            JasperPrint fillReport = JasperFillManager.fillReport("src/com/cafe/reports/salesByItem.jasper", parameters, Mysql.getConnection());
+            parameters.put("sortCriteria", sortField + " " + sortOrder + " " + sortLimit);
+            parameters.put("limit", limit);
+            parameters.put("sort", order);
+            parameters.put("sortBy", field);
+
+            URL report = getClass().getResource("/com/cafe/reports/salesByItem.jasper");
+            JasperPrint fillReport = JasperFillManager.fillReport(report.getPath(), parameters, Mysql.getConnection());
             JasperViewer viewer = new JasperViewer(fillReport, false);
             emptyLabel = jLabel5;
             jPanel21.removeAll();
@@ -1250,8 +1319,36 @@ public class Reports extends javax.swing.JPanel {
     }
 
     private void printSalesByCategoryReport(HashMap<String, Object> parameters) {
+        String sortField = "name";
+        String field = "Item Name";
+        String sortOrder = "";
+        String order = "Ascending";
+
+        if (jComboBox5.getSelectedIndex() != 0) {
+            if (String.valueOf(jComboBox5.getSelectedItem()).equals("Income")) {
+                sortField = "income";
+                field = "Total Income";
+            } else {
+                sortField = "qty";
+                field = "Sold Quantity";
+            }
+        }
+
+        if (jComboBox6.getSelectedIndex() != 0) {
+            if (String.valueOf(jComboBox6.getSelectedItem()).equals("Ascending")) {
+                sortOrder = "ASC";
+                order = "Ascending";
+            } else {
+                sortOrder = "DESC";
+                order = "Descending";
+            }
+        }
+
+        parameters.put("sortCriteria", sortField + " " + sortOrder);
+        parameters.put("order", order);
+        parameters.put("orderBy", field);
+
         try {
-            parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             URL resource = getClass().getResource("/com/cafe/reports/salesByCategory.jasper");
             URL resourceSub = getClass().getResource("/com/cafe/reports/categoryItems.jasper");
 
@@ -1568,7 +1665,7 @@ public class Reports extends javax.swing.JPanel {
 
     }
 
-    private void printGrnSummaryReport(HashMap<String, Object> parameters) {       
+    private void printGrnSummaryReport(HashMap<String, Object> parameters) {
         try {
 
             parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
@@ -1592,7 +1689,7 @@ public class Reports extends javax.swing.JPanel {
         }
     }
 
-    private void printGrnFullReport(HashMap<String, Object> parameters) {        
+    private void printGrnFullReport(HashMap<String, Object> parameters) {
         try {
 
             parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
@@ -1634,4 +1731,144 @@ public class Reports extends javax.swing.JPanel {
             ex.printStackTrace();
         }
     }
+
+    private void hideCashierSelector() {
+        new Thread(() -> {
+            if (jPanel20.getPreferredSize().height > 0) {
+                for (int i = jPanel20.getPreferredSize().height; i > 0; i -= 5) {
+                    jPanel20.setPreferredSize(new Dimension(jPanel20.getSize().width, i));
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException ex) {
+                        Splash.logger.log(Level.SEVERE, null, ex);
+                        ex.printStackTrace();
+                    }
+                    jPanel19.updateUI();
+                }
+                jPanel20.setPreferredSize(new Dimension(jPanel20.getSize().width, 0));
+                jPanel19.updateUI();
+            }
+        }).start();
+    }
+
+    private void showCashierSelector() {
+        new Thread(() -> {
+            if (jPanel20.getPreferredSize().height < 97) {
+                for (int i = 0; i < 97; i += 5) {
+                    jPanel20.setPreferredSize(new Dimension(jPanel20.getPreferredSize().width, i));
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException ex) {
+                        Splash.logger.log(Level.SEVERE, null, ex);
+                        ex.printStackTrace();
+                    }
+                    jPanel19.updateUI();
+                }
+                jPanel20.setPreferredSize(new Dimension(jPanel20.getPreferredSize().width, 97));
+                jPanel19.updateUI();
+            }
+        }).start();
+    }
+
+    private void hideSort() {
+        new Thread(() -> {
+            if (jPanel25.getPreferredSize().height > 0) {
+                for (int i = jPanel25.getPreferredSize().height; i > 0; i -= 5) {
+                    jPanel25.setPreferredSize(new Dimension(jPanel25.getSize().width, i));
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException ex) {
+                        Splash.logger.log(Level.SEVERE, null, ex);
+                        ex.printStackTrace();
+                    }
+                    jPanel6.updateUI();
+                }
+                jPanel25.setPreferredSize(new Dimension(jPanel25.getSize().width, 0));
+                jPanel6.updateUI();
+            }
+        }).start();
+    }
+
+    private void showSort() {
+        new Thread(() -> {
+            if (jPanel25.getPreferredSize().height < 190) {
+                for (int i = jPanel25.getPreferredSize().height; i < 190; i += 5) {
+                    jPanel25.setPreferredSize(new Dimension(jPanel25.getSize().width, i));
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException ex) {
+                        Splash.logger.log(Level.SEVERE, null, ex);
+                        ex.printStackTrace();
+                    }
+                    jPanel6.updateUI();
+                }
+                jPanel25.setPreferredSize(new Dimension(jPanel25.getSize().width, 190));
+            }
+            if (salesByCategory.isSelected()) {
+                hideLimitSelect();
+            }
+            jPanel6.updateUI();
+        }).start();
+    }
+
+    private void setupDatechooserComponents() {
+        Date date = new Date();
+        jDateChooser2.setMaxSelectableDate(date);
+        jDateChooser2.setDate(date);
+        jDateChooser1.setDate(new Date(jDateChooser2.getDate().getTime() - 1000 * 60 * 60 * 24));
+        setupSalesDateChoosers();
+
+        jDateChooser3.setMaxSelectableDate(date);
+        jDateChooser3.setDate(date);
+        jDateChooser4.setDate(new Date(jDateChooser3.getDate().getTime() - 1000 * 60 * 60 * 24));
+        setupGrnDateChoosers();
+
+        jDateChooser1.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                try {
+                    jDateChooser1.getComponent(1).setForeground(new Color(77, 120, 204));
+                } catch (Exception e) {
+                }
+            }
+        });
+        jDateChooser2.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                try {
+                    setupSalesDateChoosers();
+                } catch (Exception e) {
+                }
+            }
+        });
+        jDateChooser4.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                try {
+                    jDateChooser4.getComponent(1).setForeground(new Color(77, 120, 204));
+                } catch (Exception e) {
+                }
+            }
+        });
+        jDateChooser3.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                try {
+                    setupGrnDateChoosers();
+                } catch (Exception e) {
+                }
+            }
+        });
+    }
+
+    private void setupDefaultComponentVisibility() {
+        hideSort();
+    }
+
+    private void hideLimitSelect() {
+        jPanel25.setPreferredSize(new Dimension(jPanel25.getSize().width, 100));
+        jPanel6.updateUI();
+    }
+
+    private void showLimitSelect() {
+        jPanel25.setPreferredSize(new Dimension(jPanel25.getSize().width, 200));
+        jPanel6.updateUI();
+    }
+
 }

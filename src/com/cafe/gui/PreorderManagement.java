@@ -5,11 +5,14 @@ import com.cafe.style.CustomStyle;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PreorderManagement extends javax.swing.JPanel {
 
-    private HashMap<String,Object> statusMap = new HashMap<>();
+    private HashMap<String, Object> statusMap = new HashMap<>();
     private Dashboard dashboard;
 
     public Dashboard getDashboard() {
@@ -28,6 +31,7 @@ public class PreorderManagement extends javax.swing.JPanel {
     public void setDashboard(Dashboard dashboard) {
         this.dashboard = dashboard;
     }
+
 
     /**
      * Creates new form PreorderManagement
@@ -69,17 +73,17 @@ public class PreorderManagement extends javax.swing.JPanel {
 
         jPanel2.setLayout(new java.awt.BorderLayout(0, 10));
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "INVOICE ID", "DATE", "TIME", "TOTAL", "DISCOUNT", "PAYMENT METHOD", "STATUS"
+                "INVOICE ID", "DATE", "TIME", "TOTAL (RS)", "DISCOUNT (RS)", "PAYMENT METHOD", "STATUS"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
@@ -94,6 +98,8 @@ public class PreorderManagement extends javax.swing.JPanel {
             }
         });
         jTable1.setFocusable(false);
+        jTable1.setSelectionBackground(new java.awt.Color(77, 120, 204));
+        jTable1.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -294,30 +300,32 @@ public class PreorderManagement extends javax.swing.JPanel {
                 + "FROM pre_orders INNER JOIN invoice ON invoice.id = pre_orders.invoice_id "
                 + "INNER JOIN pre_order_status ON pre_order_status.id = pre_orders.pre_order_status_id "
                 + "INNER JOIN payment_method ON payment_method.id = invoice.payment_method_id "
-                + "WHERE invoice_id LIKE '%"+jTextField2.getText().trim()+"%' AND pre_orders.date LIKE '"+jTextField3.getText().trim()+"%' "
-                        + "AND pre_orders.pre_order_status_id LIKE '"+statusMap.get(String.valueOf(jComboBox2.getSelectedItem()))+"%'");
-        
+                + "WHERE invoice_id LIKE '%" + jTextField2.getText().trim() + "%' AND pre_orders.date LIKE '" + jTextField3.getText().trim() + "%' "
+                + "AND pre_orders.pre_order_status_id LIKE '" + statusMap.get(String.valueOf(jComboBox2.getSelectedItem())) + "%' ORDER BY pre_orders.date DESC");
+
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         try {
-            while(result.next()){
+            while (result.next()) {
                 Vector v = new Vector();
                 v.add(result.getString("invoice_id"));
                 v.add(result.getString("pre_orders.date"));
                 v.add(result.getString("pre_orders.time"));
-                v.add(result.getString("total"));
-                v.add(result.getString("discount"));
+                v.add(new DecimalFormat("#,##0.00").format(result.getDouble("total")));
+                v.add(new DecimalFormat("#,##0.00").format(result.getDouble("discount")));
                 v.add(result.getString("payment_method.name"));
                 v.add(result.getString("pre_order_status.name"));
-                
+
                 model.addRow(v);
             }
             jTable1.setModel(model);
-            jLabel2.setText("("+String.valueOf(model.getRowCount())+")");
+            jLabel2.setText("(" + String.valueOf(model.getRowCount()) + ")");
         } catch (SQLException ex) {
             Splash.logger.log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
+        
+        
     }
 
     private void loadData() {
@@ -327,14 +335,14 @@ public class PreorderManagement extends javax.swing.JPanel {
 
     private void loadStatusComboBox() {
         ResultSet result = Mysql.execute("SELECT * FROM `pre_order_status`");
-        
+
         Vector v = new Vector();
         v.add("Select Status");
-        statusMap.put("Select Status","");
+        statusMap.put("Select Status", "");
         try {
-            while(result.next()){
+            while (result.next()) {
                 v.add(result.getString("name"));
-                statusMap.put(result.getString("name"),result.getString("id"));
+                statusMap.put(result.getString("name"), result.getString("id"));
             }
             jComboBox1.setModel(new DefaultComboBoxModel<>(v));
             jComboBox2.setModel(new DefaultComboBoxModel<>(v));
@@ -345,34 +353,42 @@ public class PreorderManagement extends javax.swing.JPanel {
     }
 
     private void setStyle() {
-       CustomStyle.showClearButton(
-               jTextField1,jTextField2,jTextField3
-       );
-       jTextField1.putClientProperty("JTextField.placeholderText", "Invoice ID");
-       jTextField2.putClientProperty("JTextField.placeholderText", "Search by invoice id");
-       jTextField3.putClientProperty("JTextField.placeholderText", "Search by prder date");
+        CustomStyle.showClearButton(
+                jTextField1, jTextField2, jTextField3
+        );
+        jTextField1.putClientProperty("JTextField.placeholderText", "Invoice ID");
+        jTextField2.putClientProperty("JTextField.placeholderText", "Search by invoice id");
+        jTextField3.putClientProperty("JTextField.placeholderText", "Search by prder date");
+        
+        //style table
+        DefaultTableCellRenderer renderCenter = new DefaultTableCellRenderer();
+        renderCenter.setHorizontalAlignment(SwingConstants.CENTER);
+        jTable1.setDefaultRenderer(String.class, renderCenter);
+        DefaultTableCellRenderer renderRight = new DefaultTableCellRenderer();
+        renderRight.setHorizontalAlignment(SwingConstants.RIGHT);
+        jTable1.setDefaultRenderer(Double.class, renderRight);
     }
 
     private void setInvoiceId() {
-       jTextField1.setText(String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), 0)));       
+        jTextField1.setText(String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), 0)));
     }
 
     private void updateOrderStatus() {
-        if(jTextField1.getText().isBlank()){
-            this.dashboard.setWarningStatus("Enter Invoice ID to Update");            
-        }else if(jComboBox1.getSelectedIndex()==0){
+        if (jTextField1.getText().isBlank()) {
+            this.dashboard.setWarningStatus("Enter Invoice ID to Update");
+        } else if (jComboBox1.getSelectedIndex() == 0) {
             this.dashboard.setWarningStatus("Please select status to update");
-        }else{
+        } else {
             try {
-                ResultSet result = Mysql.execute("SELECT * FROM `pre_orders` WHERE `invoice_id` = '"+jTextField1.getText().trim()+"'");
-                if(result.next()){
-                    Mysql.execute("UPDATE `pre_orders` SET `pre_order_status_id`='"+statusMap.get(String.valueOf(jComboBox1.getSelectedItem()))+"' "
-                            + "WHERE `invoice_id` = '"+jTextField1.getText().trim()+"'");
-                    
-                    this.dashboard.setSuccessStatus(jTextField1.getText().trim()+" - Order status updated");
-                    loadPreOrderList(); 
+                ResultSet result = Mysql.execute("SELECT * FROM `pre_orders` WHERE `invoice_id` = '" + jTextField1.getText().trim() + "'");
+                if (result.next()) {
+                    Mysql.execute("UPDATE `pre_orders` SET `pre_order_status_id`='" + statusMap.get(String.valueOf(jComboBox1.getSelectedItem())) + "' "
+                            + "WHERE `invoice_id` = '" + jTextField1.getText().trim() + "'");
+
+                    this.dashboard.setSuccessStatus(jTextField1.getText().trim() + " - Order status updated");
+                    loadPreOrderList();
                     resetUpdateInput();
-                }else{
+                } else {
                     this.dashboard.setWarningStatus("Invalid Invoice ID");
                 }
             } catch (SQLException ex) {

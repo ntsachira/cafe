@@ -1,10 +1,14 @@
-
 package com.cafe.gui;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Color;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 public class LimitedStockCard extends javax.swing.JPanel {
@@ -17,13 +21,12 @@ public class LimitedStockCard extends javax.swing.JPanel {
     private int menuIdl;
     private String unit;
     private boolean expired;
-   
+
     public LimitedStockCard() {
         initComponents();
         setStyle();
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -91,18 +94,18 @@ public class LimitedStockCard extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     // End of variables declaration//GEN-END:variables
 
-    private void setStyle() {        
-        jPanel3.putClientProperty(FlatClientProperties.STYLE,"arc:30");  
-        jPanel2.putClientProperty(FlatClientProperties.STYLE,"arc:30");  
-        jPanel4.putClientProperty(FlatClientProperties.STYLE,"arc:30");  
-//        jPanel3.putClientProperty(FlatClientProperties.STYLE,"border:0,0,0,0,#FF5555,0,50");
+    private void setStyle() {
+        jPanel3.putClientProperty(FlatClientProperties.STYLE, "arc:30");
+        jPanel2.putClientProperty(FlatClientProperties.STYLE, "arc:30");
+        jPanel4.putClientProperty(FlatClientProperties.STYLE, "arc:30");
     }
 
-     public void setImage(String path){
-         if(!path.isBlank())
-        jImagePanel1.setImageIcon(new ImageIcon(getClass().getResource(path)));
+    public void setImage(String path) {
+        if (!path.isBlank()) {
+            jImagePanel1.setImageIcon(new ImageIcon(getClass().getResource(path)));
+        }
     }
-     
+
     public String getItemName() {
         return itemName;
     }
@@ -118,7 +121,7 @@ public class LimitedStockCard extends javax.swing.JPanel {
 
     public void setId(int id) {
         this.id = id;
-        jLabel2.setText("STOCK ID - "+String.valueOf(id));
+        jLabel2.setText("STOCK ID - " + String.valueOf(id));
     }
 
     public double getQuantity() {
@@ -127,14 +130,13 @@ public class LimitedStockCard extends javax.swing.JPanel {
 
     public void setQuantity(double quantity) {
         this.quantity = quantity;
-        if(quantity<10){
-            jLabel8.setText(String.valueOf(quantity)+" (LIMITED)");
+        if (quantity < 11) {
+            jLabel8.setText(String.valueOf(quantity) + " (LIMITED)");
             jLabel8.setForeground(Color.red);
-        }else{
+        } else {
             expired = true;
-           jLabel8.setText(String.valueOf(quantity)); 
+            jLabel8.setText(String.valueOf(quantity));
         }
-        
     }
 
     public String getExpire() {
@@ -142,14 +144,24 @@ public class LimitedStockCard extends javax.swing.JPanel {
     }
 
     public void setExpire(String expire) {
-        this.expire = expire;        
-        if(expired){
-            jLabel6.setText(expire+" (EXPIRED)");
-            jLabel6.setForeground(Color.red);
-        }else{
-           jLabel6.setText(expire); 
+        this.expire = expire;
+        try {
+            Date expireDate = new SimpleDateFormat("yyyy-MM-dd").parse(expire);
+            if (expireDate.after(new Date())) {              
+                if (expireDate.before(new Date(System.currentTimeMillis()+(1000*60*60*24*14)))) {
+                    jLabel6.setText(expire + " (EXPIRE SOON)");
+                    jLabel6.setForeground(new Color(255,102,0));
+                }else{
+                    jLabel6.setText(expire);
+                }
+            } else {
+                jLabel6.setText(expire + " (EXPIRED)");
+                jLabel6.setForeground(Color.red);
+            }
+
+        } catch (ParseException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
-        
     }
-   
 }

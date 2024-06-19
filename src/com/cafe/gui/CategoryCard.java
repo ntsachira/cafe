@@ -6,6 +6,7 @@ package com.cafe.gui;
 
 import com.cafe.style.CustomStyle;
 import com.formdev.flatlaf.FlatClientProperties;
+import javax.swing.ImageIcon;
 
 
 /**
@@ -16,7 +17,7 @@ public class CategoryCard extends javax.swing.JPanel {
 
     private SalesChannel salesChannel;
     private String categoryName;
-    private int id;
+    private int id;    
 
     public int getId() {
         return id;
@@ -37,6 +38,14 @@ public class CategoryCard extends javax.swing.JPanel {
 
     public void setSalesChannel(SalesChannel salesChannel) {
         this.salesChannel = salesChannel;
+    }
+    
+    public void setImage(String path){
+        jLabel3.setIcon(new ImageIcon(getClass().getResource(path)));
+    }
+    
+    public void setNumberofItems(String count){
+        jLabel2.setText(count+" Items");
     }
     /**
      * Creates new form CategoryCard
@@ -68,20 +77,20 @@ public class CategoryCard extends javax.swing.JPanel {
         });
         setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Rice");
         jLabel1.setPreferredSize(new java.awt.Dimension(0, 30));
         add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("4 Items");
         jLabel2.setPreferredSize(new java.awt.Dimension(0, 30));
         add(jLabel2, java.awt.BorderLayout.PAGE_END);
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/meal-32.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/categoryImg/rice32.png"))); // NOI18N
         add(jLabel3, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
