@@ -35,6 +35,7 @@ import static com.cafe.style.NewTheme.setLightMode;
 import com.formdev.flatlaf.FlatIconColors;
 import static java.awt.Component.LEFT_ALIGNMENT;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -46,6 +47,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import javax.swing.Action;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -154,6 +156,15 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         setExtendedState(MAXIMIZED_BOTH);
     }
 
+    private void loadDashboardContent() {
+        setCharts();
+        loadLimitedStock();
+        loadTopSellingItems();
+        setCardData();
+        loadInvoices();
+        loadGrn();
+    }
+
     public User getUser() {
         return user;
     }
@@ -224,11 +235,11 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
     public void setSuccessStatus(String systemStatus) {
         status.setText(systemStatus);
-        status.setForeground(Color.GREEN);
+        status.setForeground(MODE.equals(Mode.LIGHT) ? new Color(0, 153, 51) : Color.GREEN);
         new Thread(() -> {
-            try {
-                Thread.sleep(6000);
-                setDefaultSystemStatus();
+            try {                
+                    Thread.sleep(6000);
+                    setDefaultSystemStatus();                
             } catch (InterruptedException ex) {
                 Splash.logger.log(Level.SEVERE, null, ex);
             }
@@ -248,7 +259,11 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -348,11 +363,50 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
 
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/controlImg/refresh22.png"))); // NOI18N
+        jMenuItem1.setText("Refresh");
+        jMenuItem1.setIconTextGap(10);
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem1);
+        jPopupMenu1.add(jSeparator6);
+
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/controlImg/319_exit_icon.png"))); // NOI18N
+        jMenuItem2.setText("Logout");
+        jMenuItem2.setIconTextGap(10);
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem2);
+
+        jMenuItem3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/clear.png"))); // NOI18N
+        jMenuItem3.setText("Close Apllication");
+        jMenuItem3.setIconTextGap(10);
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem3);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(2147483647, 1080));
         setMinimumSize(new java.awt.Dimension(1260, 720));
         setSize(new java.awt.Dimension(1260, 720));
 
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel1MouseReleased(evt);
+            }
+        });
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel2.setPreferredSize(new java.awt.Dimension(1260, 60));
@@ -404,7 +458,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jPanel8.setLayout(new java.awt.BorderLayout());
 
         jPanel9.setOpaque(false);
-        jPanel9.setPreferredSize(new java.awt.Dimension(450, 57));
+        jPanel9.setPreferredSize(new java.awt.Dimension(600, 57));
         jPanel9.setLayout(new java.awt.BorderLayout(20, 0));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -962,6 +1016,38 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         toggleTheme();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jPanel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseReleased
+        // TODO add your handling code here:
+        if (evt.getButton() == MouseEvent.BUTTON3) {
+            if (dashPanel.isShowing()) {
+                jMenuItem1.setEnabled(true);
+            } else {
+                jMenuItem1.setEnabled(false);
+            }
+            SwingUtilities.updateComponentTreeUI(jPopupMenu1);
+            jPopupMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jPanel1MouseReleased
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        sidebar.logOut();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        refreshDashboardContent();
+
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        int response = JOptionPane.showConfirmDialog(this, "Do you want to exit the application?",
+                "Exit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (response == JOptionPane.YES_OPTION)
+            System.exit(0);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -984,7 +1070,6 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private javax.swing.JPanel card4;
     private javax.swing.JPanel chartPanel1;
     private javax.swing.JPanel dashPanel;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1019,6 +1104,9 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1063,6 +1151,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1072,6 +1161,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JPanel mainPanel;
@@ -1082,14 +1172,14 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     @Override
     public void setStyle() {
         CustomStyle.setIcon(this);
-        
+
         DefaultTableCellRenderer renderCenter = new DefaultTableCellRenderer();
-        renderCenter.setHorizontalAlignment(SwingConstants.CENTER);        
+        renderCenter.setHorizontalAlignment(SwingConstants.CENTER);
         DefaultTableCellRenderer renderRight = new DefaultTableCellRenderer();
-        renderRight.setHorizontalAlignment(SwingConstants.RIGHT);        
+        renderRight.setHorizontalAlignment(SwingConstants.RIGHT);
         jTable1.setDefaultRenderer(String.class, renderCenter);
-        jTable1.setDefaultRenderer(Double.class, renderRight);        
-        jTable2.setDefaultRenderer(String.class, renderCenter);  
+        jTable1.setDefaultRenderer(Double.class, renderRight);
+        jTable2.setDefaultRenderer(String.class, renderCenter);
         jTable2.setDefaultRenderer(Double.class, renderRight);
     }
 
@@ -1103,7 +1193,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/monthly_light.png")));
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/customer_light.png")));
         jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/menu_item_light.png")));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/moon.png"))); 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/moon.png")));
     }
 
     public void setLightModeIcons() {
@@ -1111,7 +1201,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/monthly_dark.png")));
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/customer_dark.png")));
         jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/menu_item_dark.png")));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/sun.png"))); 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/sun.png")));
     }
 
     private void toggleSidebar() {
@@ -1344,6 +1434,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             setMainPanel(dashPanel);
             setActiveTab(Tab.Dashboard);
             loadDashboardContent();
+            setDashPanelTheme();
         }
 
     }
@@ -1359,8 +1450,9 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             jPanel45.removeAll();
             ResultSet result1 = Mysql.execute("SELECT direct_selling_stock.id,`name`,expiry_date,qty,menu_item.image_path "
                     + "from direct_selling_stock INNER JOIN menu_item ON menu_item_id= menu_item.id "
-                    + "WHERE (qty < 10 OR `expiry_date` < NOW()+(1000*60*60*24*14) ) "
-                    + "AND direct_selling_stock.active_state_state_id = (SELECT state_id FROM active_state WHERE active_state.`status` = 'Active') ");
+                    + "WHERE (qty < 10 OR `expiry_date` < DATE_ADD(NOW() , INTERVAL 14 DAY)  ) "
+                    + "AND direct_selling_stock.active_state_state_id = (SELECT state_id FROM active_state WHERE active_state.`status` = 'Active') "
+                    + "ORDER BY expiry_date");
             while (result1.next()) {
                 LimitedStockCard limitedStockCard = new LimitedStockCard();
                 limitedStockCard.putClientProperty(FlatClientProperties.STYLE, "border:3,10,3,10,#4D78CC,1,40");
@@ -1369,6 +1461,25 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
                 limitedStockCard.setQuantity(result1.getDouble("qty"));
                 limitedStockCard.setExpire(result1.getString("expiry_date"));
                 limitedStockCard.setImage(result1.getString("menu_item.image_path"));
+                limitedStockCard.setStock(LimitedStockCard.Stock.DIRECT_SELLING);
+                limitedStockCard.setDashboard(this);
+                jPanel45.add(limitedStockCard);
+            }
+            result1 = Mysql.execute("SELECT kitchen_stock.id,`name`,expire_date,qty "
+                    + "from kitchen_stock INNER JOIN kitchen_item ON kitchen_item_id= kitchen_item.id "
+                    + "WHERE (qty < 10 OR `expire_date` < DATE_ADD(NOW() , INTERVAL 14 DAY)  ) "
+                    + "AND kitchen_stock.active_state_state_id = (SELECT state_id FROM active_state WHERE active_state.`status` = 'Active') "
+                    + "ORDER BY expire_date");
+            while (result1.next()) {
+                LimitedStockCard limitedStockCard = new LimitedStockCard();
+                limitedStockCard.putClientProperty(FlatClientProperties.STYLE, "border:3,10,3,10,#4D78CC,1,40");
+                limitedStockCard.setId(result1.getInt("kitchen_stock.id"));
+                limitedStockCard.setItemName(result1.getString("name"));
+                limitedStockCard.setQuantity(result1.getDouble("qty"));
+                limitedStockCard.setExpire(result1.getString("expire_date"));
+                limitedStockCard.setImage("");
+                limitedStockCard.setStock(LimitedStockCard.Stock.KITCHEN);
+                limitedStockCard.setDashboard(this);
                 jPanel45.add(limitedStockCard);
             }
 
@@ -1439,6 +1550,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
             ChartPanel chartPanel = new ChartPanel(categorySalesChart);
 
+            jPanel44.removeAll();
             jPanel44.add(chartPanel);
             SwingUtilities.updateComponentTreeUI(jPanel44);
         } catch (SQLException ex) {
@@ -1496,6 +1608,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         salesChart = createBarChart(months, amounts);
         ChartPanel chartPanel = new ChartPanel(salesChart);
 
+        chartPanel1.removeAll();
         chartPanel1.add(chartPanel);
         SwingUtilities.updateComponentTreeUI(chartPanel1);
 
@@ -1590,18 +1703,8 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
     private void loadSystemData() {
         setDateTime();
-        try {
-            ResultSet result = Mysql.execute("SELECT * FROM `system`");
-            if (result.next()) {
-                jLabel5.setText(result.getString("name"));
-            }
-        } catch (SQLException ex) {
-            Splash.logger.log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
-
-        jLabel2.setText(this.user.getRole().name() + ":");
-        jLabel1.setText(this.user.getDisplay_name());
+        setBusinessName();
+        setDiplayName();
 
     }
 
@@ -1617,20 +1720,10 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         loadTodayInvoiceCount();
     }
 
-    private void loadDashboardContent() {
-        setCharts();
-        loadLimitedStock();
-        loadTopSellingItems();
-        setCardData();
-        loadInvoices();
-        loadGrn();
-        System.out.println("loadDashboardContent");
-    }
-
     private void setDashPanelTheme() {
         CustomStyle.setComponentBackground(
                 jPanel21, jPanel23, jPanel26, jPanel29, jPanel33, jPanel34, jPanel36,
-                jPanel40, jPanel46, jPanel42, jPanel41, jPanel39
+                jPanel40, jPanel46, jPanel42, jPanel41, jPanel39,jPanel14
         );
 
         //sales chart style
@@ -1662,6 +1755,8 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         for (Component panel : jPanel45.getComponents()) {
             panel.setBackground(NewTheme.BG_CARD_PRODUCT);
         }
+
+        SwingUtilities.updateComponentTreeUI(dashPanel);
     }
 
     public void loadTodayInvoiceCount() {
@@ -1724,7 +1819,6 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jLabel23.setText("Updated: " + date);
         jLabel27.setText("Updated: " + date);
 
-        System.out.println("setCardData");
     }
 
     public static void alignFrame(JasperViewer jasperViewer, float side) {
@@ -1737,12 +1831,15 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
         if (side == LEFT_ALIGNMENT) {
             x = 0;
+            jasperViewer.setBounds(0, 0, frameWidth, screenSize.height);
+        } else {
+            jasperViewer.setLocation(x, y);
         }
-        jasperViewer.setLocation(x, y);
+
     }
 
     private void loadInvoices() {
-        
+
         try {
             ResultSet result = Mysql.execute("SELECT id,date,invoice.total,invoice.discount,user_mobile FROM  invoice ORDER BY `date` DESC LIMIT 9");
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -1763,8 +1860,8 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         }
     }
 
-    private void loadGrn() {        
-        
+    private void loadGrn() {
+
         try {
             ResultSet result = Mysql.execute("SELECT direct_selling_grn.id,`date`,total,direct_selling_grn.supplier_mobile,payment_method.name "
                     + "FROM direct_selling_grn INNER JOIN payment_method ON payment_method.id = direct_selling_grn.payment_method_id");
@@ -1785,6 +1882,29 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             Splash.logger.log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
+    }
+
+    public void refreshDashboardContent() {
+        loadDashboardContent();
+        setDashPanelTheme();
+    }
+
+    public void setBusinessName() {
+        try {
+            ResultSet result = Mysql.execute("SELECT * FROM `system`");
+            if (result.next()) {
+                jLabel5.setText(result.getString("name"));
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void setDiplayName() {
+        jLabel2.setText(this.user.getRole().name() + ":");
+        jLabel1.setText(this.user.getDisplay_name());
     }
 
 }

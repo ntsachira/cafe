@@ -5,8 +5,26 @@
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
+import com.cafe.model.Theme;
+import com.cafe.model.User;
+import com.cafe.model.UserRole;
+import com.cafe.style.CustomStyle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -15,6 +33,21 @@ import javax.swing.JOptionPane;
 public class Settings extends javax.swing.JPanel {
 
     private Dashboard dashboard;
+    private File selectedFile;
+
+    /**
+     * Instance References for Business details
+     */
+    private String companyName;
+    private String tele;
+    private String address;
+    private String theme;
+
+    /**
+     * Instance References for admin details
+     */
+    private String displayName;
+    private String username;
 
     public Dashboard getDashboard() {
         return dashboard;
@@ -23,11 +56,15 @@ public class Settings extends javax.swing.JPanel {
     public void setDashboard(Dashboard dashboard) {
         this.dashboard = dashboard;
     }
+
     /**
      * Creates new form Settings
      */
     public Settings() {
         initComponents();
+        setStyle();
+        loadBusinessDetails();
+        loadAdminDetails();
     }
 
     /**
@@ -46,122 +83,126 @@ public class Settings extends javax.swing.JPanel {
         jPanel64 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
-        jPanel65 = new javax.swing.JPanel();
         jPanel66 = new javax.swing.JPanel();
         jPanel71 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
-        jPanel72 = new javax.swing.JPanel();
         jPanel73 = new javax.swing.JPanel();
         jPanel78 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
-        jPanel79 = new javax.swing.JPanel();
+        jPanel65 = new javax.swing.JPanel();
         jPanel80 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jPanel72 = new javax.swing.JPanel();
+        jPanel79 = new javax.swing.JPanel();
+        jImagePanel1 = new main.JImagePanel();
+        jPanel4 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jPanel14 = new javax.swing.JPanel();
-        jPanel15 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
+        jPanel23 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
+        jPanel14 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel36 = new javax.swing.JPanel();
         jPanel37 = new javax.swing.JPanel();
         jPanel40 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel41 = new javax.swing.JPanel();
         jPanel42 = new javax.swing.JPanel();
         jPanel47 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jPanel48 = new javax.swing.JPanel();
-        jPanel51 = new javax.swing.JPanel();
+        darkOption = new javax.swing.JRadioButton();
+        lightOption = new javax.swing.JRadioButton();
+        jPanel41 = new javax.swing.JPanel();
         jPanel22 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
         setLayout(new java.awt.GridLayout(1, 3, 20, 0));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "BUSSINESS DETAILS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15))); // NOI18N
-        jPanel3.setLayout(new java.awt.BorderLayout());
+        jPanel3.setLayout(new java.awt.BorderLayout(0, 40));
 
-        jPanel60.setLayout(new java.awt.BorderLayout(15, 15));
+        jPanel60.setLayout(new java.awt.BorderLayout(15, 30));
 
-        jPanel61.setPreferredSize(new java.awt.Dimension(100, 80));
-        jPanel61.setLayout(new java.awt.BorderLayout());
+        jPanel61.setPreferredSize(new java.awt.Dimension(100, 270));
+        jPanel61.setLayout(new java.awt.GridLayout(3, 0, 0, 15));
 
         jPanel64.setLayout(new java.awt.BorderLayout());
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Resturant Name");
         jLabel4.setPreferredSize(new java.awt.Dimension(37, 40));
         jPanel64.add(jLabel4, java.awt.BorderLayout.CENTER);
 
         jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jTextField3.setText("Samanmal");
         jTextField3.setPreferredSize(new java.awt.Dimension(37, 40));
-        jPanel64.add(jTextField3, java.awt.BorderLayout.PAGE_END);
+        jPanel64.add(jTextField3, java.awt.BorderLayout.SOUTH);
 
-        jPanel61.add(jPanel64, java.awt.BorderLayout.CENTER);
-
-        jPanel60.add(jPanel61, java.awt.BorderLayout.PAGE_START);
-
-        jPanel65.setLayout(new java.awt.BorderLayout());
+        jPanel61.add(jPanel64);
 
         jPanel66.setPreferredSize(new java.awt.Dimension(100, 80));
         jPanel66.setLayout(new java.awt.BorderLayout());
 
         jPanel71.setLayout(new java.awt.BorderLayout());
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Telephone");
         jLabel5.setPreferredSize(new java.awt.Dimension(37, 40));
         jPanel71.add(jLabel5, java.awt.BorderLayout.CENTER);
 
         jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jTextField4.setText("0412345678");
         jTextField4.setPreferredSize(new java.awt.Dimension(37, 40));
-        jPanel71.add(jTextField4, java.awt.BorderLayout.PAGE_END);
+        jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField4KeyTyped(evt);
+            }
+        });
+        jPanel71.add(jTextField4, java.awt.BorderLayout.SOUTH);
 
         jPanel66.add(jPanel71, java.awt.BorderLayout.CENTER);
 
-        jPanel65.add(jPanel66, java.awt.BorderLayout.PAGE_START);
-
-        jPanel72.setPreferredSize(new java.awt.Dimension(37, 80));
-        jPanel72.setLayout(new java.awt.BorderLayout());
+        jPanel61.add(jPanel66);
 
         jPanel73.setPreferredSize(new java.awt.Dimension(100, 80));
         jPanel73.setLayout(new java.awt.BorderLayout());
 
         jPanel78.setLayout(new java.awt.BorderLayout());
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Address");
         jLabel6.setPreferredSize(new java.awt.Dimension(37, 40));
         jPanel78.add(jLabel6, java.awt.BorderLayout.CENTER);
 
         jTextField5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jTextField5.setText("No 23/2 Colombo ,02");
         jTextField5.setPreferredSize(new java.awt.Dimension(37, 40));
-        jPanel78.add(jTextField5, java.awt.BorderLayout.PAGE_END);
+        jPanel78.add(jTextField5, java.awt.BorderLayout.SOUTH);
 
         jPanel73.add(jPanel78, java.awt.BorderLayout.CENTER);
 
-        jPanel72.add(jPanel73, java.awt.BorderLayout.PAGE_START);
+        jPanel61.add(jPanel73);
 
-        jPanel79.setPreferredSize(new java.awt.Dimension(580, 134));
-        jPanel79.setLayout(new java.awt.BorderLayout());
+        jPanel60.add(jPanel61, java.awt.BorderLayout.NORTH);
+
+        jPanel65.setLayout(new java.awt.BorderLayout());
 
         jPanel80.setPreferredSize(new java.awt.Dimension(580, 134));
         jPanel80.setLayout(new java.awt.BorderLayout());
@@ -170,29 +211,97 @@ public class Settings extends javax.swing.JPanel {
         jPanel20.setLayout(new java.awt.BorderLayout());
 
         jPanel21.setPreferredSize(new java.awt.Dimension(70, 40));
-        jPanel21.setLayout(new java.awt.BorderLayout());
+        jPanel21.setLayout(new java.awt.BorderLayout(10, 0));
 
         jButton3.setBackground(new java.awt.Color(77, 120, 204));
         jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("SAVE");
+        jButton3.setText("SAVE BUSINESS DETAILS");
         jButton3.setBorderPainted(false);
         jButton3.setPreferredSize(new java.awt.Dimension(72, 40));
-        jPanel21.add(jButton3, java.awt.BorderLayout.SOUTH);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel21.add(jButton3, java.awt.BorderLayout.CENTER);
 
-        jPanel20.add(jPanel21, java.awt.BorderLayout.CENTER);
+        jButton7.setBackground(new java.awt.Color(102, 102, 102));
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton7.setPreferredSize(new java.awt.Dimension(40, 40));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jPanel21.add(jButton7, java.awt.BorderLayout.EAST);
+
+        jPanel20.add(jPanel21, java.awt.BorderLayout.NORTH);
 
         jPanel80.add(jPanel20, java.awt.BorderLayout.CENTER);
 
-        jPanel79.add(jPanel80, java.awt.BorderLayout.CENTER);
-
-        jPanel72.add(jPanel79, java.awt.BorderLayout.CENTER);
-
-        jPanel65.add(jPanel72, java.awt.BorderLayout.CENTER);
+        jPanel65.add(jPanel80, java.awt.BorderLayout.CENTER);
 
         jPanel60.add(jPanel65, java.awt.BorderLayout.CENTER);
 
         jPanel3.add(jPanel60, java.awt.BorderLayout.CENTER);
+
+        jPanel72.setToolTipText("Allowed formats - jpg, jpeg, png, gif");
+        jPanel72.setPreferredSize(new java.awt.Dimension(37, 300));
+        jPanel72.setLayout(new java.awt.BorderLayout(0, 15));
+
+        jPanel79.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Report logo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
+        jPanel79.setPreferredSize(new java.awt.Dimension(590, 40));
+
+        jImagePanel1.setFitToPanel(true);
+        jImagePanel1.setImageIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/reports/logo.png"))); // NOI18N
+        jImagePanel1.setPreferredSize(new java.awt.Dimension(200, 200));
+        jPanel79.add(jImagePanel1);
+
+        jPanel72.add(jPanel79, java.awt.BorderLayout.CENTER);
+
+        jPanel4.setPreferredSize(new java.awt.Dimension(100, 40));
+        jPanel4.setLayout(new java.awt.BorderLayout(10, 0));
+
+        jButton2.setBackground(new java.awt.Color(102, 102, 102));
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton2.setBorderPainted(false);
+        jButton2.setPreferredSize(new java.awt.Dimension(40, 40));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton2, java.awt.BorderLayout.LINE_END);
+
+        jButton5.setBackground(new java.awt.Color(77, 120, 204));
+        jButton5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("CHANGE IMAGE");
+        jButton5.setBorderPainted(false);
+        jButton5.setPreferredSize(new java.awt.Dimension(300, 40));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton5, java.awt.BorderLayout.WEST);
+
+        jButton6.setBackground(new java.awt.Color(102, 102, 102));
+        jButton6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setText("UPLOAD");
+        jButton6.setEnabled(false);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton6, java.awt.BorderLayout.CENTER);
+
+        jPanel72.add(jPanel4, java.awt.BorderLayout.SOUTH);
+
+        jPanel3.add(jPanel72, java.awt.BorderLayout.NORTH);
 
         add(jPanel3);
 
@@ -201,57 +310,65 @@ public class Settings extends javax.swing.JPanel {
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel9.setPreferredSize(new java.awt.Dimension(100, 50));
-        jPanel9.setLayout(new java.awt.BorderLayout(10, 10));
+        jPanel9.setLayout(new java.awt.BorderLayout(10, 30));
 
-        jPanel10.setPreferredSize(new java.awt.Dimension(100, 80));
-        jPanel10.setLayout(new java.awt.BorderLayout());
+        jPanel10.setPreferredSize(new java.awt.Dimension(100, 270));
+        jPanel10.setLayout(new java.awt.GridLayout(3, 0, 0, 20));
 
         jPanel13.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel1.setText("First Name");
-        jLabel1.setPreferredSize(new java.awt.Dimension(37, 40));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setText("Mobile");
+        jLabel1.setPreferredSize(new java.awt.Dimension(37, 25));
         jPanel13.add(jLabel1, java.awt.BorderLayout.CENTER);
 
+        jTextField1.setEditable(false);
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jTextField1.setText("Sahan");
+        jTextField1.setFocusable(false);
         jTextField1.setPreferredSize(new java.awt.Dimension(37, 40));
-        jPanel13.add(jTextField1, java.awt.BorderLayout.PAGE_END);
+        jPanel13.add(jTextField1, java.awt.BorderLayout.SOUTH);
 
-        jPanel10.add(jPanel13, java.awt.BorderLayout.CENTER);
+        jPanel10.add(jPanel13);
+
+        jPanel18.setLayout(new java.awt.BorderLayout());
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("Display Name");
+        jLabel2.setPreferredSize(new java.awt.Dimension(37, 25));
+        jPanel18.add(jLabel2, java.awt.BorderLayout.CENTER);
+
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField2.setPreferredSize(new java.awt.Dimension(37, 40));
+        jPanel18.add(jTextField2, java.awt.BorderLayout.SOUTH);
+
+        jPanel10.add(jPanel18);
+
+        jPanel23.setLayout(new java.awt.BorderLayout());
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setText("Username");
+        jLabel7.setPreferredSize(new java.awt.Dimension(37, 25));
+        jPanel23.add(jLabel7, java.awt.BorderLayout.CENTER);
+
+        jTextField6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField6.setPreferredSize(new java.awt.Dimension(37, 40));
+        jPanel23.add(jTextField6, java.awt.BorderLayout.SOUTH);
+
+        jPanel10.add(jPanel23);
 
         jPanel9.add(jPanel10, java.awt.BorderLayout.PAGE_START);
 
         jPanel14.setPreferredSize(new java.awt.Dimension(100, 50));
         jPanel14.setLayout(new java.awt.BorderLayout());
 
-        jPanel15.setPreferredSize(new java.awt.Dimension(100, 80));
-        jPanel15.setLayout(new java.awt.BorderLayout());
-
-        jPanel18.setLayout(new java.awt.BorderLayout());
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel2.setText("Last Name");
-        jLabel2.setPreferredSize(new java.awt.Dimension(37, 40));
-        jPanel18.add(jLabel2, java.awt.BorderLayout.CENTER);
-
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jTextField2.setText("Perera");
-        jTextField2.setPreferredSize(new java.awt.Dimension(37, 40));
-        jPanel18.add(jTextField2, java.awt.BorderLayout.PAGE_END);
-
-        jPanel15.add(jPanel18, java.awt.BorderLayout.CENTER);
-
-        jPanel14.add(jPanel15, java.awt.BorderLayout.PAGE_START);
-
         jPanel19.setLayout(new java.awt.BorderLayout());
 
-        jPanel8.setLayout(new java.awt.BorderLayout());
+        jPanel8.setLayout(new java.awt.BorderLayout(10, 0));
 
         jButton1.setBackground(new java.awt.Color(77, 120, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("SAVE");
+        jButton1.setText("SAVE ADMIN DETAILS");
         jButton1.setBorderPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(75, 40));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -259,11 +376,24 @@ public class Settings extends javax.swing.JPanel {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel8.add(jButton1, java.awt.BorderLayout.SOUTH);
+        jPanel8.add(jButton1, java.awt.BorderLayout.CENTER);
+
+        jButton8.setBackground(new java.awt.Color(102, 102, 102));
+        jButton8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton8.setBorderPainted(false);
+        jButton8.setPreferredSize(new java.awt.Dimension(40, 40));
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        jPanel8.add(jButton8, java.awt.BorderLayout.EAST);
 
         jPanel19.add(jPanel8, java.awt.BorderLayout.CENTER);
 
-        jPanel14.add(jPanel19, java.awt.BorderLayout.CENTER);
+        jPanel14.add(jPanel19, java.awt.BorderLayout.NORTH);
 
         jPanel9.add(jPanel14, java.awt.BorderLayout.CENTER);
 
@@ -274,66 +404,83 @@ public class Settings extends javax.swing.JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "SYSTEM SETTINGS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15))); // NOI18N
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanel36.setLayout(new java.awt.BorderLayout(10, 10));
+        jPanel36.setLayout(new java.awt.BorderLayout(10, 30));
 
         jPanel37.setPreferredSize(new java.awt.Dimension(100, 80));
         jPanel37.setLayout(new java.awt.BorderLayout());
 
         jPanel40.setLayout(new java.awt.BorderLayout());
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Select Default Theme");
         jLabel3.setPreferredSize(new java.awt.Dimension(37, 40));
         jPanel40.add(jLabel3, java.awt.BorderLayout.CENTER);
 
-        jPanel37.add(jPanel40, java.awt.BorderLayout.CENTER);
-
-        jPanel36.add(jPanel37, java.awt.BorderLayout.PAGE_START);
-
-        jPanel41.setLayout(new java.awt.BorderLayout());
+        jPanel37.add(jPanel40, java.awt.BorderLayout.NORTH);
 
         jPanel42.setPreferredSize(new java.awt.Dimension(100, 80));
         jPanel42.setLayout(new java.awt.BorderLayout());
 
         jPanel47.setLayout(new java.awt.GridLayout(1, 0));
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jRadioButton1.setText("Dark Mode");
-        jRadioButton1.setPreferredSize(new java.awt.Dimension(98, 40));
-        jPanel47.add(jRadioButton1);
+        buttonGroup1.add(darkOption);
+        darkOption.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        darkOption.setText("Dark Mode");
+        darkOption.setIconTextGap(10);
+        darkOption.setPreferredSize(new java.awt.Dimension(98, 40));
+        darkOption.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                darkOptionItemStateChanged(evt);
+            }
+        });
+        jPanel47.add(darkOption);
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jRadioButton2.setText("Light Mode");
-        jRadioButton2.setPreferredSize(new java.awt.Dimension(98, 40));
-        jPanel47.add(jRadioButton2);
+        buttonGroup1.add(lightOption);
+        lightOption.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        lightOption.setText("Light Mode");
+        lightOption.setIconTextGap(10);
+        lightOption.setPreferredSize(new java.awt.Dimension(98, 40));
+        lightOption.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                lightOptionItemStateChanged(evt);
+            }
+        });
+        jPanel47.add(lightOption);
 
         jPanel42.add(jPanel47, java.awt.BorderLayout.CENTER);
 
-        jPanel41.add(jPanel42, java.awt.BorderLayout.PAGE_START);
+        jPanel37.add(jPanel42, java.awt.BorderLayout.CENTER);
 
-        jPanel48.setPreferredSize(new java.awt.Dimension(100, 80));
-        jPanel48.setLayout(new java.awt.BorderLayout());
+        jPanel36.add(jPanel37, java.awt.BorderLayout.PAGE_START);
 
-        jPanel51.setPreferredSize(new java.awt.Dimension(50, 50));
-        jPanel51.setLayout(new java.awt.BorderLayout());
+        jPanel41.setLayout(new java.awt.BorderLayout());
 
-        jPanel22.setLayout(new java.awt.BorderLayout());
+        jPanel22.setLayout(new java.awt.BorderLayout(10, 0));
 
         jButton4.setBackground(new java.awt.Color(77, 120, 204));
         jButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("SAVE");
+        jButton4.setText("SAVE SYSTEM SETTINGS");
         jButton4.setBorderPainted(false);
         jButton4.setPreferredSize(new java.awt.Dimension(75, 40));
-        jPanel22.add(jButton4, java.awt.BorderLayout.SOUTH);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel22.add(jButton4, java.awt.BorderLayout.CENTER);
 
-        jPanel51.add(jPanel22, java.awt.BorderLayout.CENTER);
+        jButton9.setBackground(new java.awt.Color(102, 102, 102));
+        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton9.setPreferredSize(new java.awt.Dimension(40, 40));
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        jPanel22.add(jButton9, java.awt.BorderLayout.EAST);
 
-        jPanel48.add(jPanel51, java.awt.BorderLayout.CENTER);
-
-        jPanel41.add(jPanel48, java.awt.BorderLayout.CENTER);
+        jPanel41.add(jPanel22, java.awt.BorderLayout.NORTH);
 
         jPanel36.add(jPanel41, java.awt.BorderLayout.CENTER);
 
@@ -344,69 +491,115 @@ public class Settings extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
-        String fname = jTextField1.getText();
-        String lname = jTextField2.getText();
-        
-        if (fname.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-
-        } else if (lname.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Your Last name", "Warning", JOptionPane.WARNING_MESSAGE);
-
-        } else{
-        
-            
-            try {
-                 Mysql.execute("SELECT * FROM `user` INNER JOIN `user_role` "
-                    + "ON `user`.`user_role_id` = `user_role`.`id` "
-                    + "INNER JOIN `active_state` ON `user`.`active_state_state_id`=`active_state`.`state_id` WHERE `mobile` LIKE '%%' ");
-                
-                
-                     
-                    
-                
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        
-        
-        }
+        saveAdminDetails();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        selectImage();
+
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        resetImage();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        uploadImage();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        loadBusinessDetails();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        saveBusinessDetails();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextField4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyTyped
+        // TODO add your handling code here:
+        if (!String.valueOf(evt.getKeyChar()).matches("[0-9]")) {
+            evt.consume();
+            if (String.valueOf(evt.getKeyChar()).matches("[a-zA-Z]")) {
+                dashboard.setWarningStatus("Only number values are allowed");
+            }
+        }
+    }//GEN-LAST:event_jTextField4KeyTyped
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        loadAdminDetails();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        saveTheme();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        setDefaultTheme();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void darkOptionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_darkOptionItemStateChanged
+        // TODO add your handling code here:
+        if(darkOption.isSelected()&& dashboard!= null){
+            dashboard.setMode(Theme.Mode.DARK);
+        }
+    }//GEN-LAST:event_darkOptionItemStateChanged
+
+    private void lightOptionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_lightOptionItemStateChanged
+        // TODO add your handling code here:
+        if(lightOption.isSelected() && dashboard!= null){
+            dashboard.setMode(Theme.Mode.LIGHT);
+        }
+    }//GEN-LAST:event_lightOptionItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton darkOption;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private main.JImagePanel jImagePanel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel40;
     private javax.swing.JPanel jPanel41;
     private javax.swing.JPanel jPanel42;
     private javax.swing.JPanel jPanel47;
-    private javax.swing.JPanel jPanel48;
-    private javax.swing.JPanel jPanel51;
     private javax.swing.JPanel jPanel60;
     private javax.swing.JPanel jPanel61;
     private javax.swing.JPanel jPanel64;
@@ -420,12 +613,229 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel80;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JRadioButton lightOption;
     // End of variables declaration//GEN-END:variables
+
+    private void selectImage() {
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.image", "jpg", "png", "jpeg", "gif");
+
+        int response = fileChooser.showOpenDialog(this.dashboard);
+
+        if (response == JFileChooser.APPROVE_OPTION) {
+            selectedFile = fileChooser.getSelectedFile();
+            if (!filter.accept(selectedFile)) {
+                resetImage();
+                this.dashboard.setWarningStatus("Invalid file type");
+                jButton6.setEnabled(false);
+                JOptionPane.showMessageDialog(this, "Please select only Following file types:\n"
+                        + "JPG, JPEG, PNG, GIF", "Warning", JOptionPane.WARNING_MESSAGE);
+                selectedFile = null;
+            }
+        } else {
+            this.dashboard.setWarningStatus("No image selected");
+        }
+
+        loadImage();
+    }
+
+    private void resetImage() {
+        try {
+            URL resource = getClass().getResource("/com/cafe/reports/logo.png");
+            BufferedImage logo = ImageIO.read(new File(resource.getPath()));
+            if (logo == null) {
+                throw new IOException("Failed to load the new image from: " + resource);
+            }
+            selectedFile = null;
+            jImagePanel1.setImageIcon(new ImageIcon(logo));
+            jImagePanel1.updateUI();
+            jButton6.setEnabled(false);
+        } catch (IOException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+
+    }
+
+    private void loadImage() {
+        if (selectedFile != null) {
+            jImagePanel1.setImageIcon(new ImageIcon(selectedFile.getPath()));
+            jImagePanel1.updateUI();
+            jButton6.setEnabled(true);
+        } else {
+            jButton6.setEnabled(false);
+        }
+    }
+
+    private void uploadImage() {
+        if (selectedFile != null) {
+            if (selectedFile.exists()) {
+                URL resourceUrl = getClass().getResource("/com/cafe/reports");
+                if (resourceUrl != null) {
+                    File destinationFolder = new File(resourceUrl.getPath());
+                    Path destinationPath = destinationFolder.toPath().resolve("logo.png");
+                    try {
+                        // Copy the new image file to the destination
+                        Files.copy(selectedFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+                        dashboard.setSuccessStatus("Image uploaded successfully");
+                        resetImage();
+                    } catch (IOException ex) {
+                        Splash.logger.log(Level.SEVERE, "Error uploading image: " + ex.getMessage(), ex);
+                        JOptionPane.showMessageDialog(this, "Error uploading image. Please try again.");
+                    }
+                } else {
+                    Splash.logger.log(Level.SEVERE, "Destination resource path not found.");
+                    JOptionPane.showMessageDialog(this, "Error: Destination folder does not exist.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "File does not exist.");
+            }
+        } else {
+            dashboard.setWarningStatus("No image selected.");
+        }
+
+    }
+
+    private void loadBusinessDetails() {
+        try {
+            ResultSet resultSet = Mysql.execute("SELECT * FROM `system`");
+            if (resultSet.next()) {
+                companyName = resultSet.getString("name");
+                tele = resultSet.getString("tele");
+                address = resultSet.getString("address");
+                theme = resultSet.getString("theme");
+
+                jTextField3.setText(companyName);
+                jTextField4.setText(tele);
+                jTextField5.setText(address);
+
+                setDefaultTheme();
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void loadAdminDetails() {
+        try {
+            ResultSet resultSet = Mysql.execute("SELECT * FROM `user` WHERE user_role_id = "
+                    + "(SELECT id FROM user_role WHERE user_role.role_name = 'Admin' ) ");
+            if (resultSet.next()) {
+                displayName = resultSet.getString("display_name");
+                username = resultSet.getString("username");
+
+                jTextField1.setText(resultSet.getString("mobile"));
+                jTextField2.setText(displayName);
+                jTextField6.setText(username);
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void saveTheme() {
+        if (darkOption.isSelected()) {
+            if (this.theme.equals("DARK")) {
+                dashboard.setSuccessStatus("Default theme is already set to DARK");
+            } else {
+                //update theme
+                Mysql.execute("UPDATE `system` SET `theme`='DARK'");
+                dashboard.setSuccessStatus("Default theme updated as DARK");
+                this.theme = "DARK";
+            }
+        } else if (lightOption.isSelected()) {
+            if (this.theme.equals("LIGHT")) {
+                dashboard.setSuccessStatus("Default theme is already set to LIGHT");
+            } else {
+                //update theme
+                Mysql.execute("UPDATE `system` SET `theme`='LIGHT'");
+                dashboard.setSuccessStatus("Default theme updated as LIGHT");
+                this.theme = "LIGHT";
+            }
+        }
+    }
+
+    private void setStyle() {
+        CustomStyle.showClearButton(
+                jTextField1, jTextField2, jTextField3, jTextField4, jTextField5,
+                jTextField6
+        );
+    }
+
+    private void saveBusinessDetails() {
+        String name = jTextField3.getText();
+        String tele = jTextField4.getText();
+        String address = jTextField5.getText();
+        if (name.isBlank()) {
+            dashboard.setWarningStatus("Restaurant Name cannot be empty");
+            jTextField3.grabFocus();
+        } else if (tele.isBlank()) {
+            dashboard.setWarningStatus("Telephone number cannot be empty");
+            jTextField4.grabFocus();
+        } else if (!tele.matches("0[47][12456780][0-9]{7}")) {
+            dashboard.setWarningStatus("Telephone number is not valid");
+            jTextField4.grabFocus();
+        } else if (address.isBlank()) {
+            dashboard.setWarningStatus("Address cannot be empty");
+            jTextField5.grabFocus();
+        } else if (this.companyName.equals(name) && this.tele.equals(tele) && this.address.equals(address)) {
+            dashboard.setSuccessStatus("Business Details are already saved");
+        } else {
+            Mysql.execute("UPDATE `system` SET `name`='" + name + "', `tele`='" + tele + "',`address`='" + address + "'");
+            dashboard.setSuccessStatus("Business Deatails saved successfully");
+            dashboard.setBusinessName();
+
+            this.companyName = name;
+            this.tele = tele;
+            this.address = address;
+        }
+    }
+
+    private void saveAdminDetails() {
+
+        String displayName = jTextField2.getText();
+        String username = jTextField6.getText();
+
+        if (displayName.isBlank()) {
+            dashboard.setWarningStatus("Display name cannot be empty");
+            jTextField2.grabFocus();
+        } else if (username.isBlank()) {
+            dashboard.setWarningStatus("Username cannot be empty");
+            jTextField6.grabFocus();
+        } else if (this.displayName.equals(displayName) && this.username.equals(username)) {
+            dashboard.setSuccessStatus("Admin Details are already saved");
+        } else {
+            Mysql.execute("UPDATE `user` SET `display_name`='" + displayName + "', `username`='" + username + "' "
+                    + "WHERE `mobile`='" + jTextField1.getText() + "'");
+
+            dashboard.setSuccessStatus("Admin details saved successfully");
+            this.displayName = displayName;
+            this.username = username;
+
+            User user = new User();
+            user.setDisplay_name(displayName);
+            user.setUsername(username);
+            user.setMobile(dashboard.getUser().getMobile());
+            user.setRole(UserRole.Role.Admin);
+
+            dashboard.setUser(user);
+            dashboard.setDiplayName();
+        }
+    }
+
+    private void setDefaultTheme() {
+        if (theme.equals("DARK")) {
+            darkOption.setSelected(true);
+        } else {
+            lightOption.setSelected(true);
+        }
+    }
 }

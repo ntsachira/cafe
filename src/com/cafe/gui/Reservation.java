@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -815,14 +816,10 @@ public class Reservation extends javax.swing.JDialog {
     }
 
     private boolean printBill(String id) {
-        String datetime = new SimpleDateFormat("MMM d, y HH:mm:ss").format(new Date());
-        DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         //parameters
-        HashMap<String, Object> parameters = new HashMap<>();
-
-        parameters.put("datetime", datetime);
+        HashMap<String, Object> parameters = new HashMap<>();        
         parameters.put("reserveDate", formatter.format(jDateChooser1.getDate()) + " " + jTimeChooser1.getTimeField().getText());
         parameters.put("reservation_id", id);
         parameters.put("table", String.valueOf(jComboBox2.getSelectedItem()));
@@ -830,9 +827,22 @@ public class Reservation extends javax.swing.JDialog {
         parameters.put("customer", jTextField1.getText());
         parameters.put("paymentMethod", this.paymentMethod.name());
         parameters.put("payment", jLabel7.getText());
+        
+          try {
+            ResultSet result = Mysql.execute("SELECT * FROM `system`");
+            if (result.next()) {
+                parameters.put("businessName",result.getString("name"));
+                parameters.put("tele",result.getString("tele"));
+                parameters.put("address",result.getString("address"));
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
 
         try {
-            JasperPrint billReport = JasperFillManager.fillReport("src/com/cafe/reports/cafe_reservation.jasper", parameters, new JREmptyDataSource());
+            URL resource = getClass().getResource("/com/cafe/reports/cafe_reservation.jasper");
+            JasperPrint billReport = JasperFillManager.fillReport(resource.getPath(), parameters, new JREmptyDataSource());
             JasperViewer bill = new JasperViewer(billReport, false);
             bill.setAlwaysOnTop(true);
             bill.setFitPageZoomRatio();

@@ -10,6 +10,7 @@ import com.cafe.style.NewTheme;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -32,7 +33,7 @@ public class Login extends javax.swing.JPanel implements UserRole {
         CustomStyle.setTextFieldsRoundedMax(jTextField1);
         CustomStyle.showClearButton(jTextField1);
         jTextField1.putClientProperty("JTextField.placeholderText", "Username");
-        jPasswordField1.putClientProperty("JTextField.placeholderText", "Password");
+        jPasswordField1.putClientProperty("JTextField.placeholderText", "Password");        
     }
     
     public void setSplash(Splash splash) {
@@ -190,12 +191,22 @@ public class Login extends javax.swing.JPanel implements UserRole {
         jTextField1.setText("admin");
         jTextField1.setMargin(new java.awt.Insets(2, 15, 2, 15));
         jTextField1.setPreferredSize(new java.awt.Dimension(0, 50));
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
         jPanel6.add(jTextField1);
 
         jPasswordField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jPasswordField1.setText("123");
         jPasswordField1.setMargin(new java.awt.Insets(2, 15, 2, 15));
         jPasswordField1.setPreferredSize(new java.awt.Dimension(0, 50));
+        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyPressed(evt);
+            }
+        });
         jPanel6.add(jPasswordField1);
 
         jButton1.setBackground(new java.awt.Color(77, 120, 204));
@@ -240,6 +251,26 @@ public class Login extends javax.swing.JPanel implements UserRole {
         // TODO add your handling code here:
         login();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            login();
+        }
+    }//GEN-LAST:event_jTextField1KeyPressed
+
+    private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            login();
+        }
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_jPasswordField1KeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

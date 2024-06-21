@@ -7,6 +7,7 @@ package com.cafe.gui;
 import com.cafe.model.Mysql;
 import com.cafe.model.Theme;
 import com.cafe.style.CustomStyle;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -20,8 +21,10 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
@@ -50,8 +53,9 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
 
     public void setSelectedItem(ItemCard selectedItem) {
         this.selectedItem = selectedItem;
-        if(this.selectedItem!=null)
-        jTextField2.setText(selectedItem.getItemName());
+        if (this.selectedItem != null) {
+            jTextField2.setText(selectedItem.getItemName());
+        }
     }
 
     public void setItemType(ItemType itemType) {
@@ -85,6 +89,7 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
         loadKitchenItems();
         setStyle();
         setUpDateChooser();
+        hideHistory();
     }
 
     /**
@@ -98,6 +103,8 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jPopupMenu2 = new javax.swing.JPopupMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jPanel8 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
@@ -106,6 +113,7 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
@@ -132,6 +140,24 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel11 = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        jPanel17 = new javax.swing.JPanel();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jPanel18 = new javax.swing.JPanel();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jPanel19 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jPanel20 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jPanel21 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
 
         jMenuItem1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/299071_trashcan_trashcan.png"))); // NOI18N
@@ -144,8 +170,18 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
         });
         jPopupMenu1.add(jMenuItem1);
 
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/po_32.png"))); // NOI18N
+        jMenuItem2.setText("UPDATE STATUS AS 'RECEIVED'");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jPopupMenu2.add(jMenuItem2);
+
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        setLayout(new java.awt.BorderLayout(20, 0));
+        setLayout(new java.awt.BorderLayout(10, 0));
 
         jPanel8.setLayout(new java.awt.BorderLayout(10, 10));
 
@@ -178,6 +214,17 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
             }
         });
 
+        jButton4.setBackground(new java.awt.Color(102, 102, 102));
+        jButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("VIEW HISTORY");
+        jButton4.setPreferredSize(new java.awt.Dimension(93, 48));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
@@ -187,7 +234,10 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
@@ -201,12 +251,16 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
-                .addGap(18, 21, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8))
+                        .addGap(18, 21, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -237,6 +291,7 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setFocusable(false);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -258,11 +313,11 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
 
         jPanel1.add(jScrollPane4, java.awt.BorderLayout.CENTER);
 
-        jPanel8.add(jPanel1, java.awt.BorderLayout.LINE_END);
+        jPanel8.add(jPanel1, java.awt.BorderLayout.EAST);
 
         jPanel2.setLayout(new java.awt.BorderLayout(0, 20));
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(""), javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15)));
+        jPanel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "ADD ITEM", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15))); // NOI18N
         jPanel3.setLayout(new java.awt.BorderLayout(20, 0));
 
         jPanel6.setPreferredSize(new java.awt.Dimension(200, 40));
@@ -392,6 +447,180 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
 
         jPanel8.add(jPanel2, java.awt.BorderLayout.CENTER);
 
+        jPanel16.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "PURCHASE ORDER HISTORY", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        jPanel16.setPreferredSize(new java.awt.Dimension(600, 737));
+        jPanel16.setLayout(new java.awt.BorderLayout(0, 10));
+
+        jPanel17.setLayout(new java.awt.GridLayout(2, 3, 10, 10));
+
+        jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField3.setPreferredSize(new java.awt.Dimension(71, 40));
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField3KeyReleased(evt);
+            }
+        });
+        jPanel17.add(jTextField3);
+
+        jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField4.setPreferredSize(new java.awt.Dimension(71, 40));
+        jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField4KeyReleased(evt);
+            }
+        });
+        jPanel17.add(jTextField4);
+
+        jTextField5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jTextField5.setPreferredSize(new java.awt.Dimension(71, 40));
+        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField5KeyReleased(evt);
+            }
+        });
+        jPanel17.add(jTextField5);
+
+        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setToolTipText("Select order status");
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
+        jPanel17.add(jComboBox1);
+
+        jPanel16.add(jPanel17, java.awt.BorderLayout.PAGE_START);
+
+        jPanel18.setLayout(new java.awt.BorderLayout());
+
+        jSplitPane1.setDividerLocation(350);
+        jSplitPane1.setDividerSize(10);
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        jPanel19.setLayout(new java.awt.BorderLayout(0, 5));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel10.setText("ORDER ITEM LIST");
+        jPanel19.add(jLabel10, java.awt.BorderLayout.PAGE_START);
+
+        jTable3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "ITEM NAME", "UNIT", "QUANTITY"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable3.setFocusable(false);
+        jScrollPane5.setViewportView(jTable3);
+        if (jTable3.getColumnModel().getColumnCount() > 0) {
+            jTable3.getColumnModel().getColumn(0).setResizable(false);
+            jTable3.getColumnModel().getColumn(0).setPreferredWidth(0);
+            jTable3.getColumnModel().getColumn(1).setResizable(false);
+            jTable3.getColumnModel().getColumn(2).setResizable(false);
+            jTable3.getColumnModel().getColumn(2).setPreferredWidth(0);
+            jTable3.getColumnModel().getColumn(3).setResizable(false);
+            jTable3.getColumnModel().getColumn(3).setPreferredWidth(0);
+        }
+
+        jPanel19.add(jScrollPane5, java.awt.BorderLayout.CENTER);
+
+        jSplitPane1.setBottomComponent(jPanel19);
+
+        jPanel20.setLayout(new java.awt.BorderLayout(0, 5));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel4.setText("PURCHASE ORDER LIST");
+        jPanel20.add(jLabel4, java.awt.BorderLayout.PAGE_START);
+
+        jTable2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ORDER ID", "ORDER DATE", "REQUIRED ON", "SUPPLIER"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.setFocusable(false);
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTable2MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTable2MouseReleased(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+            jTable2.getColumnModel().getColumn(1).setResizable(false);
+            jTable2.getColumnModel().getColumn(2).setResizable(false);
+            jTable2.getColumnModel().getColumn(3).setResizable(false);
+            jTable2.getColumnModel().getColumn(3).setPreferredWidth(0);
+        }
+
+        jPanel20.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+
+        jSplitPane1.setLeftComponent(jPanel20);
+
+        jPanel18.add(jSplitPane1, java.awt.BorderLayout.CENTER);
+
+        jPanel16.add(jPanel18, java.awt.BorderLayout.CENTER);
+
+        jPanel21.setPreferredSize(new java.awt.Dimension(370, 40));
+        jPanel21.setLayout(new java.awt.BorderLayout());
+
+        jButton5.setBackground(new java.awt.Color(77, 120, 204));
+        jButton5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("CLOSE PURCHASE HISTORY");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel21.add(jButton5, java.awt.BorderLayout.CENTER);
+
+        jPanel16.add(jPanel21, java.awt.BorderLayout.PAGE_END);
+
+        jPanel8.add(jPanel16, java.awt.BorderLayout.WEST);
+
         add(jPanel8, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -433,6 +662,7 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         if (evt.getClickCount() == 2) {
+
             for (ItemCard item : itemMap.values()) {
                 if (String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), 0)).equals(item.getItemName())) {
                     itemMap.remove(item.getId() + item.getItemType().name());
@@ -450,8 +680,8 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
 
     private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
         // TODO add your handling code here:
-        
-        if(evt.getButton()==MouseEvent.BUTTON3){
+
+        if (evt.getButton() == MouseEvent.BUTTON3) {
             jPopupMenu1.updateUI();
             jPopupMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
         }
@@ -462,21 +692,83 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
         resetOrder();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:        
+        showHistory();
+        loadOrderStateList();
+        loadHistory();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        reset();
+        hideHistory();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
+        // TODO add your handling code here:
+        loadHistory();
+    }//GEN-LAST:event_jTextField3KeyReleased
+
+    private void jTextField4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyReleased
+        // TODO add your handling code here:
+        loadHistory();
+    }//GEN-LAST:event_jTextField4KeyReleased
+
+    private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
+        // TODO add your handling code here:
+        loadHistory();
+    }//GEN-LAST:event_jTextField5KeyReleased
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+        loadHistory();
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+        if (evt.getButton() == MouseEvent.BUTTON1){
+            loadItemList();
+        }
+    }//GEN-LAST:event_jTable2MouseClicked
+
+    private void jTable2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseReleased
+        // TODO add your handling code here:
+        if (evt.getButton() == MouseEvent.BUTTON3 && jTable2.getSelectedRow() != -1) {
+            jPopupMenu2.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jTable2MouseReleased
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        updateOrderState();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jTable2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable2MousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JComboBox<String> jComboBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -484,7 +776,13 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -493,15 +791,45 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
-public void loadDirrectSellingItems() {
+
+    private void reset(){
+        jTable2.clearSelection();
+        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        model.setRowCount(0);
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        
+    }
+    private void updateOrderState() {
+        if (jTable2.getSelectedRow() != -1) {
+            Mysql.execute("UPDATE purchase_order "
+                    + "SET order_state_id = (SELECT id FROM order_state WHERE `name`='Received') "
+                    + "WHERE id = '" + String.valueOf(jTable2.getValueAt(jTable2.getSelectedRow(), 0)) + "'");
+            
+            reset();
+            loadHistory();
+        }
+    }
+
+    public void loadDirrectSellingItems() {
         jPanel12.removeAll();
         try {
             ResultSet resultsetDirect = Mysql.execute("SELECT menu_item.id,menu_item.name,menu_item_category.name AS `category`,brand.name AS `brand`,"
@@ -528,9 +856,9 @@ public void loadDirrectSellingItems() {
                         item.setDiscount(resultsetDirect.getDouble("price") * (resultsetDirect.getDouble("rate") / 100));
                         item.setBrand(resultsetDirect.getString("brand"));
                         item.setImage(resultsetDirect.getString("image_path"));
-                        item.getjLabel2().setText("Unit : "+resultsetDirect.getString("unit"));
+                        item.getjLabel2().setText("Unit : " + resultsetDirect.getString("unit"));
                         item.setUnitOfMeasureId(resultsetDirect.getString("unit_of_measure.id"));
-                        
+
                         if (itemsPerRow == 7) {
                             item.setMaximumSize(new Dimension(180, 200));
                             item.setPreferredSize(new Dimension(180, 200));
@@ -556,10 +884,18 @@ public void loadDirrectSellingItems() {
         CustomStyle.setComponentBackground(
                 jPanel12, jPanel11
         );
-        
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(SwingConstants.CENTER);
-        jTable1.setDefaultRenderer(String.class, renderer);
+
+        jTable1.setDefaultRenderer(String.class, CustomStyle.renderCenter);
+        jTable2.setDefaultRenderer(String.class, CustomStyle.renderCenter);
+        jTable3.setDefaultRenderer(String.class, CustomStyle.renderCenter);
+
+        jTextField3.putClientProperty("JTextField.placeholderText", "Search order id...");
+        jTextField4.putClientProperty("JTextField.placeholderText", "Search supplier mobile...");
+        jTextField5.putClientProperty("JTextField.placeholderText", "Search order date...");
+
+        CustomStyle.showClearButton(
+                jTextField1, jTextField3, jTextField3, jTextField4, jTextField5
+        );
     }
 
     @Override
@@ -590,7 +926,7 @@ public void loadDirrectSellingItems() {
                         item.setId(resultsetKitchen.getInt("id"));
                         item.setItemName(resultsetKitchen.getString("name"));
                         item.setPrice(0);
-                        item.getjLabel2().setText("Unit : "+resultsetKitchen.getString("unit"));
+                        item.getjLabel2().setText("Unit : " + resultsetKitchen.getString("unit"));
                         item.setUnitOfMeasureId(resultsetKitchen.getString("unit_of_measure.id"));
                         item.setImage("/com/cafe/itemImg/emptyItem.png");
                         if (itemsPerRow == 7) {
@@ -658,6 +994,8 @@ public void loadDirrectSellingItems() {
                 selectedItem.setItemType(itemType);
                 itemMap.put(selectedItem.getId() + itemType.name(), selectedItem);
             }
+
+            resetItem();
             loadTable();
 
             return true;
@@ -669,7 +1007,7 @@ public void loadDirrectSellingItems() {
         model.setRowCount(0);
         for (ItemCard item : itemMap.values()) {
             Vector v = new Vector();
-            v.add("<html><p>"+item.getItemName());
+            v.add(item.getItemName());
             v.add(item.getjLabel2().getText().split(":")[1]);
             v.add(item.getQuantity());
             v.add(item.getItemType().name());
@@ -754,18 +1092,18 @@ public void loadDirrectSellingItems() {
         if (printOrder(id, date)) {
             //purchase_order - id,order_date,required_date,supplier_mobile,order_state_id
             Mysql.execute("INSERT INTO `purchase_order` (`id`,`order_date`,`required_date`,`supplier_mobile`,`order_state_id`) "
-                    + "VALUES('"+id+"','"+new SimpleDateFormat("yyyy-MM-dd").format(date)+"','"+new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser1.getDate())+"',"
-                            + "'"+selectedSupplier+"','1')");
-            
+                    + "VALUES('" + id + "','" + new SimpleDateFormat("yyyy-MM-dd").format(date) + "','" + new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser1.getDate()) + "',"
+                    + "'" + selectedSupplier + "','1')");
+
             //purchase_order_item - id,name,qty,order_id,unit
-            for(ItemCard item : itemMap.values()){
+            for (ItemCard item : itemMap.values()) {
                 Mysql.execute("INSERT INTO `purchase_order_item` (`name`,`qty`,`purchase_order_id`,`unit_of_measure_id`) "
-                        + "VALUES('"+item.getItemName()+"','"+item.getQuantity()+"','"+id+"','"+item.getUnitOfMeasureId()+"')");
+                        + "VALUES('" + item.getItemName() + "','" + item.getQuantity() + "','" + id + "','" + item.getUnitOfMeasureId() + "')");
             }
-            
+
             resetOrder();
             dashboard.setSuccessStatus("Order saved successfully");
-        }else{
+        } else {
             dashboard.setWarningStatus("Error printing order");
         }
     }
@@ -793,17 +1131,105 @@ public void loadDirrectSellingItems() {
         }
         return true;
     }
-    
-    private void resetOrder(){
+
+    private void resetOrder() {
         itemMap.clear();
         loadTable();
         jTextField1.setText("");
         jLabel8.setText("Not Selected");
         jDateChooser1.setDate(new Date());
         setSelectedItem(null);
-        selectedSupplier="";
-        quantity="1";
+        selectedSupplier = "";
+        quantity = "1";
         jButton1.setText(quantity);
         jTextField2.setText("");
     }
+
+    private void resetItem() {
+        jTextField2.setText("");
+        quantity = "1";
+        jButton1.setText(quantity);
+        selectedItem = null;
+    }
+
+    private void loadHistory() {
+        ResultSet result = Mysql.execute("SELECT * FROM purchase_order "
+                + "INNER JOIN order_state ON order_state.id = order_state_id "
+                + "WHERE purchase_order.id LIKE '" + jTextField3.getText().trim() + "%' "
+                + "AND order_date LIKE '" + jTextField5.getText().trim() + "%' "
+                + "AND supplier_mobile LIKE '" + jTextField4.getText().trim() + "%' "
+                + "AND order_state_id LIKE '" + stateMap.get(String.valueOf(jComboBox1.getSelectedItem())) + "%'");
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            model.setRowCount(0);
+            while (result.next()) {
+                Vector v = new Vector();
+                v.add(result.getString("id"));
+                v.add(result.getString("order_date"));
+                v.add(result.getString("required_date"));
+                v.add(result.getString("supplier_mobile"));
+                v.add(result.getString("order_state.name"));
+                model.addRow(v);
+            }
+
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void showHistory() {
+        jPanel8.add(jPanel16, BorderLayout.WEST);
+        jPanel8.remove(jPanel1);
+        SwingUtilities.updateComponentTreeUI(jPanel8);
+    }
+
+    private void hideHistory() {
+        jPanel8.remove(jPanel16);
+        jPanel8.add(jPanel1, BorderLayout.EAST);
+        SwingUtilities.updateComponentTreeUI(jPanel8);
+    }
+
+    private HashMap<String, String> stateMap = new HashMap<>();
+
+    private void loadOrderStateList() {
+        ResultSet result = Mysql.execute("SELECT * FROM order_state");
+
+        try {
+            Vector v = new Vector();
+            v.add("Select status");
+            stateMap.put("Select status", "");
+            while (result.next()) {
+                v.add(result.getString("name"));
+                stateMap.put(result.getString("name"), result.getString("id"));
+            }
+            jComboBox1.setModel(new DefaultComboBoxModel<>(v));
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void loadItemList() {
+        ResultSet result = Mysql.execute("SELECT * FROM purchase_order_item "
+                + "INNER JOIN unit_of_measure ON purchase_order_item.unit_of_measure_id = unit_of_measure.id "
+                + "WHERE purchase_order_item.purchase_order_id = '" + String.valueOf(jTable2.getValueAt(jTable2.getSelectedRow(), 0)) + "'");
+
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+            model.setRowCount(0);
+            while (result.next()) {
+                Vector v = new Vector();
+                v.add(result.getString("id"));
+                v.add(result.getString("name"));
+                v.add(result.getString("unit_of_measure.name"));
+                v.add(result.getString("qty"));
+                model.addRow(v);
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
 }
