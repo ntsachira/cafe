@@ -298,7 +298,7 @@ public class DashboardTest {
         User user = new User();
         user.setRole(UserRole.Role.Admin);
         Dashboard instance =  new Dashboard(user); 
-        instance.setReport();
+        instance.setAnalytics();
     }
 
     //Test of setPreorderManagement method, of class Dashboard.

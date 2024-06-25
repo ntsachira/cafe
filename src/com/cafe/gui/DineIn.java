@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -582,26 +583,36 @@ public class DineIn extends javax.swing.JDialog {
 
     private boolean printBill(String invoiceID, String date) {
         String datetime = new SimpleDateFormat("MMM d, y HH:mm:ss").format(new Date());
-        DecimalFormat decimalFormat = new DecimalFormat("#,###.0");
+        DecimalFormat formatter = new DecimalFormat("#,##0.00");
         String tables = "";
         for(String table : tableList){
             tables += (table+" | ");
         }
         //parameters
-        HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("date", date);
-        parameters.put("datetime", datetime);
+        HashMap<String, Object> parameters = new HashMap<>();        
         parameters.put("invoice_id", invoiceID);
         parameters.put("tables", tables);
         parameters.put("cashier", this.salesChannel.getUser().getDisplay_name());
         parameters.put("customer", "Unknown");
         parameters.put("itemCount", this.salesChannel.getTotalItems());
-        parameters.put("netTotal", this.billTotal);
-        parameters.put("discount", this.totalDiscount);
-        parameters.put("payable", (this.billTotal - this.totalDiscount));
+        parameters.put("netTotal", formatter.format(this.billTotal));
+        parameters.put("discount", formatter.format(this.totalDiscount));
+        parameters.put("payable", formatter.format(this.billTotal - this.totalDiscount));
         parameters.put("paymentMethod", this.paymentMethod.name());
-        parameters.put("payment", decimalFormat.format(Double.parseDouble(jLabel3.getText())));
-        parameters.put("balance", (Double.parseDouble(jLabel3.getText()) - (this.billTotal - this.totalDiscount)));
+        parameters.put("payment", formatter.format(Double.parseDouble(jLabel3.getText())));
+        parameters.put("balance", formatter.format(Double.parseDouble(jLabel3.getText()) - (this.billTotal - this.totalDiscount)));
+        
+          try {
+            ResultSet result = Mysql.execute("SELECT * FROM `system`");
+            if (result.next()) {
+                parameters.put("businessName",result.getString("name"));
+                parameters.put("tele",result.getString("tele"));
+                parameters.put("address",result.getString("address"));
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
 
         Vector<Object> datasource = new Vector<>();
         for (InvoiceItemCard item : this.salesChannel.getInvoiceItems()) {
@@ -609,21 +620,25 @@ public class DineIn extends javax.swing.JDialog {
         }
 
         try {
-            JasperPrint billReport = JasperFillManager.fillReport("src/com/cafe/reports/cafe_dineIn_bill.jasper", parameters, new JRBeanCollectionDataSource(datasource));
+            URL billResource = getClass().getResource("/com/cafe/reports/cafe_dineIn_bill.jasper");
+            URL kotResource = getClass().getResource("/com/cafe/reports/cafe_dineIn_kot.jasper");
+            
+            JasperPrint billReport = JasperFillManager.fillReport(billResource.getPath(), parameters, new JRBeanCollectionDataSource(datasource));
             JasperViewer bill = new JasperViewer(billReport, false);
             bill.setAlwaysOnTop(true);
             bill.setFitPageZoomRatio();
             alignFrame(bill, LEFT_ALIGNMENT);
             bill.setVisible(true);
-
-            JasperPrint kotReport = JasperFillManager.fillReport("src/com/cafe/reports/cafe_dineIn_kot.jasper", parameters, new JRBeanCollectionDataSource(datasource));
+            
+            //KOT print
+            JasperPrint kotReport = JasperFillManager.fillReport(kotResource.getPath(), parameters, new JRBeanCollectionDataSource(datasource));
             JasperViewer kot = new JasperViewer(kotReport, false);
             kot.setAlwaysOnTop(true);
             kot.setFitPageZoomRatio();
             alignFrame(kot, RIGHT_ALIGNMENT);
             kot.setVisible(true);
 
-            //KOT print
+            
             return true;
         } catch (JRException ex) {
             Splash.logger.log(Level.SEVERE, null, ex);

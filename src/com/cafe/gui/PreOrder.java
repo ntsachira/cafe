@@ -13,6 +13,7 @@ import static java.awt.Component.RIGHT_ALIGNMENT;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -589,26 +590,35 @@ public class PreOrder extends javax.swing.JDialog implements Theme {
         return true;
     }
 
-    private boolean printBill(String invoiceID, String date) {
-        String datetime = new SimpleDateFormat("MMM d, y HH:mm:ss").format(new Date());
-        DecimalFormat decimalFormat = new DecimalFormat("#,###.0");
+    private boolean printBill(String invoiceID, String date) {        
+        DecimalFormat decimalFormatter = new DecimalFormat("#,##0.0");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         //parameters
-        HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("date", date);
-        parameters.put("datetime", datetime);
+        HashMap<String, Object> parameters = new HashMap<>();        
         parameters.put("invoice_id", invoiceID);
         parameters.put("pickupDate", formatter.format(jDateChooser1.getDate()) + " " + jTimeChooser2.getTimeField().getText());
         parameters.put("cashier", this.salesChannel.getUser().getDisplay_name());
         parameters.put("customer", "Unknown");
         parameters.put("itemCount", this.salesChannel.getTotalItems());
-        parameters.put("netTotal", this.billTotal);
-        parameters.put("discount", this.totalDiscount);
-        parameters.put("payable", (this.billTotal - this.totalDiscount));
+        parameters.put("netTotal", decimalFormatter.format(this.billTotal));
+        parameters.put("discount", decimalFormatter.format(this.totalDiscount));
+        parameters.put("payable", decimalFormatter.format(this.billTotal - this.totalDiscount));
         parameters.put("paymentMethod", this.paymentMethod.name());
-        parameters.put("payment", decimalFormat.format(Double.parseDouble(jLabel3.getText())));
-        parameters.put("balance", (Double.parseDouble(jLabel3.getText()) - (this.billTotal - this.totalDiscount)));
+        parameters.put("payment", decimalFormatter.format(Double.parseDouble(jLabel3.getText())));
+        parameters.put("balance", decimalFormatter.format(Double.parseDouble(jLabel3.getText()) - (this.billTotal - this.totalDiscount)));
+        
+          try {
+            ResultSet result = Mysql.execute("SELECT * FROM `system`");
+            if (result.next()) {
+                parameters.put("businessName",result.getString("name"));
+                parameters.put("tele",result.getString("tele"));
+                parameters.put("address",result.getString("address"));
+            }
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
 
         Vector<Object> datasource = new Vector<>();
         for (InvoiceItemCard item : this.salesChannel.getInvoiceItems()) {
@@ -616,14 +626,17 @@ public class PreOrder extends javax.swing.JDialog implements Theme {
         }
 
         try {
-            JasperPrint billReport = JasperFillManager.fillReport("src/com/cafe/reports/cafe_Preorder_bill.jasper", parameters, new JRBeanCollectionDataSource(datasource));
+            URL billResource = getClass().getResource("/com/cafe/reports/cafe_Preorder_bill.jasper");
+            URL kotResource = getClass().getResource("/com/cafe/reports/cafe_preOrder_kot.jasper");
+            
+            JasperPrint billReport = JasperFillManager.fillReport(billResource.getPath(), parameters, new JRBeanCollectionDataSource(datasource));
             JasperViewer bill = new JasperViewer(billReport, false);
             bill.setAlwaysOnTop(true);
             bill.setFitPageZoomRatio();
             alignFrame(bill, LEFT_ALIGNMENT);
             bill.setVisible(true);
 
-            JasperPrint kotReport = JasperFillManager.fillReport("src/com/cafe/reports/cafe_preOrder_kot.jasper", parameters, new JRBeanCollectionDataSource(datasource));
+            JasperPrint kotReport = JasperFillManager.fillReport(kotResource.getPath(), parameters, new JRBeanCollectionDataSource(datasource));
             JasperViewer kot = new JasperViewer(kotReport, false);
             kot.setAlwaysOnTop(true);
             kot.setFitPageZoomRatio();

@@ -124,8 +124,12 @@ public class Reports extends javax.swing.JPanel {
         jPanel36 = new javax.swing.JPanel();
         directSellingStock = new javax.swing.JRadioButton();
         directSellingLimitedStock = new javax.swing.JRadioButton();
+        directSellingExpireSoon = new javax.swing.JRadioButton();
+        directSellingExpired = new javax.swing.JRadioButton();
         kitchenStock = new javax.swing.JRadioButton();
         kitchenStockLimitedStock = new javax.swing.JRadioButton();
+        kitchenExpireSoon = new javax.swing.JRadioButton();
+        kitchenExpired = new javax.swing.JRadioButton();
         damagedStock = new javax.swing.JRadioButton();
         jPanel53 = new javax.swing.JPanel();
         jPanel55 = new javax.swing.JPanel();
@@ -162,6 +166,8 @@ public class Reports extends javax.swing.JPanel {
         jSeparator3 = new javax.swing.JSeparator();
         jPanel58 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        jPanel27 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
         setLayout(new java.awt.BorderLayout());
@@ -375,7 +381,7 @@ public class Reports extends javax.swing.JPanel {
                 .addComponent(jCheckBox1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(102, Short.MAX_VALUE)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -389,7 +395,7 @@ public class Reports extends javax.swing.JPanel {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel12.add(jPanel5, java.awt.BorderLayout.CENTER);
@@ -414,7 +420,7 @@ public class Reports extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Your Report Will Diplay Here");
+        jLabel5.setText("Your Report Will be Diplayed Here");
         jPanel21.add(jLabel5, java.awt.BorderLayout.CENTER);
 
         jPanel17.add(jPanel21, java.awt.BorderLayout.CENTER);
@@ -483,7 +489,7 @@ public class Reports extends javax.swing.JPanel {
                 .addGroup(jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(590, Short.MAX_VALUE))
+                .addContainerGap(560, Short.MAX_VALUE))
         );
 
         jPanel39.add(jPanel41, java.awt.BorderLayout.CENTER);
@@ -501,7 +507,7 @@ public class Reports extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Your Report Will Diplay Here");
+        jLabel6.setText("Your Report Will be Diplayed Here");
         jPanel43.add(jLabel6, java.awt.BorderLayout.CENTER);
 
         jPanel42.add(jPanel43, java.awt.BorderLayout.CENTER);
@@ -521,7 +527,7 @@ public class Reports extends javax.swing.JPanel {
         jPanel35.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "REPORT TYPE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 14)), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
         jPanel35.setLayout(new java.awt.BorderLayout());
 
-        jPanel36.setLayout(new java.awt.GridLayout(5, 1, 0, 10));
+        jPanel36.setLayout(new java.awt.GridLayout(9, 1, 0, 10));
 
         buttonGroup2.add(directSellingStock);
         directSellingStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -545,6 +551,33 @@ public class Reports extends javax.swing.JPanel {
             }
         });
         jPanel36.add(directSellingLimitedStock);
+
+        buttonGroup2.add(directSellingExpireSoon);
+        directSellingExpireSoon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        directSellingExpireSoon.setText("Dirrect Selling Expire Soon Stock");
+        directSellingExpireSoon.setIconTextGap(10);
+        directSellingExpireSoon.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                directSellingExpireSoonItemStateChanged(evt);
+            }
+        });
+        directSellingExpireSoon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                directSellingExpireSoonActionPerformed(evt);
+            }
+        });
+        jPanel36.add(directSellingExpireSoon);
+
+        buttonGroup2.add(directSellingExpired);
+        directSellingExpired.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        directSellingExpired.setText("Dirrect Selling Expired Stock");
+        directSellingExpired.setIconTextGap(10);
+        directSellingExpired.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                directSellingExpiredItemStateChanged(evt);
+            }
+        });
+        jPanel36.add(directSellingExpired);
 
         buttonGroup2.add(kitchenStock);
         kitchenStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -573,6 +606,33 @@ public class Reports extends javax.swing.JPanel {
         });
         jPanel36.add(kitchenStockLimitedStock);
 
+        buttonGroup2.add(kitchenExpireSoon);
+        kitchenExpireSoon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        kitchenExpireSoon.setText("Kitchen Expire Soon Stock");
+        kitchenExpireSoon.setIconTextGap(10);
+        kitchenExpireSoon.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                kitchenExpireSoonItemStateChanged(evt);
+            }
+        });
+        jPanel36.add(kitchenExpireSoon);
+
+        buttonGroup2.add(kitchenExpired);
+        kitchenExpired.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        kitchenExpired.setText("Kitchen Expired Stock");
+        kitchenExpired.setIconTextGap(10);
+        kitchenExpired.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                kitchenExpiredItemStateChanged(evt);
+            }
+        });
+        kitchenExpired.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kitchenExpiredActionPerformed(evt);
+            }
+        });
+        jPanel36.add(kitchenExpired);
+
         buttonGroup2.add(damagedStock);
         damagedStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         damagedStock.setText("Damaged Stock");
@@ -592,6 +652,9 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel53.setLayout(new java.awt.BorderLayout());
 
+        jPanel55.setPreferredSize(new java.awt.Dimension(400, 48));
+        jPanel55.setLayout(new java.awt.BorderLayout(10, 0));
+
         jButton4.setBackground(new java.awt.Color(77, 120, 204));
         jButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
@@ -602,6 +665,7 @@ public class Reports extends javax.swing.JPanel {
                 jButton4ActionPerformed(evt);
             }
         });
+        jPanel55.add(jButton4, java.awt.BorderLayout.CENTER);
 
         jButton8.setBackground(new java.awt.Color(102, 102, 102));
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
@@ -611,38 +675,16 @@ public class Reports extends javax.swing.JPanel {
                 jButton8ActionPerformed(evt);
             }
         });
+        jPanel55.add(jButton8, java.awt.BorderLayout.EAST);
 
         jComboBox2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "6", "10", "20" }));
         jComboBox2.setSelectedIndex(1);
         jComboBox2.setToolTipText("Select limit");
-        jComboBox2.setEnabled(false);
         jComboBox2.setPreferredSize(new java.awt.Dimension(72, 48));
+        jPanel55.add(jComboBox2, java.awt.BorderLayout.WEST);
 
-        javax.swing.GroupLayout jPanel55Layout = new javax.swing.GroupLayout(jPanel55);
-        jPanel55.setLayout(jPanel55Layout);
-        jPanel55Layout.setHorizontalGroup(
-            jPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel55Layout.createSequentialGroup()
-                .addComponent(jComboBox2, 0, 115, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel55Layout.setVerticalGroup(
-            jPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel55Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(475, Short.MAX_VALUE))
-        );
-
-        jPanel53.add(jPanel55, java.awt.BorderLayout.CENTER);
+        jPanel53.add(jPanel55, java.awt.BorderLayout.NORTH);
 
         jPanel15.add(jPanel53, java.awt.BorderLayout.CENTER);
 
@@ -657,7 +699,7 @@ public class Reports extends javax.swing.JPanel {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Your Report Will Diplay Here");
+        jLabel7.setText("Your Report Will be Diplayed Here");
         jPanel57.add(jLabel7, java.awt.BorderLayout.CENTER);
 
         jPanel56.add(jPanel57, java.awt.BorderLayout.CENTER);
@@ -808,7 +850,7 @@ public class Reports extends javax.swing.JPanel {
                 .addGroup(jPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(306, Short.MAX_VALUE))
+                .addContainerGap(276, Short.MAX_VALUE))
         );
 
         jPanel49.add(jPanel51, java.awt.BorderLayout.CENTER);
@@ -826,7 +868,7 @@ public class Reports extends javax.swing.JPanel {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Your Report Will Diplay Here");
+        jLabel8.setText("Your Report Will be Diplayed Here");
         jPanel58.add(jLabel8, java.awt.BorderLayout.CENTER);
 
         jPanel52.add(jPanel58, java.awt.BorderLayout.CENTER);
@@ -836,6 +878,21 @@ public class Reports extends javax.swing.JPanel {
         jTabbedPane1.addTab("GRN", jPanel4);
 
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+
+        jPanel27.setPreferredSize(new java.awt.Dimension(1102, 30));
+        jPanel27.setLayout(new java.awt.BorderLayout());
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/clear.png"))); // NOI18N
+        jButton5.setBorderPainted(false);
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel27.add(jButton5, java.awt.BorderLayout.LINE_END);
+
+        add(jPanel27, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -877,7 +934,7 @@ public class Reports extends javax.swing.JPanel {
         // TODO add your handling code here:
         resetSTockTab();
         if (kitchenStockLimitedStock.isSelected()) {
-            jComboBox2.setEnabled(true);
+            jPanel55.add(jComboBox2, BorderLayout.WEST);
         }
     }//GEN-LAST:event_kitchenStockLimitedStockItemStateChanged
 
@@ -889,7 +946,7 @@ public class Reports extends javax.swing.JPanel {
         // TODO add your handling code here:
         resetSTockTab();
         if (kitchenStock.isSelected()) {
-            jComboBox2.setEnabled(false);
+            jPanel55.remove(jComboBox2);
         }
     }//GEN-LAST:event_kitchenStockItemStateChanged
 
@@ -897,7 +954,7 @@ public class Reports extends javax.swing.JPanel {
         // TODO add your handling code here:
         resetSTockTab();
         if (directSellingLimitedStock.isSelected()) {
-            jComboBox2.setEnabled(true);
+            jPanel55.add(jComboBox2, BorderLayout.WEST);
         }
     }//GEN-LAST:event_directSellingLimitedStockItemStateChanged
 
@@ -905,7 +962,7 @@ public class Reports extends javax.swing.JPanel {
         // TODO add your handling code here:
         resetSTockTab();
         if (directSellingStock.isSelected()) {
-            jComboBox2.setEnabled(false);
+            jPanel55.remove(jComboBox2);
         }
     }//GEN-LAST:event_directSellingStockItemStateChanged
 
@@ -984,6 +1041,51 @@ public class Reports extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_invoiceSummaryReportItemStateChanged
 
+    private void kitchenExpiredActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kitchenExpiredActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_kitchenExpiredActionPerformed
+
+    private void directSellingExpireSoonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directSellingExpireSoonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_directSellingExpireSoonActionPerformed
+
+    private void directSellingExpireSoonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_directSellingExpireSoonItemStateChanged
+        // TODO add your handling code here:
+        resetSTockTab();
+        if (directSellingExpireSoon.isSelected()) {
+            jPanel55.remove(jComboBox2);
+        }
+    }//GEN-LAST:event_directSellingExpireSoonItemStateChanged
+
+    private void directSellingExpiredItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_directSellingExpiredItemStateChanged
+        // TODO add your handling code here:
+        resetSTockTab();
+        if (directSellingExpired.isSelected()) {
+            jPanel55.remove(jComboBox2);
+        }
+    }//GEN-LAST:event_directSellingExpiredItemStateChanged
+
+    private void kitchenExpireSoonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_kitchenExpireSoonItemStateChanged
+        // TODO add your handling code here:
+        resetSTockTab();
+        if (kitchenExpireSoon.isSelected()) {
+            jPanel55.remove(jComboBox2);
+        }
+    }//GEN-LAST:event_kitchenExpireSoonItemStateChanged
+
+    private void kitchenExpiredItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_kitchenExpiredItemStateChanged
+        // TODO add your handling code here:
+        resetSTockTab();
+        if (kitchenExpired.isSelected()) {
+            jPanel55.remove(jComboBox2);
+        }
+    }//GEN-LAST:event_kitchenExpiredItemStateChanged
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        dashboard.setAnalytics();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton InvoiceFullReport;
@@ -992,6 +1094,8 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JRadioButton damagedStock;
+    private javax.swing.JRadioButton directSellingExpireSoon;
+    private javax.swing.JRadioButton directSellingExpired;
     private javax.swing.JRadioButton directSellingLimitedStock;
     private javax.swing.JRadioButton directSellingStock;
     private javax.swing.JRadioButton grnFull;
@@ -1001,6 +1105,7 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -1045,6 +1150,7 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
@@ -1081,6 +1187,8 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JRadioButton kitchenExpireSoon;
+    private javax.swing.JRadioButton kitchenExpired;
     private javax.swing.JRadioButton kitchenStock;
     private javax.swing.JRadioButton kitchenStockLimitedStock;
     private javax.swing.JRadioButton salesByCategory;
@@ -1132,6 +1240,7 @@ public class Reports extends javax.swing.JPanel {
     private void setupComponents() {
         setupDatechooserComponents();
         setupDefaultComponentVisibility();
+        jPanel55.remove(jComboBox2);
     }
 
     private void setupSalesDateChoosers() {
@@ -1188,7 +1297,7 @@ public class Reports extends javax.swing.JPanel {
 
             if (result.next()) {
                 parameters.put("printDate", today);
-                parameters.put("netTotal", "Rs. "+new DecimalFormat("#,##0.00").format(Double.parseDouble(result.getString("total"))));
+                parameters.put("netTotal", "Rs. " + new DecimalFormat("#,##0.00").format(result.getDouble("total")));
             }
             URL mainReport = getClass().getResource("/com/cafe/reports/cafe_invoice_summary.jasper");
 
@@ -1225,7 +1334,7 @@ public class Reports extends javax.swing.JPanel {
 
             if (result.next()) {
                 parameters.put("date", today);
-                parameters.put("total",new DecimalFormat("#,###.00").format(result.getDouble("total")));
+                parameters.put("total", new DecimalFormat("#,###.00").format(result.getDouble("total")));
             }
 
             URL resource = getClass().getResource("/com/cafe/reports/main_report.jasper");
@@ -1370,6 +1479,7 @@ public class Reports extends javax.swing.JPanel {
         loadMenuItemCategoryList();
         loadBrandList();
         loadSupplierList();
+
     }
 
     private void loadMenuItemCategoryList() {
@@ -1459,6 +1569,14 @@ public class Reports extends javax.swing.JPanel {
             printKitchenStockLimitedStock();
         } else if (damagedStock.isSelected()) {
             printDamagedStock();
+        } else if (directSellingExpireSoon.isSelected()) {
+            printDirectSellingExpireSoonStock();
+        } else if (directSellingExpired.isSelected()) {
+            printDirectSellingExpiredStock();
+        } else if (kitchenExpireSoon.isSelected()) {
+            printKitchenExpireSoonStock();
+        } else if (kitchenExpired.isSelected()) {
+            printKitchenExpiredStock();
         }
     }
 
@@ -1869,6 +1987,42 @@ public class Reports extends javax.swing.JPanel {
     private void showLimitSelect() {
         jPanel25.setPreferredSize(new Dimension(jPanel25.getSize().width, 200));
         jPanel6.updateUI();
+    }
+
+    private void printDirectSellingExpireSoonStock() {
+        URL source = getClass().getResource("/com/cafe/reports/directExpireSoon.jasper");
+        printDatabaseReport(source.getPath());
+    }
+
+    private void printDirectSellingExpiredStock() {
+        URL source = getClass().getResource("/com/cafe/reports/directExpired.jasper");
+        printDatabaseReport(source.getPath());
+    }
+
+    private void printKitchenExpireSoonStock() {
+        URL source = getClass().getResource("/com/cafe/reports/kitchenExpireSoon.jasper");
+        printDatabaseReport(source.getPath());
+    }
+
+    private void printKitchenExpiredStock() {
+        URL source = getClass().getResource("/com/cafe/reports/kitchenExpired.jasper");
+        printDatabaseReport(source.getPath());
+    }
+
+    private void printDatabaseReport(String reportPath) {
+        try {
+            HashMap<String, Object> parameters = new HashMap<>();
+            JasperPrint report = JasperFillManager.fillReport(reportPath, parameters, Mysql.getConnection());
+            JasperViewer viever = new JasperViewer(report, false);
+
+            jPanel57.removeAll();
+            jPanel57.add(viever.getRootPane());
+            jPanel57.updateUI();
+
+        } catch (JRException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
     }
 
 }

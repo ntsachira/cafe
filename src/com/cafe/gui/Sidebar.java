@@ -6,6 +6,7 @@ import com.cafe.style.NewTheme;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Dimension;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.JToggleButton;
 
 
@@ -68,6 +69,11 @@ public class Sidebar extends javax.swing.JPanel {
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setPreferredSize(new java.awt.Dimension(260, 100));
+        jScrollPane1.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jScrollPane1MouseWheelMoved(evt);
+            }
+        });
 
         jPanel3.setMinimumSize(new java.awt.Dimension(260, 900));
         jPanel3.setPreferredSize(new java.awt.Dimension(260, 950));
@@ -368,7 +374,7 @@ public class Sidebar extends javax.swing.JPanel {
         buttonGroup1.add(jToggleButton14);
         jToggleButton14.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jToggleButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59311_statistics_statistics.png"))); // NOI18N
-        jToggleButton14.setText("Reports");
+        jToggleButton14.setText("Analytics & Reports ");
         jToggleButton14.setBorderPainted(false);
         jToggleButton14.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButton14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -496,7 +502,7 @@ public class Sidebar extends javax.swing.JPanel {
 
     private void jToggleButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton14ActionPerformed
         // TODO add your handling code here:
-        this.dashboard.setReport();
+        this.dashboard.setAnalytics();
     }//GEN-LAST:event_jToggleButton14ActionPerformed
 
     private void jToggleButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton15ActionPerformed
@@ -523,6 +529,12 @@ public class Sidebar extends javax.swing.JPanel {
         // TODO add your handling code here:
         this.dashboard.setReservationManagement();
     }//GEN-LAST:event_jToggleButton19ActionPerformed
+
+    private void jScrollPane1MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane1MouseWheelMoved
+        // TODO add your handling code here:
+        JScrollBar scrollbar = jScrollPane1.getVerticalScrollBar(); 
+        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+    }//GEN-LAST:event_jScrollPane1MouseWheelMoved
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

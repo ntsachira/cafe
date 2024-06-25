@@ -10,6 +10,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -153,7 +154,17 @@ public class TableManagement extends javax.swing.JPanel implements Theme {
         jPanel4.setLayout(new java.awt.BorderLayout(15, 0));
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "TABLE LIST", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semibold", 0, 16))); // NOI18N
+        jScrollPane2.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jScrollPane2MouseWheelMoved(evt);
+            }
+        });
 
+        jPanel49.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jPanel49MouseWheelMoved(evt);
+            }
+        });
         jPanel49.setLayout(new javax.swing.BoxLayout(jPanel49, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane2.setViewportView(jPanel49);
 
@@ -421,6 +432,16 @@ public class TableManagement extends javax.swing.JPanel implements Theme {
         // TODO add your handling code here:
         updateTables();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jPanel49MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanel49MouseWheelMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel49MouseWheelMoved
+
+    private void jScrollPane2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane2MouseWheelMoved
+        // TODO add your handling code here:
+        JScrollBar scrollbar = jScrollPane2.getVerticalScrollBar(); 
+        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+    }//GEN-LAST:event_jScrollPane2MouseWheelMoved
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
