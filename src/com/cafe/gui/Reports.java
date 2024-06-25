@@ -166,6 +166,8 @@ public class Reports extends javax.swing.JPanel {
         jSeparator3 = new javax.swing.JSeparator();
         jPanel58 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        jPanel27 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
         setLayout(new java.awt.BorderLayout());
@@ -379,7 +381,7 @@ public class Reports extends javax.swing.JPanel {
                 .addComponent(jCheckBox1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(102, Short.MAX_VALUE)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -393,7 +395,7 @@ public class Reports extends javax.swing.JPanel {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel12.add(jPanel5, java.awt.BorderLayout.CENTER);
@@ -418,7 +420,7 @@ public class Reports extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Your Report Will Diplay Here");
+        jLabel5.setText("Your Report Will be Diplayed Here");
         jPanel21.add(jLabel5, java.awt.BorderLayout.CENTER);
 
         jPanel17.add(jPanel21, java.awt.BorderLayout.CENTER);
@@ -487,7 +489,7 @@ public class Reports extends javax.swing.JPanel {
                 .addGroup(jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(590, Short.MAX_VALUE))
+                .addContainerGap(560, Short.MAX_VALUE))
         );
 
         jPanel39.add(jPanel41, java.awt.BorderLayout.CENTER);
@@ -505,7 +507,7 @@ public class Reports extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Your Report Will Diplay Here");
+        jLabel6.setText("Your Report Will be Diplayed Here");
         jPanel43.add(jLabel6, java.awt.BorderLayout.CENTER);
 
         jPanel42.add(jPanel43, java.awt.BorderLayout.CENTER);
@@ -697,7 +699,7 @@ public class Reports extends javax.swing.JPanel {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Your Report Will Diplay Here");
+        jLabel7.setText("Your Report Will be Diplayed Here");
         jPanel57.add(jLabel7, java.awt.BorderLayout.CENTER);
 
         jPanel56.add(jPanel57, java.awt.BorderLayout.CENTER);
@@ -848,7 +850,7 @@ public class Reports extends javax.swing.JPanel {
                 .addGroup(jPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(306, Short.MAX_VALUE))
+                .addContainerGap(276, Short.MAX_VALUE))
         );
 
         jPanel49.add(jPanel51, java.awt.BorderLayout.CENTER);
@@ -866,7 +868,7 @@ public class Reports extends javax.swing.JPanel {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Your Report Will Diplay Here");
+        jLabel8.setText("Your Report Will be Diplayed Here");
         jPanel58.add(jLabel8, java.awt.BorderLayout.CENTER);
 
         jPanel52.add(jPanel58, java.awt.BorderLayout.CENTER);
@@ -876,6 +878,21 @@ public class Reports extends javax.swing.JPanel {
         jTabbedPane1.addTab("GRN", jPanel4);
 
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+
+        jPanel27.setPreferredSize(new java.awt.Dimension(1102, 30));
+        jPanel27.setLayout(new java.awt.BorderLayout());
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/clear.png"))); // NOI18N
+        jButton5.setBorderPainted(false);
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel27.add(jButton5, java.awt.BorderLayout.LINE_END);
+
+        add(jPanel27, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -1064,6 +1081,11 @@ public class Reports extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_kitchenExpiredItemStateChanged
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        dashboard.setAnalytics();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton InvoiceFullReport;
@@ -1083,6 +1105,7 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -1127,6 +1150,7 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;

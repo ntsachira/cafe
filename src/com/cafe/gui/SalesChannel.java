@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 
 /**
@@ -184,6 +185,11 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         jPopupMenu1.add(jMenuItem1);
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 20));
+        addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                formMouseWheelMoved(evt);
+            }
+        });
         setLayout(new java.awt.BorderLayout(10, 0));
 
         jPanel2.setPreferredSize(new java.awt.Dimension(500, 733));
@@ -332,6 +338,11 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jScrollPane1MouseWheelMoved(evt);
+            }
+        });
 
         jPanel4.setBackground(new java.awt.Color(43, 46, 56));
         jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -485,6 +496,16 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         // TODO add your handling code here:
         resetInvoice();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void formMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_formMouseWheelMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formMouseWheelMoved
+
+    private void jScrollPane1MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane1MouseWheelMoved
+        // TODO add your handling code here:
+        JScrollBar scrollbar = jScrollPane1.getVerticalScrollBar(); 
+        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+    }//GEN-LAST:event_jScrollPane1MouseWheelMoved
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

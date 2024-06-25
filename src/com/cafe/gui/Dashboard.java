@@ -48,6 +48,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -110,7 +111,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private SalesChannel salesChannel;
     private ReservationManagement reservationManagement;
     private PreorderManagement preorderManagement;
-    private Reports report;
+    private Analytics analytics;
     private SupplierManagement supplierManagement;
     private CustomerRegistration customerRegistration;
     private GRN grn;
@@ -124,6 +125,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private UserActivityManagement userActivityManagement;
     private CategoryManagement categoryManagement;
     private DamageStockManagement damageStockManagement;
+    private Reports reports;
 
     /**
      * Creates new form Dashboard
@@ -605,7 +607,17 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jScrollPane2MouseWheelMoved(evt);
+            }
+        });
 
+        jPanel36.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jPanel36MouseWheelMoved(evt);
+            }
+        });
         jPanel36.setLayout(new java.awt.BorderLayout());
 
         jPanel45.setLayout(new java.awt.GridLayout(0, 1, 0, 7));
@@ -865,8 +877,18 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jPanel46.setLayout(new java.awt.BorderLayout(0, 5));
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jScrollPane1.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jScrollPane1MouseWheelMoved(evt);
+            }
+        });
 
         jPanel39.setMinimumSize(new java.awt.Dimension(0, 0));
+        jPanel39.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jPanel39MouseWheelMoved(evt);
+            }
+        });
         jPanel39.setLayout(new java.awt.BorderLayout());
 
         jPanel43.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
@@ -1048,6 +1070,30 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             System.exit(0);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jPanel39MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanel39MouseWheelMoved
+        // TODO add your handling code here:
+        JScrollBar scrollbar = jScrollPane1.getVerticalScrollBar(); 
+        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20);         
+    }//GEN-LAST:event_jPanel39MouseWheelMoved
+
+    private void jScrollPane1MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane1MouseWheelMoved
+        // TODO add your handling code here:
+        JScrollBar scrollbar = jScrollPane1.getVerticalScrollBar(); 
+        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+    }//GEN-LAST:event_jScrollPane1MouseWheelMoved
+
+    private void jPanel36MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanel36MouseWheelMoved
+        // TODO add your handling code here:
+        JScrollBar scrollbar = jScrollPane2.getVerticalScrollBar(); 
+        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+    }//GEN-LAST:event_jPanel36MouseWheelMoved
+
+    private void jScrollPane2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane2MouseWheelMoved
+        // TODO add your handling code here:
+        JScrollBar scrollbar = jScrollPane2.getVerticalScrollBar(); 
+        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+    }//GEN-LAST:event_jScrollPane2MouseWheelMoved
+
     /**
      * @param args the command line arguments
      */
@@ -1161,7 +1207,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JPanel mainPanel;
@@ -1390,13 +1436,23 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         setActiveTab(Tab.Supplier_Management);
     }
 
-    public void setReport() {
-        if (this.report == null) {
-            Reports reports = new Reports();
-            this.report = reports;
-            this.report.setDashboard(this);
+    public void setAnalytics() {
+        if (this.analytics == null) {
+            Analytics analytic = new Analytics();
+            this.analytics = analytic;
+            this.analytics.setDashboard(this);
         }
-        setMainPanel(this.report);
+        setMainPanel(this.analytics);
+        setActiveTab(Tab.Analytics_And_Reports);
+    }
+    
+    public void setReport(){
+        if (this.reports == null) {
+            Reports reports = new Reports();
+            this.reports = reports;
+            this.reports.setDashboard(this);
+        }
+        setMainPanel(this.reports);
         setActiveTab(Tab.Analytics_And_Reports);
     }
 
@@ -1515,6 +1571,10 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
         if (tableManagement != null) {
             tableManagement.setComponentTheme();
+        }
+        
+        if(analytics != null){
+            analytics.setComponentTheme();
         }
 
     }

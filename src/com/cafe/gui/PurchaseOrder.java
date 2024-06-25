@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -427,6 +428,17 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
+        jScrollPane2.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jScrollPane2MouseWheelMoved(evt);
+            }
+        });
+
+        jPanel12.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jPanel12MouseWheelMoved(evt);
+            }
+        });
         jPanel12.setLayout(new javax.swing.BoxLayout(jPanel12, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane2.setViewportView(jPanel12);
 
@@ -436,6 +448,17 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
+        jScrollPane1.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jScrollPane1MouseWheelMoved(evt);
+            }
+        });
+
+        jPanel11.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jPanel11MouseWheelMoved(evt);
+            }
+        });
         jPanel11.setLayout(new javax.swing.BoxLayout(jPanel11, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(jPanel11);
 
@@ -747,6 +770,26 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
     private void jTable2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MousePressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable2MousePressed
+
+    private void jPanel12MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanel12MouseWheelMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel12MouseWheelMoved
+
+    private void jScrollPane2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane2MouseWheelMoved
+        // TODO add your handling code here:
+        JScrollBar scrollbar = jScrollPane2.getVerticalScrollBar(); 
+        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+    }//GEN-LAST:event_jScrollPane2MouseWheelMoved
+
+    private void jPanel11MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanel11MouseWheelMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel11MouseWheelMoved
+
+    private void jScrollPane1MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane1MouseWheelMoved
+        // TODO add your handling code here:
+        JScrollBar scrollbar = jScrollPane1.getVerticalScrollBar(); 
+        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+    }//GEN-LAST:event_jScrollPane1MouseWheelMoved
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
