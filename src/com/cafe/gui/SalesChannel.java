@@ -489,7 +489,7 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
             SwingUtilities.updateComponentTreeUI(jPopupMenu1);
             jPopupMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
         }
-        
+
     }//GEN-LAST:event_jPanel4MouseReleased
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -503,8 +503,8 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
 
     private void jScrollPane1MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane1MouseWheelMoved
         // TODO add your handling code here:
-        JScrollBar scrollbar = jScrollPane1.getVerticalScrollBar(); 
-        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+        JScrollBar scrollbar = jScrollPane1.getVerticalScrollBar();
+        scrollbar.setValue(scrollbar.getValue() + evt.getWheelRotation() * 20);
     }//GEN-LAST:event_jScrollPane1MouseWheelMoved
 
 
@@ -611,7 +611,7 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
                         if (!hasNext) {
                             break;
                         }
-                        double price = resultset.getString("price1")==null?resultset.getDouble("price2"):resultset.getDouble("price1");
+                        double price = resultset.getString("price1") == null ? resultset.getDouble("price2") : resultset.getDouble("price1");
                         ItemCard item = new ItemCard();
                         item.setId(resultset.getInt("menu_item.id"));
                         item.setItemName(resultset.getString("menu_item.name"));
@@ -708,6 +708,9 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
                     + "menu_item_category.image_path FROM menu_item "
                     + "INNER JOIN menu_item_category "
                     + "ON menu_item.menu_item_category_id = menu_item_category.id "
+                    + "LEFT JOIN direct_selling_stock ON direct_selling_stock.menu_item_id = menu_item.id "
+                    + "INNER JOIN brand ON menu_item.brand_id = brand.id "
+                    + "WHERE direct_selling_stock.expiry_date > NOW() OR brand.name = 'cafe'"
                     + "GROUP BY menu_item_category.id");
             while (resultset.next()) {
                 CategoryCard categoryCard = new CategoryCard();
