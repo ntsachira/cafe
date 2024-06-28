@@ -435,6 +435,8 @@ public class TableManagement extends javax.swing.JPanel implements Theme {
 
     private void jPanel49MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanel49MouseWheelMoved
         // TODO add your handling code here:
+         JScrollBar scrollbar = jScrollPane2.getVerticalScrollBar(); 
+        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
     }//GEN-LAST:event_jPanel49MouseWheelMoved
 
     private void jScrollPane2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane2MouseWheelMoved
