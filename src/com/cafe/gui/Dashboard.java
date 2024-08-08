@@ -142,7 +142,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         initComponents();
         /**
          * setUser() must be invoked immediately after the initComponents()
-         * Every other methods must be invoked after the setUser() setUser()
+         * Every other methods must be invoked after the setUser(). setUser()
          * decides the user type so other content should be loaded according to
          * the relevant user type
          */
@@ -1471,7 +1471,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         }
         setMainPanel(this.reservationManagement);
         setActiveTab(Tab.Reservations);
-    }
+    } 
 
     public void setSalesChannel() {
         if (this.salesChannel == null) {
@@ -1490,7 +1490,6 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             loadDashboardContent();
             setDashPanelTheme();
         }
-
     }
 
     private void setMainPanel(JPanel panel) {
@@ -1708,7 +1707,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         System.out.println(sidebar.getWidth());
     }
 
-    private void closeSidebar() {
+    private synchronized void closeSidebar() {
         new Thread(() -> {
             for (int i = sidebar.getWidth(); i >= 0; i -= 5) {
                 sidebar.setPreferredSize(new Dimension(i, sidebar.getHeight()));
@@ -1724,7 +1723,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         }).start();
     }
 
-    private void openSidebar() {
+    private synchronized void openSidebar() {
         new Thread(() -> {
             for (int i = 0; i <= 255; i += 5) {
                 sidebar.setPreferredSize(new Dimension(i, sidebar.getHeight()));

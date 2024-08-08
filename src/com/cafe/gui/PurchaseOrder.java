@@ -1221,13 +1221,13 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
         }
     }
 
-    private void showHistory() {
+    private synchronized void showHistory() {
         jPanel8.add(jPanel16, BorderLayout.WEST);
         jPanel8.remove(jPanel1);
         SwingUtilities.updateComponentTreeUI(jPanel8);
     }
 
-    private void hideHistory() {
+    private synchronized void hideHistory() {
         jPanel8.remove(jPanel16);
         jPanel8.add(jPanel1, BorderLayout.EAST);
         SwingUtilities.updateComponentTreeUI(jPanel8);
