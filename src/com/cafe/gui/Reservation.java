@@ -1,7 +1,7 @@
-
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
+import com.cafe.model.User;
 import com.cafe.style.CustomStyle;
 import com.cafe.style.NewTheme;
 import com.formdev.flatlaf.FlatClientProperties;
@@ -500,55 +500,51 @@ public class Reservation extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void processPayment() {
-        if (Double.parseDouble(jLabel7.getText()) >= Double.parseDouble(jButton4.getText())) {
-            if (jComboBox1.getSelectedIndex() != 0) {
-                if (jComboBox2.getSelectedIndex() != 0) {
-                    if (!jTextField1.getText().isBlank()) {
-                        if (jTextField1.getText().length() == 10) {
-                            if (!jButton5.getText().isBlank() && !jButton5.getText().equals("0")) {
-                                if (jDateChooser1.getDate().after(new Date()) && jDateChooser1.getDate() != null) {
-                                    String[] split = jTimeChooser1.getTimeField().getText().split(":");
-                                    double time = Double.parseDouble(split[0]);
-                                    if (time > 9 && time < 20) {
-                                        if (checkTableWithTimeSlot()) {
-                                            if (saveBill()) {
-                                                this.salesChannel.getDashboard().setSuccessStatus("Bill saved successfully");
-                                            } else {
-                                                this.salesChannel.getDashboard().setWarningStatus("Error Saving the Bill! please contact admin");
-                                            }
-                                            this.salesChannel.resetInvoice();
-                                            this.dispose();
-                                        } else {
-                                            setWarningStatus("> Selected table is Reserved in that Time slot");
-                                        }
-                                    } else {
-                                        setWarningStatus("> Invalid order time, please Select between 9AM - 8PM");
-                                    }
-                                } else {
-                                    setWarningStatus("> Invalid order date, please change");
-                                }
-                            } else {
-                                setWarningStatus("Please enter Party size");
-                                setWarningBorder(jButton5);
-                            }
-                        } else {
-                            setWarningStatus("Please enter a valid mobile");
-                            setWarningBorder(jTextField1);
-                        }
-                    } else {
-                        setWarningStatus("Please enter Customer mobile");
-                        setWarningBorder(jTextField1);
-                    }
+        if (isValidDetails()) {
+            if (checkTableWithTimeSlot()) {
+                if (saveBill()) {
+                    this.salesChannel.getDashboard().setSuccessStatus("Bill saved successfully");
+                    salesChannel.getDashboard().getUser().updateUserActivity(User.UserActivity.RESERVATION_BILL);
                 } else {
-                    setWarningStatus("Please select a table to continue");
+                    this.salesChannel.getDashboard().setWarningStatus("Error Saving the Bill! please contact admin");
                 }
+                this.salesChannel.resetInvoice();
+                this.dispose();
             } else {
-                setWarningStatus("Please select a table to continue");
+                setWarningStatus("> Selected table is Reserved in that Time slot");
             }
-        } else {
-            setWarningStatus("> Low payment amount, add payment to continue");
         }
+    }
 
+    private boolean isValidDetails() {
+        boolean isValidDetails = false;
+        if (Double.parseDouble(jLabel7.getText()) < Double.parseDouble(jButton4.getText())) {
+            setWarningStatus("> Low payment amount, add payment to continue");
+        } else if (jComboBox1.getSelectedIndex() == 0) {
+            setWarningStatus("Please select a table to continue");
+        } else if (jComboBox2.getSelectedIndex() == 0) {
+            setWarningStatus("Please select a table to continue");
+        } else if (jTextField1.getText().isBlank()) {
+            setWarningStatus("Please enter Customer mobile");
+            setWarningBorder(jTextField1);
+        } else if (jTextField1.getText().length() != 10) {
+            setWarningStatus("Please enter a valid mobile");
+            setWarningBorder(jTextField1);
+        } else if (jButton5.getText().isBlank() || jButton5.getText().equals("0")) {
+            setWarningStatus("Please enter Party size");
+            setWarningBorder(jButton5);
+        } else if (jDateChooser1.getDate().before(new Date()) || jDateChooser1.getDate() == null) {
+            setWarningStatus("> Invalid order date, please change");
+        } else {
+            String[] split = jTimeChooser1.getTimeField().getText().split(":");
+            double time = Double.parseDouble(split[0]);
+            if (time > 9 && time < 20) {
+                isValidDetails = true;
+            } else {
+                setWarningStatus("> Invalid order time, please Select between 9AM - 8PM");
+            }
+        }
+        return isValidDetails;
     }
 
     private void setBillforCardPay() {
@@ -576,7 +572,7 @@ public class Reservation extends javax.swing.JDialog {
     }
 
     public void setWarningStatus(String systemStatus) {
-         Toolkit.getDefaultToolkit().beep();
+        Toolkit.getDefaultToolkit().beep();
         jLabel5.setText(systemStatus);
         jLabel5.setForeground(Color.red);
         new Thread(() -> {
@@ -784,7 +780,7 @@ public class Reservation extends javax.swing.JDialog {
 
     private boolean saveBill() {
         String id = this.salesChannel.getUser().getMobile().substring(7) + "_" + System.currentTimeMillis();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");      
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         if (printBill(id)) {
             try {
@@ -819,7 +815,7 @@ public class Reservation extends javax.swing.JDialog {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         //parameters
-        HashMap<String, Object> parameters = new HashMap<>();        
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("reserveDate", formatter.format(jDateChooser1.getDate()) + " " + jTimeChooser1.getTimeField().getText());
         parameters.put("reservation_id", id);
         parameters.put("table", String.valueOf(jComboBox2.getSelectedItem()));
@@ -827,13 +823,13 @@ public class Reservation extends javax.swing.JDialog {
         parameters.put("customer", jTextField1.getText());
         parameters.put("paymentMethod", this.paymentMethod.name());
         parameters.put("payment", jLabel7.getText());
-        
-          try {
+
+        try {
             ResultSet result = Mysql.execute("SELECT * FROM `system`");
             if (result.next()) {
-                parameters.put("businessName",result.getString("name"));
-                parameters.put("tele",result.getString("tele"));
-                parameters.put("address",result.getString("address"));
+                parameters.put("businessName", result.getString("name"));
+                parameters.put("tele", result.getString("tele"));
+                parameters.put("address", result.getString("address"));
             }
         } catch (SQLException ex) {
             Splash.logger.log(Level.SEVERE, null, ex);
@@ -860,64 +856,62 @@ public class Reservation extends javax.swing.JDialog {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = jDateChooser1.getDate();
         String time = jTimeChooser1.getTimeField().getText();
-        
+
         String[] split = time.split(":");
-        int hours = Integer.parseInt(split[0]);        
-        int mins = Integer.parseInt(split[1]);        
-        
-        if((mins+30) == 60){
+        int hours = Integer.parseInt(split[0]);
+        int mins = Integer.parseInt(split[1]);
+
+        if ((mins + 30) == 60) {
             hours++;
-            mins=0;
-        }else if((mins+30)>60){
+            mins = 0;
+        } else if ((mins + 30) > 60) {
             hours++;
-            mins = (mins+30)-60;
-        }else{
-            mins+=30;
+            mins = (mins + 30) - 60;
+        } else {
+            mins += 30;
         }
-        
+
         String lowerLimit = "";
         String upperLimit = "";
-        
-        if(String.valueOf(hours).length()==1){
-            lowerLimit+=("0"+hours);
-            upperLimit+=("0"+(hours-1));
-        }else{
-            lowerLimit+=hours;
-            upperLimit+=(hours-1);
+
+        if (String.valueOf(hours).length() == 1) {
+            lowerLimit += ("0" + hours);
+            upperLimit += ("0" + (hours - 1));
+        } else {
+            lowerLimit += hours;
+            upperLimit += (hours - 1);
         }
-        
-        lowerLimit+=":";
-        upperLimit+=":";
-        
-        if(String.valueOf(mins).length()==1){
-            lowerLimit+=("0"+mins);
-            upperLimit+=("0"+mins);
-        }else{
-            lowerLimit+=mins;
-            upperLimit+=mins;
+
+        lowerLimit += ":";
+        upperLimit += ":";
+
+        if (String.valueOf(mins).length() == 1) {
+            lowerLimit += ("0" + mins);
+            upperLimit += ("0" + mins);
+        } else {
+            lowerLimit += mins;
+            upperLimit += mins;
         }
-        
-        lowerLimit+=":00";
-        upperLimit+=":00";       
-        
+
+        lowerLimit += ":00";
+        upperLimit += ":00";
+
         try {
             ResultSet result = Mysql.execute("SELECT * FROM reservation INNER JOIN  `reservation_has_table` ON  reservation.id = reservation_has_table.reservation_id "
-                + "WHERE `date`='"+formatter.format(date)+"' AND "
-                        + "(`time` BETWEEN '"+upperLimit+"' AND '"+lowerLimit+"') "
-                                + "AND `table_id`='"+String.valueOf(jComboBox2.getSelectedItem())+"' ");
-            
-            if(result.next()){
+                    + "WHERE `date`='" + formatter.format(date) + "' AND "
+                    + "(`time` BETWEEN '" + upperLimit + "' AND '" + lowerLimit + "') "
+                    + "AND `table_id`='" + String.valueOf(jComboBox2.getSelectedItem()) + "' ");
+
+            if (result.next()) {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         } catch (SQLException ex) {
             Splash.logger.log(Level.SEVERE, null, ex);
             ex.printStackTrace();
             return false;
-        }        
+        }
     }
-    
-    
 
 }

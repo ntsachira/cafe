@@ -2,6 +2,7 @@ package com.cafe.gui;
 
 import static com.cafe.gui.Dashboard.alignFrame;
 import com.cafe.model.Mysql;
+import com.cafe.model.User;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
@@ -385,6 +386,7 @@ public class TakeAway extends javax.swing.JDialog {
                 });
 
                 this.salesChannel.getDashboard().setSuccessStatus("Invoice saved successfully");
+                salesChannel.getDashboard().getUser().updateUserActivity(User.UserActivity.TAKE_AWAY_BILL);
             } catch (SQLException ex) {
                 Splash.logger.log(Level.SEVERE, "Save invoice", ex);
                 ex.printStackTrace();

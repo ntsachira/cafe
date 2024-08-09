@@ -353,6 +353,7 @@ public class Reports extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("GENERATE REPORT");
+        jButton1.setBorderPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(75, 48));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -366,6 +367,7 @@ public class Reports extends javax.swing.JPanel {
 
         jButton6.setBackground(new java.awt.Color(102, 102, 102));
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton6.setBorderPainted(false);
         jButton6.setPreferredSize(new java.awt.Dimension(48, 48));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -455,6 +457,7 @@ public class Reports extends javax.swing.JPanel {
         jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("GENERATE REPORT");
+        jButton2.setBorderPainted(false);
         jButton2.setPreferredSize(new java.awt.Dimension(75, 48));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -464,6 +467,7 @@ public class Reports extends javax.swing.JPanel {
 
         jButton7.setBackground(new java.awt.Color(102, 102, 102));
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton7.setBorderPainted(false);
         jButton7.setPreferredSize(new java.awt.Dimension(48, 48));
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -659,6 +663,7 @@ public class Reports extends javax.swing.JPanel {
         jButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("GENERATE REPORT");
+        jButton4.setBorderPainted(false);
         jButton4.setPreferredSize(new java.awt.Dimension(75, 48));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -669,6 +674,7 @@ public class Reports extends javax.swing.JPanel {
 
         jButton8.setBackground(new java.awt.Color(102, 102, 102));
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton8.setBorderPainted(false);
         jButton8.setPreferredSize(new java.awt.Dimension(48, 48));
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -807,6 +813,7 @@ public class Reports extends javax.swing.JPanel {
         jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("GENERATE REPORT");
+        jButton3.setBorderPainted(false);
         jButton3.setPreferredSize(new java.awt.Dimension(75, 48));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -816,6 +823,7 @@ public class Reports extends javax.swing.JPanel {
 
         jButton9.setBackground(new java.awt.Color(102, 102, 102));
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton9.setBorderPainted(false);
         jButton9.setPreferredSize(new java.awt.Dimension(48, 48));
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -2,6 +2,7 @@
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
+import com.cafe.model.User;
 import com.cafe.style.CustomStyle;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -383,6 +384,7 @@ public class ReservationManagement extends javax.swing.JPanel {
                             + "WHERE `id` = '"+jTextField1.getText().trim()+"'");
                     
                     this.dashboard.setSuccessStatus(jTextField1.getText().trim()+" - Reservation status updated");
+                    dashboard.getUser().updateUserActivity(User.UserActivity.RESERVATION_STATUS_UPDATED);
                     loadReservationList(); 
                     resetUpdateInput();
                 }else{

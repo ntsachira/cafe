@@ -409,6 +409,7 @@ public class SupplierGrnView extends javax.swing.JDialog {
             }
             if (updated) {
                 JOptionPane.showMessageDialog(this, "Payments updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                
                 if (this.allSupplierDuePayment != null) {
                     this.allSupplierDuePayment.loadGrnTable();
                 }else if (this.singleSupplierDuePayment != null) {

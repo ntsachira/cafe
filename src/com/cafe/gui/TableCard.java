@@ -5,6 +5,7 @@
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
+import com.cafe.model.User;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.sql.ResultSet;
 import java.util.Vector;
@@ -178,6 +179,7 @@ public class TableCard extends javax.swing.JPanel {
                     Mysql.execute("UPDATE `table` SET `table_status_id` = '" + string + "'  WHERE `table`.`id` = '" + id + "'");
                     if(tableManagement != null){
                         tableManagement.getDashboard().setSuccessStatus("Table: "+id+" Status updated");
+                        tableManagement.getDashboard().getUser().updateUserActivity(User.UserActivity.TABLE_STATUS_UPDATED);
                         tableManagement.loadTables();
                     }
                     

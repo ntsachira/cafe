@@ -112,7 +112,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private Analytics analytics;
     private SupplierManagement supplierManagement;
     private CustomerRegistration customerRegistration;
-    private GRN grn;
+    private GrnManagement grn;
     private PurchaseOrder purchaseOrder;
     private Settings settings;
     private TableManagement tableManagement;
@@ -247,12 +247,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     }
 
     public String arrangeTitle(String tabName) {
-        String title = "";
-        for (String s : tabName.split("_")) {
-            title += s;
-            title += " ";
-        }
-        return title.toUpperCase().trim();
+        return tabName.replace('_',' ').toUpperCase();
     }
 
     @SuppressWarnings("unchecked")
@@ -308,6 +303,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel36 = new javax.swing.JPanel();
         jPanel45 = new javax.swing.JPanel();
+        noDataLabel = new javax.swing.JLabel();
         jPanel42 = new javax.swing.JPanel();
         jLabel33 = new javax.swing.JLabel();
         jPanel44 = new javax.swing.JPanel();
@@ -620,6 +616,11 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
         jPanel45.setLayout(new java.awt.GridLayout(0, 1, 0, 7));
         jPanel36.add(jPanel45, java.awt.BorderLayout.PAGE_START);
+
+        noDataLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        noDataLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        noDataLabel.setText("No data available");
+        jPanel36.add(noDataLabel, java.awt.BorderLayout.CENTER);
 
         jScrollPane2.setViewportView(jPanel36);
 
@@ -1210,6 +1211,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private javax.swing.JTable jTable2;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JToggleButton menuButton;
+    private javax.swing.JLabel noDataLabel;
     private javax.swing.JLabel status;
     // End of variables declaration//GEN-END:variables
 
@@ -1407,7 +1409,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
     public void setGrn() {
         if (this.grn == null) {
-            GRN grn = new GRN();
+            GrnManagement grn = new GrnManagement();
             this.grn = grn;
             this.grn.setDashboard(this);
         }
@@ -1518,23 +1520,14 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
                 limitedStockCard.setDashboard(this);
                 jPanel45.add(limitedStockCard);
             }
-            result1 = Mysql.execute("SELECT kitchen_stock.id,`name`,expire_date,qty "
-                    + "from kitchen_stock INNER JOIN kitchen_item ON kitchen_item_id= kitchen_item.id "
-                    + "WHERE (qty < 10 OR `expire_date` < DATE_ADD(NOW() , INTERVAL 14 DAY)  ) "
-                    + "AND kitchen_stock.active_state_state_id = (SELECT state_id FROM active_state WHERE active_state.`status` = 'Active') "
-                    + "ORDER BY expire_date");
-            while (result1.next()) {
-                LimitedStockCard limitedStockCard = new LimitedStockCard();
-                limitedStockCard.putClientProperty(FlatClientProperties.STYLE, "border:3,10,3,10,#4D78CC,1,40");
-                limitedStockCard.setId(result1.getInt("kitchen_stock.id"));
-                limitedStockCard.setItemName(result1.getString("name"));
-                limitedStockCard.setQuantity(result1.getDouble("qty"));
-                limitedStockCard.setExpire(result1.getString("expire_date"));
-                limitedStockCard.setImage("");
-                limitedStockCard.setStock(LimitedStockCard.Stock.KITCHEN);
-                limitedStockCard.setDashboard(this);
-                jPanel45.add(limitedStockCard);
+            jPanel36.removeAll();
+            if(!(jPanel45.getComponentCount()>0)){                
+                jPanel36.add(noDataLabel);
+            }else{
+                jPanel36.add(jPanel45,BorderLayout.NORTH);
             }
+            jPanel36.updateUI();
+                
 
             jPanel45.updateUI();
         } catch (SQLException ex) {
