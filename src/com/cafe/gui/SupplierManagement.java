@@ -2,6 +2,7 @@ package com.cafe.gui;
 
 import com.cafe.model.Mysql;
 import com.cafe.model.SupplierBean;
+import com.cafe.model.User;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -557,53 +558,7 @@ public class SupplierManagement extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String name = jTextField2.getText();
-        String mobile = jTextField4.getText();
-        String email = jTextField3.getText();
-        String category = String.valueOf(jComboBox3.getSelectedItem());
-
-        if (name.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Your Name", "Warning", JOptionPane.WARNING_MESSAGE);
-
-        } else if (mobile.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
-
-        } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
-            JOptionPane.showMessageDialog(this, "Invalid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-
-        } else if (email.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
-
-        } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@"
-                + "[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
-
-            JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
-
-        } else if ("Select Category".equals(category)) {
-            JOptionPane.showMessageDialog(this, "Please Select Category", "Warning", JOptionPane.WARNING_MESSAGE);
-
-        } else {
-
-            try {
-                ResultSet resultSet = Mysql.execute("SELECT * FROM `supplier` WHERE `name` = '" + name + "' OR `mobile` = '" + mobile + "' OR `email` = '" + email + "'");
-
-                if (resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "Supplier Already Registered", "Warning", JOptionPane.WARNING_MESSAGE);
-
-                } else {
-                    Mysql.execute("INSERT INTO `supplier` (`name`,`mobile`,`email`,`supplier_category_id`) "
-                            + "VALUES ('" + name + "','" + mobile + "','" + email + "','" + supplierCategoryMap.get(category) + "')");
-
-                    loadSupplier();
-                    reset();
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                Splash.logger.log(Level.SEVERE, null, e);
-            }
-
-        }
+        addSupplier();
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -837,6 +792,7 @@ public class SupplierManagement extends javax.swing.JPanel {
                             + " `supplier_category_id` = '" + supplierCategoryMap.get(category) + "' WHERE `mobile` = '" + mobile + "'");
 
                     this.dashboard.setSuccessStatus("Supplier Updated successfully");
+                    dashboard.getUser().updateUserActivity(User.UserActivity.SUPPLIER_UPDATED);
                     reset();
                 }
 
@@ -847,5 +803,57 @@ public class SupplierManagement extends javax.swing.JPanel {
 
         }
 
+    }
+
+    private void addSupplier() {
+        String name = jTextField2.getText();
+        String mobile = jTextField4.getText();
+        String email = jTextField3.getText();
+        String category = String.valueOf(jComboBox3.getSelectedItem());
+
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Your Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+        } else if (mobile.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+        } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
+            JOptionPane.showMessageDialog(this, "Invalid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
+
+        } else if (email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
+
+        } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@"
+                + "[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
+
+            JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+
+        } else if ("Select Category".equals(category)) {
+            JOptionPane.showMessageDialog(this, "Please Select Category", "Warning", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+
+            try {
+                ResultSet resultSet = Mysql.execute("SELECT * FROM `supplier` WHERE `name` = '" + name + "' OR `mobile` = '" + mobile + "' OR `email` = '" + email + "'");
+
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "Supplier Already Registered", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else {
+                    Mysql.execute("INSERT INTO `supplier` (`name`,`mobile`,`email`,`supplier_category_id`) "
+                            + "VALUES ('" + name + "','" + mobile + "','" + email + "','" + supplierCategoryMap.get(category) + "')");
+
+                    loadSupplier();
+                    dashboard.setSuccessStatus("Supplier added successfully");
+                    dashboard.getUser().updateUserActivity(User.UserActivity.SUPPLIER_ADDED);
+                    reset();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Splash.logger.log(Level.SEVERE, null, e);
+            }
+
+        }
     }
 }

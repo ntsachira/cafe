@@ -1,6 +1,7 @@
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
+import com.cafe.model.User;
 import com.cafe.style.CustomStyle;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
@@ -386,6 +387,7 @@ public class PreorderManagement extends javax.swing.JPanel {
                             + "WHERE `invoice_id` = '" + jTextField1.getText().trim() + "'");
 
                     this.dashboard.setSuccessStatus(jTextField1.getText().trim() + " - Order status updated");
+                    dashboard.getUser().updateUserActivity(User.UserActivity.PRE_ORDER_STATUS_UPDATED);
                     loadPreOrderList();
                     resetUpdateInput();
                 } else {

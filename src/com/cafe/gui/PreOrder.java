@@ -3,6 +3,7 @@ package com.cafe.gui;
 import static com.cafe.gui.Dashboard.alignFrame;
 import com.cafe.model.Mysql;
 import com.cafe.model.Theme;
+import com.cafe.model.User;
 import com.cafe.style.CustomStyle;
 import com.cafe.style.NewTheme;
 import com.formdev.flatlaf.FlatClientProperties;
@@ -505,6 +506,7 @@ public class PreOrder extends javax.swing.JDialog implements Theme {
                 if (time > 9 && time < 20) {
                     if (saveBill()) {
                         this.salesChannel.getDashboard().setSuccessStatus("Bill saved successfully");
+                        salesChannel.getDashboard().getUser().updateUserActivity(User.UserActivity.PRE_ORDER_BILL);
                     } else {
                         this.salesChannel.getDashboard().setWarningStatus("Error Saving the Bill! please contact admin");
                     }

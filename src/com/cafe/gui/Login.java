@@ -292,6 +292,7 @@ public class Login extends javax.swing.JPanel implements UserRole {
     private void login() {
         User user = validateUser();
         if (splash != null && user != null) {
+            user.updateUserActivity(User.UserActivity.LOGGED_IN);
             this.splash.setDashboard(user);    
         }
     }

@@ -228,6 +228,7 @@ public class Settings extends javax.swing.JPanel {
 
         jButton7.setBackground(new java.awt.Color(102, 102, 102));
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton7.setBorderPainted(false);
         jButton7.setPreferredSize(new java.awt.Dimension(40, 40));
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -684,6 +685,7 @@ public class Settings extends javax.swing.JPanel {
                         // Copy the new image file to the destination
                         Files.copy(selectedFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
                         dashboard.setSuccessStatus("Image uploaded successfully");
+                        dashboard.getUser().updateUserActivity(User.UserActivity.BUSINESS_LOGO_UPDATED);
                         resetImage();
                     } catch (IOException ex) {
                         Splash.logger.log(Level.SEVERE, "Error uploading image: " + ex.getMessage(), ex);
@@ -749,6 +751,7 @@ public class Settings extends javax.swing.JPanel {
                 //update theme
                 Mysql.execute("UPDATE `system` SET `theme`='DARK'");
                 dashboard.setSuccessStatus("Default theme updated as DARK");
+                dashboard.getUser().updateUserActivity(User.UserActivity.SYSTEM_SETTINGS_UPDATED);
                 this.theme = "DARK";
             }
         } else if (lightOption.isSelected()) {
@@ -758,6 +761,7 @@ public class Settings extends javax.swing.JPanel {
                 //update theme
                 Mysql.execute("UPDATE `system` SET `theme`='LIGHT'");
                 dashboard.setSuccessStatus("Default theme updated as LIGHT");
+                dashboard.getUser().updateUserActivity(User.UserActivity.SYSTEM_SETTINGS_UPDATED);
                 this.theme = "LIGHT";
             }
         }
@@ -791,6 +795,7 @@ public class Settings extends javax.swing.JPanel {
         } else {
             Mysql.execute("UPDATE `system` SET `name`='" + name + "', `tele`='" + tele + "',`address`='" + address + "'");
             dashboard.setSuccessStatus("Business Deatails saved successfully");
+            dashboard.getUser().updateUserActivity(User.UserActivity.BUSINESS_DETAILS_UPDATED);
             dashboard.setBusinessName();
 
             this.companyName = name;
@@ -817,6 +822,7 @@ public class Settings extends javax.swing.JPanel {
                     + "WHERE `mobile`='" + jTextField1.getText() + "'");
 
             dashboard.setSuccessStatus("Admin details saved successfully");
+            dashboard.getUser().updateUserActivity(User.UserActivity.ADMIN_DETAILS_UPDATED);
             this.displayName = displayName;
             this.username = username;
 

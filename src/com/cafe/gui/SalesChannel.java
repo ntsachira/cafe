@@ -136,6 +136,8 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jPopupMenu2 = new javax.swing.JPopupMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -183,6 +185,16 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
             }
         });
         jPopupMenu1.add(jMenuItem1);
+
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/controlImg/refresh22.png"))); // NOI18N
+        jMenuItem2.setText("Refresh");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jPopupMenu2.add(jMenuItem2);
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 20));
         addMouseWheelListener(new java.awt.event.MouseWheelListener() {
@@ -360,6 +372,11 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
 
         jPanel5.setBackground(new java.awt.Color(43, 46, 56));
         jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel5MouseReleased(evt);
+            }
+        });
         jPanel5.setLayout(new java.awt.BorderLayout(0, 10));
 
         categoryPanel.setOpaque(false);
@@ -424,6 +441,11 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         jScrollPane3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jScrollPane3.setOpaque(false);
 
+        jPanel14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel14MouseReleased(evt);
+            }
+        });
         jPanel14.setLayout(new javax.swing.BoxLayout(jPanel14, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane3.setViewportView(jPanel14);
 
@@ -507,6 +529,24 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         scrollbar.setValue(scrollbar.getValue() + evt.getWheelRotation() * 20);
     }//GEN-LAST:event_jScrollPane1MouseWheelMoved
 
+    private void jPanel5MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseReleased
+        // TODO add your handling code here:
+        if (evt.getButton() == MouseEvent.BUTTON3) {
+            SwingUtilities.updateComponentTreeUI(jPopupMenu2);
+            jPopupMenu2.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jPanel5MouseReleased
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        refreshSalesChannelData();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jPanel14MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel14MouseReleased
+        // TODO add your handling code here:
+        refreshSalesChannelData();
+    }//GEN-LAST:event_jPanel14MouseReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -524,6 +564,7 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -540,6 +581,7 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -586,6 +628,11 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
                 reservation.setVisible(true);
                 break;
         }
+    }
+
+    private void refreshSalesChannelData() {
+        loadCategories();
+        loadMenuItems();
     }
 
     public void loadMenuItems() {
@@ -702,6 +749,8 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
 
     private void loadCategories() {
         int totalItems = 0;
+        jPanel13.removeAll();
+        jPanel13.add(jPanel12);
         try {
             ResultSet resultset = Mysql.execute("SELECT COUNT(menu_item_category.id) AS `count`,"
                     + "menu_item_category.id,menu_item_category.name AS `name`, "

@@ -144,6 +144,7 @@ public class Analytics extends javax.swing.JPanel implements Theme {
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("GENERATE REPORTS");
+        jButton1.setBorderPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(200, 48));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -478,7 +479,7 @@ public class Analytics extends javax.swing.JPanel implements Theme {
     @Override
     public void setStyle() {
         setComponentTheme();
-        CustomStyle.setButtonsRoundedMax(jButton1);
+//        CustomStyle.setButtonsRoundedMax(jButton1);
         jScrollPane1.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, "width:15");        
     }
 

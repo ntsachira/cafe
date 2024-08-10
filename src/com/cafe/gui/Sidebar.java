@@ -1,6 +1,7 @@
 
 package com.cafe.gui;
 
+import com.cafe.model.User;
 import com.cafe.style.CustomStyle;
 import com.cafe.style.NewTheme;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -569,6 +570,7 @@ public class Sidebar extends javax.swing.JPanel {
         int option = JOptionPane.showConfirmDialog(getDashboard(), "Confirm Log out", "Confirmation Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
         if (option == JOptionPane.YES_OPTION) {
+            dashboard.getUser().updateUserActivity(User.UserActivity.LOGGED_OUT);
             getDashboard().dispose();
             FlatLightLaf.setup();
             new Splash().setVisible(true);

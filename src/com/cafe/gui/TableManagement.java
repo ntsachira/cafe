@@ -2,6 +2,7 @@ package com.cafe.gui;
 
 import com.cafe.model.Mysql;
 import com.cafe.model.Theme;
+import com.cafe.model.User;
 import com.cafe.style.CustomStyle;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
@@ -389,7 +390,6 @@ public class TableManagement extends javax.swing.JPanel implements Theme {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-
         addNewTables();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -608,6 +608,7 @@ public class TableManagement extends javax.swing.JPanel implements Theme {
                                 }
                                 if (dashboard != null) {
                                     dashboard.setSuccessStatus("Tables added successfully");
+                                    dashboard.getUser().updateUserActivity(User.UserActivity.NEW_TABLE_ADDED);
                                 }
                             }
                         } else {
@@ -657,6 +658,7 @@ public class TableManagement extends javax.swing.JPanel implements Theme {
                         }
                         if (dashboard != null) {
                             dashboard.setSuccessStatus("Tables added successfully");
+                            dashboard.getUser().updateUserActivity(User.UserActivity.NEW_TABLE_ADDED);
                         }
                     } else {
                         dashboard.setWarningStatus("Error saving tables | Database error");
@@ -707,6 +709,7 @@ public class TableManagement extends javax.swing.JPanel implements Theme {
                     Mysql.execute("UPDATE `table_category` SET `name`='" + name + "' "
                             + "WHERE `id`='" + String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), 0)) + "' ");
                     dashboard.setSuccessStatus("Updated successfully");
+                    dashboard.getUser().updateUserActivity(User.UserActivity.TABLE_CATEGORY_UPDATED);
                     reset();
                 } else {
                     dashboard.setWarningStatus("Cannot be updated");
