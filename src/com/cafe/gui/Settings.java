@@ -9,9 +9,12 @@ import com.cafe.model.Theme;
 import com.cafe.model.User;
 import com.cafe.model.UserRole;
 import com.cafe.style.CustomStyle;
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -77,6 +80,7 @@ public class Settings extends javax.swing.JPanel {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jPanel3 = new javax.swing.JPanel();
         jPanel60 = new javax.swing.JPanel();
         jPanel61 = new javax.swing.JPanel();
@@ -134,6 +138,12 @@ public class Settings extends javax.swing.JPanel {
         jPanel22 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        radioOnlyDatabase = new javax.swing.JRadioButton();
+        radioRemoveExsisting = new javax.swing.JRadioButton();
+        jButton10 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
         setLayout(new java.awt.GridLayout(1, 3, 20, 0));
@@ -483,6 +493,66 @@ public class Settings extends javax.swing.JPanel {
 
         jPanel41.add(jPanel22, java.awt.BorderLayout.NORTH);
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setText("System Backup");
+
+        buttonGroup2.add(radioOnlyDatabase);
+        radioOnlyDatabase.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        radioOnlyDatabase.setSelected(true);
+        radioOnlyDatabase.setText("Only Backup Database");
+
+        buttonGroup2.add(radioRemoveExsisting);
+        radioRemoveExsisting.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        radioRemoveExsisting.setText("Backup and Remove existing database");
+
+        jButton10.setBackground(new java.awt.Color(77, 120, 204));
+        jButton10.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton10.setForeground(new java.awt.Color(255, 255, 255));
+        jButton10.setText("PROCEED BACKUP");
+        jButton10.setBorderPainted(false);
+        jButton10.setPreferredSize(new java.awt.Dimension(163, 40));
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator1)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(radioRemoveExsisting)
+                            .addComponent(radioOnlyDatabase))
+                        .addGap(0, 82, Short.MAX_VALUE))
+                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addComponent(radioOnlyDatabase)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radioRemoveExsisting)
+                .addGap(24, 24, 24)
+                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(334, Short.MAX_VALUE))
+        );
+
+        jPanel41.add(jPanel5, java.awt.BorderLayout.CENTER);
+
         jPanel36.add(jPanel41, java.awt.BorderLayout.CENTER);
 
         jPanel1.add(jPanel36, java.awt.BorderLayout.CENTER);
@@ -549,23 +619,29 @@ public class Settings extends javax.swing.JPanel {
 
     private void darkOptionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_darkOptionItemStateChanged
         // TODO add your handling code here:
-        if(darkOption.isSelected()&& dashboard!= null){
+        if (darkOption.isSelected() && dashboard != null) {
             dashboard.setMode(Theme.Mode.DARK);
         }
     }//GEN-LAST:event_darkOptionItemStateChanged
 
     private void lightOptionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_lightOptionItemStateChanged
         // TODO add your handling code here:
-        if(lightOption.isSelected() && dashboard!= null){
+        if (lightOption.isSelected() && dashboard != null) {
             dashboard.setMode(Theme.Mode.LIGHT);
         }
     }//GEN-LAST:event_lightOptionItemStateChanged
 
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        proceedBackup();
+    }//GEN-LAST:event_jButton10ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JRadioButton darkOption;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -582,6 +658,7 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel13;
@@ -601,6 +678,7 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel41;
     private javax.swing.JPanel jPanel42;
     private javax.swing.JPanel jPanel47;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel60;
     private javax.swing.JPanel jPanel61;
     private javax.swing.JPanel jPanel64;
@@ -614,6 +692,7 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel80;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -621,12 +700,14 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JRadioButton lightOption;
+    private javax.swing.JRadioButton radioOnlyDatabase;
+    private javax.swing.JRadioButton radioRemoveExsisting;
     // End of variables declaration//GEN-END:variables
 
     private void selectImage() {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("*.image", "jpg", "png", "jpeg", "gif");
-
+        fileChooser.setFileFilter(filter);
         int response = fileChooser.showOpenDialog(this.dashboard);
 
         if (response == JFileChooser.APPROVE_OPTION) {
@@ -648,18 +729,18 @@ public class Settings extends javax.swing.JPanel {
 
     private void resetImage() {
         try {
-            URL resource = getClass().getResource("/com/cafe/reports/logo.png");
-            BufferedImage logo = ImageIO.read(new File(resource.getPath()));
+            File resource = new File(System.getProperty("user.dir") + File.separator + "reports/logo.png");
+          
+            BufferedImage logo = ImageIO.read(resource);
             if (logo == null) {
-                throw new IOException("Failed to load the new image from: " + resource);
+                Splash.logger.log(Level.SEVERE,"Failed to load the new image from: " + resource);
             }
             selectedFile = null;
             jImagePanel1.setImageIcon(new ImageIcon(logo));
             jImagePanel1.updateUI();
             jButton6.setEnabled(false);
         } catch (IOException ex) {
-            Splash.logger.log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
+            Splash.logger.log(Level.SEVERE,ex.getMessage());            
         }
 
     }
@@ -677,10 +758,11 @@ public class Settings extends javax.swing.JPanel {
     private void uploadImage() {
         if (selectedFile != null) {
             if (selectedFile.exists()) {
-                URL resourceUrl = getClass().getResource("/com/cafe/reports");
-                if (resourceUrl != null) {
-                    File destinationFolder = new File(resourceUrl.getPath());
+                File destinationFolder = new File(System.getProperty("user.dir") + File.separator + "reports");
+               
+                if (destinationFolder.exists()) {                    
                     Path destinationPath = destinationFolder.toPath().resolve("logo.png");
+                    System.out.println(destinationPath);
                     try {
                         // Copy the new image file to the destination
                         Files.copy(selectedFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
@@ -688,7 +770,7 @@ public class Settings extends javax.swing.JPanel {
                         dashboard.getUser().updateUserActivity(User.UserActivity.BUSINESS_LOGO_UPDATED);
                         resetImage();
                     } catch (IOException ex) {
-                        Splash.logger.log(Level.SEVERE, "Error uploading image: " + ex.getMessage(), ex);
+                        Splash.logger.log(Level.SEVERE, "Error uploading image: " + ex.getMessage());
                         JOptionPane.showMessageDialog(this, "Error uploading image. Please try again.");
                     }
                 } else {
@@ -705,6 +787,7 @@ public class Settings extends javax.swing.JPanel {
     }
 
     private void loadBusinessDetails() {
+        resetImage();
         try {
             ResultSet resultSet = Mysql.execute("SELECT * FROM `system`");
             if (resultSet.next()) {
@@ -720,8 +803,7 @@ public class Settings extends javax.swing.JPanel {
                 setDefaultTheme();
             }
         } catch (SQLException ex) {
-            Splash.logger.log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
+            Splash.logger.log(Level.SEVERE,ex.getMessage());            
         }
     }
 
@@ -738,8 +820,7 @@ public class Settings extends javax.swing.JPanel {
                 jTextField6.setText(username);
             }
         } catch (SQLException ex) {
-            Splash.logger.log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
+            Splash.logger.log(Level.SEVERE,ex.getMessage());            
         }
     }
 
@@ -843,5 +924,144 @@ public class Settings extends javax.swing.JPanel {
         } else {
             lightOption.setSelected(true);
         }
+    }
+
+    private void proceedBackup() {
+
+        if (radioRemoveExsisting.isSelected()) {
+            if (JOptionPane.showConfirmDialog(
+                    this,
+                    "This action will restart your application. Do you want to proceed",
+                    "Warning!",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                backupDatabase();
+            }
+
+        } else {
+            backupDatabase();
+        }
+    }
+    String path;
+
+    private void backupDatabase() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("SQL files (*.sql)", "sql"));
+        fileChooser.showSaveDialog(this);
+        File selectesFile = fileChooser.getSelectedFile();
+        if (selectesFile != null) {
+            path = selectesFile.getPath();
+            if (!path.endsWith(".sql")) {
+
+                if (path.lastIndexOf(".") != -1) {
+                    path = path.substring(0, path.lastIndexOf("."));
+                }
+                path += ".sql";
+            }
+
+            String command = String.format(
+                    "\"\"C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump.exe\" -u%s -p%s cafe_db > \"%s\"",
+                    Mysql.getUsername(),
+                    Mysql.getPASSWORD(),
+                    path
+            );
+
+            String[] commandBundle = new String[]{
+                "cmd.exe",
+                "/c",
+                command
+            };
+
+            try {
+                final String locationPath = path.substring(0, path.lastIndexOf(File.separator));
+                jButton10.setText("Backup in progress...");
+                jButton10.setEnabled(false);
+                Process process = Runtime.getRuntime().exec(commandBundle);
+
+                new Thread(() -> {
+                    try {
+                        int processStatus = process.waitFor();
+                        jButton10.setText("PROCEED BACKUP");
+                        jButton10.setEnabled(true);
+                        if (processStatus == 0) {
+                            dashboard.getUser().updateUserActivity(User.UserActivity.DATABASE_BACKUP);
+                            if (radioRemoveExsisting.isSelected()) {
+                                dropExistingDatabase();
+                            } else {
+                                
+                                if (JOptionPane.showConfirmDialog(
+                                        this,
+                                        "Database backup successfull. Do you want to goto the saved location",
+                                        "Success",
+                                        JOptionPane.YES_NO_CANCEL_OPTION,
+                                        JOptionPane.INFORMATION_MESSAGE
+                                ) == JOptionPane.YES_OPTION) {
+
+                                    Runtime.getRuntime().exec(
+                                            new String[]{
+                                                "cmd.exe",
+                                                "/c",
+                                                String.format("start explorer \"%s\"", locationPath)
+                                            }
+                                   );
+                                }
+                            }
+
+                        } else {
+                            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                            String error;
+                            while ((error = errorReader.readLine()) != null) {
+                                Splash.logger.log(Level.SEVERE, error);
+                            }
+                            JOptionPane.showMessageDialog(
+                                    this,
+                                    "Database backup Faild. Please contact support",
+                                    "Backup Faild",
+                                    JOptionPane.ERROR_MESSAGE
+                            );
+                        }
+                    } catch (InterruptedException ex) {
+                        Splash.logger.log(Level.SEVERE, ex.getMessage());
+                    } catch (IOException ex) {
+                        Splash.logger.log(Level.SEVERE, ex.getMessage());
+                    }
+                }).start();
+            } catch (IOException ex) {
+                Splash.logger.log(Level.SEVERE, ex.getMessage());
+            }
+        }
+    }
+
+    private void dropExistingDatabase() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            java.sql.Connection connection;
+            try {
+                connection = java.sql.DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306",
+                        Mysql.getUsername(),
+                        Mysql.getPASSWORD());
+                connection.createStatement().execute("DROP DATABASE `%s`".formatted(Mysql.getDbName()));
+                connection.close();
+                JOptionPane.showMessageDialog(
+                                    this,
+                                    "Existing database removed Successfuly.",
+                                    "Success",
+                                    JOptionPane.INFORMATION_MESSAGE
+                            );
+                restartApplication();
+            } catch (SQLException ex) {
+                Splash.logger.log(Level.SEVERE, ex.getMessage());
+            }
+        } catch (ClassNotFoundException ex) {
+            Splash.logger.log(Level.SEVERE, ex.getMessage());
+        }
+    }
+
+    private void restartApplication() throws SQLException {
+        Mysql.getConnection().close();        
+        getDashboard().dispose();
+        FlatLightLaf.setup();
+        new Splash().setVisible(true);
     }
 }

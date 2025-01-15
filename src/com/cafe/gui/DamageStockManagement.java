@@ -5,6 +5,8 @@
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
+import com.cafe.model.User;
+import com.cafe.style.CustomStyle;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,7 +41,7 @@ public class DamageStockManagement extends javax.swing.JPanel {
      */
     public DamageStockManagement() {
         initComponents();
-        loadDamagedStockTable("");
+        loadDamagedStockTable("ORDER BY `updated_date` DESC");
         loadStatuses();
         setupComponents();
     }
@@ -48,6 +50,8 @@ public class DamageStockManagement extends javax.swing.JPanel {
         jTextField2.putClientProperty("JTextField.placeholderText", "Enter stock ID");
         jTextField4.putClientProperty("JTextField.placeholderText", "Quantity");
         jTextField5.putClientProperty("JTextField.placeholderText", "Damage Description");
+        jTable1.setDefaultRenderer(String.class, CustomStyle.renderCenter);
+        jTable1.setDefaultRenderer(Double.class, CustomStyle.renderRight);
     }
     private void loadDamagedStockTable(String query) {
         ResultSet resultSet = Mysql.execute("SELECT * FROM `direct_selling_damage_stock` "
@@ -58,9 +62,14 @@ public class DamageStockManagement extends javax.swing.JPanel {
         
         try {
             while (resultSet.next()) {
-                Vector<String> vector = new Vector<>();
+                ResultSet menuItemResult = Mysql.execute("SELECT `menu_item`.`name` FROM direct_selling_stock INNER JOIN menu_item "
+                        + "ON direct_selling_stock.menu_item_id = menu_item.id "
+                        + "WHERE direct_selling_stock.id='"+resultSet.getString("direct_selling_stock_id")+"' ");
+                if(menuItemResult.next()){
+                    Vector<String> vector = new Vector<>();
                 vector.add(resultSet.getString("id"));
                 vector.add(resultSet.getString("direct_selling_stock_id"));
+                vector.add(menuItemResult.getString("name"));
                 vector.add(resultSet.getString("damage_description"));
                 vector.add(resultSet.getString("qty"));
                 vector.add(resultSet.getString("added_date"));
@@ -69,6 +78,8 @@ public class DamageStockManagement extends javax.swing.JPanel {
                 
                 tableModel.addRow(vector);
                 jTable1.setModel(tableModel);
+                }
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(DiscountManagement.class.getName()).log(Level.SEVERE, null, ex);
@@ -172,9 +183,9 @@ public class DamageStockManagement extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -258,7 +269,7 @@ public class DamageStockManagement extends javax.swing.JPanel {
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 621, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -282,31 +293,58 @@ public class DamageStockManagement extends javax.swing.JPanel {
 
         jPanel3.setLayout(new java.awt.CardLayout(6, 6));
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Stock ID", "Damage Description", "Qauntity", "Added Date", "Status", "Updated Date"
+                "ID", "STOCK ID", "ITEM NAME", "DAMAGE DESCRIPTION", "QUANTITY", "ADDED DATE", "STATUS", "UPDATED DATE"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setFocusable(false);
         jTable1.setSelectionBackground(new java.awt.Color(77, 120, 204));
         jTable1.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(0);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(150);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(120);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(0);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(0);
+            jTable1.getColumnModel().getColumn(6).setResizable(false);
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(0);
+            jTable1.getColumnModel().getColumn(7).setResizable(false);
+            jTable1.getColumnModel().getColumn(7).setPreferredWidth(0);
+        }
 
         jPanel3.add(jScrollPane1, "card2");
 
@@ -317,7 +355,7 @@ public class DamageStockManagement extends javax.swing.JPanel {
         String query = "";
         String input = jTextField1.getText();
         if (!input.isBlank()) {
-            query += "WHERE `direct_selling_stock_id` = '" + input + "'";
+            query += "WHERE `direct_selling_stock_id` = '" + input + "' ORDER BY `updated_date` DESC";
         }
         loadDamagedStockTable(query);
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -351,8 +389,9 @@ public class DamageStockManagement extends javax.swing.JPanel {
                 } else {
                     Mysql.execute("UPDATE `direct_selling_damage_stock` SET `damage_stock_state_id`='" + statusMap.get(status) + "',"
                             + " `updated_date`='" + date + "' WHERE `id`= '" + selectedId + "'");
-                    loadDamagedStockTable("");
+                    loadDamagedStockTable("ORDER BY `updated_date` DESC");
                     JOptionPane.showMessageDialog(this, "Damage Status Updated Successfully", "Updated", JOptionPane.INFORMATION_MESSAGE);
+                    getDashboard().getUser().updateUserActivity(User.UserActivity.DAMAGED_STOCK_STATUS_UPDATED);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Please Select A Row", "Error", JOptionPane.ERROR_MESSAGE);
@@ -383,12 +422,17 @@ public class DamageStockManagement extends javax.swing.JPanel {
                 + "(`qty`,`damage_description`,`added_date`,`updated_date`,"
                 + "`direct_selling_stock_id`,`damage_stock_state_id`) \n"
                 + "VALUES ('" + qty + "','" + description + "','" + date + "','" + date + "','" + id + "','1')");
-            loadDamagedStockTable("");
+            loadDamagedStockTable("ORDER BY `updated_date` DESC");
+            
+            Mysql.execute("UPDATE direct_selling_stock SET active_state_state_id = (SELECT state_id FROM active_state WHERE status = 'Inactive') "
+                                + "WHERE id = '" + id + "'");
+             
             JOptionPane.showMessageDialog(this, "Damage Stock Added Successfully", "Added", JOptionPane.INFORMATION_MESSAGE);
+            getDashboard().getUser().updateUserActivity(User.UserActivity.DAMAGED_STOCK_ADDED);
             jTextField2.setBorder(jTextField4.getBorder());
             jTextField2.setText("");
-            jTextField4.setText("Quantity");
-            jTextField5.setText("Damage Description");
+            jTextField4.setText("");
+            jTextField5.setText("");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 

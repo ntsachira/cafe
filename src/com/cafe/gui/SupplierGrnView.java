@@ -6,6 +6,7 @@ package com.cafe.gui;
 
 import com.cafe.model.DueGrn;
 import com.cafe.model.Mysql;
+import com.cafe.model.User;
 import com.cafe.style.CustomStyle;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +25,6 @@ public class SupplierGrnView extends javax.swing.JDialog {
 
     private String id;
     private String mobile;
-
     private AllSupplierDuePayment allSupplierDuePayment;
     private SingleSupplierDuePayment singleSupplierDuePayment;
 
@@ -409,11 +409,13 @@ public class SupplierGrnView extends javax.swing.JDialog {
             }
             if (updated) {
                 JOptionPane.showMessageDialog(this, "Payments updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                
+
                 if (this.allSupplierDuePayment != null) {
                     this.allSupplierDuePayment.loadGrnTable();
-                }else if (this.singleSupplierDuePayment != null) {
+                    allSupplierDuePayment.getSupplierManagement().getDashboard().getUser().updateUserActivity(User.UserActivity.SETTLE_DUE_GRN);
+                } else if (this.singleSupplierDuePayment != null) {
                     this.singleSupplierDuePayment.loadSingleSupplierTable();
+                    singleSupplierDuePayment.getSupplierManagement().getDashboard().getUser().updateUserActivity(User.UserActivity.SETTLE_DUE_GRN);
                 }
                 this.dispose();
             }
@@ -427,4 +429,5 @@ public class SupplierGrnView extends javax.swing.JDialog {
         jTable1.setDefaultRenderer(String.class, CustomStyle.renderCenter);
         jTable1.setDefaultRenderer(Double.class, CustomStyle.renderRight);
     }
+
 }

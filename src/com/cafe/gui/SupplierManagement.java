@@ -291,6 +291,7 @@ public class SupplierManagement extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("ADD SUPPLIER");
+        jButton1.setBorderPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(160, 40));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -678,6 +679,7 @@ public class SupplierManagement extends javax.swing.JPanel {
     private void OpenAllSupplierDuePayment() {
         if (checkDuePaymentAvailability("")) {
             AllSupplierDuePayment asdp = new AllSupplierDuePayment(new JFrame(), true);
+            asdp.setSupplierManagement(this);
             asdp.setVisible(true);
         }
 
@@ -723,9 +725,10 @@ public class SupplierManagement extends javax.swing.JPanel {
         String mobile = String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), 1));
 
         if (checkDuePaymentAvailability(mobile)) {            
-            SingleSupplierDuePayment openSingleSupplierDuePayment = new SingleSupplierDuePayment(new JFrame(), true);
-            openSingleSupplierDuePayment.setSupplier(name, mobile);
-            openSingleSupplierDuePayment.setVisible(true);
+            SingleSupplierDuePayment singleSupplierDuePayment = new SingleSupplierDuePayment(new JFrame(), true);
+            singleSupplierDuePayment.setSupplier(name, mobile);
+            singleSupplierDuePayment.setSupplierManagement(this);
+            singleSupplierDuePayment.setVisible(true);
         }
     }
 

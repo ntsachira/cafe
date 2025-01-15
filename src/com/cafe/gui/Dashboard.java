@@ -35,6 +35,8 @@ import static com.cafe.style.NewTheme.setLightMode;
 import static java.awt.Component.LEFT_ALIGNMENT;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -45,6 +47,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
@@ -117,7 +120,6 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private Settings settings;
     private TableManagement tableManagement;
     private MenuMangement menuMangement;
-    private StockManagement stockManagement;
     private DiscountManagement discountManagement;
     private UserManagement userManagement;
     private UserActivityManagement userActivityManagement;
@@ -237,9 +239,9 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         status.setText(systemStatus);
         status.setForeground(MODE.equals(Mode.LIGHT) ? new Color(0, 153, 51) : Color.GREEN);
         new Thread(() -> {
-            try {                
-                    Thread.sleep(6000);
-                    setDefaultSystemStatus();                
+            try {
+                Thread.sleep(6000);
+                setDefaultSystemStatus();
             } catch (InterruptedException ex) {
                 Splash.logger.log(Level.SEVERE, null, ex);
             }
@@ -247,7 +249,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     }
 
     public String arrangeTitle(String tabName) {
-        return tabName.replace('_',' ').toUpperCase();
+        return tabName.replace('_', ' ').toUpperCase();
     }
 
     @SuppressWarnings("unchecked")
@@ -397,6 +399,14 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         setMaximumSize(new java.awt.Dimension(2147483647, 1080));
         setMinimumSize(new java.awt.Dimension(1260, 720));
         setSize(new java.awt.Dimension(1260, 720));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -968,6 +978,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         jLabel31.setText("RECENT GOOD RECEIVE NOTES");
         jPanel41.add(jLabel31, java.awt.BorderLayout.PAGE_START);
 
+        jTable2.setAutoCreateRowSorter(true);
         jTable2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1071,27 +1082,37 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
     private void jPanel39MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanel39MouseWheelMoved
         // TODO add your handling code here:
-        JScrollBar scrollbar = jScrollPane1.getVerticalScrollBar(); 
-        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20);         
+        JScrollBar scrollbar = jScrollPane1.getVerticalScrollBar();
+        scrollbar.setValue(scrollbar.getValue() + evt.getWheelRotation() * 20);
     }//GEN-LAST:event_jPanel39MouseWheelMoved
 
     private void jScrollPane1MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane1MouseWheelMoved
         // TODO add your handling code here:
-        JScrollBar scrollbar = jScrollPane1.getVerticalScrollBar(); 
-        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+        JScrollBar scrollbar = jScrollPane1.getVerticalScrollBar();
+        scrollbar.setValue(scrollbar.getValue() + evt.getWheelRotation() * 20);
     }//GEN-LAST:event_jScrollPane1MouseWheelMoved
 
     private void jPanel36MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanel36MouseWheelMoved
         // TODO add your handling code here:
-        JScrollBar scrollbar = jScrollPane2.getVerticalScrollBar(); 
-        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+        JScrollBar scrollbar = jScrollPane2.getVerticalScrollBar();
+        scrollbar.setValue(scrollbar.getValue() + evt.getWheelRotation() * 20);
     }//GEN-LAST:event_jPanel36MouseWheelMoved
 
     private void jScrollPane2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane2MouseWheelMoved
         // TODO add your handling code here:
-        JScrollBar scrollbar = jScrollPane2.getVerticalScrollBar(); 
-        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+        JScrollBar scrollbar = jScrollPane2.getVerticalScrollBar();
+        scrollbar.setValue(scrollbar.getValue() + evt.getWheelRotation() * 20);
     }//GEN-LAST:event_jScrollPane2MouseWheelMoved
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        this.user.updateUserActivity(User.UserActivity.LOGGED_OUT);
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        this.user.updateUserActivity(User.UserActivity.LOGGED_OUT);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -1218,15 +1239,10 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     @Override
     public void setStyle() {
         CustomStyle.setIcon(this);
-
-        DefaultTableCellRenderer renderCenter = new DefaultTableCellRenderer();
-        renderCenter.setHorizontalAlignment(SwingConstants.CENTER);
-        DefaultTableCellRenderer renderRight = new DefaultTableCellRenderer();
-        renderRight.setHorizontalAlignment(SwingConstants.RIGHT);
-        jTable1.setDefaultRenderer(String.class, renderCenter);
-        jTable1.setDefaultRenderer(Double.class, renderRight);
-        jTable2.setDefaultRenderer(String.class, renderCenter);
-        jTable2.setDefaultRenderer(Double.class, renderRight);
+        jTable1.setDefaultRenderer(String.class, CustomStyle.renderCenter);
+        jTable1.setDefaultRenderer(Double.class, CustomStyle.renderRight);
+        jTable2.setDefaultRenderer(String.class, CustomStyle.renderCenter);
+        jTable2.setDefaultRenderer(Double.class, CustomStyle.renderRight);
     }
 
     public void setDefaultSystemStatus() {
@@ -1280,7 +1296,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private void loadTopSellingItems() {
         try {
 
-            ResultSet resultset = Mysql.execute("SELECT menu_invoice_item.menu_item_id,`name`,`image_path`,menu_invoice_item.selling_price AS `price`"
+            ResultSet resultset = Mysql.execute("SELECT menu_invoice_item.menu_item_id,`name`, menu_item.price AS price"
                     + ",SUM(qty) AS `count`,menu_item.image_path FROM invoice "
                     + "INNER JOIN menu_invoice_item ON invoice.id = menu_invoice_item.invoice_id "
                     + "INNER JOIN menu_item ON menu_invoice_item.menu_item_id = menu_item.id "
@@ -1288,17 +1304,21 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
                     + "GROUP BY menu_invoice_item.menu_item_id ORDER BY `count` DESC LIMIT 4");
 
             jPanel43.removeAll();
-            while (resultset.next()) {
-                ItemCard item = new ItemCard();
-                item.setSoldQuantity(resultset.getInt("count"));
-                item.setPrice(resultset.getDouble("price"));
-                item.setItemName(resultset.getString("name"));
-                item.setImage(resultset.getString("image_path"));
-                item.setStyleforDashboard();
-                jPanel43.add(item);
+            while (resultset.next()) {                
+                    ItemCard item = new ItemCard();
+                    item.setSoldQuantity(resultset.getInt("count"));
+                    item.setPrice(resultset.getDouble("price"));
+                    item.setItemName(resultset.getString("name"));
+                    item.setImage(System.getProperty("user.dir") + File.separator + "Pictures" + File.separator + resultset.getInt("menu_item_id")+".png");
+                    item.setStyleforDashboard();
+                    jPanel43.add(item);                
             }
         } catch (SQLException ex) {
             Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         jPanel43.updateUI();
     }
@@ -1357,15 +1377,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         setActiveTab(Tab.User_Management);
     }
 
-    public void setStockManagement() {
-        if (this.stockManagement == null) {
-            StockManagement stockManagement = new StockManagement();
-            this.stockManagement = stockManagement;
-            this.stockManagement.setDashboard(this);
-        }
-        setMainPanel(this.stockManagement);
-        setActiveTab(Tab.Stock_Management);
-    }
+    
 
     public void setMenuManagement() {
         if (this.menuMangement == null) {
@@ -1445,8 +1457,8 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         setMainPanel(this.analytics);
         setActiveTab(Tab.Analytics_And_Reports);
     }
-    
-    public void setReport(){
+
+    public void setReport() {
         if (this.reports == null) {
             Reports reports = new Reports();
             this.reports = reports;
@@ -1473,7 +1485,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         }
         setMainPanel(this.reservationManagement);
         setActiveTab(Tab.Reservations);
-    } 
+    }
 
     public void setSalesChannel() {
         if (this.salesChannel == null) {
@@ -1503,7 +1515,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private void loadLimitedStock() {
         try {
             jPanel45.removeAll();
-            ResultSet result1 = Mysql.execute("SELECT direct_selling_stock.id,`name`,expiry_date,qty,menu_item.image_path "
+            ResultSet result1 = Mysql.execute("SELECT menu_item.id,direct_selling_stock.id,`name`,expiry_date,qty,menu_item.image_path "
                     + "from direct_selling_stock INNER JOIN menu_item ON menu_item_id= menu_item.id "
                     + "WHERE (qty < 10 OR `expiry_date` < DATE_ADD(NOW() , INTERVAL 14 DAY)  ) "
                     + "AND direct_selling_stock.active_state_state_id = (SELECT state_id FROM active_state WHERE active_state.`status` = 'Active') "
@@ -1515,19 +1527,18 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
                 limitedStockCard.setItemName(result1.getString("name"));
                 limitedStockCard.setQuantity(result1.getDouble("qty"));
                 limitedStockCard.setExpire(result1.getString("expiry_date"));
-                limitedStockCard.setImage(result1.getString("menu_item.image_path"));
+                limitedStockCard.setImage(System.getProperty("user.dir")+File.separator+"Pictures"+File.separator+result1.getString("menu_item.id")+".png");
                 limitedStockCard.setStock(LimitedStockCard.Stock.DIRECT_SELLING);
                 limitedStockCard.setDashboard(this);
                 jPanel45.add(limitedStockCard);
             }
             jPanel36.removeAll();
-            if(!(jPanel45.getComponentCount()>0)){                
+            if (!(jPanel45.getComponentCount() > 0)) {
                 jPanel36.add(noDataLabel);
-            }else{
-                jPanel36.add(jPanel45,BorderLayout.NORTH);
+            } else {
+                jPanel36.add(jPanel45, BorderLayout.NORTH);
             }
             jPanel36.updateUI();
-                
 
             jPanel45.updateUI();
         } catch (SQLException ex) {
@@ -1562,9 +1573,13 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
         if (tableManagement != null) {
             tableManagement.setComponentTheme();
         }
-        
-        if(analytics != null){
+
+        if (analytics != null) {
             analytics.setComponentTheme();
+        }
+        
+        if(menuMangement != null){
+            menuMangement.setComponentTheme();
         }
 
     }
@@ -1773,7 +1788,7 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
     private void setDashPanelTheme() {
         CustomStyle.setComponentBackground(
                 jPanel21, jPanel23, jPanel26, jPanel29, jPanel33, jPanel34, jPanel36,
-                jPanel40, jPanel46, jPanel42, jPanel41, jPanel39,jPanel14
+                jPanel40, jPanel46, jPanel42, jPanel41, jPanel39, jPanel14
         );
 
         //sales chart style
@@ -1914,7 +1929,8 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
 
         try {
             ResultSet result = Mysql.execute("SELECT direct_selling_grn.id,`date`,total,direct_selling_grn.supplier_mobile,payment_method.name "
-                    + "FROM direct_selling_grn INNER JOIN payment_method ON payment_method.id = direct_selling_grn.payment_method_id");
+                    + "FROM direct_selling_grn INNER JOIN payment_method ON payment_method.id = direct_selling_grn.payment_method_id"
+                    + " ORDER BY `date` DESC");
 
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
             model.setRowCount(0);

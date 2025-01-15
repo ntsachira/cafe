@@ -4,6 +4,8 @@ import com.cafe.model.Mysql;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,6 +13,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -154,11 +157,19 @@ public class LimitedStockCard extends javax.swing.JPanel {
         jPanel4.putClientProperty(FlatClientProperties.STYLE, "arc:30");
     }
 
-    public void setImage(String path) {
-        if (path.isBlank()) {
-            path = "/com/cafe/itemImg/emptyItem.png";
-        }
-        jImagePanel1.setImageIcon(new ImageIcon(getClass().getResource(path)));
+    public void setImage(String path) {   
+            File file = new File(path);
+            if(file.exists()){
+                try {
+                    jImagePanel1.setImageIcon(new ImageIcon(ImageIO.read(file)));
+                } catch (IOException ex) {
+                    Splash.logger.log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
+                }
+            }else{
+                jImagePanel1.setImageIcon(new ImageIcon(getClass().getResource("/com/cafe/itemImg/emptyItem.png")));
+            }       
+        
     }
 
     public String getItemName() {

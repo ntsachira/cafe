@@ -12,42 +12,58 @@ import java.util.logging.Logger;
 public class Mysql {
 
     private static Connection connection;
-    private static String user = "root";
-    private static String password = "#Love0923";
-
-    static {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe_db", user, password);
-        } catch (ClassNotFoundException ex) {
-            Splash.logger.log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        } catch (SQLException ex) {
-            Splash.logger.log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
+    private static final String USER = "root";
+    private static final String PASSWORD = "ntsachira";
+    private static final String DATABASE = "cafe_db";
+    private static boolean isDatabaseExists;
+    
+    public static String getUsername(){
+        return USER;
+    }
+    
+    public static String getPASSWORD(){
+        return PASSWORD;
+    }
+    
+    public static String getDbName(){
+        return DATABASE;
     }
 
-    public static ResultSet execute(String query){
-        try {
-            Statement statement = connection.createStatement();
-            if (query.startsWith("SELECT")) {
-                return statement.executeQuery(query);
-            } else {
-                statement.executeUpdate(query);
-                return null;
+    static {
+        createNewConnection();
+    }
+
+    public static ResultSet execute(String query) {
+        if (isDatabaseExists) {
+            try {
+                Statement statement = connection.createStatement();
+                if (query.startsWith("SELECT")) {
+                    return statement.executeQuery(query);
+                } else {
+                    statement.executeUpdate(query);
+                    return null;
+                }
+            } catch (SQLException ex) {
+                Splash.logger.log(Level.SEVERE,ex.getMessage());
             }
-        } catch (SQLException ex) {
-            Splash.logger.log(Level.SEVERE, null, ex);
-        }
+        }        
         return null;
     }
 
     public static Connection getConnection() {
         return connection;
     }
+    
+    public static void createNewConnection(){
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+DATABASE, USER, PASSWORD);
+            isDatabaseExists = true;
+        } catch (ClassNotFoundException ex) {
+            Splash.logger.log(Level.SEVERE, "{0}{1}", new Object[]{ex.getMessage(), System.lineSeparator()});
+        } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, "{0}{1}", new Object[]{ex.getMessage(), System.lineSeparator()});
+        }
+    }
 
-   
-
-   
 }

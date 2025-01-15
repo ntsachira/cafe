@@ -14,6 +14,7 @@ import static java.awt.Component.RIGHT_ALIGNMENT;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -513,7 +514,7 @@ public class PreOrder extends javax.swing.JDialog implements Theme {
                     this.salesChannel.resetInvoice();
                     this.dispose();
                 } else {
-                    setWarningStatus("> Invalid order time, please Select between 9AM - 8PM");
+                    setWarningStatus("> Invalid order time, please Select between 10AM - 8PM");
                 }
             } else {
                 setWarningStatus("> Invalid order date, please change");
@@ -551,14 +552,15 @@ public class PreOrder extends javax.swing.JDialog implements Theme {
                     } else {
                         try {
                             //search for stock id
-                            ResultSet resultset = Mysql.execute("SELECT `id` FROM `direct_selling_stock` WHERE `menu_item_id` = '" + item.getId() + "'");
+                            ResultSet resultset = Mysql.execute("SELECT `id` FROM `direct_selling_stock` WHERE `menu_item_id` = '" + item.getId() + "' "
+                                    + "AND `active_state_state_id`!='2'");
                             if (resultset.next()) {
                                 //dirrect invoie item - invoice id, dirrect selling stock,quantity,price, discount | Insert   
                                 Mysql.execute("INSERT INTO `direct_invoice_item` (`invoice_id`,`direct_selling_stock_id`,`qty`,`discount`,`selling_price`) "
                                         + "VALUES('" + invoiceID + "','" + resultset.getString("id") + "','" + item.getQuantity() + "','" + item.getDiscount() + "','" + item.getPrice() + "')");
 
                                 //update stock
-                                Mysql.execute("UPDATE `direct_selling_stock` SET `qty`=`qty`-'" + item.getQuantity() + "' WHERE `menu_item_id`='" + item.getId() + "'");
+                                Mysql.execute("UPDATE `direct_selling_stock` SET `qty`=`qty`-'" + item.getQuantity() + "' WHERE `id`='" + resultset.getString("id") + "'");
                             } else {
                                 return false;
                             }
@@ -628,8 +630,11 @@ public class PreOrder extends javax.swing.JDialog implements Theme {
         }
 
         try {
-            URL billResource = getClass().getResource("/com/cafe/reports/cafe_Preorder_bill.jasper");
-            URL kotResource = getClass().getResource("/com/cafe/reports/cafe_preOrder_kot.jasper");
+            File billResource = new File(System.getProperty("user.dir")+File.separator+"reports/cafe_Preorder_bill.jasper");
+            File kotResource = new File(System.getProperty("user.dir")+File.separator+"reports/cafe_preOrder_kot.jasper");
+            if(!billResource.exists() || !kotResource.exists()){
+                return false;
+            }
             
             JasperPrint billReport = JasperFillManager.fillReport(billResource.getPath(), parameters, new JRBeanCollectionDataSource(datasource));
             JasperViewer bill = new JasperViewer(billReport, false);
