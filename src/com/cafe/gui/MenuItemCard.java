@@ -1,14 +1,31 @@
-
 package com.cafe.gui;
 
+import com.cafe.Util.Check;
+import com.cafe.model.Mysql;
+import com.cafe.model.Theme;
+import com.cafe.model.User;
 import com.formdev.flatlaf.FlatClientProperties;
+import java.awt.Color;
+import java.awt.event.ItemEvent;
+import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author Prince
  */
-public class MenuItemCard extends javax.swing.JPanel {
+public class MenuItemCard extends javax.swing.JPanel implements Theme {
+
+    private String name;
+    private String price;
+    private ImageIcon image;
+    private String category = "Category";
+    private String brand = "Brand";
+    private boolean status;
+    private int menuItemId;
+    private Dashboard dashboard;
+    private MenuMangement menuMangement;
 
     /**
      * Creates new form MenuItemCard
@@ -16,21 +33,33 @@ public class MenuItemCard extends javax.swing.JPanel {
     public MenuItemCard(String name, String price, String cb, ImageIcon image, boolean status) {
         initComponents();
         loadCardDetails(name, price, cb, image, status);
+        setStyle();
     }
 
     public MenuItemCard(boolean status) {
         initComponents();
         loadEmptyCard(true);
+        setStyle();
+    }
+
+    public MenuItemCard() {
+        initComponents();
+        setStyle();
+        hideEditButton();
     }
 
     private void loadCardDetails(String name, String price, String cb, ImageIcon image, boolean status) {
         String statusColour = status ? "green" : "red";
         jLabel1.setText(name);
-        jLabel2.setText(price + " RS");
+        jLabel2.setText("Rs. " + price);
         jLabel3.setText(cb);
         jImagePanel1.setImageIcon(image);
         ImageIcon statusImage = new ImageIcon(getClass().getResource("/gallery/" + statusColour + ".png"));
-      jLabel1.setIcon(statusImage);
+        jLabel1.setIcon(statusImage);
+        setName(name);
+        setPrice(price);
+        jToggleButton1.setSelected(!status);
+        jToggleButton1.setText(status ? "Active" : "Inactive");
     }
 
     private void loadEmptyCard(boolean status) {
@@ -42,6 +71,7 @@ public class MenuItemCard extends javax.swing.JPanel {
             jImagePanel1.setImageIcon(image);
             jLabel1.setIcon(null);
         }
+        hideEditButton();
     }
 
     /**
@@ -58,21 +88,28 @@ public class MenuItemCard extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jImagePanel1 = new main.JImagePanel();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
-        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        setOpaque(false);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 20, 20, 20));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gallery/green.png"))); // NOI18N
         jLabel1.setText("Product name");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 17)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Product Price");
 
-        jImagePanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jImagePanel1.setCenterImage(true);
         jImagePanel1.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-        jImagePanel1.setFitToPanel(true);
-        jImagePanel1.setImageIcon(new javax.swing.ImageIcon(getClass().getResource("/gallery/default_menu_item.jpg"))); // NOI18N
+        jImagePanel1.setFitToPanel(false);
+        jImagePanel1.setImageHeight(135);
+        jImagePanel1.setImageIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/itemImg/emptyItem.png"))); // NOI18N
+        jImagePanel1.setImageWidth(231);
         jImagePanel1.setSmoothRendering(true);
 
         javax.swing.GroupLayout jImagePanel1Layout = new javax.swing.GroupLayout(jImagePanel1);
@@ -83,11 +120,37 @@ public class MenuItemCard extends javax.swing.JPanel {
         );
         jImagePanel1Layout.setVerticalGroup(
             jImagePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 152, Short.MAX_VALUE)
+            .addGap(0, 150, Short.MAX_VALUE)
         );
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Category | Brand");
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/controlImg/pencil.png"))); // NOI18N
+        jButton1.setBorderPainted(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jToggleButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jToggleButton1.setForeground(new java.awt.Color(102, 153, 255));
+        jToggleButton1.setText("Active");
+        jToggleButton1.setBorderPainted(false);
+        jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jToggleButton1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButton1ItemStateChanged(evt);
+            }
+        });
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -103,25 +166,34 @@ public class MenuItemCard extends javax.swing.JPanel {
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jToggleButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
                 .addComponent(jImagePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addContainerGap())
+                .addGap(13, 13, 13))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -142,12 +214,168 @@ public class MenuItemCard extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        openEditDialog();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jToggleButton1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButton1ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            deactivateItem();
+        } else {
+            activateItem();
+        }
+        //reload items
+        reloadData();
+    }//GEN-LAST:event_jToggleButton1ItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private main.JImagePanel jImagePanel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void setStyle() {
+        setComponentTheme();
+    }
+
+    @Override
+    public void setComponentTheme() {
+        jPanel1.putClientProperty(FlatClientProperties.STYLE, "arc:50");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+        jLabel1.setText(name);
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+        jLabel2.setText("Rs. " + price);
+    }
+
+    public ImageIcon getImage() {
+        return image;
+    }
+
+    public void setImage(ImageIcon image) {
+        if (image != null) {
+            this.image = image;
+            jImagePanel1.setImageIcon(image);
+        } else {
+            jImagePanel1.setImageIcon(new ImageIcon(getClass().getResource("/com/cafe/itemImg/emptyItem.png")));
+        }
+        jImagePanel1.updateUI();
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+        jLabel3.setText(category + " | " + brand);
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+        String statusColour = status ? "green" : "red";
+        ImageIcon statusImage = new ImageIcon(getClass().getResource("/gallery/" + statusColour + ".png"));
+        jLabel1.setIcon(statusImage);
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+        jLabel3.setText(category + " | " + brand);
+    }
+
+    private void hideEditButton() {
+        jButton1.setVisible(false);
+        jToggleButton1.setVisible(false);
+        SwingUtilities.updateComponentTreeUI(jPanel1);
+    }
+
+    public int getMenuItemId() {
+        return menuItemId;
+    }
+
+    public void setMenuItemId(int menuItemId) {
+        this.menuItemId = menuItemId;
+    }
+
+    public void setDashboard(Dashboard dashboard) {
+        this.dashboard = dashboard;
+    }
+
+    private void openEditDialog() {
+        EditMenuItemDialog editDialog = new EditMenuItemDialog(dashboard, true);
+        editDialog.setMenuItem(this);
+        editDialog.setLocation(50, 50);
+        editDialog.setVisible(true); 
+    }
+
+    private void deactivateItem() {
+        jToggleButton1.setText("Inactive");
+        Mysql.execute("Update menu_item SET `active_state_state_id`=2 WHERE id='" + menuItemId + "'");
+        if (dashboard != null) {
+            dashboard.getUser().updateUserActivity(User.UserActivity.MENU_ITEM_STATUS_CHANGE);
+        }
+    }
+
+    private void activateItem() {
+        jToggleButton1.setText("Active");
+        Mysql.execute("Update menu_item SET `active_state_state_id`=1 WHERE id='" + menuItemId + "'");
+        if (dashboard != null) {
+            dashboard.getUser().updateUserActivity(User.UserActivity.MENU_ITEM_STATUS_CHANGE);
+        }
+    }
+
+    public void setMenuMangement(MenuMangement menuMangement) {
+        this.menuMangement = menuMangement;
+    }
+
+    public MenuMangement getMenuMangement() {
+        return menuMangement;
+    }
+
+    public Dashboard getDashboard() {
+        return dashboard;
+    }
+
+    public void reloadData() {
+        if (menuMangement != null) {
+            if (dashboard != null && dashboard.getSalesChannel() != null) {
+                dashboard.getSalesChannel().refreshSalesChannelData();
+            }
+            menuMangement.loadMenuItems("");
+            menuMangement.search();
+        }
+    }
 }

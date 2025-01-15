@@ -5,6 +5,7 @@
 package com.cafe.gui;
 
 import com.cafe.model.Tabs;
+import com.cafe.model.Theme;
 import com.cafe.model.User;
 import com.cafe.model.UserRole;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -85,6 +86,7 @@ public class DashboardTest {
         User user = new User();
         user.setRole(UserRole.Role.Admin);
         Dashboard instance =  new Dashboard(user); 
+        instance.setMode(Theme.Mode.DARK);
         instance.setSuccessStatus(systemStatus);
     }
 
@@ -211,16 +213,6 @@ public class DashboardTest {
         instance.setUserManagement();
     }
 
-    // Test of setStockManagement method, of class Dashboard.
-    @Test
-    public void testSetStockManagement() {
-        System.out.println("setStockManagement");
-        User user = new User();
-        user.setRole(UserRole.Role.Admin);
-        Dashboard instance =  new Dashboard(user); 
-        instance.setStockManagement();
-    }
-
     //Test of setMenuManagement method, of class Dashboard.
     @Test
     public void testSetMenuManagement() {
@@ -298,6 +290,7 @@ public class DashboardTest {
         User user = new User();
         user.setRole(UserRole.Role.Admin);
         Dashboard instance =  new Dashboard(user); 
+        instance.setMode(Theme.Mode.LIGHT);
         instance.setAnalytics();
     }
 

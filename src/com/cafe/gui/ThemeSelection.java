@@ -49,6 +49,7 @@ public class ThemeSelection extends javax.swing.JFrame {
         this.dispose();   
         updateTheme();
         Dashboard d = new Dashboard(this.user);
+        d.setMode(lightButton.isSelected()?Mode.LIGHT:Mode.DARK);
         NewTheme.setDashboard(d);   
         d.setComponentTheme();
         SwingUtilities.updateComponentTreeUI(d);

@@ -115,7 +115,8 @@ public class TableCard extends javax.swing.JPanel {
         jLabel7.setText("Two Seater");
         jPanel20.add(jLabel7);
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI Black", 1, 16)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(77, 120, 204));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Avalible");
         jLabel8.setVerticalAlignment(javax.swing.SwingConstants.TOP);

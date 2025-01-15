@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.cafe.gui;
 
 import com.cafe.Handlers.KeyStrokeHandler;
@@ -11,6 +7,8 @@ import com.cafe.model.GrnItem;
 import com.cafe.model.Mysql;
 import com.cafe.model.SetupUI;
 import com.cafe.model.User;
+import java.awt.Color;
+import java.awt.event.MouseEvent;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,7 +58,7 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
     @Override
     public void initializeUI() {
         loadItems();
-        jDateChooser1.setMinSelectableDate(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000));
+        setUpDateChooser();
         loadSupplierMobile();
     }
 
@@ -127,7 +125,7 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
     private void loadDirctSellingItems() {
 
         ResultSet resultSet = Mysql.execute("SELECT `menu_item`.id, `menu_item`.`name` FROM `menu_item` "
-                + "INNER JOIN `direct_selling_stock` ON `menu_item`.`id` = `direct_selling_stock`.`menu_item_id` GROUP BY `menu_item`.id");
+                + "INNER JOIN `brand` ON `brand`.`id`=`menu_item`.`brand_id` WHERE `brand`.`name`!='Cafe' ");
 
         Vector v = new Vector();
         v.add("Select Item");
@@ -281,6 +279,8 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        jPanel28 = new javax.swing.JPanel();
+        jButton7 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -426,6 +426,37 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setText("* You only can add items of one category to a single GRN");
         jPanel9.add(jLabel14, java.awt.BorderLayout.CENTER);
+
+        jPanel28.setPreferredSize(new java.awt.Dimension(230, 100));
+
+        jButton7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/controlImg/add_sign.png"))); // NOI18N
+        jButton7.setText("NEW KITCHEN ITEM");
+        jButton7.setPreferredSize(new java.awt.Dimension(204, 40));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
+        jPanel28.setLayout(jPanel28Layout);
+        jPanel28Layout.setHorizontalGroup(
+            jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel28Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel28Layout.setVerticalGroup(
+            jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel28Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+
+        jPanel9.add(jPanel28, java.awt.BorderLayout.LINE_END);
 
         jPanel1.add(jPanel9, java.awt.BorderLayout.CENTER);
 
@@ -615,6 +646,7 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("ADD ITEM");
+        jButton1.setBorderPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(75, 40));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -634,6 +666,8 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
         jButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/controlImg/remove-24.png"))); // NOI18N
+        jButton4.setToolTipText("Delete selected item");
+        jButton4.setBorderPainted(false);
         jButton4.setEnabled(false);
         jButton4.setPreferredSize(new java.awt.Dimension(0, 40));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -647,6 +681,8 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
         jButton5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/controlImg/edit-24.png"))); // NOI18N
+        jButton5.setToolTipText("Edit selected item");
+        jButton5.setBorderPainted(false);
         jButton5.setEnabled(false);
         jButton5.setPreferredSize(new java.awt.Dimension(0, 40));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -657,6 +693,7 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
         jPanel23.add(jButton5);
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/clear.png"))); // NOI18N
+        jButton6.setToolTipText("Clear selection");
         jButton6.setBorderPainted(false);
         jButton6.setEnabled(false);
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -771,6 +808,7 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
         jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("SAVE GRN");
+        jButton2.setBorderPainted(false);
         jButton2.setPreferredSize(new java.awt.Dimension(75, 40));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -782,6 +820,7 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
         jButton3.setBackground(new java.awt.Color(102, 102, 102));
         jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
+        jButton3.setBorderPainted(false);
         jButton3.setPreferredSize(new java.awt.Dimension(40, 40));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -948,7 +987,8 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
+        
+        if (evt.getButton()== MouseEvent.BUTTON1 && evt.getClickCount() == 2) {
             toggleEditButtons(true);
             jTable2.setEnabled(false);
         }
@@ -970,6 +1010,11 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
         removeItem();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        openAddKitchenItemDialog();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -980,6 +1025,7 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -1021,6 +1067,7 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
     private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel36;
@@ -1088,36 +1135,47 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
         } else {
 
             String id = String.valueOf(jComboBox1.getSelectedItem()).split("-")[0];
+            String name = "", categoryName = "", unit = "", brand = "";
 
-            ResultSet resultSet = null;
-
-            if (kitchenRadioButton.isSelected()) {
-
-                resultSet = Mysql.execute("SELECT `kitchen_item`.`id` AS `id`, `kitchen_item`.`name` AS `name`,`kitchen_item_category`.`name` AS `categoryName`,`unit_of_measure`.`name` AS `unit`,`brand`.`name` AS `brand` FROM `kitchen_item` "
-                        + "INNER JOIN `kitchen_item_category` ON `kitchen_item`.`kitchen_item_category_id` = `kitchen_item_category`.`id` "
-                        + "INNER JOIN `brand` ON `kitchen_item`.`brand_id` = `brand`.`id` INNER JOIN `unit_of_measure` ON `kitchen_item`.`unit_of_measure` = `unit_of_measure`.`id` WHERE `kitchen_item`.`id` = '" + id + "' ");
-
-            } else {
-
-                resultSet = Mysql.execute("SELECT `menu_item`.`id` AS `id`,`menu_item`.`name` AS `name`,`menu_item_category`.`name` AS `categoryName`,`unit_of_measure`.`name` AS `unit`,`brand`.`name` AS `brand` FROM `direct_selling_stock` "
-                        + "INNER JOIN `menu_item` ON `direct_selling_stock`.`menu_item_id` = `menu_item`.`id` "
-                        + "INNER JOIN `unit_of_measure` ON `direct_selling_stock`.`unit_of_measure_id` = `unit_of_measure`.`id` "
-                        + "INNER JOIN `menu_item_category` ON `menu_item`.`menu_item_category_id` = `menu_item_category`.`id`"
-                        + "INNER JOIN `brand` ON `menu_item`.`brand_id` = `brand`.`id` WHERE `menu_item`.`id` = '" + id + "'");
-
-            }
+            ResultSet resultSet;
             try {
-                if (resultSet.next()) {
-                    jTextField1.setText(resultSet.getString("id"));
-                    jTextField2.setText(resultSet.getString("name"));
-                    jTextField3.setText(resultSet.getString("categoryName"));
-                    jTextField4.setText(resultSet.getString("unit"));
-                    jTextField6.setText(resultSet.getString("brand"));
+                if (kitchenRadioButton.isSelected()) {
 
+                    resultSet = Mysql.execute("SELECT `kitchen_item`.`id` AS `id`, `kitchen_item`.`name` AS `name`,`kitchen_item_category`.`name` "
+                            + "AS `categoryName`,`unit_of_measure`.`name` AS `unit`,`brand`.`name` AS `brand` FROM `kitchen_item` "
+                            + "INNER JOIN `kitchen_item_category` ON `kitchen_item`.`kitchen_item_category_id` = `kitchen_item_category`.`id` "
+                            + "INNER JOIN `brand` ON `kitchen_item`.`brand_id` = `brand`.`id` INNER JOIN `unit_of_measure` ON "
+                            + "`kitchen_item`.`unit_of_measure` = `unit_of_measure`.`id` WHERE `kitchen_item`.`id` = '" + id + "' ");
+                    if (resultSet.next()) {                        
+                        name = resultSet.getString("name");
+                        categoryName = resultSet.getString("categoryName");
+                        unit = resultSet.getString("unit");
+                        brand =resultSet.getString("brand");
+                    }
+
+                } else {
+                    //dirrect selling item selected
+                    resultSet = Mysql.execute("SELECT `menu_item`.`id` AS `id`,`menu_item`.`name` AS `name`,`menu_item_category`.`name` "
+                            + "AS `categoryName`,`brand`.`name` AS `brand` FROM `menu_item` "
+                            + "INNER JOIN `menu_item_category` ON `menu_item`.`menu_item_category_id` = `menu_item_category`.`id`"
+                            + "INNER JOIN `brand` ON `menu_item`.`brand_id` = `brand`.`id` WHERE `menu_item`.`id` = '" + id + "' AND `brand`.`name`!='Cafe'");
+                    if (resultSet.next()) {
+                        name = resultSet.getString("name");
+                        categoryName = resultSet.getString("categoryName");
+                        unit = "Units";
+                        brand =resultSet.getString("brand");
+                    }
                 }
 
+                jTextField1.setText(id);
+                jTextField2.setText(name);
+                jTextField3.setText(categoryName);
+                jTextField4.setText(unit);
+                jTextField6.setText(brand);
+
             } catch (SQLException ex) {
-                Logger.getLogger(GrnManagement.class.getName()).log(Level.SEVERE, null, ex);
+                Splash.logger.log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             }
 
         }
@@ -1198,13 +1256,15 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
         }
     }
 
-    private void loadItems() {
+    public void loadItems() {
         if (kitchenRadioButton.isSelected()) {
             jTextField8.setEnabled(false);
             loadKitchenItems();
+            jButton7.setVisible(true);
         } else if (directSellingRadioButton.isSelected()) {
             jTextField8.setEnabled(true);
             loadDirctSellingItems();
+            jButton7.setVisible(false);
         }
         resetSelectedItem();
     }
@@ -1285,5 +1345,23 @@ public class GrnManagement extends javax.swing.JPanel implements SetupUI {
             Logger.getLogger(GrnManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    private void setUpDateChooser() {
+        jDateChooser1.setMinSelectableDate(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000));
+        jDateChooser1.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                try {
+                    jDateChooser1.getComponent(1).setForeground(new Color(77, 120, 204));
+                } catch (Exception e) {
+                }
+            }
+        });
+    }
+
+    private void openAddKitchenItemDialog() {
+        NewKitchenItemDialog newKitchenItemDialog = new NewKitchenItemDialog(dashboard, true);
+        newKitchenItemDialog.setGrnManagement(this);
+        newKitchenItemDialog.setVisible(true);
     }
 }

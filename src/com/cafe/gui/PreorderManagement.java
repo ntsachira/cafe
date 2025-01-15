@@ -4,6 +4,7 @@ import com.cafe.model.Mysql;
 import com.cafe.model.User;
 import com.cafe.style.CustomStyle;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -247,7 +248,9 @@ public class PreorderManagement extends javax.swing.JPanel {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        setInvoiceId();
+        if(evt.getButton() == MouseEvent.BUTTON1){
+            setInvoiceId();
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -301,7 +304,7 @@ public class PreorderManagement extends javax.swing.JPanel {
                 + "FROM pre_orders INNER JOIN invoice ON invoice.id = pre_orders.invoice_id "
                 + "INNER JOIN pre_order_status ON pre_order_status.id = pre_orders.pre_order_status_id "
                 + "INNER JOIN payment_method ON payment_method.id = invoice.payment_method_id "
-                + "WHERE invoice_id LIKE '%" + jTextField2.getText().trim() + "%' AND pre_orders.date LIKE '" + jTextField3.getText().trim() + "%' "
+            + "WHERE invoice_id LIKE '%" + jTextField2.getText().trim() + "%' AND pre_orders.date LIKE '%" + jTextField3.getText().trim() + "%' "
                 + "AND pre_orders.pre_order_status_id LIKE '" + statusMap.get(String.valueOf(jComboBox2.getSelectedItem())) + "%' ORDER BY pre_orders.date DESC");
 
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();

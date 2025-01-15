@@ -4,6 +4,7 @@ package com.cafe.gui;
 import com.cafe.model.Mysql;
 import com.cafe.model.User;
 import com.cafe.style.CustomStyle;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -249,7 +250,9 @@ public class ReservationManagement extends javax.swing.JPanel {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        setReservationId();
+        if(evt.getButton()==MouseEvent.BUTTON1){
+            setReservationId();
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -314,8 +317,8 @@ public class ReservationManagement extends javax.swing.JPanel {
                 + "INNER JOIN reservation_has_table ON reservation.id = reservation_has_table.reservation_id "
                 + "INNER JOIN reservation_state ON reservation_state.id = reservation.state_id "
                 + "INNER JOIN customer ON reservation.customer_mobile=customer.mobile "
-                + "WHERE (customer.mobile LIKE '"+jTextField2.getText().trim()+"%' OR customer.name LIKE '"+jTextField2.getText().trim()+"%') "
-                + "AND reservation.`date` LIKE '"+jTextField3.getText().trim()+"%' "
+                + "WHERE (customer.mobile LIKE '%"+jTextField2.getText().trim()+"%' OR customer.name LIKE '"+jTextField2.getText().trim()+"%') "
+                + "AND reservation.`date` LIKE '%"+jTextField3.getText().trim()+"%' "
                 + "AND reservation.state_id LIKE '"+statusMap.get(String.valueOf(jComboBox2.getSelectedItem()))+"%' ORDER BY reservation.date DESC");
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);

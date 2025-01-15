@@ -24,10 +24,8 @@ import javax.swing.table.DefaultTableModel;
 public class SingleSupplierDuePayment extends javax.swing.JDialog {
 
     private HashMap<String, DueGrn> dueGrnMap = new HashMap<>();
+    private SupplierManagement supplierManagement;
 
-    /**
-     * Creates new form OpenSingleSupplierDuePayment
-     */
     public SingleSupplierDuePayment(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -54,7 +52,6 @@ public class SingleSupplierDuePayment extends javax.swing.JDialog {
                     + " AND (`kitchen_grn`.`total` - `kitchen_grn`.`paid_amount`) > 0 "
                     + " GROUP BY  `kitchen_grn`.`id` ");
 
-            
             while (resultSet.next()) {
                 DueGrn dueGrn = new DueGrn();
                 dueGrn.setGrnid(resultSet.getString("id"));
@@ -371,8 +368,8 @@ public class SingleSupplierDuePayment extends javax.swing.JDialog {
         jTable1.setDefaultRenderer(String.class, CustomStyle.renderCenter);
         jTable1.setDefaultRenderer(Double.class, CustomStyle.renderRight);
     }
-    
-     private void viewGrn() {
+
+    private void viewGrn() {
         if (jTable1.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Please select grn to view", "Warning!", JOptionPane.WARNING_MESSAGE);
             jButton1.setEnabled(false);
@@ -387,4 +384,13 @@ public class SingleSupplierDuePayment extends javax.swing.JDialog {
             allSupplierViewItems.setVisible(true);
         }
     }
+
+    public void setSupplierManagement(SupplierManagement supplierManagement) {
+        this.supplierManagement = supplierManagement;
+    }
+
+    public SupplierManagement getSupplierManagement() {
+        return supplierManagement;
+    }
+    
 }

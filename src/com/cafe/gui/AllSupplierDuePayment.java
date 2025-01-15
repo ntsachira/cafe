@@ -27,11 +27,9 @@ import javax.swing.table.DefaultTableModel;
 public class AllSupplierDuePayment extends javax.swing.JDialog {
 
     private String mobile;
-    private HashMap<String,DueGrn> dueGrnMap = new HashMap<>();
+    private HashMap<String, DueGrn> dueGrnMap = new HashMap<>();
+    private SupplierManagement supplierManagement;
 
-    /**
-     * Creates new form AllSupplierDuePayment
-     */
     public AllSupplierDuePayment(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -53,14 +51,14 @@ public class AllSupplierDuePayment extends javax.swing.JDialog {
 
             while (resultSet.next()) {
                 DueGrn dueGrn = new DueGrn();
-                dueGrn.setGrnid( resultSet.getString("id"));
+                dueGrn.setGrnid(resultSet.getString("id"));
                 dueGrn.setSuppliermobile(resultSet.getString("supplier_mobile"));
                 dueGrn.setOrderDate(resultSet.getString("date"));
                 dueGrn.setItemCount(resultSet.getInt("count"));
                 dueGrn.setTotal(resultSet.getDouble("total"));
                 dueGrn.setPaidAmount(resultSet.getDouble("paid_amount"));
-                dueGrn.setDue(resultSet.getDouble("due"));       
-                
+                dueGrn.setDue(resultSet.getDouble("due"));
+
                 dueGrnMap.put(resultSet.getString("id"), dueGrn);
             }
 
@@ -71,22 +69,22 @@ public class AllSupplierDuePayment extends javax.swing.JDialog {
                     + "ON `direct_selling_grn`.`id` = `direct_selling_grn_item`.direct_selling_grn_id "
                     + "WHERE (`direct_selling_grn`.`total` - `direct_selling_grn`.`paid_amount`) > 0 "
                     + "GROUP BY `direct_selling_grn`.`id`");
-            
+
             while (resultSet.next()) {
                 DueGrn dueGrn = new DueGrn();
-                dueGrn.setGrnid( resultSet.getString("id"));
+                dueGrn.setGrnid(resultSet.getString("id"));
                 dueGrn.setSuppliermobile(resultSet.getString("supplier_mobile"));
                 dueGrn.setOrderDate(resultSet.getString("date"));
                 dueGrn.setItemCount(resultSet.getInt("count"));
                 dueGrn.setTotal(resultSet.getDouble("total"));
                 dueGrn.setPaidAmount(resultSet.getDouble("paid_amount"));
                 dueGrn.setDue(resultSet.getDouble("due"));
-                
+
                 dueGrnMap.put(resultSet.getString("id"), dueGrn);
             }
-            
+
             DecimalFormat formatter = new DecimalFormat("#,##0.00");
-            for(DueGrn grn : dueGrnMap.values()){
+            for (DueGrn grn : dueGrnMap.values()) {
                 Vector v = new Vector();
                 v.add(grn.getGrnid());
                 v.add(grn.getSuppliermobile());
@@ -98,7 +96,7 @@ public class AllSupplierDuePayment extends javax.swing.JDialog {
 
                 model.addRow(v);
             }
-            
+
             if (model.getRowCount() == 0) {
                 this.dispose();
             }
@@ -153,6 +151,7 @@ public class AllSupplierDuePayment extends javax.swing.JDialog {
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("VIEW GRN");
+        jButton1.setBorderPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(106, 40));
         jButton1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -198,7 +197,7 @@ public class AllSupplierDuePayment extends javax.swing.JDialog {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
@@ -223,6 +222,7 @@ public class AllSupplierDuePayment extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
             jTable1.getColumnModel().getColumn(1).setResizable(false);
             jTable1.getColumnModel().getColumn(2).setResizable(false);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
@@ -322,4 +322,13 @@ public class AllSupplierDuePayment extends javax.swing.JDialog {
         jTable1.setDefaultRenderer(String.class, CustomStyle.renderCenter);
         jTable1.setDefaultRenderer(Double.class, CustomStyle.renderRight);
     }
+
+    public void setSupplierManagement(SupplierManagement supplierManagement) {
+        this.supplierManagement = supplierManagement;
+    }
+
+    public SupplierManagement getSupplierManagement() {
+        return supplierManagement;
+    }
+    
 }

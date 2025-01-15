@@ -11,6 +11,8 @@ import com.cafe.model.OrderType;
 import com.cafe.model.User;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -630,7 +632,7 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         }
     }
 
-    private void refreshSalesChannelData() {
+    public void refreshSalesChannelData() {
         loadCategories();
         loadMenuItems();
     }
@@ -640,16 +642,17 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
         try {
 
             ResultSet resultset = Mysql.execute("SELECT menu_item.id,menu_item.name,menu_item_category.name AS `category`,brand.name AS `brand`,"
-                    + "menu_spec.price AS `price1`,direct_selling_stock.selling_price AS price2,`rate`,menu_item.image_path "
+                    + "menu_item.price AS price,`rate`,menu_item.image_path "
                     + "FROM menu_item LEFT JOIN menu_spec ON menu_item.id = menu_spec.menu_item_id "
                     + "INNER JOIN menu_item_category ON menu_item_category.id = menu_item.menu_item_category_id "
-                    + "INNER JOIN brand ON menu_item.brand_id = brand.id LEFT JOIN discount ON discount.menu_item_id = menu_item.id "
+                    + "INNER JOIN brand ON menu_item.brand_id = brand.id LEFT JOIN discount "
+                    + "ON discount.menu_item_id = menu_item.id AND discount.expire_date > NOW() "
                     + "LEFT JOIN direct_selling_stock ON menu_item.id = direct_selling_stock.menu_item_id  "
                     + "WHERE menu_item_category.name LIKE '" + this.activeCategory + "%' AND "
-                    + "(direct_selling_stock.expiry_date > NOW() OR brand.name = 'cafe')");
+                    + "(direct_selling_stock.expiry_date > NOW() OR brand.name = 'cafe') AND `menu_item`.`active_state_state_id`=1");
 
             boolean hasNext = resultset.next();
-
+            int itemCount = 0;
             if (hasNext) {
                 System.out.println("ok");
                 while (hasNext) {
@@ -657,30 +660,33 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
                     for (int j = 0; j < itemsPerRow; j++) {
                         if (!hasNext) {
                             break;
-                        }
-                        double price = resultset.getString("price1") == null ? resultset.getDouble("price2") : resultset.getDouble("price1");
+                        }            
+                        
                         ItemCard item = new ItemCard();
                         item.setId(resultset.getInt("menu_item.id"));
                         item.setItemName(resultset.getString("menu_item.name"));
-                        item.setPrice(price);
-                        item.setDiscount(price * (resultset.getDouble("rate") / 100));
+                        item.setPrice(resultset.getDouble("price"));
+                        item.setDiscount(resultset.getDouble("price") * (resultset.getDouble("rate") / 100));
                         item.setBrand(resultset.getString("brand"));
-                        item.setImage(resultset.getString("image_path"));
+                        item.setImage(System.getProperty("user.dir") + File.separator + "Pictures" + File.separator + resultset.getInt("menu_item.id")+".png");
                         if (itemsPerRow == 7) {
                             item.setMaximumSize(new Dimension(180, 200));
                             item.setPreferredSize(new Dimension(180, 200));
                         }
                         item.setSalesChannel(this);
                         itemRow.add(item);
-
+                        itemCount++;
                         hasNext = resultset.next();
                     }
                     jPanel14.add(itemRow);
                 }
             }
-
+            jLabel9.setText("Menu Items ("+itemCount+")");
             jPanel14.updateUI();
         } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (IOException ex) {
             Splash.logger.log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
@@ -759,7 +765,7 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
                     + "ON menu_item.menu_item_category_id = menu_item_category.id "
                     + "LEFT JOIN direct_selling_stock ON direct_selling_stock.menu_item_id = menu_item.id "
                     + "INNER JOIN brand ON menu_item.brand_id = brand.id "
-                    + "WHERE direct_selling_stock.expiry_date > NOW() OR brand.name = 'cafe'"
+                    + "WHERE (direct_selling_stock.expiry_date > NOW() OR brand.name = 'cafe') AND menu_item.active_state_state_id=1 "
                     + "GROUP BY menu_item_category.id");
             while (resultset.next()) {
                 CategoryCard categoryCard = new CategoryCard();
@@ -824,7 +830,7 @@ public class SalesChannel extends javax.swing.JPanel implements OrderType, Theme
     private boolean checkStockAvailability(InvoiceItemCard item) {
         if (!item.getBrand().equals("Cafe")) {
             try {
-                ResultSet result = Mysql.execute("SELECT `qty` FROM `direct_selling_stock` WHERE `menu_item_id`='" + item.getId() + "'");
+                ResultSet result = Mysql.execute("SELECT MAX(`qty`) AS `qty` FROM `direct_selling_stock` WHERE `menu_item_id`='" + item.getId() + "'");
                 if (result.next()) {
                     if (result.getDouble("qty") >= item.getQuantity()) {
                         return true;

@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -289,6 +290,7 @@ public class Reservation extends javax.swing.JDialog {
         jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Print bill");
+        jButton2.setBorderPainted(false);
         jButton2.setPreferredSize(new java.awt.Dimension(75, 40));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -837,7 +839,10 @@ public class Reservation extends javax.swing.JDialog {
         }
 
         try {
-            URL resource = getClass().getResource("/com/cafe/reports/cafe_reservation.jasper");
+            File resource = new File(System.getProperty("user.dir")+File.separator+"reports/cafe_reservation.jasper");           
+            if(!resource.exists()){
+                return false;
+            }
             JasperPrint billReport = JasperFillManager.fillReport(resource.getPath(), parameters, new JREmptyDataSource());
             JasperViewer bill = new JasperViewer(billReport, false);
             bill.setAlwaysOnTop(true);
