@@ -369,8 +369,108 @@ public class DashboardTest {
     public void testAlignFrame() {
         System.out.println("alignFrame");
         JasperViewer jasperViewer = new JasperViewer(new JasperPrint(), false);
-        float side = 0.0F;
+        float side = 10.0F;
         Dashboard.alignFrame(jasperViewer, side);
+    }
+
+    /**
+     * Test of getMODE method, of class Dashboard.
+     */
+    @Test
+    public void testGetMODE() {
+        System.out.println("getMODE");
+        User user = new User();
+        user.setRole(UserRole.Role.Admin);
+        Dashboard dashboard = new Dashboard(user);
+        dashboard.setMode(Theme.Mode.DARK);
+        Dashboard instance = dashboard;
+        Theme.Mode expResult = Theme.Mode.DARK;
+        Theme.Mode result = instance.getMODE();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of setMode method, of class Dashboard.
+     */
+    @Test
+    public void testSetMode() {
+        System.out.println("setMode");
+        Theme.Mode mode = Theme.Mode.DARK;
+        User user = new User();
+        user.setRole(UserRole.Role.Admin);
+        Dashboard dashboard = new Dashboard(user);        
+        Dashboard instance = dashboard;
+        instance.setMode(mode);
+    }
+
+    /**
+     * Test of toggleTheme method, of class Dashboard.
+     */
+    @Test
+    public void testToggleTheme() {
+        System.out.println("toggleTheme");
+        User user = new User();
+        user.setRole(UserRole.Role.Admin);
+        Dashboard dashboard = new Dashboard(user);
+        dashboard.setMode(Theme.Mode.DARK);
+        Dashboard instance = dashboard;
+        instance.toggleTheme();
+    }
+
+    /**
+     * Test of setAnalytics method, of class Dashboard.
+     */
+    @Test
+    public void testSetAnalytics() {
+        System.out.println("setAnalytics");
+        User user = new User();
+        user.setRole(UserRole.Role.Admin);
+        Dashboard dashboard = new Dashboard(user);
+        dashboard.setMode(Theme.Mode.DARK);
+        Dashboard instance = dashboard;
+        instance.setAnalytics();
+    }
+
+    /**
+     * Test of refreshDashboardContent method, of class Dashboard.
+     */
+    @Test
+    public void testRefreshDashboardContent() {
+        System.out.println("refreshDashboardContent");
+        User user = new User();
+        user.setRole(UserRole.Role.Admin);
+        Dashboard dashboard = new Dashboard(user);
+        dashboard.setMode(Theme.Mode.DARK);
+        Dashboard instance = dashboard;
+        instance.refreshDashboardContent();
+    }
+
+    /**
+     * Test of setBusinessName method, of class Dashboard.
+     */
+    @Test
+    public void testSetBusinessName() {
+        System.out.println("setBusinessName");
+        User user = new User();
+        user.setRole(UserRole.Role.Admin);
+        Dashboard dashboard = new Dashboard(user);
+        dashboard.setMode(Theme.Mode.DARK);
+        Dashboard instance = dashboard;
+        instance.setBusinessName();
+    }
+
+    /**
+     * Test of setDiplayName method, of class Dashboard.
+     */
+    @Test
+    public void testSetDiplayName() {
+        System.out.println("setDiplayName");
+        User user = new User();
+        user.setRole(UserRole.Role.Admin);
+        Dashboard dashboard = new Dashboard(user);
+        dashboard.setMode(Theme.Mode.DARK);
+        Dashboard instance = dashboard;
+        instance.setDiplayName();
     }
     
 }
