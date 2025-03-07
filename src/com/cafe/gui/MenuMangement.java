@@ -1,17 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.cafe.gui;
 
-
 import com.cafe.model.Mysql;
+import com.cafe.model.Theme;
+import com.cafe.style.CustomStyle;
+import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
@@ -20,9 +20,9 @@ import javax.swing.SwingUtilities;
  *
  * @author Prince
  */
-public class MenuMangement extends javax.swing.JPanel {
+public class MenuMangement extends javax.swing.JPanel implements Theme {
 
-     private Dashboard dashboard;
+    private Dashboard dashboard;
 
     public Dashboard getDashboard() {
         return dashboard;
@@ -30,7 +30,9 @@ public class MenuMangement extends javax.swing.JPanel {
 
     public void setDashboard(Dashboard dashboard) {
         this.dashboard = dashboard;
+        loadMenuItems("");
     }
+
     /**
      * Creates new form MenuMangement
      */
@@ -38,12 +40,11 @@ public class MenuMangement extends javax.swing.JPanel {
         initComponents();
         loadCategories();
         loadMenuItems("");
-//        System.out.println(itemPanelNumber);
-//        System.out.println(totalPanels);
+        setStyle();
 
     }
 
-    private void loadCategories() {
+    public void loadCategories() {
         ResultSet resultSet = Mysql.execute("SELECT * FROM `menu_item_category`");
 
         Vector<String> vector = new Vector<>();
@@ -61,10 +62,10 @@ public class MenuMangement extends javax.swing.JPanel {
         jComboBox1.setModel(model);
     }
 
-    private void loadMenuItems(String query) {
+    public void loadMenuItems(String query) {
         int count = 0;
         int offSet = (itemPanelNumber - 1) * 6;
-        ResultSet resultSet = Mysql.execute("SELECT `menu_item`.`name` AS 'name', price, `menu_item`.`image_path` AS 'img',\n"
+        ResultSet resultSet = Mysql.execute("SELECT menu_item.id,`menu_item`.`name` AS 'name', price, `menu_item`.`image_path` AS 'img',\n"
                 + "`menu_item`.`active_state_state_id` AS 'state', `brand`.`name` AS 'brand',\n"
                 + "`menu_item_category`.`name` AS 'category' FROM `menu_item`\n"
                 + "INNER JOIN `menu_item_category` ON `menu_item_category_id` = `menu_item_category`.`id`\n"
@@ -90,13 +91,22 @@ public class MenuMangement extends javax.swing.JPanel {
                 String brand = resultSet.getString("brand");
                 String category = resultSet.getString("category");
                 String img = resultSet.getString("img");
-                
-               
+
                 ImageIcon image = new ImageIcon(getClass().getResource("/com/cafe/itemImg/emptyItem.png"));
-               
-                
-                MenuItemCard component = new MenuItemCard(name, price, brand + " | " + category, image, status);
-                jPanel7.add(component);
+
+                File file = new File(System.getProperty("user.dir") + File.separator + "Pictures" + File.separator + resultSet.getString("menu_item.id") + ".png");
+
+                if (file.exists()) {
+                    image = new ImageIcon(ImageIO.read(file));
+                }
+
+                MenuItemCard menuItem = new MenuItemCard(name, price, brand + " | " + category, image, status);
+                menuItem.setMenuItemId(resultSet.getInt("menu_item.id"));
+                menuItem.setDashboard(dashboard);
+                menuItem.setBrand(brand);
+                menuItem.setCategory(category);
+                menuItem.setMenuMangement(this);
+                jPanel7.add(menuItem);
             }
 
             if (count < 6) {
@@ -109,7 +119,11 @@ public class MenuMangement extends javax.swing.JPanel {
 
             SwingUtilities.updateComponentTreeUI(jPanel7);
         } catch (SQLException ex) {
-            Logger.getLogger(DiscountManagement.class.getName()).log(Level.SEVERE, null, ex);
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
@@ -128,19 +142,8 @@ public class MenuMangement extends javax.swing.JPanel {
         } else {
             jButton6.setEnabled(true);
         }
-
-//        if (isLastItemPanel) {
-//            jButton6.setEnabled(false);
-//        } else {
-//            jButton6.setEnabled(true);
-//        }
     }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -156,12 +159,16 @@ public class MenuMangement extends javax.swing.JPanel {
         jButton6 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 20));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
         setPreferredSize(new java.awt.Dimension(600, 450));
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new java.awt.BorderLayout(0, 10));
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton3.setText("+ Add Items");
+        jButton3.setBackground(new java.awt.Color(77, 120, 204));
+        jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/controlImg/add_sign.png"))); // NOI18N
+        jButton3.setText("ADD ITEM");
+        jButton3.setBorderPainted(false);
         jButton3.setPreferredSize(new java.awt.Dimension(107, 40));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,8 +179,11 @@ public class MenuMangement extends javax.swing.JPanel {
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField1.setPreferredSize(new java.awt.Dimension(64, 40));
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setText("Search");
+        jButton2.setBackground(new java.awt.Color(102, 102, 102));
+        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("SEARCH");
+        jButton2.setBorderPainted(false);
         jButton2.setPreferredSize(new java.awt.Dimension(72, 40));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,32 +193,30 @@ public class MenuMangement extends javax.swing.JPanel {
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Category", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(133, 40));
+        jComboBox1.setPreferredSize(new java.awt.Dimension(200, 40));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -220,7 +228,9 @@ public class MenuMangement extends javax.swing.JPanel {
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        jButton7.setText("↑");
+        jButton7.setBackground(new java.awt.Color(77, 120, 204));
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/controlImg/up.png"))); // NOI18N
+        jButton7.setBorderPainted(false);
         jButton7.setEnabled(false);
         jButton7.setPreferredSize(new java.awt.Dimension(40, 40));
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -229,7 +239,10 @@ public class MenuMangement extends javax.swing.JPanel {
             }
         });
 
-        jButton6.setText("↓");
+        jButton6.setBackground(new java.awt.Color(77, 120, 204));
+        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/controlImg/down.png"))); // NOI18N
+        jButton6.setBorderPainted(false);
         jButton6.setPreferredSize(new java.awt.Dimension(40, 40));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,7 +259,7 @@ public class MenuMangement extends javax.swing.JPanel {
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(478, Short.MAX_VALUE))
+                .addContainerGap(839, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,44 +273,34 @@ public class MenuMangement extends javax.swing.JPanel {
 
         jPanel4.add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
-        jPanel7.setOpaque(false);
-        jPanel7.setLayout(new java.awt.GridLayout(2, 5));
+        jPanel7.setBackground(new java.awt.Color(43, 46, 56));
+        jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        jPanel7.setLayout(new java.awt.GridLayout(2, 5, 10, 10));
         jPanel4.add(jPanel7, java.awt.BorderLayout.CENTER);
 
         add(jPanel4, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        AddMenuItems component = new AddMenuItems();
+        search();
+        AddMenuItems component = new AddMenuItems(dashboard, true);
+        component.setMenuMangement(this);
         component.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String input = jTextField1.getText();
-        String query = "WHERE `menu_item`.`name` LIKE '%" + input + "%'";
-        String category = String.valueOf(jComboBox1.getSelectedItem());
-
-        if (!category.equals("Select Category")) {
-            query += " AND `menu_item_category_id` = '" + categoryMap.get(category) + "'";
-        }
-
-        loadMenuItems(query);
+        search();
+        search();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         itemPanelNumber--;
-//        itemPlagarism();
-        loadMenuItems("");
-//        System.out.println("ipn " + itemPanelNumber);
-//        System.out.println("tpn " + totalPanels);
+        search();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         itemPanelNumber++;
-//        itemPlagarism();
-        loadMenuItems("");
-//        System.out.println("ipn " + itemPanelNumber);
-//        System.out.println("tpn " + totalPanels);
+        search();
     }//GEN-LAST:event_jButton6ActionPerformed
 
 
@@ -318,4 +321,29 @@ public class MenuMangement extends javax.swing.JPanel {
     private int totalPanels = 0;
     private boolean isLastItemPanel = false;
     private HashMap<String, String> categoryMap = new HashMap<>();
+
+    @Override
+    public void setStyle() {
+        setComponentTheme();
+    }
+
+    @Override
+    public void setComponentTheme() {
+        CustomStyle.setComponentBackground(
+                jPanel7
+        );
+
+    }
+
+    public void search() {
+        String input = jTextField1.getText();
+        String query = "WHERE `menu_item`.`name` LIKE '%" + input + "%'";
+        String category = String.valueOf(jComboBox1.getSelectedItem());
+
+        if (!category.equals("Select Category")) {
+            query += " AND `menu_item_category_id` = '" + categoryMap.get(category) + "'";
+        }
+
+        loadMenuItems(query);
+    }
 }

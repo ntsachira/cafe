@@ -8,6 +8,7 @@ import com.cafe.model.Mysql;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.File;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -126,16 +127,17 @@ public class Reports extends javax.swing.JPanel {
         directSellingLimitedStock = new javax.swing.JRadioButton();
         directSellingExpireSoon = new javax.swing.JRadioButton();
         directSellingExpired = new javax.swing.JRadioButton();
-        kitchenStock = new javax.swing.JRadioButton();
-        kitchenStockLimitedStock = new javax.swing.JRadioButton();
-        kitchenExpireSoon = new javax.swing.JRadioButton();
-        kitchenExpired = new javax.swing.JRadioButton();
         damagedStock = new javax.swing.JRadioButton();
         jPanel53 = new javax.swing.JPanel();
         jPanel55 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jComboBox2 = new javax.swing.JComboBox<>();
+        jPanel28 = new javax.swing.JPanel();
+        kitchenStock = new javax.swing.JRadioButton();
+        kitchenStockLimitedStock = new javax.swing.JRadioButton();
+        kitchenExpireSoon = new javax.swing.JRadioButton();
+        kitchenExpired = new javax.swing.JRadioButton();
         jPanel56 = new javax.swing.JPanel();
         jSeparator4 = new javax.swing.JSeparator();
         jPanel57 = new javax.swing.JPanel();
@@ -354,6 +356,7 @@ public class Reports extends javax.swing.JPanel {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("GENERATE REPORT");
         jButton1.setBorderPainted(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.setPreferredSize(new java.awt.Dimension(75, 48));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -368,6 +371,7 @@ public class Reports extends javax.swing.JPanel {
         jButton6.setBackground(new java.awt.Color(102, 102, 102));
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
         jButton6.setBorderPainted(false);
+        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton6.setPreferredSize(new java.awt.Dimension(48, 48));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -458,6 +462,7 @@ public class Reports extends javax.swing.JPanel {
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("GENERATE REPORT");
         jButton2.setBorderPainted(false);
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.setPreferredSize(new java.awt.Dimension(75, 48));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -468,6 +473,7 @@ public class Reports extends javax.swing.JPanel {
         jButton7.setBackground(new java.awt.Color(102, 102, 102));
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
         jButton7.setBorderPainted(false);
+        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton7.setPreferredSize(new java.awt.Dimension(48, 48));
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -583,60 +589,6 @@ public class Reports extends javax.swing.JPanel {
         });
         jPanel36.add(directSellingExpired);
 
-        buttonGroup2.add(kitchenStock);
-        kitchenStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        kitchenStock.setText("Kitchen Stock");
-        kitchenStock.setIconTextGap(10);
-        kitchenStock.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                kitchenStockItemStateChanged(evt);
-            }
-        });
-        kitchenStock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                kitchenStockActionPerformed(evt);
-            }
-        });
-        jPanel36.add(kitchenStock);
-
-        buttonGroup2.add(kitchenStockLimitedStock);
-        kitchenStockLimitedStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        kitchenStockLimitedStock.setText("Kitchen Stock Limited Stock");
-        kitchenStockLimitedStock.setIconTextGap(10);
-        kitchenStockLimitedStock.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                kitchenStockLimitedStockItemStateChanged(evt);
-            }
-        });
-        jPanel36.add(kitchenStockLimitedStock);
-
-        buttonGroup2.add(kitchenExpireSoon);
-        kitchenExpireSoon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        kitchenExpireSoon.setText("Kitchen Expire Soon Stock");
-        kitchenExpireSoon.setIconTextGap(10);
-        kitchenExpireSoon.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                kitchenExpireSoonItemStateChanged(evt);
-            }
-        });
-        jPanel36.add(kitchenExpireSoon);
-
-        buttonGroup2.add(kitchenExpired);
-        kitchenExpired.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        kitchenExpired.setText("Kitchen Expired Stock");
-        kitchenExpired.setIconTextGap(10);
-        kitchenExpired.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                kitchenExpiredItemStateChanged(evt);
-            }
-        });
-        kitchenExpired.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                kitchenExpiredActionPerformed(evt);
-            }
-        });
-        jPanel36.add(kitchenExpired);
-
         buttonGroup2.add(damagedStock);
         damagedStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         damagedStock.setText("Damaged Stock");
@@ -664,6 +616,7 @@ public class Reports extends javax.swing.JPanel {
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("GENERATE REPORT");
         jButton4.setBorderPainted(false);
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton4.setPreferredSize(new java.awt.Dimension(75, 48));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -675,6 +628,7 @@ public class Reports extends javax.swing.JPanel {
         jButton8.setBackground(new java.awt.Color(102, 102, 102));
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
         jButton8.setBorderPainted(false);
+        jButton8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton8.setPreferredSize(new java.awt.Dimension(48, 48));
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -691,6 +645,85 @@ public class Reports extends javax.swing.JPanel {
         jPanel55.add(jComboBox2, java.awt.BorderLayout.WEST);
 
         jPanel53.add(jPanel55, java.awt.BorderLayout.NORTH);
+
+        buttonGroup2.add(kitchenStock);
+        kitchenStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        kitchenStock.setText("Kitchen Stock");
+        kitchenStock.setIconTextGap(10);
+        kitchenStock.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                kitchenStockItemStateChanged(evt);
+            }
+        });
+        kitchenStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kitchenStockActionPerformed(evt);
+            }
+        });
+
+        buttonGroup2.add(kitchenStockLimitedStock);
+        kitchenStockLimitedStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        kitchenStockLimitedStock.setText("Kitchen Stock Limited Stock");
+        kitchenStockLimitedStock.setIconTextGap(10);
+        kitchenStockLimitedStock.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                kitchenStockLimitedStockItemStateChanged(evt);
+            }
+        });
+
+        buttonGroup2.add(kitchenExpireSoon);
+        kitchenExpireSoon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        kitchenExpireSoon.setText("Kitchen Expire Soon Stock");
+        kitchenExpireSoon.setIconTextGap(10);
+        kitchenExpireSoon.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                kitchenExpireSoonItemStateChanged(evt);
+            }
+        });
+
+        buttonGroup2.add(kitchenExpired);
+        kitchenExpired.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        kitchenExpired.setText("Kitchen Expired Stock");
+        kitchenExpired.setIconTextGap(10);
+        kitchenExpired.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                kitchenExpiredItemStateChanged(evt);
+            }
+        });
+        kitchenExpired.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kitchenExpiredActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
+        jPanel28.setLayout(jPanel28Layout);
+        jPanel28Layout.setHorizontalGroup(
+            jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel28Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(kitchenStock, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(kitchenStockLimitedStock, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(kitchenExpireSoon, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(kitchenExpired, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+        jPanel28Layout.setVerticalGroup(
+            jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel28Layout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(kitchenStock)
+                .addGap(10, 10, 10)
+                .addComponent(kitchenStockLimitedStock)
+                .addGap(10, 10, 10)
+                .addComponent(kitchenExpireSoon)
+                .addGap(10, 10, 10)
+                .addComponent(kitchenExpired)
+                .addContainerGap(112, Short.MAX_VALUE))
+        );
+
+        jPanel53.add(jPanel28, java.awt.BorderLayout.CENTER);
 
         jPanel15.add(jPanel53, java.awt.BorderLayout.CENTER);
 
@@ -814,6 +847,7 @@ public class Reports extends javax.swing.JPanel {
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("GENERATE REPORT");
         jButton3.setBorderPainted(false);
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton3.setPreferredSize(new java.awt.Dimension(75, 48));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -824,6 +858,7 @@ public class Reports extends javax.swing.JPanel {
         jButton9.setBackground(new java.awt.Color(102, 102, 102));
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/refresh.png"))); // NOI18N
         jButton9.setBorderPainted(false);
+        jButton9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton9.setPreferredSize(new java.awt.Dimension(48, 48));
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1159,6 +1194,7 @@ public class Reports extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
@@ -1299,6 +1335,11 @@ public class Reports extends javax.swing.JPanel {
         }
 
         try {
+            File mainReport = new File(System.getProperty("user.dir") + File.separator + "reports/cafe_invoice_summary.jasper");
+            if (!mainReport.exists()) {
+                JOptionPane.showMessageDialog(jPanel21, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             ResultSet result = Mysql.execute("SELECT COUNT(id) AS `count` ,SUM(invoice.total) AS total FROM  invoice "
                     + "INNER JOIN `user` ON user.mobile = invoice.user_mobile "
                     + "WHERE `date` >=  '" + parameters.get("to") + "' AND `date` <=  '" + parameters.get("from") + "'  AND `user_mobile` LIKE  '" + cashier + "%'");
@@ -1307,14 +1348,18 @@ public class Reports extends javax.swing.JPanel {
                 parameters.put("printDate", today);
                 parameters.put("netTotal", "Rs. " + new DecimalFormat("#,##0.00").format(result.getDouble("total")));
             }
-            URL mainReport = getClass().getResource("/com/cafe/reports/cafe_invoice_summary.jasper");
-
             JasperPrint fillReport = JasperFillManager.fillReport(mainReport.getPath(), parameters, Mysql.getConnection());
-            JasperViewer viewer = new JasperViewer(fillReport, false);
 
-            jPanel21.removeAll();
-            jPanel21.add(viewer.getRootPane());
-            jPanel21.updateUI();
+            if (fillReport.getPages().size() > 0) {
+                JasperViewer viewer = new JasperViewer(fillReport, false);
+                jPanel21.removeAll();
+                jPanel21.add(viewer.getRootPane());
+                jPanel21.updateUI();
+            } else {
+
+                resetSalesTab("No records found.");
+            }
+
         } catch (JRException ex) {
             Splash.logger.log(Level.SEVERE, null, ex);
             ex.printStackTrace();
@@ -1325,36 +1370,38 @@ public class Reports extends javax.swing.JPanel {
     }
 
     private void printInvoiceFullReport(HashMap<String, Object> parameters, String today) {
+        File resource = new File(System.getProperty("user.dir") + File.separator + "reports/main_report.jasper");
+        File resourceSub = new File(System.getProperty("user.dir") + File.separator + "reports/sub_report.jasper");
+        if (!resource.exists() || !resourceSub.exists()) {
+            JOptionPane.showMessageDialog(jPanel21, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String cashier = "";
         if (jComboBox1.getSelectedIndex() != 0) {
             cashier = String.valueOf(jComboBox1.getSelectedItem()).split(" - ")[0];
         }
 
         try {
-            ResultSet resultset = Mysql.execute("SELECT id,date,invoice.total,invoice.discount,user_mobile,display_name FROM  invoice "
-                    + "INNER JOIN `user` ON user.mobile = invoice.user_mobile "
-                    + "WHERE `date` >=   '" + parameters.get("to") + "'  AND `date` <= '" + parameters.get("from") + "' AND "
-                    + "`user_mobile`  LIKE  '" + cashier + "%'");
 
             ResultSet result = Mysql.execute("SELECT COUNT(id) AS `count` ,SUM(invoice.total) AS total FROM  invoice "
                     + "INNER JOIN `user` ON user.mobile = invoice.user_mobile "
                     + "WHERE `date` >=  '" + parameters.get("to") + "' AND `date` <=  '" + parameters.get("from") + "'  AND `user_mobile` LIKE  '" + cashier + "%'");
 
             if (result.next()) {
-                parameters.put("date", today);
                 parameters.put("total", new DecimalFormat("#,###.00").format(result.getDouble("total")));
             }
 
-            URL resource = getClass().getResource("/com/cafe/reports/main_report.jasper");
-            URL resourceSub = getClass().getResource("/com/cafe/reports/sub_report.jasper");
-
             JasperFillManager.fillReport(resourceSub.getPath(), parameters, Mysql.getConnection());
             JasperPrint fillReport = JasperFillManager.fillReport(resource.getPath(), parameters, Mysql.getConnection());
-            JasperViewer viewer = new JasperViewer(fillReport, false);
+            if (fillReport.getPages().size() > 0) {
+                JasperViewer viewer = new JasperViewer(fillReport, false);
+                jPanel21.removeAll();
+                jPanel21.add(viewer.getRootPane());
+                jPanel21.updateUI();
+            } else {
+                resetSalesTab("No records found.");
+            }
 
-            jPanel21.removeAll();
-            jPanel21.add(viewer.getRootPane());
-            jPanel21.updateUI();
         } catch (JRException ex) {
             Splash.logger.log(Level.SEVERE, null, ex);
             ex.printStackTrace();
@@ -1367,7 +1414,16 @@ public class Reports extends javax.swing.JPanel {
     private void resetSalesTab() {
         jPanel21.removeAll();
         jPanel21.add(jLabel5);
+        jLabel5.setText("Your Report Will be Diplayed Here");
         jPanel21.updateUI();
+    }
+
+    private void resetSalesTab(String message) {
+        jPanel21.removeAll();
+        jPanel21.add(jLabel5);
+        jLabel5.setText(message);
+        jPanel21.updateUI();
+        JOptionPane.showMessageDialog(jPanel21, message, "Warning!", JOptionPane.WARNING_MESSAGE);
     }
 
     private void printSalesByItemReport(HashMap<String, Object> parameters, String today) {
@@ -1404,7 +1460,13 @@ public class Reports extends javax.swing.JPanel {
         }
 
         try {
-            ResultSet result = Mysql.execute("SELECT menu_item.id,menu_item.name, COUNT(menu_item.id) AS `qty`, menu_invoice_item.selling_price,menu_invoice_item.discount, "
+            File report = new File(System.getProperty("user.dir") + File.separator + "reports/salesByItem.jasper");
+
+            if (!report.exists()) {
+                JOptionPane.showMessageDialog(jPanel21, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            ResultSet result = Mysql.execute("SELECT  "
                     + "SUM(menu_invoice_item.selling_price-menu_invoice_item.discount * menu_invoice_item.qty) AS income FROM  invoice "
                     + "INNER JOIN `menu_invoice_item` ON menu_invoice_item.invoice_id = invoice.id "
                     + "INNER JOIN menu_item ON menu_item.id = menu_invoice_item.menu_item_id "
@@ -1419,7 +1481,6 @@ public class Reports extends javax.swing.JPanel {
             parameters.put("sort", order);
             parameters.put("sortBy", field);
 
-            URL report = getClass().getResource("/com/cafe/reports/salesByItem.jasper");
             JasperPrint fillReport = JasperFillManager.fillReport(report.getPath(), parameters, Mysql.getConnection());
             JasperViewer viewer = new JasperViewer(fillReport, false);
             emptyLabel = jLabel5;
@@ -1466,8 +1527,12 @@ public class Reports extends javax.swing.JPanel {
         parameters.put("orderBy", field);
 
         try {
-            URL resource = getClass().getResource("/com/cafe/reports/salesByCategory.jasper");
-            URL resourceSub = getClass().getResource("/com/cafe/reports/categoryItems.jasper");
+            File resource = new File(System.getProperty("user.dir") + File.separator + "reports/salesByCategory.jasper");
+            File resourceSub = new File(System.getProperty("user.dir") + File.separator + "reports/categoryItems.jasper");
+            if (!resource.exists() || !resourceSub.exists()) {
+                JOptionPane.showMessageDialog(jPanel21, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             JasperFillManager.fillReport(resourceSub.getPath(), parameters, Mysql.getConnection());
             JasperPrint fillReport = JasperFillManager.fillReport(resource.getPath(), parameters, Mysql.getConnection());
@@ -1536,13 +1601,16 @@ public class Reports extends javax.swing.JPanel {
 
     private void generateMenuReport() {
         try {
+            File mainReport = new File(System.getProperty("user.dir") + File.separator + "reports/menuMain.jasper");
+            File subReport1 = new File(System.getProperty("user.dir") + File.separator + "reports/menuSub.jasper");
+            File subReport2 = new File(System.getProperty("user.dir") + File.separator + "reports/menuSub2.jasper");
+            if (!mainReport.exists() || !subReport1.exists() || !subReport2.exists()) {
+                JOptionPane.showMessageDialog(jPanel2, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             HashMap<String, Object> parameters = new HashMap<>();
             parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             parameters.put("category", menuCategoryMap.get(String.valueOf(jComboBox3.getSelectedItem())));
-
-            URL mainReport = getClass().getResource("/com/cafe/reports/menuMain.jasper");
-            URL subReport1 = getClass().getResource("/com/cafe/reports/menuSub.jasper");
-            URL subReport2 = getClass().getResource("/com/cafe/reports/menuSub2.jasper");
 
             JasperFillManager.fillReport(subReport1.getPath(), parameters, Mysql.getConnection());
             JasperFillManager.fillReport(subReport2.getPath(), parameters, Mysql.getConnection());
@@ -1563,7 +1631,16 @@ public class Reports extends javax.swing.JPanel {
     private void resetSTockTab() {
         jPanel57.removeAll();
         jPanel57.add(jLabel7);
+        jLabel7.setText("Your Report Will be Diplayed Here");
         jPanel57.updateUI();
+    }
+
+    private void resetSTockTab(String message) {
+        jPanel57.removeAll();
+        jPanel57.add(jLabel7);
+        jLabel7.setText(message);
+        jPanel57.updateUI();
+        JOptionPane.showMessageDialog(this, message, "Warning!", JOptionPane.WARNING_MESSAGE);
     }
 
     private void generateStockReport() {
@@ -1590,16 +1667,22 @@ public class Reports extends javax.swing.JPanel {
 
     private void printDirrectSellingStock() {
         try {
+            File mainReport = new File(System.getProperty("user.dir") + File.separator + "reports/directStock.jasper");
+
+            if (!mainReport.exists()) {
+                JOptionPane.showMessageDialog(jPanel7, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             HashMap<String, Object> parameters = new HashMap<>();
             parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             String count = "0";
-            ResultSet result = Mysql.execute("SELECT COUNT(direct_selling_stock.id) AS `count` FROM direct_selling_stock");
+            ResultSet result = Mysql.execute("SELECT COUNT(direct_selling_stock.id) AS `count` FROM direct_selling_stock "
+                    + "WHERE `direct_selling_stock`.`active_state_state_id`=1");
             if (result.next()) {
                 count = result.getString("count");
             }
 
             parameters.put("items", count);
-            URL mainReport = getClass().getResource("/com/cafe/reports/directStock.jasper");
 
             JasperPrint report = JasperFillManager.fillReport(mainReport.getPath(), parameters, Mysql.getConnection());
 
@@ -1620,26 +1703,33 @@ public class Reports extends javax.swing.JPanel {
 
     private void printDirrectSellingLimitedStock() {
         try {
+            File mainReport = new File(System.getProperty("user.dir") + File.separator + "reports/directStockLimited.jasper");
+
+            if (!mainReport.exists()) {
+                JOptionPane.showMessageDialog(jPanel7, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             HashMap<String, Object> parameters = new HashMap<>();
             parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             String count = "0";
             ResultSet result = Mysql.execute("SELECT COUNT(direct_selling_stock.id) AS `count` FROM direct_selling_stock "
-                    + "WHERE `qty` < '10' ");
+                    + "WHERE `qty` < '10' AND `direct_selling_stock`.`active_state_state_id`=1");
             if (result.next()) {
                 count = result.getString("count");
             }
 
             parameters.put("items", count);
             parameters.put("limit", String.valueOf(jComboBox2.getSelectedItem()));
-            URL mainReport = getClass().getResource("/com/cafe/reports/directStockLimited.jasper");
 
             JasperPrint report = JasperFillManager.fillReport(mainReport.getPath(), parameters, Mysql.getConnection());
-
-            JasperViewer viever = new JasperViewer(report, false);
-
-            jPanel57.removeAll();
-            jPanel57.add(viever.getRootPane());
-            jPanel57.updateUI();
+            if (report.getPages().size() > 0) {
+                JasperViewer viever = new JasperViewer(report, false);
+                jPanel57.removeAll();
+                jPanel57.add(viever.getRootPane());
+                jPanel57.updateUI();
+            } else {
+                resetSTockTab("No records found.");
+            }
 
         } catch (JRException ex) {
             Splash.logger.log(Level.SEVERE, null, ex);
@@ -1713,6 +1803,14 @@ public class Reports extends javax.swing.JPanel {
 
     private void printDamagedStock() {
         try {
+            File mainReport = new File(System.getProperty("user.dir") + File.separator + "reports/damagedStock.jasper");
+            File subReport1 = new File(System.getProperty("user.dir") + File.separator + "reports/damagedDirect.jasper");
+            File subReport2 = new File(System.getProperty("user.dir") + File.separator + "reports/damagedKitchen.jasper");
+
+            if (!mainReport.exists() || !subReport1.exists() || !subReport2.exists()) {
+                JOptionPane.showMessageDialog(jPanel7, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             HashMap<String, Object> parameters = new HashMap<>();
             parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             String count = "0";
@@ -1722,11 +1820,6 @@ public class Reports extends javax.swing.JPanel {
             }
 
             parameters.put("items", count);
-
-            URL mainReport = getClass().getResource("/com/cafe/reports/damagedStock.jasper");
-            URL subReport1 = getClass().getResource("/com/cafe/reports/damagedDirect.jasper");
-            URL subReport2 = getClass().getResource("/com/cafe/reports/damagedKitchen.jasper");
-
             JasperFillManager.fillReport(subReport1.getPath(), parameters, Mysql.getConnection());
             JasperFillManager.fillReport(subReport2.getPath(), parameters, Mysql.getConnection());
 
@@ -1793,12 +1886,15 @@ public class Reports extends javax.swing.JPanel {
 
     private void printGrnSummaryReport(HashMap<String, Object> parameters) {
         try {
+            File mainReport = new File(System.getProperty("user.dir") + File.separator + "reports/grnMain.jasper");
+            File subReport1 = new File(System.getProperty("user.dir") + File.separator + "reports/grnKitchen.jasper");
+            File subReport2 = new File(System.getProperty("user.dir") + File.separator + "reports/grnDirect.jasper");
 
+            if (!mainReport.exists() || !subReport1.exists() || !subReport2.exists()) {
+                JOptionPane.showMessageDialog(jPanel4, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-
-            URL mainReport = getClass().getResource("/com/cafe/reports/grnMain.jasper");
-            URL subReport1 = getClass().getResource("/com/cafe/reports/grnKitchen.jasper");
-            URL subReport2 = getClass().getResource("/com/cafe/reports/grnDirect.jasper");
 
             JasperFillManager.fillReport(subReport1.getPath(), parameters, Mysql.getConnection());
             JasperFillManager.fillReport(subReport2.getPath(), parameters, Mysql.getConnection());
@@ -1817,14 +1913,17 @@ public class Reports extends javax.swing.JPanel {
 
     private void printGrnFullReport(HashMap<String, Object> parameters) {
         try {
+            File mainReport = new File(System.getProperty("user.dir") + File.separator + "reports/grnFullMain.jasper");
+            File subReport1 = new File(System.getProperty("user.dir") + File.separator + "reports/grnFullKitchen.jasper");
+            File subReport2 = new File(System.getProperty("user.dir") + File.separator + "reports/grnFullDirect.jasper");
+            File subReport1sub = new File(System.getProperty("user.dir") + File.separator + "reports/grnFullKitchenSub.jasper");
+            File subReport2sub = new File(System.getProperty("user.dir") + File.separator + "reports/grnFullDirectSub.jasper");
 
+            if (!mainReport.exists() || !subReport1.exists() || !subReport2.exists() || !subReport1sub.exists() | !subReport2sub.exists()) {
+                JOptionPane.showMessageDialog(jPanel4, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             parameters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-
-            URL mainReport = getClass().getResource("/com/cafe/reports/grnFullMain.jasper");
-            URL subReport1 = getClass().getResource("/com/cafe/reports/grnFullKitchen.jasper");
-            URL subReport2 = getClass().getResource("/com/cafe/reports/grnFullDirect.jasper");
-            URL subReport1sub = getClass().getResource("/com/cafe/reports/grnFullKitchenSub.jasper");
-            URL subReport2sub = getClass().getResource("/com/cafe/reports/grnFullDirectSub.jasper");
 
             JasperFillManager.fillReport(subReport1sub.getPath(), parameters, Mysql.getConnection());
             JasperFillManager.fillReport(subReport2sub.getPath(), parameters, Mysql.getConnection());
@@ -1985,6 +2084,10 @@ public class Reports extends javax.swing.JPanel {
 
     private void setupDefaultComponentVisibility() {
         hideSort();
+        kitchenExpireSoon.setVisible(false);
+        kitchenExpired.setVisible(false);
+        kitchenStock.setVisible(false);
+        kitchenStockLimitedStock.setVisible(false);
     }
 
     private void hideLimitSelect() {
@@ -1998,34 +2101,54 @@ public class Reports extends javax.swing.JPanel {
     }
 
     private void printDirectSellingExpireSoonStock() {
-        URL source = getClass().getResource("/com/cafe/reports/directExpireSoon.jasper");
-        printDatabaseReport(source.getPath());
+        File source = new File(System.getProperty("user.dir") + File.separator + "reports/directExpireSoon.jasper");
+        if (!source.exists()) {
+            JOptionPane.showMessageDialog(jPanel3, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);            
+        } else {
+            printDatabaseReport(source.getPath());
+        }
     }
 
     private void printDirectSellingExpiredStock() {
-        URL source = getClass().getResource("/com/cafe/reports/directExpired.jasper");
-        printDatabaseReport(source.getPath());
+        File source = new File(System.getProperty("user.dir") + File.separator + "reports/directExpired.jasper");
+        if (!source.exists()) {
+            JOptionPane.showMessageDialog(jPanel3, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);            
+        } else {
+            printDatabaseReport(source.getPath());
+        }        
     }
 
     private void printKitchenExpireSoonStock() {
-        URL source = getClass().getResource("/com/cafe/reports/kitchenExpireSoon.jasper");
-        printDatabaseReport(source.getPath());
+        File source = new File(System.getProperty("user.dir") + File.separator + "reports/kitchenExpireSoon.jasper");
+        if (!source.exists()) {
+            JOptionPane.showMessageDialog(jPanel3, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);            
+        } else {
+            printDatabaseReport(source.getPath());
+        }
     }
 
     private void printKitchenExpiredStock() {
-        URL source = getClass().getResource("/com/cafe/reports/kitchenExpired.jasper");
-        printDatabaseReport(source.getPath());
+        File source = new File(System.getProperty("user.dir") + File.separator + "reports/kitchenExpired.jasper");
+        if (!source.exists()) {
+            JOptionPane.showMessageDialog(jPanel3, "Report file not found! Please contact support", "Error", JOptionPane.ERROR_MESSAGE);            
+        } else {
+            printDatabaseReport(source.getPath());
+        }
     }
 
     private void printDatabaseReport(String reportPath) {
         try {
             HashMap<String, Object> parameters = new HashMap<>();
             JasperPrint report = JasperFillManager.fillReport(reportPath, parameters, Mysql.getConnection());
-            JasperViewer viever = new JasperViewer(report, false);
+            if (report.getPages().size() > 0) {
+                JasperViewer viever = new JasperViewer(report, false);
 
-            jPanel57.removeAll();
-            jPanel57.add(viever.getRootPane());
-            jPanel57.updateUI();
+                jPanel57.removeAll();
+                jPanel57.add(viever.getRootPane());
+                jPanel57.updateUI();
+            } else {
+                JOptionPane.showMessageDialog(this, "No records found.", "Warning!", JOptionPane.WARNING_MESSAGE);
+            }
 
         } catch (JRException ex) {
             Splash.logger.log(Level.SEVERE, null, ex);

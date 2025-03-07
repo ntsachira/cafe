@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
@@ -12,6 +8,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -750,7 +748,7 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
         // TODO add your handling code here:
-        if (evt.getButton() == MouseEvent.BUTTON1){
+        if (evt.getButton() == MouseEvent.BUTTON1) {
             loadItemList();
         }
     }//GEN-LAST:event_jTable2MouseClicked
@@ -777,8 +775,8 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
 
     private void jScrollPane2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane2MouseWheelMoved
         // TODO add your handling code here:
-        JScrollBar scrollbar = jScrollPane2.getVerticalScrollBar(); 
-        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+        JScrollBar scrollbar = jScrollPane2.getVerticalScrollBar();
+        scrollbar.setValue(scrollbar.getValue() + evt.getWheelRotation() * 20);
     }//GEN-LAST:event_jScrollPane2MouseWheelMoved
 
     private void jPanel11MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanel11MouseWheelMoved
@@ -787,8 +785,8 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
 
     private void jScrollPane1MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane1MouseWheelMoved
         // TODO add your handling code here:
-        JScrollBar scrollbar = jScrollPane1.getVerticalScrollBar(); 
-        scrollbar.setValue(scrollbar.getValue()+evt.getWheelRotation()*20); 
+        JScrollBar scrollbar = jScrollPane1.getVerticalScrollBar();
+        scrollbar.setValue(scrollbar.getValue() + evt.getWheelRotation() * 20);
     }//GEN-LAST:event_jScrollPane1MouseWheelMoved
 
 
@@ -852,21 +850,22 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
     private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 
-    private void reset(){
+    private void reset() {
         jTable2.clearSelection();
         DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
         model.setRowCount(0);
         jTextField3.setText("");
         jTextField4.setText("");
         jTextField5.setText("");
-        
+
     }
+
     private void updateOrderState() {
         if (jTable2.getSelectedRow() != -1) {
             Mysql.execute("UPDATE purchase_order "
                     + "SET order_state_id = (SELECT id FROM order_state WHERE `name`='Received') "
                     + "WHERE id = '" + String.valueOf(jTable2.getValueAt(jTable2.getSelectedRow(), 0)) + "'");
-            
+
             reset();
             loadHistory();
         }
@@ -875,12 +874,11 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
     public void loadDirrectSellingItems() {
         jPanel12.removeAll();
         try {
-            ResultSet resultsetDirect = Mysql.execute("SELECT menu_item.id,menu_item.name,menu_item_category.name AS `category`,brand.name AS `brand`,"
-                    + "direct_selling_stock.selling_price AS `price`,`rate`,menu_item.image_path,unit_of_measure.name AS unit,unit_of_measure.id "
-                    + "FROM menu_item INNER JOIN direct_selling_stock ON direct_selling_stock.menu_item_id = menu_item.id "
-                    + "INNER JOIN menu_item_category ON menu_item_category.id = menu_item.menu_item_category_id "
-                    + "INNER JOIN brand ON menu_item.brand_id = brand.id LEFT JOIN discount ON discount.menu_item_id = menu_item.id "
-                    + "INNER JOIN unit_of_measure ON unit_of_measure_id = unit_of_measure.id");
+            ResultSet resultsetDirect = Mysql.execute("SELECT menu_item.id,menu_item.name,menu_item_category.name AS `category`, "
+                    + "brand.name AS `brand`,`price`,`rate`FROM menu_item INNER JOIN menu_item_category "
+                    + "ON menu_item_category.id = menu_item.menu_item_category_id "
+                    + "INNER JOIN brand ON menu_item.brand_id = brand.id LEFT JOIN discount "
+                    + "ON discount.menu_item_id = menu_item.id WHERE `brand`.`name`!='Cafe'");
 
             boolean hasNext = resultsetDirect.next();
 
@@ -898,9 +896,8 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
                         item.setPrice(resultsetDirect.getDouble("price"));
                         item.setDiscount(resultsetDirect.getDouble("price") * (resultsetDirect.getDouble("rate") / 100));
                         item.setBrand(resultsetDirect.getString("brand"));
-                        item.setImage(resultsetDirect.getString("image_path"));
-                        item.getjLabel2().setText("Unit : " + resultsetDirect.getString("unit"));
-                        item.setUnitOfMeasureId(resultsetDirect.getString("unit_of_measure.id"));
+                        item.setImage(System.getProperty("user.dir") + File.separator + "Pictures" + File.separator + resultsetDirect.getInt("menu_item.id") + ".png");
+                        item.getjLabel2().setText("Unit : Units");
 
                         if (itemsPerRow == 7) {
                             item.setMaximumSize(new Dimension(180, 200));
@@ -916,6 +913,9 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
             }
             jPanel12.updateUI();
         } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (IOException ex) {
             Splash.logger.log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
@@ -986,6 +986,9 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
             }
             jPanel11.updateUI();
         } catch (SQLException ex) {
+            Splash.logger.log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } catch (IOException ex) {
             Splash.logger.log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
@@ -1153,14 +1156,16 @@ public class PurchaseOrder extends javax.swing.JPanel implements Theme {
 
     private boolean printOrder(String id, Date date) {
         try {
+            File report = new File(System.getProperty("user.dir")+File.separator+"reports/purchaseOrder.jasper");
+            if(!report.exists()){
+                return false;
+            }
             HashMap<String, Object> paramaters = new HashMap<>();
             paramaters.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
             paramaters.put("id", id);
             paramaters.put("supplier", selectedSupplier);
             paramaters.put("required", new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser1.getDate()));
             paramaters.put("items", jLabel6.getText());
-
-            URL report = getClass().getResource("/com/cafe/reports/purchaseOrder.jasper");
 
             JasperPrint fillReport = JasperFillManager.fillReport(report.getPath(), paramaters, new JRTableModelDataSource(jTable1.getModel()));
 

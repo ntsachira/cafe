@@ -6,6 +6,7 @@ package com.cafe.gui;
 
 
 import com.cafe.model.Mysql;
+import com.cafe.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -18,9 +19,12 @@ import javax.swing.JOptionPane;
  */
 public class AddNewCategory extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AddNewCategory
-     */
+    private CategoryManagement categoryManagement;
+
+    public void setCategoryManagement(CategoryManagement categoryManagement) {
+        this.categoryManagement = categoryManagement;
+    }
+    
     public AddNewCategory() {
         initComponents();
     }
@@ -53,8 +57,11 @@ public class AddNewCategory extends javax.swing.JFrame {
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField1.setPreferredSize(new java.awt.Dimension(64, 40));
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton2.setBackground(new java.awt.Color(77, 120, 204));
+        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Save");
+        jButton2.setBorderPainted(false);
         jButton2.setPreferredSize(new java.awt.Dimension(72, 40));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,8 +69,11 @@ public class AddNewCategory extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton1.setBackground(new java.awt.Color(102, 102, 102));
+        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Cancel");
+        jButton1.setBorderPainted(false);
         jButton1.setOpaque(true);
         jButton1.setPreferredSize(new java.awt.Dimension(72, 40));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -88,9 +98,9 @@ public class AddNewCategory extends javax.swing.JFrame {
                     .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -143,6 +153,10 @@ public class AddNewCategory extends javax.swing.JFrame {
                 } else {
                     Mysql.execute("INSERT INTO `menu_item_category` (`name`, `active_state_state_id`) VALUES ('" + name + "','1')");
                     JOptionPane.showMessageDialog(this, "Category Added Successfully", "Added", JOptionPane.INFORMATION_MESSAGE);
+                    if(categoryManagement!=null){
+                        categoryManagement.loadCategories();
+                        categoryManagement.getDashboard().getUser().updateUserActivity(User.UserActivity.NEW_CATEGORY_ADDED);                        
+                    }
                     this.dispose();
                 }
 

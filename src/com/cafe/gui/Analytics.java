@@ -143,15 +143,18 @@ public class Analytics extends javax.swing.JPanel implements Theme {
         jButton1.setBackground(new java.awt.Color(77, 120, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/reoprt.png"))); // NOI18N
         jButton1.setText("GENERATE REPORTS");
         jButton1.setBorderPainted(false);
-        jButton1.setPreferredSize(new java.awt.Dimension(200, 48));
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setIconTextGap(10);
+        jButton1.setPreferredSize(new java.awt.Dimension(250, 48));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, java.awt.BorderLayout.LINE_END);
+        jPanel2.add(jButton1, java.awt.BorderLayout.LINE_START);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.PAGE_START);
 

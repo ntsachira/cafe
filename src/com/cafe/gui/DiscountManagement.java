@@ -5,7 +5,13 @@
 package com.cafe.gui;
 
 
+import com.cafe.Handlers.KeyStrokeHandler;
+import com.cafe.Util.Check;
 import com.cafe.model.Mysql;
+import com.cafe.model.Theme;
+import com.cafe.style.CustomStyle;
+import java.awt.Color;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -22,7 +28,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Prince
  */
-public class DiscountManagement extends javax.swing.JPanel {
+public class DiscountManagement extends javax.swing.JPanel implements Theme{
 
      private Dashboard dashboard;
 
@@ -40,10 +46,12 @@ public class DiscountManagement extends javax.swing.JPanel {
         initComponents();
         loadDiscountTable();
         loadMenuItems();
+        setStyle();
     }
 
     private void loadDiscountTable() {
-        ResultSet resultSet = Mysql.execute("SELECT `menu_item`.`name` AS 'name',`expire_date`, `rate`,`active_state`.`status` AS 'status' FROM `discount` "
+        ResultSet resultSet = Mysql.execute("SELECT discount.id,`menu_item`.`name` AS 'name',`expire_date`,`added_date`,"
+                + " `rate` FROM `discount` "
                 + "INNER JOIN `menu_item` ON `menu_item_id` = `menu_item`.`id`\n"
                 + "INNER JOIN `active_state` ON `menu_item`.`active_state_state_id` = `active_state`.`state_id`");
 
@@ -53,9 +61,10 @@ public class DiscountManagement extends javax.swing.JPanel {
         try {
             while (resultSet.next()) {
                 Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("discount.id"));
                 vector.add(resultSet.getString("name"));
-                vector.add(resultSet.getString("rate") + "%");
-                vector.add(resultSet.getString("status"));
+                vector.add(resultSet.getString("rate"));
+                vector.add(resultSet.getString("added_date"));
                 vector.add(resultSet.getString("expire_date"));
 
                 tableModel.addRow(vector);
@@ -86,7 +95,7 @@ public class DiscountManagement extends javax.swing.JPanel {
 
     private void resetValues(String act) {
         jComboBox1.setSelectedIndex(0);
-        jTextField1.setText("Discount Rate(do not add the '%')");
+        jTextField1.setText("");
         jDateChooser1.cleanup();
         JOptionPane.showMessageDialog(this, "Discount " + act + " Successfully", act, JOptionPane.INFORMATION_MESSAGE);
     }
@@ -118,7 +127,6 @@ public class DiscountManagement extends javax.swing.JPanel {
         jLabel2.setText("Add Discount");
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField1.setText("Discount Rate(do not add the '%')");
         jTextField1.setToolTipText("Discount Rate(do not add the '%' ");
         jTextField1.setPreferredSize(new java.awt.Dimension(193, 40));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -126,13 +134,21 @@ public class DiscountManagement extends javax.swing.JPanel {
                 jTextField1ActionPerformed(evt);
             }
         });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
+            }
+        });
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Item", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setPreferredSize(new java.awt.Dimension(92, 40));
 
+        jButton1.setBackground(new java.awt.Color(77, 120, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Save");
+        jButton1.setBorderPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(72, 40));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,6 +156,7 @@ public class DiscountManagement extends javax.swing.JPanel {
             }
         });
 
+        jDateChooser1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jDateChooser1.setPreferredSize(new java.awt.Dimension(88, 40));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -153,57 +170,80 @@ public class DiscountManagement extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(6, 6, 6))
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         jPanel2.setLayout(new java.awt.CardLayout(6, 6));
 
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Menu Item", "Discount Rate (in%)", "Active Status", "Expire Date"
+                "ID", "MENU ITEM", "DISCOUNT RATE (%)", "ADDED DATE", "EXPIRY DATE"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setFocusable(false);
+        jTable1.setSelectionBackground(new java.awt.Color(77, 120, 204));
+        jTable1.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         jPanel2.add(jScrollPane1, "card2");
 
@@ -211,6 +251,40 @@ public class DiscountManagement extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        saveDiscount();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+      
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+        // TODO add your handling code here:
+        KeyStrokeHandler.isDigit(evt);
+    }//GEN-LAST:event_jTextField1KeyTyped
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    // End of variables declaration//GEN-END:variables
+
+    private static HashMap<String, String> menuItemMap = new HashMap<>();
+
+
+    private void saveDiscount() {
         String item = String.valueOf(jComboBox1.getSelectedItem());
         String discountRate = jTextField1.getText();
         Date endDateObj = jDateChooser1.getDate();
@@ -218,7 +292,7 @@ public class DiscountManagement extends javax.swing.JPanel {
 
         if (item.equals("Select Item")) {
             JOptionPane.showMessageDialog(this, "Please Select a Menu Item", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (!discountRate.matches("^(100|[1-9]?[0-9])$")) {
+        } else if (!Check.isInteger(discountRate)) {
             JOptionPane.showMessageDialog(this, "Please Enter a Valid Discount Rate(0-100)", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (endDateObj == null) {
             JOptionPane.showMessageDialog(this, "Please Enter an End Date", "Error", JOptionPane.ERROR_MESSAGE);
@@ -239,8 +313,8 @@ public class DiscountManagement extends javax.swing.JPanel {
                     }
                 } else {
                     Mysql.execute("INSERT INTO `discount` "
-                            + "(`rate`,`expire_date`,`menu_item_id`,`active_state_state_id`) "
-                            + "VALUES ('" + discountRate + "','" + endDate + "','" + menuItemMap.get(item) + "','1')");
+                            + "(`rate`,`expire_date`,`added_date`,`menu_item_id`) "
+                            + "VALUES ('" + discountRate + "','" + endDate + "','"+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"','" + menuItemMap.get(item) + "')");
                     resetValues("Added");
                     loadDiscountTable();
                 }
@@ -249,25 +323,29 @@ public class DiscountManagement extends javax.swing.JPanel {
             }
 
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    @Override
+    public void setStyle() {
+        jTable1.setDefaultRenderer(String.class, CustomStyle.renderCenter);
+        setUpDateChooser();
+        jTextField1.putClientProperty("JTextField.placeholderText", "Enter Discount Rate (%)");
+    }
 
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    // End of variables declaration//GEN-END:variables
-
-    private static HashMap<String, String> menuItemMap = new HashMap<>();
+    @Override
+    public void setComponentTheme() {
+        
+    }
+    
+     private void setUpDateChooser() {
+        jDateChooser1.setMinSelectableDate(new Date(System.currentTimeMillis() + 2 * 24 * 60 * 60 * 1000));
+        jDateChooser1.getComponent(1).addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                try {
+                    jDateChooser1.getComponent(1).setForeground(new Color(77, 120, 204));
+                } catch (Exception e) {
+                }
+            }
+        });
+    }
 }

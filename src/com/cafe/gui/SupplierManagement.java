@@ -57,7 +57,7 @@ public class SupplierManagement extends javax.swing.JPanel {
                 vector.add(category);
                 supplierCategoryMap.put(category, categoryid);
 
-            }
+            }                                 
 
             DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) jComboBox3.getModel();
 
@@ -85,9 +85,10 @@ public class SupplierManagement extends javax.swing.JPanel {
                 supplierCategoryMap.put(category, categoryid);
             }
 
-            DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) jComboBox2.getModel();
-
+            DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) jComboBox2.getModel();          
+            
             comboBoxModel.addAll(vector);
+            
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,8 +100,6 @@ public class SupplierManagement extends javax.swing.JPanel {
     private void loadSupplier() {
 
         try {
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setRowCount(0);
 
             String key = jTextField1.getText();
             String category = "";
@@ -116,7 +115,10 @@ public class SupplierManagement extends javax.swing.JPanel {
                     + "INNER JOIN `supplier_category` ON `supplier`.`supplier_category_id` = `supplier_category`.`id` "
                     + "WHERE (`mobile` LIKE '" + key + "%' OR `supplier`.`name` LIKE '%" + key + "%') "
                     + "AND `supplier_category`.`name` LIKE  '" + category + "%'");
-
+            
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);            
+            
             while (resultSet.next()) {
 
                 Vector vector = new Vector<>();
@@ -291,6 +293,7 @@ public class SupplierManagement extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("ADD SUPPLIER");
+        jButton1.setBorderPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(160, 40));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -678,6 +681,7 @@ public class SupplierManagement extends javax.swing.JPanel {
     private void OpenAllSupplierDuePayment() {
         if (checkDuePaymentAvailability("")) {
             AllSupplierDuePayment asdp = new AllSupplierDuePayment(new JFrame(), true);
+            asdp.setSupplierManagement(this);
             asdp.setVisible(true);
         }
 
@@ -713,7 +717,7 @@ public class SupplierManagement extends javax.swing.JPanel {
         int row = jTable1.getSelectedRow();
         if (row == -1) {
             OpenAllSupplierDuePayment();
-        } else{
+        } else {
             openSingleSupplierDuePayments();
         }
     }
@@ -722,10 +726,11 @@ public class SupplierManagement extends javax.swing.JPanel {
         String name = String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), 0));
         String mobile = String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), 1));
 
-        if (checkDuePaymentAvailability(mobile)) {            
-            SingleSupplierDuePayment openSingleSupplierDuePayment = new SingleSupplierDuePayment(new JFrame(), true);
-            openSingleSupplierDuePayment.setSupplier(name, mobile);
-            openSingleSupplierDuePayment.setVisible(true);
+        if (checkDuePaymentAvailability(mobile)) {
+            SingleSupplierDuePayment singleSupplierDuePayment = new SingleSupplierDuePayment(new JFrame(), true);
+            singleSupplierDuePayment.setSupplier(name, mobile);
+            singleSupplierDuePayment.setSupplierManagement(this);
+            singleSupplierDuePayment.setVisible(true);
         }
     }
 

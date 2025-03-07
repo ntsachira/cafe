@@ -47,7 +47,6 @@ public class Sidebar extends javax.swing.JPanel {
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
         jToggleButton3 = new javax.swing.JToggleButton();
-        jToggleButton4 = new javax.swing.JToggleButton();
         jToggleButton17 = new javax.swing.JToggleButton();
         jToggleButton18 = new javax.swing.JToggleButton();
         jToggleButton19 = new javax.swing.JToggleButton();
@@ -137,24 +136,6 @@ public class Sidebar extends javax.swing.JPanel {
             }
         });
         jPanel1.add(jToggleButton3);
-
-        buttonGroup1.add(jToggleButton4);
-        jToggleButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jToggleButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cafe/img/59297_product_product.png"))); // NOI18N
-        jToggleButton4.setText("Stock Management");
-        jToggleButton4.setBorderPainted(false);
-        jToggleButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jToggleButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jToggleButton4.setIconTextGap(10);
-        jToggleButton4.setMaximumSize(new java.awt.Dimension(255, 50));
-        jToggleButton4.setMinimumSize(new java.awt.Dimension(240, 50));
-        jToggleButton4.setPreferredSize(new java.awt.Dimension(255, 50));
-        jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton4ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jToggleButton4);
 
         buttonGroup1.add(jToggleButton17);
         jToggleButton17.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
@@ -451,11 +432,6 @@ public class Sidebar extends javax.swing.JPanel {
         this.dashboard.setMenuManagement();
     }//GEN-LAST:event_jToggleButton3ActionPerformed
 
-    private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
-        // TODO add your handling code here:
-        this.dashboard.setStockManagement();
-    }//GEN-LAST:event_jToggleButton4ActionPerformed
-
     private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton5ActionPerformed
         // TODO add your handling code here:
         this.dashboard.setDiscount();
@@ -557,7 +533,6 @@ public class Sidebar extends javax.swing.JPanel {
     private javax.swing.JToggleButton jToggleButton19;
     private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JToggleButton jToggleButton4;
     private javax.swing.JToggleButton jToggleButton5;
     private javax.swing.JToggleButton jToggleButton6;
     private javax.swing.JToggleButton jToggleButton7;
@@ -567,7 +542,12 @@ public class Sidebar extends javax.swing.JPanel {
 
    
     public void logOut() {
-        int option = JOptionPane.showConfirmDialog(getDashboard(), "Confirm Log out", "Confirmation Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        int option = JOptionPane.showConfirmDialog(
+                getDashboard(), 
+                "Confirm Log out", 
+                "Confirmation Message", 
+                JOptionPane.YES_NO_OPTION, 
+                JOptionPane.INFORMATION_MESSAGE);
 
         if (option == JOptionPane.YES_OPTION) {
             dashboard.getUser().updateUserActivity(User.UserActivity.LOGGED_OUT);
@@ -584,7 +564,8 @@ public class Sidebar extends javax.swing.JPanel {
         this.dashboard.setSalesChannel();
 
         removeSidebarButtons(
-                jToggleButton1, jToggleButton17, jToggleButton6, jToggleButton7, jToggleButton9, jToggleButton10, jToggleButton11,
+                jToggleButton1, jToggleButton17, jToggleButton6, jToggleButton7, 
+                jToggleButton9, jToggleButton10, jToggleButton11,
                 jToggleButton12, jToggleButton13, jToggleButton14
         );
         jPanel2.remove(jToggleButton15);

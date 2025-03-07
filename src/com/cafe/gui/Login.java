@@ -1,4 +1,3 @@
-
 package com.cafe.gui;
 
 import com.cafe.model.Mysql;
@@ -11,16 +10,22 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Login extends javax.swing.JPanel implements UserRole {
 
     private Splash splash;
 
-    
     public Login() {
         initComponents();
         setLoginStyle();
@@ -33,14 +38,13 @@ public class Login extends javax.swing.JPanel implements UserRole {
         CustomStyle.setTextFieldsRoundedMax(jTextField1);
         CustomStyle.showClearButton(jTextField1);
         jTextField1.putClientProperty("JTextField.placeholderText", "Username");
-        jPasswordField1.putClientProperty("JTextField.placeholderText", "Password");        
+        jPasswordField1.putClientProperty("JTextField.placeholderText", "Password");
     }
-    
+
     public void setSplash(Splash splash) {
         this.splash = splash;
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -59,6 +63,7 @@ public class Login extends javax.swing.JPanel implements UserRole {
         jTextField1 = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(992, 637));
@@ -191,6 +196,11 @@ public class Login extends javax.swing.JPanel implements UserRole {
         jTextField1.setText("admin");
         jTextField1.setMargin(new java.awt.Insets(2, 15, 2, 15));
         jTextField1.setPreferredSize(new java.awt.Dimension(0, 50));
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField1KeyPressed(evt);
@@ -222,21 +232,30 @@ public class Login extends javax.swing.JPanel implements UserRole {
         });
         jPanel6.add(jButton1);
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         add(jPanel5, java.awt.BorderLayout.CENTER);
@@ -254,23 +273,23 @@ public class Login extends javax.swing.JPanel implements UserRole {
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             login();
         }
     }//GEN-LAST:event_jTextField1KeyPressed
 
     private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             login();
         }
-        
-        
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_jPasswordField1KeyPressed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -280,6 +299,7 @@ public class Login extends javax.swing.JPanel implements UserRole {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -293,7 +313,7 @@ public class Login extends javax.swing.JPanel implements UserRole {
         User user = validateUser();
         if (splash != null && user != null) {
             user.updateUserActivity(User.UserActivity.LOGGED_IN);
-            this.splash.setDashboard(user);    
+            this.splash.setDashboard(user);
         }
     }
 
@@ -308,28 +328,149 @@ public class Login extends javax.swing.JPanel implements UserRole {
             jPasswordField1.grabFocus();
         } else {
             try {
-                ResultSet resultSet = Mysql.execute("SELECT mobile,display_name,username,`password`,role_name"
-                        + " FROM `user` INNER JOIN user_role ON user.user_role_id = user_role.id"
-                        + " WHERE `username`='" + username + "' AND `password`='" + password + "'");
-                if (resultSet.next()) {
-                    User user = new User();
-                    user.setMobile(resultSet.getString("mobile"));
-                    user.setDisplay_name(resultSet.getString("display_name"));
-                    user.setUsername(resultSet.getString("username"));
-                    if (resultSet.getString("role_name").equals(Role.Admin.name())) {
-                        user.setRole(Role.Admin);
+
+                ResultSet resultSet = Mysql.execute("SELECT mobile,display_name,username,`password`,role_name,active_state.status as `status`"
+                        + " FROM `user` INNER JOIN user_role ON user.user_role_id = user_role.id "
+                        + " INNER JOIN active_state ON active_state.state_id = user.active_state_state_id"
+                        + " WHERE `username`='" + username + "' AND `password`='" + password + "' ");
+                if (resultSet != null) {
+                    if (resultSet.next() && resultSet.getString("status").equals("Active")) {
+                        User user = new User();
+                        user.setMobile(resultSet.getString("mobile"));
+                        user.setDisplay_name(resultSet.getString("display_name"));
+                        user.setUsername(resultSet.getString("username"));
+                        if (resultSet.getString("role_name").equals(Role.Admin.name())) {
+                            user.setRole(Role.Admin);
+                        } else {
+                            user.setRole(Role.Cashier);
+                        }
+                        return user;
                     } else {
-                        user.setRole(Role.Cashier);
+                        JOptionPane.showMessageDialog(this.splash, "Invalid username or password");
                     }
-                    return user;
                 } else {
-                    JOptionPane.showMessageDialog(this.splash, "Invalid username or password");
+                    if (JOptionPane.showConfirmDialog(
+                            this.splash,
+                            "No Database found on you Device. Please click 'YES' to proceed restore an existing database.",
+                            "Database not found",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+
+                        if (!proceedDatabaseRestore()) {
+                            if (JOptionPane.showConfirmDialog(
+                                    this.splash,
+                                    "Could not restore the backup. Please click 'YES' to try again",
+                                    "Database Restore Failure", JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION) {
+                                proceedDatabaseRestore();
+                            } else {
+                                closseApplication("Sorry! Your application cannot proceed without a database. Please try again later");
+                            }
+                        }
+
+                    } else {
+                        closseApplication("Sorry! Your application cannot proceed without a database. Please contact support");
+                    }
                 }
             } catch (SQLException ex) {
-                Splash.logger.log(Level.SEVERE, null, ex);
+                Splash.logger.log(Level.SEVERE, ex.getMessage());
                 ex.printStackTrace();
             }
+
         }
         return null;
+    }
+
+    private void closseApplication(String message) {
+        JOptionPane.showMessageDialog(
+                this.splash,
+                message,
+                "Application Termination",
+                JOptionPane.ERROR_MESSAGE);
+        Splash.logger.log(Level.SEVERE, "Application closed due to no database found");
+        System.exit(0);
+    }
+
+    private boolean proceedDatabaseRestore() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("SQL Files (*.sql)", "sql"));
+        fileChooser.setMultiSelectionEnabled(false);
+        fileChooser.showOpenDialog(this.splash);
+        if (fileChooser.getSelectedFile() != null) {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                java.sql.Connection connection;
+                try {
+                    connection = java.sql.DriverManager.getConnection(
+                            "jdbc:mysql://localhost:3306",
+                            Mysql.getUsername(),
+                            Mysql.getPASSWORD());
+                    connection.createStatement().execute("CREATE DATABASE IF NOT EXISTS cafe_db");
+                    connection.close();
+                } catch (SQLException ex) {
+                    Splash.logger.log(Level.SEVERE, ex.getMessage());
+                }
+                String command = String.format(
+                        "\"\"C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysql.exe\" -u%s -p%s cafe_db < \"%s\"",
+                        Mysql.getUsername(),
+                        Mysql.getPASSWORD(),
+                        fileChooser.getSelectedFile().getPath());
+
+                String[] commandBundle = new String[]{
+                    "cmd.exe",
+                    "/c",
+                    command
+                };
+                
+                jButton1.setText("Restoring in progress...");
+                jButton1.setEnabled(false);
+                Process process = Runtime.getRuntime().exec(commandBundle);
+                new Thread(() -> {
+                    int status;
+                    try {
+                        status = process.waitFor();
+                        jButton1.setText("Log In");
+                        jButton1.setEnabled(true);
+                        if (status == 0) {
+                            Mysql.createNewConnection();
+                            JOptionPane.showMessageDialog(
+                                    this.splash,
+                                    "Backup restored successfully. Please Try Login again now.",
+                                    "Success",
+                                    JOptionPane.INFORMATION_MESSAGE);
+
+                        } else {
+                            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                            String error;
+                            while ((error = errorReader.readLine()) != null) {
+                                Splash.logger.log(Level.SEVERE, error);
+                            }
+                            if (JOptionPane.showConfirmDialog(
+                                    this.splash,
+                                    "Could not restore the backup. Please click 'YES' to try again",
+                                    "Database Restore Failure", JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION) {
+                                proceedDatabaseRestore();
+                            } else {
+                                closseApplication("Sorry! Your application cannot proceed without a database. Please try again later");
+                            }
+                        }
+                    } catch (InterruptedException ex) {
+                        Splash.logger.log(Level.SEVERE, ex.getMessage());
+                    } catch (IOException ex) {
+                        Splash.logger.log(Level.SEVERE, ex.getMessage());
+                    }
+
+                }).start();
+                Thread.sleep(100);
+                return true;
+            } catch (IOException ex) {
+                Splash.logger.log(Level.SEVERE, ex.getMessage());
+            } catch (ClassNotFoundException ex) {
+                Splash.logger.log(Level.SEVERE, ex.getMessage());
+            } catch (IllegalArgumentException ex) {
+                Splash.logger.log(Level.SEVERE, ex.getMessage());
+            } catch (InterruptedException ex) {
+                Splash.logger.log(Level.SEVERE, ex.getMessage());
+            }
+        }
+        return false;
     }
 }

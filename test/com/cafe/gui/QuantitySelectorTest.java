@@ -41,6 +41,7 @@ public class QuantitySelectorTest {
     public void testSetMenuItem() {
         System.out.println("setMenuItem");
         ItemCard menuItem = new ItemCard();
+        menuItem.setPrice(0);
         User user = new User();      
         user.setRole(UserRole.Role.Admin);   
         QuantitySelector quantitySelector = new QuantitySelector(new Dashboard(user), true);

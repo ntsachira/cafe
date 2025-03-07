@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -368,14 +369,15 @@ public class TakeAway extends javax.swing.JDialog {
                     } else {
                         try {
                             //search for stock id
-                            ResultSet resultset = Mysql.execute("SELECT `id` FROM `direct_selling_stock` WHERE `menu_item_id` = '" + item.getId() + "'");
+                            ResultSet resultset = Mysql.execute("SELECT `id` FROM `direct_selling_stock` WHERE `menu_item_id` = '" + item.getId() + "' "
+                                    + "AND `active_state_state_id`!='2'");
                             if (resultset.next()) {
                                 //dirrect invoie item - invoice id, dirrect selling stock,quantity,price, discount | Insert   
                                 Mysql.execute("INSERT INTO `direct_invoice_item` (`invoice_id`,`direct_selling_stock_id`,`qty`,`discount`,`selling_price`) "
                                         + "VALUES('" + invoiceID + "','" + resultset.getString("id") + "','" + item.getQuantity() + "','" + item.getDiscount() + "','" + item.getPrice() + "')");
 
                                 //update stock
-                                Mysql.execute("UPDATE `direct_selling_stock` SET `qty`=`qty`-'" + item.getQuantity() + "' WHERE `menu_item_id`='" + item.getId() + "'");
+                                Mysql.execute("UPDATE `direct_selling_stock` SET `qty`=`qty`-'" + item.getQuantity() + "' WHERE `id`='" + resultset.getString("id") + "'");
                             }
 
                         } catch (SQLException ex) {
@@ -432,8 +434,11 @@ public class TakeAway extends javax.swing.JDialog {
         }
 
         try {
-            URL billResource = getClass().getResource("/com/cafe/reports/cafe_invoice.jasper");
-            URL kotResource = getClass().getResource("/com/cafe/reports/cafe_kot.jasper");
+            File billResource = new File(System.getProperty("user.dir")+File.separator+"reports/cafe_invoice.jasper");
+            File kotResource = new File(System.getProperty("user.dir")+File.separator+"reports/cafe_kot.jasper");
+            if(!billResource.exists() || !kotResource.exists()){
+                return false;
+            }
             
             JasperPrint billReport = JasperFillManager.fillReport(billResource.getPath(), parameters, new JRBeanCollectionDataSource(datasource));
             JasperViewer bill = new JasperViewer(billReport, false);            

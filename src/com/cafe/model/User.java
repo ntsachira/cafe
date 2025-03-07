@@ -13,6 +13,8 @@ public class User implements UserRole{
         PRE_ORDER_BILL,
         RESERVATION_BILL,
         MENU_ITEM_ADDED,
+        MENU_ITEM_STATUS_CHANGE,
+        MENU_ITEM_UPDATED,
         GRN_ADDED,
         PRE_ORDER_STATUS_UPDATED,
         RESERVATION_STATUS_UPDATED,
@@ -29,12 +31,14 @@ public class User implements UserRole{
         PURCHASE_ORDER_ADDED,
         PURCHASE_STATUS_UPDATED,
         NEW_CATEGORY_ADDED,
+        NEW_BRAND_ADDED,
         DAMAGED_STOCK_ADDED,
         DAMAGED_STOCK_STATUS_UPDATED,
         BUSINESS_LOGO_UPDATED,
         BUSINESS_DETAILS_UPDATED,
         ADMIN_DETAILS_UPDATED,
-        SYSTEM_SETTINGS_UPDATED
+        SYSTEM_SETTINGS_UPDATED,
+        DATABASE_BACKUP
     }
     private String mobile;
     private String display_name;

@@ -154,6 +154,8 @@ public class Grn {
                             getActiveStateId(),
                             getUnitOfMeasureId(grnItem.getUnit_of_measure())
                     );
+            
+            Mysql.execute("UPDATE `menu_item` SET `price`='"+grnItem.getUnit_price()+"' WHERE `id`='"+grnItem.getId()+"'");
         }
         Mysql.execute(query);
         ResultSet result = Mysql.execute("SELECT MAX(id) AS id FROM %s_stock ".formatted(grnItem.getGrn_type()));

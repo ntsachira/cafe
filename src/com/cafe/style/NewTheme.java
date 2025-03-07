@@ -17,7 +17,7 @@ public class NewTheme implements Theme{
     public static Color BG_PRIMARY;
     public static Color BG_SECONDARY;
     public static Color BG_TABLE_HEAD;
-    public static Color FG_CHART;
+    public static Color FG_CHART = Color.BLACK;
 
     public static Color ROW_ALTERNATE;
     public static Color ROW_INACTIVE;

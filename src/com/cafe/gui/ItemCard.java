@@ -4,6 +4,9 @@ import com.cafe.model.Tabs;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -66,9 +69,15 @@ public class ItemCard extends javax.swing.JPanel {
         this.brand = brand;
     }
 
-    public void setImage(String path) {
+    public void setImage(String path) throws IOException {
         if (!path.isBlank()) {
-            jImagePanel1.setImageIcon(new ImageIcon(getClass().getResource(path)));
+            File file = new File(path);
+            if(file.exists()){                
+                jImagePanel1.setImageIcon(new ImageIcon(ImageIO.read(file)));
+            }else{
+                jImagePanel1.setImageIcon(new ImageIcon(getClass().getResource("/com/cafe/itemImg/emptyItem.png")));
+            }
+            
         }
     }
 
