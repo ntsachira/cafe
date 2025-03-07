@@ -44,7 +44,7 @@ public class MenuMangement extends javax.swing.JPanel implements Theme {
 
     }
 
-    private void loadCategories() {
+    public void loadCategories() {
         ResultSet resultSet = Mysql.execute("SELECT * FROM `menu_item_category`");
 
         Vector<String> vector = new Vector<>();

@@ -155,7 +155,7 @@ public class AddNewCategory extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Category Added Successfully", "Added", JOptionPane.INFORMATION_MESSAGE);
                     if(categoryManagement!=null){
                         categoryManagement.loadCategories();
-                        categoryManagement.getDashboard().getUser().updateUserActivity(User.UserActivity.NEW_CATEGORY_ADDED);
+                        categoryManagement.getDashboard().getUser().updateUserActivity(User.UserActivity.NEW_CATEGORY_ADDED);                        
                     }
                     this.dispose();
                 }

@@ -41,7 +41,11 @@ public class CategoryCard extends javax.swing.JPanel {
     }
     
     public void setImage(String path){
+        if(path!=null){
         jLabel3.setIcon(new ImageIcon(getClass().getResource(path)));
+        }else{
+            jLabel3.setIcon(new ImageIcon(getClass().getResource("/com/cafe/img/meal-32.png")));
+        }
     }
     
     public void setNumberofItems(String count){

@@ -64,13 +64,17 @@ public class EditMenuItemDialogTest {
     @Test
     public void testSetMenuItem() {
         System.out.println("setMenuItem");
-        MenuItemCard menuItemCard = new MenuItemCard();
-        menuItemCard.setName("");
-        MenuItemCard menuItem = menuItemCard;
         User user = new User();      
         user.setRole(UserRole.Role.Admin);  
         Dashboard dashboard = new Dashboard(user);
         dashboard.setMode(Theme.Mode.DARK);
+        MenuItemCard menuItemCard = new MenuItemCard();   
+        menuItemCard.setDashboard(dashboard);
+        menuItemCard.setName("");
+        menuItemCard.setPrice("");
+        menuItemCard.setBrand("");
+        MenuItemCard menuItem = menuItemCard;
+        
         EditMenuItemDialog instance = new EditMenuItemDialog(dashboard, true);
         instance.setMenuItem(menuItem);
     }

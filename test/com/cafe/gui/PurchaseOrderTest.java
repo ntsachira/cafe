@@ -57,7 +57,7 @@ public class PurchaseOrderTest {
     @Test
     public void testSetItemsPerRow() {
         System.out.println("setItemsPerRow");
-        int itemsPerRow = 0;
+        int itemsPerRow = 6;
         PurchaseOrder instance = new PurchaseOrder();
         instance.setItemsPerRow(itemsPerRow);
     }

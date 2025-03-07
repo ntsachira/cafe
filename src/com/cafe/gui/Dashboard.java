@@ -1384,7 +1384,10 @@ public class Dashboard extends javax.swing.JFrame implements Theme, Tabs {
             MenuMangement menuMangement = new MenuMangement();
             this.menuMangement = menuMangement;
             this.menuMangement.setDashboard(this);
+        }else{
+            this.menuMangement.loadCategories();
         }
+        
         setMainPanel(this.menuMangement);
         setActiveTab(Tab.Menu_Management);
     }
